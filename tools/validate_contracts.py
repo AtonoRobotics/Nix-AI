@@ -53,6 +53,22 @@ def main() -> int:
     run([sys.executable, "tests/validate_contracts.py"], ARCH)
     run([sys.executable, "tests/generate_work_graph.py", "--check"], ARCH)
 
+    run(
+        [
+            sys.executable,
+            "tools/schema_contracts.py",
+            "contracts",
+            "--generated-from",
+            str(ARCH),
+        ],
+        ROOT,
+    )
+    run([sys.executable, "tools/proto_contracts.py", str(ROOT)], ROOT)
+    run(
+        [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"],
+        ROOT,
+    )
+
     compare_file(BUNDLE / "CODEX-BUILD-SPEC.md", ROOT / "CODEX-BUILD-SPEC.md")
     compare_tree(ARCH / "contracts", ROOT / "contracts", allow_extra=True)
     compare_tree(ARCH / "proto", ROOT / "contracts/proto")

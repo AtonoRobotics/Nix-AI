@@ -1,0 +1,8 @@
+version: v2
+
+plugins:
+  - local: protoc-gen-prost
+    out: rust
+    opt:
+      - compile_well_known_types
+      - enable_type_names

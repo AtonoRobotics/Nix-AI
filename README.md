@@ -16,3 +16,12 @@ nix run .#validate-contracts
 
 Use `nix develop` for the locked W00 developer environment. The same validation is
 also part of `nix flake check --show-trace`.
+
+The validation gate formats a temporary copy of the immutable Protobuf sources,
+lints and compiles both contracts, regenerates the descriptor and Prost bindings,
+checks them byte-for-byte, and proves that an incompatible fixture is rejected.
+Regenerate the checked-in artifacts after an intentional ABI change with:
+
+```console
+nix run .#generate-proto
+```

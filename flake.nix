@@ -17,6 +17,7 @@
         jq
         nixfmt
         protobuf
+        protoc-gen-prost
         python
         rustc
         rustfmt
@@ -29,11 +30,25 @@
           exec ${python}/bin/python ${./tools/validate_contracts.py} ${self}
         '';
       };
+      generateProto = pkgs.writeShellApplication {
+        name = "generate-proto";
+        runtimeInputs = contractTools;
+        text = ''
+          exec ${python}/bin/python ${./tools/proto_contracts.py} ${self} --write
+        '';
+      };
     in {
-      apps.${system}.validate-contracts = {
-        type = "app";
-        program = "${validateContracts}/bin/validate-contracts";
-        meta.description = "Verify the governing bundle, contracts, and projections";
+      apps.${system} = {
+        validate-contracts = {
+          type = "app";
+          program = "${validateContracts}/bin/validate-contracts";
+          meta.description = "Verify the governing bundle, contracts, and projections";
+        };
+        generate-proto = {
+          type = "app";
+          program = "${generateProto}/bin/generate-proto";
+          meta.description = "Regenerate descriptor and Rust Protobuf bindings";
+        };
       };
 
       checks.${system}.contracts = pkgs.runCommand "habitat-contract-validation" {

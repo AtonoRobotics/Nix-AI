@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://habitat.invalid/test/missing-reference/v1",
+  "title": "Missing reference",
+  "type": "object",
+  "properties": {
+    "value": {"$ref": "https://habitat.invalid/test/not-packaged/v1"}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://habitat.invalid/test/registry/v1",
+  "title": "Registry",
+  "type": "object",
+  "required": ["value"],
+  "properties": {
+    "value": {"$ref": "https://habitat.invalid/test/child/v1"}
+  },
+  "additionalProperties": false
+}
