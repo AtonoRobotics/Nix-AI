@@ -115,6 +115,14 @@ class V2ScopeRemovalTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        qualification = subprocess.run(
+            ["python3", str(ROOT / "tools" / "qualify_w00.py"), str(ROOT)],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(
+            qualification.returncode, 0, qualification.stdout + qualification.stderr
+        )
 
     def test_active_architecture_manifest_is_coherent(self):
         result = subprocess.run(
