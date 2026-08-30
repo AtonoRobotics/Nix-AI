@@ -1,6 +1,16 @@
 {
   "abi": "2.0",
   "artifact_sha256": "e908b837a96f58e4783ddfdfed61828e21887e4da72773a648058249175572da",
+  "behavioral_test_proof": {
+    "metrics": {
+      "post_bound_revoked_invocation_count": 0,
+      "unauthorized_action_count": 0,
+      "widening_delegation_acceptance_count": 0
+    },
+    "outcome": "passed",
+    "runner": "cargo-test-habitat-authority",
+    "test_count": 5
+  },
   "cases": [
     "unknown principal",
     "missing or stale grant",
@@ -15,7 +25,7 @@
   ],
   "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
   "gate": "V-AUTH",
-  "implementation_sha256": "f291146ae54874dd7b295754cac7525dbeac33748e34079fbd57b8e3829d91c7",
+  "implementation_sha256": "789fe16e7fb1f5b68d674e071571659b6b312328e70319d14d7d55cce40dd82a",
   "metrics": {
     "post_bound_revoked_invocation_count": 0,
     "unauthorized_action_count": 0,

@@ -14,6 +14,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--root",type=Path,required=True)
     parser.add_argument("--library",type=Path,required=True)
+    parser.add_argument("--test-proof",type=Path,required=True)
     parser.add_argument("--evidence-dir",type=Path)
     args=parser.parse_args()
     subprocess.run(["validate-contracts"],check=True)
@@ -21,13 +22,15 @@ def main():
     if declaration!="nix-ai authority policy ABI 2.0": raise SystemExit("authority artifact is not the v2 ABI")
     digest=hashlib.sha256(args.library.read_bytes()).hexdigest()
     contract_digest=hashlib.sha256((args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_bytes()).hexdigest()
+    proof=json.loads(args.test_proof.read_text())
+    if proof.get("runner")!="cargo-test-habitat-authority" or proof.get("outcome")!="passed":
+      raise SystemExit("authority behavioral test proof is invalid")
     report={
       "schema_version":1,"gate":"V-AUTH","runner":"authority_adversarial_qualification",
       "outcome":"passed","artifact_sha256":digest,"implementation_sha256":source_digest(args.root,"crates/habitat-authority"),
       "contract_sha256":contract_digest,"abi":"2.0",
       "requirements":["AUTH-001","AUTH-002","AUTH-003"],
-      "metrics":{"unauthorized_action_count":0,"widening_delegation_acceptance_count":0,
-        "post_bound_revoked_invocation_count":0},
+      "behavioral_test_proof":proof,"metrics":proof["metrics"],
       "cases":["unknown principal","missing or stale grant","operation and target scope",
         "validity and generation bounds","stale authority state","authority outage",
         "enforcement bypass","self approval","attenuation across every parent bound",

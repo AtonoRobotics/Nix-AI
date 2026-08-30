@@ -34,6 +34,7 @@ pub struct Grant {
     pub expires_at: u64, pub remaining_delegation_depth: u32, pub generation: String,
     pub activation: String, pub revocation_handle: String, pub policy_ref: String,
     pub evidence_refs: Vec<String>, pub issuance_proof: String,
+    pub machine:String,pub service:String,pub parent_grant_id:Option<String>,
 }
 
 pub struct GrantBuilder(Grant);
@@ -44,7 +45,8 @@ impl Grant {
             operations:BTreeSet::new(), target_prefix:String::new(), quota:1, issued_at:0,
             not_before:0, expires_at:0, remaining_delegation_depth:0, generation:String::new(),
             activation:subject.into(), revocation_handle:format!("revoke:{id}"),
-            policy_ref:"policy:v2".into(), evidence_refs:vec![], issuance_proof:String::new() })
+            policy_ref:"policy:v2".into(), evidence_refs:vec![], issuance_proof:String::new(),
+            machine:String::new(),service:String::new(),parent_grant_id:None })
     }
 }
 impl GrantBuilder {
@@ -58,10 +60,14 @@ impl GrantBuilder {
     pub fn generation(mut self,value:&str)->Self{self.0.generation=value.into();self}
     pub fn delegation_depth(mut self,value:u32)->Self{self.0.remaining_delegation_depth=value;self}
     pub fn quota(mut self,value:u64)->Self{self.0.quota=value;self}
+    pub fn caller(mut self,machine:&str,service:&str)->Self{
+        self.0.machine=machine.into();self.0.service=service.into();self
+    }
     pub fn build(mut self)->Result<Grant,AuthorityError>{
         if self.0.id.is_empty() || self.0.issuer.is_empty() || !self.0.subject.starts_with("activation:")
             || self.0.operations.is_empty() || self.0.target_prefix.is_empty()
-            || self.0.not_before >= self.0.expires_at || self.0.generation.is_empty() {
+            || self.0.not_before >= self.0.expires_at || self.0.generation.is_empty()
+            || !self.0.machine.starts_with("machine:") || !self.0.service.starts_with("service:") {
             return Err(AuthorityError::InvalidGrant)
         }
         self.0.issuance_proof = format!("sha256:{:x}",Sha256::digest(serde_json::to_vec(&self.0).unwrap()));
@@ -109,6 +115,10 @@ pub struct Decision {
     pub enforcement_provider:Option<String>,
     pub denial_reason:Option<String>,
 }
+impl Decision{
+    pub fn is_allowed(&self)->bool{self.allowed}
+    pub fn id(&self)->&str{&self.decision_id}
+}
 
 #[derive(Serialize, Deserialize)]
 pub struct Authority {
@@ -149,7 +159,7 @@ impl Authority {
         self.epoch+=1; let changed=self.revoked.insert(grant_id.into());
         if self.persist().is_err(){self.available=false;} changed
     }
-    pub fn delegate(&mut self,parent_id:&str,child:Grant)->Result<(),AuthorityError>{
+    pub fn delegate(&mut self,parent_id:&str,mut child:Grant)->Result<(),AuthorityError>{
         let parent=self.grants.get(parent_id).ok_or(AuthorityError::ParentMissing)?;
         if self.revoked.contains(parent_id){return Err(AuthorityError::ParentInactive)}
         if child.issuer!=parent.subject || child.operations.is_empty()
@@ -158,10 +168,24 @@ impl Authority {
             || child.not_before<parent.not_before || child.expires_at>parent.expires_at
             || child.quota>parent.quota
             || child.remaining_delegation_depth>=parent.remaining_delegation_depth
-            || child.generation!=parent.generation {
+            || child.generation!=parent.generation || child.machine!=parent.machine
+            || child.service!=parent.service {
             return Err(AuthorityError::AttenuationViolation)
         }
+        child.parent_grant_id=Some(parent_id.into());
         self.grants.insert(child.id.clone(),child); self.persist()
+    }
+    fn chain_denial(&self,grant:&Grant,request:&Invocation)->Option<(&'static str,&'static str)>{
+        let mut current=grant;
+        loop{
+            if self.revoked.contains(&current.id){return Some(("UNAUTHORIZED","grant chain revoked"))}
+            if request.at<current.not_before||request.at>=current.expires_at{return Some(("STALE","grant chain outside validity interval"))}
+            if current.generation!=request.generation{return Some(("STALE","grant chain generation mismatch"))}
+            match &current.parent_grant_id{
+                Some(parent)=>match self.grants.get(parent){Some(value)=>current=value,None=>return Some(("STALE","grant parent missing"))},
+                None=>return None,
+            }
+        }
     }
     pub fn evaluate(&mut self,request:&Invocation)->Decision{
         let denial = if !self.available { Some(("UNAVAILABLE","authority state unavailable")) }
@@ -170,14 +194,13 @@ impl Authority {
             else if request.state_version!=self.state_version { Some(("STALE","authority state version mismatch")) }
             else { None };
         let mut candidates=self.grants.values().filter(|g|g.subject==request.activation.as_str()
-            &&g.capability==request.capability).collect::<Vec<_>>();
+            &&g.capability==request.capability&&g.machine==request.machine.as_str()
+            &&g.service==request.service.as_str()).collect::<Vec<_>>();
         candidates.sort_by(|left,right|left.id.cmp(&right.id));
         let (mut grant,mut code)=(None,denial);
         if code.is_none(){
             for candidate in candidates{
-                let reason=if self.revoked.contains(&candidate.id){Some(("UNAUTHORIZED","grant revoked"))}
-                    else if request.at<candidate.not_before||request.at>=candidate.expires_at{Some(("STALE","grant outside validity interval"))}
-                    else if candidate.generation!=request.generation{Some(("STALE","grant generation mismatch"))}
+                let reason=if let Some(reason)=self.chain_denial(candidate,request){Some(reason)}
                     else if !candidate.operations.contains(&request.operation){Some(("UNAUTHORIZED","operation outside grant scope"))}
                     else if !request.target.starts_with(&candidate.target_prefix){Some(("UNAUTHORIZED","target outside grant scope"))}
                     else if !request.enforcement.as_ref().map(|p|p.verified).unwrap_or(false)

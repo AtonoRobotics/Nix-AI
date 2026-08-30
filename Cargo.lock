@@ -396,6 +396,7 @@ dependencies = [
 name = "habitat-effects"
 version = "0.1.0"
 dependencies = [
+ "habitat-authority",
  "serde",
  "serde_json",
  "sha2",

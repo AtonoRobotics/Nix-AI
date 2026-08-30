@@ -2,6 +2,7 @@ use habitat_authority::*;
 
 fn parent() -> Grant {
     Grant::builder("grant:parent", "service:issuer", "activation:parent", "ToolCap")
+        .caller("machine:01","service:runtime")
         .operations(["read", "write"]).target_prefix("resource/group/")
         .valid_between(100, 1000).generation("generation:01")
         .delegation_depth(3).quota(100).build().unwrap()
@@ -15,7 +16,7 @@ fn delegation_can_only_reduce_every_parent_bound() {
                 let mut authority = Authority::new("policy:v2", "generation:01", "state:9");
                 authority.issue(parent(), IndependentApproval::verified("operator:01")).unwrap();
                 let child = Grant::builder("grant:child", "activation:parent",
-                    "activation:child", "ToolCap").operations(operations)
+                    "activation:child", "ToolCap").caller("machine:01","service:runtime").operations(operations)
                     .target_prefix("resource/group/item/").valid_between(100, expiry)
                     .generation("generation:01").delegation_depth(2).quota(quota).build().unwrap();
                 assert!(authority.delegate("grant:parent", child).is_ok());
@@ -25,7 +26,7 @@ fn delegation_can_only_reduce_every_parent_bound() {
     let mut authority = Authority::new("policy:v2", "generation:01", "state:9");
     authority.issue(parent(), IndependentApproval::verified("operator:01")).unwrap();
     let widened = Grant::builder("grant:widened", "activation:parent", "activation:child",
-        "ToolCap").operations(["delete"]).target_prefix("resource/")
+        "ToolCap").caller("machine:01","service:runtime").operations(["delete"]).target_prefix("resource/")
         .valid_between(50, 2000).generation("generation:01")
         .delegation_depth(4).quota(101).build().unwrap();
     assert_eq!(authority.delegate("grant:parent", widened),
@@ -49,6 +50,7 @@ fn revocation_outage_self_authority_and_enforcement_bypass_fail_closed() {
     assert!(authority.evaluate(&enforced).allowed);
     assert!(authority.revoke("grant:parent"));
     let child = Grant::builder("grant:late", "activation:parent", "activation:child", "ToolCap")
+        .caller("machine:01","service:runtime")
         .operations(["read"]).target_prefix("resource/group/item/")
         .valid_between(100, 500).generation("generation:01").delegation_depth(2).build().unwrap();
     assert_eq!(authority.delegate("grant:parent", child), Err(AuthorityError::ParentInactive));
@@ -69,6 +71,7 @@ fn a_revoked_matching_grant_cannot_mask_an_independent_current_grant() {
     let mut authority=Authority::new("policy:v2","generation:01","state:1");
     for id in ["grant:a-revoked","grant:b-current"] {
         let grant=Grant::builder(id,"service:issuer","activation:subject","ReadCap")
+            .caller("machine:1","service:1")
             .operations(["read"]).target_prefix("opaque/").valid_between(1,100)
             .generation("generation:01").build().unwrap();
         authority.issue(grant,IndependentApproval::verified("operator:01")).unwrap();
@@ -80,4 +83,21 @@ fn a_revoked_matching_grant_cannot_mask_an_independent_current_grant() {
     let decision=authority.evaluate(&request);
     assert!(decision.allowed);
     assert_eq!(decision.grant_id.as_deref(),Some("grant:b-current"));
+}
+
+#[test]
+fn revoking_a_parent_invalidates_an_already_issued_child_chain() {
+    let mut authority=Authority::new("policy:v2","generation:01","state:1");
+    authority.issue(parent(),IndependentApproval::verified("operator:1")).unwrap();
+    let child=Grant::builder("grant:child","activation:parent","activation:child","ToolCap")
+        .caller("machine:01","service:runtime").operations(["read"])
+        .target_prefix("resource/group/item/").valid_between(100,500)
+        .generation("generation:01").delegation_depth(2).build().unwrap();
+    authority.delegate("grant:parent",child).unwrap();
+    let request=Invocation::new("command:1",MachineId::new("machine:01").unwrap(),
+        ServiceId::new("service:runtime").unwrap(),ActivationId::new("activation:child").unwrap(),
+        "ToolCap","read","resource/group/item/1",200,"state:1","objective:1");
+    assert!(authority.evaluate(&request).allowed);
+    authority.revoke("grant:parent");
+    assert_eq!(authority.evaluate(&request).denial_code.as_deref(),Some("UNAUTHORIZED"));
 }

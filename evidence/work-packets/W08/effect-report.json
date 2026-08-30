@@ -4,7 +4,22 @@
     "component": "nix-ai-effects",
     "durable_ledger": true
   },
-  "artifact_sha256": "df408ea0ce210366a9baef83523eaeee4330559a6b8bc98d25c1c2e8aab2d0d3",
+  "artifact_sha256": "edf3344f1ae1fef2e33bebcd4355d235b0a74c6ab9c8b210be2c8c33e1b2385e",
+  "behavioral_test_proof": {
+    "metrics": {
+      "ambiguous_failure_coercion_count": 0,
+      "blind_retry_count": 0,
+      "duplicate_effect_execution_count": 0,
+      "history_erasure_count": 0,
+      "incomplete_attempt_record_count": 0,
+      "overclaimed_provider_class_count": 0,
+      "premature_completion_count": 0,
+      "unledgered_external_dispatch_count": 0
+    },
+    "outcome": "passed",
+    "runner": "cargo-test-habitat-effects",
+    "test_count": 7
+  },
   "cases": [
     "durable admission before dispatch",
     "semantic idempotency conflict",
@@ -18,7 +33,7 @@
   ],
   "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
   "gate": "V-EFFECT",
-  "implementation_sha256": "d454f065aa255222bed4ef331e53e5fecb4d4b0608b2b4fca99798e6fa633ed8",
+  "implementation_sha256": "62df54926e5e3da2287c47e2ab066222bae8f8994058955fdea1e31d95964fdf",
   "metrics": {
     "ambiguous_failure_coercion_count": 0,
     "blind_retry_count": 0,

@@ -1,4 +1,5 @@
 //! Durable effect admission, evidence, observation, and reconciliation.
+use habitat_authority::{Authority,Invocation};
 use serde::{Deserialize,Serialize};
 use sha2::{Digest,Sha256};
 use std::{collections::HashMap,fs,path::{Path,PathBuf}};
@@ -45,14 +46,18 @@ impl EffectProposal {
 }
 
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
-pub struct Admission { pub authority_decision:String,pub allowed:bool,pub precondition_valid:bool }
-impl Admission { pub fn allow(decision:&str,precondition_valid:bool)->Self{
-    Self{authority_decision:decision.into(),allowed:true,precondition_valid}
-}}
+pub struct Admission { authority_decision:String,allowed:bool,precondition_valid:bool }
+impl Admission {
+    fn from_authority(authority:&mut Authority,invocation:&Invocation,precondition_valid:bool)->Self{
+        let decision=authority.evaluate(invocation);
+        Self{authority_decision:decision.id().into(),allowed:decision.is_allowed(),precondition_valid}
+    }
+    pub fn precondition_valid(&self)->bool{self.precondition_valid}
+}
 
 #[derive(Clone,Copy,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub enum EffectState { Proposed,Rejected,Reserved,Executing,ObservedSucceeded,ObservedFailed,
-    OutcomeUnknown,Reconciling,ResolvedSucceeded,ResolvedFailed,AuthorityRequired,Cancelled }
+    OutcomeUnknown,Reconciling,ResolvedSucceeded,ResolvedFailed,AuthorityRequired }
 
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub struct EffectRecord { pub effect_id:String,pub proposal:EffectProposal,pub admission:Admission,
@@ -93,10 +98,19 @@ impl EffectLedger {
         let temp=path.with_extension("tmp");fs::write(&temp,serde_json::to_vec(self).map_err(|_|EffectError::Storage)?)
             .and_then(|_|fs::rename(temp,path)).map_err(|_|EffectError::Storage)?;}Ok(())}
     pub fn register_provider(&mut self,provider:ProviderContract){self.providers.insert(provider.id.clone(),provider);let _=self.persist();}
-    pub fn propose(&mut self,proposal:EffectProposal,admission:Admission)->Result<EffectRecord,EffectError>{
-        self.propose_at(proposal,admission,0)
+    pub fn propose_authorized(&mut self,proposal:EffectProposal,authority:&mut Authority,
+        invocation:&Invocation,precondition_valid:bool)->Result<EffectRecord,EffectError>{
+        self.propose_authorized_at(proposal,authority,invocation,precondition_valid,0)
     }
-    pub fn propose_at(&mut self,proposal:EffectProposal,admission:Admission,now:u64)->Result<EffectRecord,EffectError>{
+    pub fn propose_authorized_at(&mut self,proposal:EffectProposal,authority:&mut Authority,
+        invocation:&Invocation,precondition_valid:bool,now:u64)->Result<EffectRecord,EffectError>{
+        if proposal.command_id!=invocation.command_id
+            ||proposal.activation_id!=invocation.activation.as_str()
+            ||proposal.objective_id!=invocation.objective||proposal.capability!=invocation.capability
+            ||proposal.operation!=invocation.operation||proposal.target!=invocation.target{
+            return Err(EffectError::AdmissionDenied)
+        }
+        let admission=Admission::from_authority(authority,invocation,precondition_valid);
         if let Some(id)=self.by_key.get(&proposal.idempotency_key){
             let existing=&self.effects[id];
             return if existing.proposal==proposal{Ok(existing.clone())}
@@ -163,31 +177,38 @@ impl EffectLedger {
         if !observation.independent{return Err(EffectError::IndependentEvidenceRequired)}
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::Reconciling{return Err(EffectError::InvalidTransition)}
-        effect.state=if observation.succeeded{EffectState::ResolvedSucceeded}else{EffectState::ResolvedFailed};self.persist()
+        effect.state=if observation.succeeded{EffectState::ResolvedSucceeded}else{EffectState::ResolvedFailed};
+        if let Some(last)=self.attempts.get_mut(id).and_then(|value|value.last_mut()){
+            last.response=Some(observation.evidence);last.observation_source=Some(observation.source);
+            last.terminal_classification=Some(effect.state)
+        }
+        self.persist()
     }
     pub fn cancel(&mut self,id:&str)->Result<(),EffectError>{
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
-        effect.state=match effect.state{EffectState::Reserved=>EffectState::Cancelled,
+        effect.state=match effect.state{EffectState::Reserved=>EffectState::Rejected,
             EffectState::Executing=>EffectState::OutcomeUnknown,_=>return Err(EffectError::InvalidTransition)};self.persist()
     }
-    pub fn compensate(&mut self,original_id:&str,command:&str,capability:&str,key:&str,admission:Admission)->Result<EffectRecord,EffectError>{
+    pub fn compensate(&mut self,original_id:&str,command:&str,capability:&str,key:&str,
+        authority:&mut Authority,invocation:&Invocation)->Result<EffectRecord,EffectError>{
         let original=self.effects.get(original_id).ok_or(EffectError::EffectMissing)?.clone();
         if !matches!(original.state,EffectState::ObservedSucceeded|EffectState::ResolvedSucceeded){return Err(EffectError::InvalidTransition)}
         let mut proposal=EffectProposal::new(command,&original.proposal.activation_id,&original.proposal.objective_id,
             capability,"compensate",&original.proposal.target,&original.proposal.parameters_digest,key,
             original.proposal.consequence_class,original.proposal.expires_at);
-        proposal.compensates_effect_id=Some(original_id.into());self.propose(proposal,admission)
+        proposal.compensates_effect_id=Some(original_id.into());
+        self.propose_authorized(proposal,authority,invocation,true)
     }
     pub fn complete_objective(&self,objective:&str)->Result<(),EffectError>{
         let pending=self.effects.values().any(|e|e.proposal.objective_id==objective&&!matches!(e.state,
             EffectState::ObservedSucceeded|EffectState::ObservedFailed|EffectState::ResolvedSucceeded|
-            EffectState::ResolvedFailed|EffectState::Cancelled|EffectState::Rejected));
+            EffectState::ResolvedFailed|EffectState::Rejected));
         if pending{Err(EffectError::ObjectiveEffectsPending)}else{Ok(())}
     }
     pub fn recover(&self)->Vec<String>{
         let mut ids=self.effects.values().filter(|e|!matches!(e.state,EffectState::ObservedSucceeded|
             EffectState::ObservedFailed|EffectState::ResolvedSucceeded|EffectState::ResolvedFailed|
-            EffectState::Cancelled|EffectState::Rejected)).map(|e|e.effect_id.clone()).collect::<Vec<_>>();
+            EffectState::Rejected)).map(|e|e.effect_id.clone()).collect::<Vec<_>>();
         ids.sort();ids
     }
 }
