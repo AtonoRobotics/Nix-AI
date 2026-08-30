@@ -38,10 +38,11 @@ CARGO_ALLOWED={
 }
 PYTHON_ALLOWED={"__future__","base64","boto3","botocore","concurrent","dataclasses","datetime","domain","enum",
  "habitat_state","hashlib","json","jsonschema","lifecycle","os","pathlib","psycopg","re","shutil","store",
- "subprocess","sys","tempfile","tools","unittest","uuid"}
+ "subprocess","sys","tempfile","tools","unittest","uuid","argparse","ast","tomllib","fnmatch","secrets",
+ "socket","time","signal","typing","yaml","inventory_v2","proto_contracts"}
 FORBIDDEN=re.compile(r"CredentialBroker|authorization\s*:|habitat_authority|habitat_effects|std::net|UnixStream|TcpStream|reqwest|Command::new|\bcurl\b|Authorization",re.I)
-AMBIENT=re.compile(r"\bcurl\b|Authorization|reqwest|TcpStream|std::net",re.I)
-API=re.compile(r"^\s*pub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
+AMBIENT=re.compile(r"\bcurl\b|Authorization[\"']?\s*[:=]|reqwest|TcpStream|std::net",re.I)
+API=re.compile(r"\bpub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match)\b|=>")
 TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 FUNCTION=re.compile(r"(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
@@ -123,23 +124,19 @@ def audit(root):
         if not requirements:unresolved.append(f"unmapped-repository-unit:{relative}");continue
         repository_files.append(relative.as_posix())
         records.append(record("repository_unit",relative.as_posix(),requirements,relative.as_posix()))
-    candidates=[]
-    for top in ("crates","src"):
-        candidates.extend(path for path in (root/top).rglob("*") if path.is_file()
-            and "__pycache__" not in path.parts and path.suffix!=".pyc")
-    candidates.extend(path for path in (root/"tests/fixtures").rglob("*") if path.is_file())
-    candidates.extend(path for path in (root/"tests").glob("test_*.py") if path.is_file())
+    candidates=[root/relative for relative in repository_files]
     for path in sorted(set(candidates)):
-        relative=path.relative_to(root);requirements=mapping(relative)
+        relative=path.relative_to(root);specific=mapping(relative);requirements=specific or repository_scope(relative)
+        if not specific and relative.as_posix().startswith(("crates/","src/","tests/fixtures/")):
+            unresolved.append(f"unmapped-semantic-unit:{relative}")
         if not requirements: unresolved.append(relative.as_posix());continue
         files.append(relative.as_posix());suffix=path.suffix
         try: content=path.read_text()
         except UnicodeDecodeError: content=""
         if suffix in {".rs",".py"}:
-            lines=content.splitlines();pending_test=False;enum_depth=0;current_requirements=requirements
+            lines=content.splitlines();pending_test=False;current_requirements=requirements
             current_scope="module";brace_depth=0;scope_depth=None
             for number,line in enumerate(lines,1):
-                opened_enum=False
                 function=FUNCTION.search(line)
                 if function:
                     current_scope=function.group(1);scope_depth=brace_depth
@@ -150,18 +147,6 @@ def audit(root):
                     identity=f"{relative}:{number}:{match.group(1)}"
                     current_requirements=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
                     records.append(record("public_interface",identity,current_requirements,relative.as_posix()))
-                    if re.search(r"\bpub\s+enum\b",line):
-                        opened_enum=True
-                        enum_depth=line.count("{")-line.count("}")
-                        same_line=re.search(r"\{(.*)\}",line)
-                        if same_line:
-                            for variant in re.findall(r"(?:^|,)\s*([A-Z][A-Za-z0-9_]*)",same_line.group(1)):
-                                records.append(record("public_interface",f"{relative}:{number}:enum-variant:{variant}",current_requirements,relative.as_posix()))
-                elif enum_depth and (variant:=re.match(r"\s*([A-Z][A-Za-z0-9_]*)\s*(?:[({=,]|$)",line)):
-                    records.append(record("public_interface",f"{relative}:{number}:enum-variant:{variant.group(1)}",current_requirements,relative.as_posix()))
-                if enum_depth and not opened_enum:
-                    enum_depth+=line.count("{")-line.count("}")
-                    if enum_depth<=0: enum_depth=0
                 if BRANCH.search(line) and not line.lstrip().startswith("//"):
                     records.append(record("branch",f"{relative}:{number}:scope:{current_scope}",current_requirements,relative.as_posix()))
                 if "#[test]" in line:
@@ -179,14 +164,30 @@ def audit(root):
                 if scope_depth is not None and brace_depth<=scope_depth:
                     current_scope="module";current_requirements=requirements;scope_depth=None
             if suffix==".rs":
+                for enum in re.finditer(r"pub\s+enum\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*\{(.*?)\}",content,re.S):
+                    name,body=enum.groups();base=content[:enum.start(2)].count("\n")+1
+                    for variant in re.finditer(r"(?:^|,)\s*([A-Z][A-Za-z0-9_]*)",body):
+                        line=base+body[:variant.start()].count("\n")
+                        identity=f"{relative}:{line}:enum-variant:{name}.{variant.group(1)}"
+                        bound=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
+                        records.append(record("public_interface",identity,bound,relative.as_posix()))
                 for container in re.finditer(r"pub\s+(struct|trait)\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*\{(.*?)\n?\}",content,re.S):
                     kind,name,body=container.groups();base=content[:container.start(3)].count("\n")+1
-                    pattern=r"pub\s+([a-z_][A-Za-z0-9_]*)\s*:" if kind=="struct" else r"(?:type|fn)\s+([A-Za-z_][A-Za-z0-9_]*)"
+                    pattern=r"pub\s+([a-z_][A-Za-z0-9_]*)\s*:" if kind=="struct" else r"(?:type|fn|const)\s+([A-Za-z_][A-Za-z0-9_]*)"
                     for member in re.finditer(pattern,body):
                         line=base+body[:member.start()].count("\n")
                         identity=f"{relative}:{line}:{kind}-member:{name}.{member.group(1)}"
                         bound=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
                         records.append(record("public_interface",identity,bound,relative.as_posix()))
+                for export in re.finditer(r"\bpub\s+use\s+([^;]+);",content):
+                    line=content[:export.start()].count("\n")+1
+                    records.append(record("public_interface",f"{relative}:{line}:re-export:{export.group(1).strip()}",requirements,relative.as_posix()))
+                for macro,name in re.findall(r"([A-Za-z_][A-Za-z0-9_]*)!\(\s*([A-Z][A-Za-z0-9_]*)\s*,",content):
+                    if re.search(rf"macro_rules!\s*{re.escape(macro)}\b",content) and "pub struct $name" in content:
+                        line=content[:content.find(f"{macro}!({name}")].count("\n")+1
+                        records.append(record("public_interface",f"{relative}:{line}:macro-public-type:{name}",requirements,relative.as_posix()))
+                        for method in re.findall(r"pub\s+fn\s+([A-Za-z_][A-Za-z0-9_]*)",content[content.find(f"macro_rules! {macro}"):content.find(f"{macro}!({name}")]):
+                            records.append(record("public_interface",f"{relative}:{line}:macro-method:{name}.{method}",requirements,relative.as_posix()))
             if suffix==".py":
                 tree=ast.parse(content)
                 for node in ast.walk(tree):
@@ -208,7 +209,10 @@ def audit(root):
         elif relative.as_posix().startswith(("crates/habitat-models/","crates/habitat-harnesses/")):
             found=FORBIDDEN.search(content)
             if found: unresolved.append(f"forbidden-adapter-path:{relative}:{found.group(0)}")
-        production_source=(relative.as_posix().startswith("src/") or "/src/" in relative.as_posix())
+        executable=suffix in {".rs",".py",".sh",".nix",".yml",".yaml"}
+        test_or_policy=(relative.as_posix().startswith(("tests/","evidence/","contracts/","docs/"))
+            or relative.as_posix()=="tools/audit_v2_core.py" or "/tests/" in relative.as_posix())
+        production_source=executable and not test_or_policy
         found=AMBIENT.search(content)
         if production_source and found and not relative.as_posix().startswith("crates/habitat-provider-transport/"):
             unresolved.append(f"ambient-core-path:{relative}:{found.group(0)}")

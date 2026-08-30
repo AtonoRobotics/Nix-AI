@@ -74,4 +74,13 @@ fn secret_bearing_evidence_identifiers_are_rejected_and_endpoint_is_digest_only(
         ),
         Err(TransportError::UnsafeEndpoint)
     ));
+    assert!(matches!(
+        broker.dispatch(
+            &mut transport,
+            "https://provider.invalid/v1/sk-secret",
+            "activation:9",
+            &serde_json::json!({})
+        ),
+        Err(TransportError::UnsafeEndpoint)
+    ));
 }

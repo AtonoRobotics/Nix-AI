@@ -100,9 +100,12 @@ fn safe_endpoint(value: &str) -> bool {
     let Some(rest) = value.strip_prefix("https://") else {
         return false;
     };
-    let authority = rest.split('/').next().unwrap_or("");
+    let mut parts = rest.splitn(2, '/');
+    let authority = parts.next().unwrap_or("");
+    let path = parts.next().unwrap_or("");
     !authority.is_empty()
         && !authority.contains('@')
         && !value.contains('?')
         && !value.contains('#')
+        && matches!(path, "v1" | "v1/responses" | "v1/messages")
 }

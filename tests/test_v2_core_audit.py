@@ -15,8 +15,13 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertEqual(generated,checked);self.assertTrue(generated["valid"])
             self.assertEqual(generated["unresolved_candidates"],[]);self.assertEqual(generated["untrusted_candidates"],[])
             self.assertEqual(generated["adapter_direct_path_count"],0)
-            self.assertGreater(generated["repository_coverage"]["file_count"],generated["candidate_file_count"])
+            self.assertEqual(generated["repository_coverage"]["file_count"],generated["candidate_file_count"])
             self.assertTrue(any(item["kind"]=="repository_unit" and item["identity"]=="flake.nix" for item in generated["records"]))
+            identities={item["identity"] for item in generated["records"]}
+            for surface in ("CandidateOutput.provider_request_id","ProviderTransport.Output",
+                "DispositionKind.ContextRequest","DispositionKind.ActivationFailure","ModelError.InvalidEnvelope",
+                "macro-public-type:MachineId","macro-method:MachineId.new"):
+                self.assertTrue(any(surface in value for value in identities),surface)
             self.assertTrue(all(item["requirement_ids"] and item["authority"] for item in generated["records"]))
             for kind in ("public_interface","branch","dependency","test","fixture"): self.assertGreater(generated["counts"][kind],0)
 
@@ -109,6 +114,15 @@ class V2CoreAuditTests(unittest.TestCase):
             source.write_text("opaque\n")
             with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
             self.assertNotEqual(result.returncode,0);self.assertIn("unmapped-repository-unit",result.stdout)
+        finally:
+            if source.exists():source.unlink()
+
+    def test_new_tool_ambient_credential_path_is_semantically_rejected(self):
+        source=ROOT/"tools/credential_bypass.py"
+        try:
+            source.write_text("import requests\nrequests.get('https://invalid',headers={'Authorization': 'secret'})\n")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("ambient-core-path",result.stdout)
         finally:
             if source.exists():source.unlink()
 
