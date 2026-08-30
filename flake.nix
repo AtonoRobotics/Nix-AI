@@ -110,8 +110,8 @@
         cargoBuildFlags = [ "-p" "habitat-authority" ];
         cargoTestFlags = [ "-p" "habitat-authority" ];
         postInstall = ''
-          mkdir -p "$out/share/nix-ai/evidence"
-          printf '%s\n' '{"runner":"cargo-test-habitat-authority","outcome":"passed","test_count":5,"metrics":{"unauthorized_action_count":0,"widening_delegation_acceptance_count":0,"post_bound_revoked_invocation_count":0}}' > "$out/share/nix-ai/evidence/authority-tests.json"
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable \( -name 'authorization-*' -o -name 'attenuation_revocation-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
         '';
       };
       habitatExecution = pkgs.rustPlatform.buildRustPackage {
@@ -138,8 +138,8 @@
         cargoBuildFlags = [ "-p" "habitat-effects" ];
         cargoTestFlags = [ "-p" "habitat-effects" ];
         postInstall = ''
-          mkdir -p "$out/share/nix-ai/evidence"
-          printf '%s\n' '{"runner":"cargo-test-habitat-effects","outcome":"passed","test_count":7,"metrics":{"unledgered_external_dispatch_count":0,"duplicate_effect_execution_count":0,"blind_retry_count":0,"premature_completion_count":0,"ambiguous_failure_coercion_count":0,"overclaimed_provider_class_count":0,"incomplete_attempt_record_count":0,"history_erasure_count":0}}' > "$out/share/nix-ai/evidence/effect-tests.json"
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable \( -name 'admission-*' -o -name 'fault_matrix-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
         '';
       };
       habitatModels = pkgs.rustPlatform.buildRustPackage {
@@ -180,7 +180,7 @@
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w04.py} \
             --root ${self} --library ${habitatAuthority}/bin/habitat-authority \
-            --test-proof ${habitatAuthority}/share/nix-ai/evidence/authority-tests.json "$@"
+            --test-dir ${habitatAuthority}/libexec/nix-ai-tests "$@"
         '';
       };
       qualifyW05 = pkgs.writeShellApplication {
@@ -211,7 +211,7 @@
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w08.py} --root ${self} \
             --artifact ${habitatEffects}/bin/habitat-effects \
-            --test-proof ${habitatEffects}/share/nix-ai/evidence/effect-tests.json "$@"
+            --test-dir ${habitatEffects}/libexec/nix-ai-tests "$@"
         '';
       };
       qualifyW09 = pkgs.writeShellApplication {

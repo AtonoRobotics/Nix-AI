@@ -7,15 +7,16 @@ fn proposal(key:&str)->EffectProposal{
 }
 
 fn authorization(proposal:&EffectProposal)->(Authority,Invocation){
-    let mut authority=Authority::new("policy:v2","generation:01","state:1");
+    let mut authority=Authority::new("policy:v2","generation:01","state:1",100);
     let grant=Grant::builder("grant:effect","service:issuer","activation:1",&proposal.capability)
         .caller("machine:1","service:effects").operations([proposal.operation.as_str()])
         .target_prefix(&proposal.target).valid_between(1,500).generation("generation:01").build().unwrap();
-    authority.issue(grant,IndependentApproval::verified("operator:1")).unwrap();
     let invocation=Invocation::new(&proposal.command_id,MachineId::new("machine:1").unwrap(),
         ServiceId::new("service:effects").unwrap(),ActivationId::new("activation:1").unwrap(),
         &proposal.capability,&proposal.operation,&proposal.target,100,"state:1",&proposal.objective_id)
         .with_enforcement(EnforcementProof::verified("lsm:generic"));
+    authority.bind_local_peer(&invocation.machine,&invocation.service,&invocation.activation).unwrap();
+    authority.issue(grant,IndependentApproval::verified("operator:1")).unwrap();
     (authority,invocation)
 }
 
@@ -34,7 +35,7 @@ fn admission_atomically_reserves_semantic_intent_and_deduplicates(){
     assert!(ledger.get(&first.effect_id).unwrap().admission.precondition_valid());
 
     let mut changed=proposal("intent:mail:recipient:payload");
-    changed.target="recipient:other".into();
+    changed.parameters_digest="sha256:different-payload".into();
     let (_,changed_invocation)=authorization(&changed);
     assert_eq!(ledger.propose_authorized(changed,&mut authority,&changed_invocation,true),
         Err(EffectError::IdempotencyConflict));
@@ -55,4 +56,20 @@ fn stale_revoked_or_mismatched_authority_cannot_reserve_an_effect(){
     assert_eq!(ledger.propose_authorized(proposal,&mut current,&mismatch,true),
         Err(EffectError::AdmissionDenied));
     assert_eq!(ledger.len(),0);
+}
+
+#[test]
+fn revocation_between_reservation_and_dispatch_fails_closed(){
+    let mut ledger=EffectLedger::new();
+    ledger.register_provider(ProviderContract::reconcilable("mail",ReconciliationMode::IdempotencyKey,
+        ConsequenceClass::E2));
+    let proposal=proposal("intent:revoked-before-dispatch");
+    let (mut authority,invocation)=authorization(&proposal);
+    let effect=ledger.propose_authorized(proposal,&mut authority,&invocation,true).unwrap();
+    authority.revoke("grant:effect");
+    assert_eq!(ledger.dispatch_authorized(&effect.effect_id,
+        Attempt::new("sha256:req",101,"mail","transport:revoked"),&mut authority,&invocation),
+        Err(EffectError::AdmissionDenied));
+    assert_eq!(ledger.get(&effect.effect_id).unwrap().state,EffectState::Reserved);
+    assert!(ledger.attempts(&effect.effect_id).is_empty());
 }

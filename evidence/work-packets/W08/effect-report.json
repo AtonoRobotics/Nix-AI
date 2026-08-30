@@ -4,21 +4,25 @@
     "component": "nix-ai-effects",
     "durable_ledger": true
   },
-  "artifact_sha256": "edf3344f1ae1fef2e33bebcd4355d235b0a74c6ab9c8b210be2c8c33e1b2385e",
+  "artifact_sha256": "1055c6f4063d06fb380074db336e538bc52fa0343e7cc5f252d21669a791693e",
   "behavioral_test_proof": {
-    "metrics": {
-      "ambiguous_failure_coercion_count": 0,
-      "blind_retry_count": 0,
-      "duplicate_effect_execution_count": 0,
-      "history_erasure_count": 0,
-      "incomplete_attempt_record_count": 0,
-      "overclaimed_provider_class_count": 0,
-      "premature_completion_count": 0,
-      "unledgered_external_dispatch_count": 0
-    },
+    "binaries": [
+      "admission-4f5a82781032b3f0",
+      "fault_matrix-c65a01db4cafdad2"
+    ],
     "outcome": "passed",
-    "runner": "cargo-test-habitat-effects",
-    "test_count": 7
+    "runner": "rust-test-binaries",
+    "test_count": 8,
+    "test_names": [
+      "acknowledgement_is_not_success_without_the_declared_observation",
+      "admission_atomically_reserves_semantic_intent_and_deduplicates",
+      "cancellation_and_compensation_preserve_truthful_distinct_histories",
+      "disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry",
+      "recovery_bounded_validity_ordering_and_completion_fail_closed",
+      "restart_recovers_nonterminal_effects_and_enforces_declared_order",
+      "revocation_between_reservation_and_dispatch_fails_closed",
+      "stale_revoked_or_mismatched_authority_cannot_reserve_an_effect"
+    ]
   },
   "cases": [
     "durable admission before dispatch",
@@ -33,7 +37,7 @@
   ],
   "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
   "gate": "V-EFFECT",
-  "implementation_sha256": "62df54926e5e3da2287c47e2ab066222bae8f8994058955fdea1e31d95964fdf",
+  "implementation_sha256": "eb4bbc1311460f0bcd3b2d201accfec4cef5ce8a2d45f1eb647bff68b10bb926",
   "metrics": {
     "ambiguous_failure_coercion_count": 0,
     "blind_retry_count": 0,

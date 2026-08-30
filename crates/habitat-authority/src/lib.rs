@@ -23,7 +23,8 @@ identity!(ActivationId, "activation:");
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum AuthorityError {
-    IdentityInvalid, InvalidGrant, SelfAuthority, ParentMissing, ParentInactive, AttenuationViolation, Storage,
+    IdentityInvalid, InvalidGrant, SelfAuthority, ParentMissing, ParentInactive, AttenuationViolation,
+    BindingLocked, Storage,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -91,7 +92,7 @@ impl EnforcementProof {
 pub struct Invocation {
     pub command_id:String, pub machine:MachineId, pub service:ServiceId,
     pub activation:ActivationId, pub capability:String, pub operation:String,
-    pub target:String, pub at:u64, pub state_version:String, pub objective:String,
+    pub target:String, pub requested_at:u64, pub state_version:String, pub objective:String,
     pub generation:String, pub enforcement:Option<EnforcementProof>,
 }
 impl Invocation {
@@ -99,7 +100,7 @@ impl Invocation {
     pub fn new(command:&str,machine:MachineId,service:ServiceId,activation:ActivationId,
         capability:&str,operation:&str,target:&str,at:u64,state:&str,objective:&str)->Self{
         Self{command_id:command.into(),machine,service,activation,capability:capability.into(),
-            operation:operation.into(),target:target.into(),at,state_version:state.into(),
+            operation:operation.into(),target:target.into(),requested_at:at,state_version:state.into(),
             objective:objective.into(),generation:"generation:01".into(),enforcement:None}
     }
     pub fn with_enforcement(mut self,proof:EnforcementProof)->Self{self.enforcement=Some(proof);self}
@@ -122,20 +123,22 @@ impl Decision{
 
 #[derive(Serialize, Deserialize)]
 pub struct Authority {
-    policy:String, generation:String, state_version:String, grants:HashMap<String,Grant>, revoked:HashSet<String>,
+    policy:String,generation:String,state_version:String,current_time:u64,
+    peer_bindings:HashMap<u32,(String,String,String)>,grants:HashMap<String,Grant>,revoked:HashSet<String>,
     epoch:u64, available:bool, decisions:Vec<Decision>, #[serde(skip)] path:Option<PathBuf>,
 }
 impl Authority {
-    pub fn new(policy:&str,generation:&str,state_version:&str)->Self{Self{policy:policy.into(),generation:generation.into(),state_version:state_version.into(),
-        grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
-    pub fn open(path:impl AsRef<Path>,policy:&str,generation:&str,state_version:&str)->Result<Self,AuthorityError>{
+    pub fn new(policy:&str,generation:&str,state_version:&str,current_time:u64)->Self{Self{policy:policy.into(),generation:generation.into(),state_version:state_version.into(),current_time,
+        peer_bindings:HashMap::new(),grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
+    pub fn open(path:impl AsRef<Path>,policy:&str,generation:&str,state_version:&str,current_time:u64)->Result<Self,AuthorityError>{
         let path=path.as_ref().to_owned();
         if path.exists(){
             let mut value:Self=serde_json::from_slice(&fs::read(&path).map_err(|_|AuthorityError::Storage)?)
                 .map_err(|_|AuthorityError::Storage)?;
-            value.path=Some(path); value.available=true; Ok(value)
+            value.path=Some(path);value.policy=policy.into();value.generation=generation.into();
+            value.state_version=state_version.into();value.current_time=current_time;value.available=true;Ok(value)
         }else{
-            let mut value=Self::new(policy,generation,state_version); value.path=Some(path); Ok(value)
+            let mut value=Self::new(policy,generation,state_version,current_time);value.path=Some(path);Ok(value)
         }
     }
     fn persist(&self)->Result<(),AuthorityError>{
@@ -152,6 +155,12 @@ impl Authority {
         self.grants.insert(grant.id.clone(),grant); self.persist()
     }
     pub fn set_available(&mut self,value:bool){self.available=value}
+    pub fn bind_local_peer(&mut self,machine:&MachineId,service:&ServiceId,activation:&ActivationId)->Result<(),AuthorityError>{
+        let uid=unsafe{libc::geteuid()};
+        if !self.grants.is_empty()||self.peer_bindings.contains_key(&uid){return Err(AuthorityError::BindingLocked)}
+        self.peer_bindings.insert(uid,(machine.as_str().into(),service.as_str().into(),activation.as_str().into()));self.persist()
+    }
+    pub fn set_current_time(&mut self,value:u64){self.current_time=value}
     pub fn update_state_version(&mut self,value:&str)->Result<(),AuthorityError>{
         self.state_version=value.into();self.persist()
     }
@@ -179,7 +188,7 @@ impl Authority {
         let mut current=grant;
         loop{
             if self.revoked.contains(&current.id){return Some(("UNAUTHORIZED","grant chain revoked"))}
-            if request.at<current.not_before||request.at>=current.expires_at{return Some(("STALE","grant chain outside validity interval"))}
+            if self.current_time<current.not_before||self.current_time>=current.expires_at{return Some(("STALE","grant chain outside validity interval"))}
             if current.generation!=request.generation{return Some(("STALE","grant chain generation mismatch"))}
             match &current.parent_grant_id{
                 Some(parent)=>match self.grants.get(parent){Some(value)=>current=value,None=>return Some(("STALE","grant parent missing"))},
@@ -187,8 +196,12 @@ impl Authority {
             }
         }
     }
-    pub fn evaluate(&mut self,request:&Invocation)->Decision{
+    pub fn evaluate_local(&mut self,request:&Invocation)->Result<Decision,AuthorityError>{
+        let uid=unsafe{libc::geteuid()};
+        let authenticated=self.peer_bindings.get(&uid).map(|value|value.0==request.machine.as_str()
+            &&value.1==request.service.as_str()&&value.2==request.activation.as_str()).unwrap_or(false);
         let denial = if !self.available { Some(("UNAVAILABLE","authority state unavailable")) }
+            else if !authenticated { Some(("UNAUTHORIZED","kernel peer identity is not bound to invocation")) }
             else if request.command_id.is_empty() || request.objective.is_empty() { Some(("INVALID","identity or objective missing")) }
             else if request.generation!=self.generation { Some(("STALE","generation mismatch")) }
             else if request.state_version!=self.state_version { Some(("STALE","authority state version mismatch")) }
@@ -223,7 +236,7 @@ impl Authority {
             denial_reason:code.map(|value|value.1.into())};
         decision.decision_id=format!("decision:sha256:{:x}",Sha256::digest(serde_json::to_vec(&decision).unwrap()));
         decision.result_evidence=format!("evidence:{}",decision.decision_id);
-        self.decisions.push(decision.clone()); decision
+        self.decisions.push(decision.clone());self.persist()?;Ok(decision)
     }
     pub fn audit(&self)->&[Decision]{&self.decisions}
 }

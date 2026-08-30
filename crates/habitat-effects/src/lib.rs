@@ -49,8 +49,9 @@ impl EffectProposal {
 pub struct Admission { authority_decision:String,allowed:bool,precondition_valid:bool }
 impl Admission {
     fn from_authority(authority:&mut Authority,invocation:&Invocation,precondition_valid:bool)->Self{
-        let decision=authority.evaluate(invocation);
-        Self{authority_decision:decision.id().into(),allowed:decision.is_allowed(),precondition_valid}
+        let decision=authority.evaluate_local(invocation);
+        match decision{Ok(value)=>Self{authority_decision:value.id().into(),allowed:value.is_allowed(),precondition_valid},
+            Err(_)=>Self{authority_decision:String::new(),allowed:false,precondition_valid}}
     }
     pub fn precondition_valid(&self)->bool{self.precondition_valid}
 }
@@ -73,6 +74,15 @@ impl Attempt { pub fn new(digest:&str,at:u64,provider:&str,transport:&str)->Self
 }
 
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
+pub struct ReconciliationAttempt { pub request_digest:String,pub requested_at:u64,pub provider_id:String,
+    pub transport_id:String,pub response:Option<String>,pub observation_source:Option<String>,
+    pub terminal_classification:Option<EffectState> }
+impl ReconciliationAttempt { pub fn new(digest:&str,at:u64,provider:&str,transport:&str)->Self{Self{
+    request_digest:digest.into(),requested_at:at,provider_id:provider.into(),transport_id:transport.into(),
+    response:None,observation_source:None,terminal_classification:None}}
+}
+
+#[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub struct Observation { pub source:String,pub evidence:String,pub succeeded:bool,pub independent:bool }
 impl Observation {
     pub fn independent(source:&str,evidence:&str,succeeded:bool)->Self{Self{source:source.into(),evidence:evidence.into(),succeeded,independent:true}}
@@ -86,6 +96,7 @@ impl Observation {
 
 #[derive(Default,Serialize,Deserialize)] pub struct EffectLedger { effects:HashMap<String,EffectRecord>,by_key:HashMap<String,String>,
     providers:HashMap<String,ProviderContract>,attempts:HashMap<String,Vec<Attempt>>,
+    reconciliations:HashMap<String,Vec<ReconciliationAttempt>>,
     #[serde(skip)] path:Option<PathBuf> }
 impl EffectLedger {
     pub fn new()->Self{Self::default()}
@@ -111,12 +122,12 @@ impl EffectLedger {
             return Err(EffectError::AdmissionDenied)
         }
         let admission=Admission::from_authority(authority,invocation,precondition_valid);
+        if !admission.allowed||!admission.precondition_valid||admission.authority_decision.is_empty(){return Err(EffectError::AdmissionDenied)}
         if let Some(id)=self.by_key.get(&proposal.idempotency_key){
             let existing=&self.effects[id];
             return if existing.proposal==proposal{Ok(existing.clone())}
                 else{Err(EffectError::IdempotencyConflict)}
         }
-        if !admission.allowed||!admission.precondition_valid||admission.authority_decision.is_empty(){return Err(EffectError::AdmissionDenied)}
         let provider=self.providers.get(&proposal.provider_id).ok_or(EffectError::ProviderMissing)?;
         if proposal.consequence_class>provider.max_class||
             (proposal.consequence_class>=ConsequenceClass::E2&&provider.reconciliation==ReconciliationMode::None){
@@ -138,12 +149,25 @@ impl EffectLedger {
     pub fn len(&self)->usize{self.effects.len()}
     pub fn get(&self,id:&str)->Option<&EffectRecord>{self.effects.get(id)}
     pub fn attempts(&self,id:&str)->&[Attempt]{self.attempts.get(id).map(Vec::as_slice).unwrap_or(&[])}
-    pub fn dispatch(&mut self,id:&str,attempt:Attempt)->Result<(),EffectError>{
-        let at=attempt.dispatched_at;self.dispatch_at(id,attempt,at)
+    pub fn reconciliations(&self,id:&str)->&[ReconciliationAttempt]{
+        self.reconciliations.get(id).map(Vec::as_slice).unwrap_or(&[])
     }
-    pub fn dispatch_at(&mut self,id:&str,attempt:Attempt,now:u64)->Result<(),EffectError>{
+    pub fn dispatch_authorized(&mut self,id:&str,attempt:Attempt,authority:&mut Authority,
+        invocation:&Invocation)->Result<(),EffectError>{
+        let at=attempt.dispatched_at;self.dispatch_authorized_at(id,attempt,authority,invocation,at)
+    }
+    pub fn dispatch_authorized_at(&mut self,id:&str,attempt:Attempt,authority:&mut Authority,
+        invocation:&Invocation,now:u64)->Result<(),EffectError>{
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::Reserved{return Err(EffectError::InvalidTransition)}
+        if effect.proposal.command_id!=invocation.command_id
+            ||effect.proposal.activation_id!=invocation.activation.as_str()
+            ||effect.proposal.objective_id!=invocation.objective||effect.proposal.capability!=invocation.capability
+            ||effect.proposal.operation!=invocation.operation||effect.proposal.target!=invocation.target{
+            return Err(EffectError::AdmissionDenied)
+        }
+        let decision=authority.evaluate_local(invocation).map_err(|_|EffectError::AdmissionDenied)?;
+        if !decision.is_allowed(){return Err(EffectError::AdmissionDenied)}
         if attempt.request_digest.is_empty()||attempt.provider_id!=effect.proposal.provider_id
             ||attempt.transport_id.is_empty(){return Err(EffectError::InvalidAttempt)}
         if effect.proposal.consequence_class==ConsequenceClass::E3&&effect.proposal.valid_until.map(|v|now>=v).unwrap_or(true){
@@ -168,17 +192,20 @@ impl EffectLedger {
             last.terminal_classification=Some(effect.state)
         } self.persist()
     }
-    pub fn begin_reconciliation(&mut self,id:&str)->Result<(),EffectError>{
+    pub fn begin_reconciliation(&mut self,id:&str,attempt:ReconciliationAttempt)->Result<(),EffectError>{
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::OutcomeUnknown{return Err(EffectError::InvalidTransition)}
-        effect.state=EffectState::Reconciling;self.persist()
+        if attempt.request_digest.is_empty()||attempt.provider_id!=effect.proposal.provider_id
+            ||attempt.transport_id.is_empty(){return Err(EffectError::InvalidAttempt)}
+        effect.state=EffectState::Reconciling;
+        self.reconciliations.entry(id.into()).or_default().push(attempt);self.persist()
     }
     pub fn resolve(&mut self,id:&str,observation:Observation)->Result<(),EffectError>{
         if !observation.independent{return Err(EffectError::IndependentEvidenceRequired)}
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::Reconciling{return Err(EffectError::InvalidTransition)}
         effect.state=if observation.succeeded{EffectState::ResolvedSucceeded}else{EffectState::ResolvedFailed};
-        if let Some(last)=self.attempts.get_mut(id).and_then(|value|value.last_mut()){
+        if let Some(last)=self.reconciliations.get_mut(id).and_then(|value|value.last_mut()){
             last.response=Some(observation.evidence);last.observation_source=Some(observation.source);
             last.terminal_classification=Some(effect.state)
         }
