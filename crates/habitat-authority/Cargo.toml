@@ -1,0 +1,17 @@
+[package]
+name = "habitat-authority"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+
+[[bin]]
+name = "habitat-authority"
+path = "src/bin/authority.rs"
+
+[dev-dependencies]
+tempfile = "3"

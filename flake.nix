@@ -102,12 +102,28 @@
         cargoTestFlags = [ "-p" "habitat-abi" ];
         PROTOC = "${pkgs.protobuf}/bin/protoc";
       };
+      habitatAuthority = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-authority";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-authority" ];
+        cargoTestFlags = [ "-p" "habitat-authority" ];
+      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w03.py} \
             --root ${self} --server ${habitatAbi}/bin/habitat-abi-server "$@"
+        '';
+      };
+      qualifyW04 = pkgs.writeShellApplication {
+        name = "qualify-w04";
+        runtimeInputs = [ habitatAuthority validateContracts python ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w04.py} \
+            --root ${self} --library ${habitatAuthority}/bin/habitat-authority "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -259,6 +275,11 @@
           program = "${qualifyW03}/bin/qualify-w03";
           meta.description = "Verify W03 Agent ABI bindings and Unix transport";
         };
+        test-w04 = {
+          type = "app";
+          program = "${qualifyW04}/bin/qualify-w04";
+          meta.description = "Verify W04 capability authority invariants";
+        };
       };
 
       packages.${system} = {
@@ -268,9 +289,15 @@
         habitat-recovery = habitatRecovery;
         habitat-state = habitatState;
         habitat-abi = habitatAbi;
+        habitat-authority = habitatAuthority;
       };
 
       checks.${system} = {
+        w04-qualification = pkgs.runCommand "habitat-w04-qualification" {
+          nativeBuildInputs = [ qualifyW04 ];
+        } ''
+          qualify-w04 --evidence-dir "$out"
+        '';
         w03-qualification = pkgs.runCommand "habitat-w03-qualification" {
           nativeBuildInputs = [ qualifyW03 ];
         } ''
@@ -293,7 +320,8 @@
       formatter.${system} = pkgs.nixfmt;
 
       devShells.${system}.default = pkgs.mkShell {
-        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 habitatState habitatAbi ];
+        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
+          habitatState habitatAbi habitatAuthority ];
       };
     };
 }
