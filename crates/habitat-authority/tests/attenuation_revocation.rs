@@ -130,4 +130,7 @@ fn reopening_uses_live_configuration_not_serialized_currentness(){
     let (reopened_channel,_reopened_peer)=UnixStream::pair().unwrap();
     reopened.bind_peer(&reopened_channel,&request.machine,&request.service,&request.activation).unwrap();
     assert_eq!(reopened.evaluate_peer(&reopened_channel,&request).unwrap().denial_code.as_deref(),Some("STALE"));
+    drop(reopened);
+    let mut durable=Authority::open(&ledger,"policy:newer","generation:03","state:newer",100).unwrap();
+    assert_eq!(durable.advance_time(199),Err(AuthorityError::TimeRollback));
 }

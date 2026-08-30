@@ -143,9 +143,10 @@ impl Authority {
                 .map_err(|_|AuthorityError::Storage)?;
             value.path=Some(path);value.policy=policy.into();value.generation=generation.into();
             value.state_version=state_version.into();value.current_time=value.current_time.max(current_time);
-            value.available=true;Ok(value)
+            value.available=true;value.persist()?;Ok(value)
         }else{
-            let mut value=Self::new(policy,generation,state_version,current_time);value.path=Some(path);Ok(value)
+            let mut value=Self::new(policy,generation,state_version,current_time);value.path=Some(path);
+            value.persist()?;Ok(value)
         }
     }
     fn persist(&self)->Result<(),AuthorityError>{
@@ -234,10 +235,15 @@ impl Authority {
     }
     pub fn evaluate_peer(&mut self,channel:&UnixStream,request:&Invocation)->Result<Decision,AuthorityError>{
         let observed=Self::peer_credentials(channel)?;
+        let executable=fs::metadata(format!("/proc/{}/exe",observed.1.pid))
+            .map_err(|_|AuthorityError::PeerCredential)?;
+        let executable_identity=(executable.dev(),executable.ino());
         let authenticated=self.peer_binding.as_ref().map(|value|value.channel==observed.0
             &&value.pid==observed.1.pid&&value.uid==observed.1.uid&&value.gid==observed.1.gid
             &&value.machine==request.machine.as_str()&&value.service==request.service.as_str()
-            &&value.activation==request.activation.as_str()).unwrap_or(false);
+            &&value.activation==request.activation.as_str()
+            &&self.trusted_peer.as_ref().map(|trusted|trusted.executable==executable_identity)
+                .unwrap_or(false)).unwrap_or(false);
         let denial = if !self.available { Some(("UNAVAILABLE","authority state unavailable")) }
             else if !authenticated { Some(("UNAUTHORIZED","kernel peer identity is not bound to invocation")) }
             else if request.command_id.is_empty() || request.objective.is_empty() { Some(("INVALID","identity or objective missing")) }
