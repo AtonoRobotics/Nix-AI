@@ -126,6 +126,14 @@
         cargoBuildFlags = [ "-p" "habitat-context" ];
         cargoTestFlags = [ "-p" "habitat-context" ];
       };
+      habitatEffects = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-effects";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-effects" ];
+        cargoTestFlags = [ "-p" "habitat-effects" ];
+      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
@@ -162,6 +170,13 @@
         runtimeInputs = [ habitatContext python validateContracts ];
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w07.py} --root ${self} --artifact ${habitatContext}/bin/habitat-context "$@"
+        '';
+      };
+      qualifyW08 = pkgs.writeShellApplication {
+        name = "qualify-w08";
+        runtimeInputs = [ habitatEffects python validateContracts ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w08.py} --root ${self} --artifact ${habitatEffects}/bin/habitat-effects "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -333,6 +348,11 @@
           program = "${qualifyW07}/bin/qualify-w07";
           meta.description = "Run W07 context compiler and fault qualification";
         };
+        test-w08 = {
+          type = "app";
+          program = "${qualifyW08}/bin/qualify-w08";
+          meta.description = "Run W08 durable effect and reconciliation qualification";
+        };
       };
 
       packages.${system} = {
@@ -345,9 +365,15 @@
         habitat-authority = habitatAuthority;
         habitat-execution = habitatExecution;
         habitat-context = habitatContext;
+        habitat-effects = habitatEffects;
       };
 
       checks.${system} = {
+        w08-qualification = pkgs.runCommand "habitat-w08-qualification" {
+          nativeBuildInputs = [ qualifyW08 ];
+        } ''
+          qualify-w08 --evidence-dir "$out"
+        '';
         w07-qualification = pkgs.runCommand "habitat-w07-qualification" {
           nativeBuildInputs = [ qualifyW07 ];
         } ''
@@ -381,7 +407,7 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
-          qualifyW06 qualifyW07 habitatState habitatAbi habitatAuthority habitatExecution habitatContext ];
+          qualifyW06 qualifyW07 qualifyW08 habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects ];
       };
     };
 }
