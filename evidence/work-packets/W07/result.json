@@ -1,0 +1,1 @@
+{"packet":"W07","implementation_commit":"76533b811d713064b55295a92ac9460a8d658924","outcome":"passed","requirements":["CTX-001","CTX-002","CTX-003","CTX-004","CTX-005","CTX-006","CTX-007","CTX-008","CTX-009","CTX-010","CTX-011","CTX-012"],"qualification":"nix run .#test-w07","flake_check":"passed"}

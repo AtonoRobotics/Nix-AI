@@ -1,0 +1,1 @@
+{"implementation_commit":"76533b811d713064b55295a92ac9460a8d658924","outcome":"passed","artifact_sha256":"c64d99e0253b90bc5ee560d3030581c829b248a8ee41fb6b2566ed9e2d5be74d","properties":["content-addressed immutable bundles","truth-class separation","provenance and freshness","explicit budget omissions","descriptor-first skill selection","bounded original-source access"]}
