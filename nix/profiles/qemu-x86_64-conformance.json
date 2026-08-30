@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "qemu-x86-64-conformance",
+  "version": "1.0.0",
+  "architecture": "x86_64",
+  "kernel": {"version": "6.12-lts", "digest": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5", "bsp_ref": "nixpkgs#linuxPackages_6_12"},
+  "boot": {"secure_boot": false, "automatic_rollback": true},
+  "trust_root": "SOFTWARE_DEGRADED",
+  "gpu": {"status": "absent"},
+  "devices": [],
+  "execution_runtimes": ["NATIVE"],
+  "storage": {"recovery_partition": true, "state_volume": "/var/lib/habitat"},
+  "capacity": {"cpu_cores": 2, "memory_mib": 2048, "storage_mib": 8192},
+  "qualification_evidence_refs": ["qemu-boot-report", "defective-boot-rollback-report"]
+}
