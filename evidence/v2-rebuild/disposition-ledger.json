@@ -365,6 +365,136 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->buf",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->cargo",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->clippy",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->coreutils",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->gitMinimal",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->jq",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->nixfmt",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->protobuf",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->protoc-gen-prost",
+        "predicate_evidence": {},
+        "reason": "Rejected domain or legacy work-packet closure member.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-006"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->python",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->rustc",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->rustfmt",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:contractTools->shellcheck",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "nix-dependency-edge:generateProto->contractTools",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -815,7 +945,57 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "nix-dependency-edge:testW01->OVMF",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:testW01->coreutils",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "nix-dependency-edge:testW01->habitatQemu",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:testW01->python3",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:testW01->qemu",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-edge:testW01->writeShellApplication",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -855,17 +1035,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-set:habitatRaw",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-set:habitatState",
+        "identity": "nix-derivation-factory:testW01",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1236,16 +1406,6 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-internal-derivation:testRollback",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-internal-derivation:testW01",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1765,6 +1925,16 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "nix-output-edge:formatter->nixfmt",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "nix-output-edge:packages.habitat-abi->habitatAbi",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -2041,6 +2211,16 @@
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-source-edge:testW01->tools/test_w01.py",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
       }
     ],
     "dependencies": [
@@ -2080,6 +2260,26 @@
         "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:proto-import:google/protobuf/timestamp.proto",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:json-schema-reference:https://habitat.invalid/schemas/context-request/v1",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:json-schema-reference:#/$defs/capability",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-001"
@@ -2347,6 +2547,206 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:json-schema-reference:https://habitat.invalid/schemas/context-request/v1",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:json-schema-reference:#/$defs/capability",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/authority",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/canonicalModel",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/completion",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/disposition",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/gate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/generated",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/id",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/migration",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/mission",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/nonEmpty",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/predicate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/rebuild",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/requirement",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/scope",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/service",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/step",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/stringSet",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:json-schema-reference:#/$defs/workPacket",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "contracts/v2.0.1/validate_contract.py:python-import:hashlib",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
@@ -2388,6 +2788,186 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "contracts/v2.0.1/validate_contract.py:python-import:sys",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/authority",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/canonicalModel",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/completion",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/disposition",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/gate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/generated",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/id",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/migration",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/mission",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/nonEmpty",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/predicate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/rebuild",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/requirement",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/scope",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/service",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/step",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/stringSet",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:json-schema-reference:#/$defs/workPacket",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -3603,6 +4183,26 @@
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tests/fixtures/schema-contracts/missing-reference/broken.schema.json:json-schema-reference:https://habitat.invalid/test/not-packaged/v1",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tests/fixtures/schema-contracts/missing-reference/broken.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-028"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tests/fixtures/schema-contracts/valid/registry.schema.json:json-schema-reference:https://habitat.invalid/test/child/v1",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tests/fixtures/schema-contracts/valid/registry.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -6140,7 +6740,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -6176,13 +6776,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -6203,30 +6803,142 @@
         "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
-      },
-      {
-        "action": "REGENERATE",
-        "authority_evidence": [],
-        "identity": "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/MANIFEST.sha256",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
+        "identity": "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/contract.schema.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
+      },
+      {
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -6261,7 +6973,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e"
             ],
             "result": "satisfied"
           },
@@ -6287,24 +6999,132 @@
         "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "CHANGE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests: superseded v2.0.0 package is preserved as immutable provenance but is not an applicable live v2.0.1 gate"
+            ],
+            "result": "not_applicable"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2/MANIFEST.sha256",
+        "requirement_ids": [
+          "CHANGE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "CHANGE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2/contract.schema.json:generated-output:json_schemas",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2/contract.schema.json:generated-output:json_schemas: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2/contract.schema.json:generated-output:json_schemas: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2/contract.schema.json:generated-output:json_schemas: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2/contract.schema.json:generated-output:json_schemas: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2/contract.schema.json:generated-output:json_schemas: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "contracts/v2/contract.schema.json:generated-output:json_schemas: superseded v2.0.0 package is preserved as immutable provenance but is not an applicable live v2.0.1 gate"
+            ],
+            "result": "not_applicable"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2/contract.schema.json",
+        "requirement_ids": [
+          "CHANGE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
         "action": "REGENERATE",
@@ -7077,114 +7897,730 @@
         "rule_id": "D-023"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       },
       {
-        "action": "REGENERATE",
-        "authority_evidence": [],
+        "action": "RETAIN",
+        "authority_evidence": [
+          {
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
+            "invariant": "released contract package bytes cannot be mutated in place",
+            "requirement_ids": [
+              "SCOPE-001",
+              "SCOPE-003"
+            ]
+          }
+        ],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests",
-        "predicate_evidence": {},
-        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-023"
+        "predicate_evidence": {
+          "RET-001": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests: unit is not a public semantic"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-002": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests: immutable package bytes are archived for provenance; executable semantics are separately classified DELETE_AND_REBUILD"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-003": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests: unit is not a declared dependency"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-004": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests: unit is not a test or fixture"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-005": {
+            "evidence": [
+              "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests: unit is not a generated output"
+            ],
+            "result": "not_applicable"
+          },
+          "RET-006": {
+            "evidence": [
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
+            ],
+            "result": "satisfied"
+          }
+        },
+        "reason": "Inherited from containing unit: contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "requirement_ids": [
+          "SCOPE-001",
+          "SCOPE-003"
+        ],
+        "retention_predicates": [
+          "RET-001",
+          "RET-002",
+          "RET-003",
+          "RET-004",
+          "RET-005",
+          "RET-006"
+        ],
+        "rule_id": "RET-BINDING-CONTRACT"
       }
     ],
     "public_semantics": [
@@ -18811,7 +20247,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:310:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
+        "identity": "tests/test_v2_rebuild_frontier.py:364:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -18821,7 +20257,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:339:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
+        "identity": "tests/test_v2_rebuild_frontier.py:393:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -18831,7 +20267,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:373:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
+        "identity": "tests/test_v2_rebuild_frontier.py:427:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -18891,7 +20327,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:183:test_fixture:test_checked_in_disposition_ledger_is_complete_and_attributed",
+        "identity": "tests/test_v2_scope_classification.py:198:test_fixture:test_checked_in_disposition_ledger_is_complete_and_attributed",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18901,7 +20337,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:206:test_fixture:test_prior_project_and_domain_fixtures_fail_retention",
+        "identity": "tests/test_v2_scope_classification.py:221:test_fixture:test_prior_project_and_domain_fixtures_fail_retention",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18911,7 +20347,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:238:test_fixture:test_every_inventory_class_is_reconstructed_from_the_exact_tree",
+        "identity": "tests/test_v2_scope_classification.py:253:test_fixture:test_every_inventory_class_is_reconstructed_from_the_exact_tree",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18921,7 +20357,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:277:test_fixture:test_inventory_commit_is_reachable_from_a_fresh_clone",
+        "identity": "tests/test_v2_scope_classification.py:292:test_fixture:test_inventory_metadata_is_fail_closed",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18931,7 +20367,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:299:test_fixture:test_noncanonical_manifest_bytes_fail_classification",
+        "identity": "tests/test_v2_scope_classification.py:314:test_fixture:test_inventory_commit_is_reachable_from_a_fresh_clone",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18941,7 +20377,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:357:test_fixture:test_external_contract_cannot_weaken_binding_predicates",
+        "identity": "tests/test_v2_scope_classification.py:336:test_fixture:test_noncanonical_manifest_bytes_fail_classification",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18951,7 +20387,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:388:test_fixture:test_same_tree_contract_mutation_cannot_replace_binding_authority",
+        "identity": "tests/test_v2_scope_classification.py:394:test_fixture:test_external_contract_cannot_weaken_binding_predicates",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -18961,7 +20397,17 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:459:test_fixture:test_archived_v2_package_cannot_be_self_resigned_after_mutation",
+        "identity": "tests/test_v2_scope_classification.py:425:test_fixture:test_same_tree_contract_mutation_cannot_replace_binding_authority",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-028"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tests/test_v2_scope_classification.py:496:test_fixture:test_archived_v2_package_cannot_be_self_resigned_after_mutation",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -19331,7 +20777,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:460:def:relegacy_packet",
+        "identity": "tools/classify_v2_scope.py:483:def:relegacy_packet",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19341,7 +20787,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:464:def:contract_package",
+        "identity": "tools/classify_v2_scope.py:487:def:contract_package",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19351,7 +20797,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:471:def:validate_contract_packages",
+        "identity": "tools/classify_v2_scope.py:494:def:validate_contract_packages",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19361,7 +20807,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:524:def:retention_evidence",
+        "identity": "tools/classify_v2_scope.py:547:def:retention_evidence",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19371,7 +20817,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:565:def:main",
+        "identity": "tools/classify_v2_scope.py:588:def:main",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19471,7 +20917,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:233:def:nix_service_semantics",
+        "identity": "tools/inventory_v2.py:248:def:nix_service_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19481,7 +20927,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:253:def:proto_enum_values",
+        "identity": "tools/inventory_v2.py:268:def:proto_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19491,7 +20937,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:282:def:contract_json_semantics",
+        "identity": "tools/inventory_v2.py:297:def:contract_json_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19501,7 +20947,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:323:def:json_schema_semantics",
+        "identity": "tools/inventory_v2.py:338:def:json_schema_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19511,7 +20957,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:356:def:schema_enum_values",
+        "identity": "tools/inventory_v2.py:371:def:schema_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19521,7 +20967,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:370:def:json_token_offsets",
+        "identity": "tools/inventory_v2.py:385:def:json_token_offsets",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19531,7 +20977,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:419:def:rust_enum_values",
+        "identity": "tools/inventory_v2.py:434:def:rust_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19541,7 +20987,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:471:def:public_semantics",
+        "identity": "tools/inventory_v2.py:486:def:public_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19551,7 +20997,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:476:def:dependencies_from_contents",
+        "identity": "tools/inventory_v2.py:491:def:dependencies_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19561,7 +21007,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:569:def:nix_dependencies",
+        "identity": "tools/inventory_v2.py:590:def:json_schema_references",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19571,7 +21017,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:595:def:dependencies",
+        "identity": "tools/inventory_v2.py:602:def:nix_dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19581,7 +21027,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:600:def:generated_artifacts",
+        "identity": "tools/inventory_v2.py:628:def:dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19591,7 +21037,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:604:def:generated_artifacts_from_contents",
+        "identity": "tools/inventory_v2.py:633:def:generated_artifacts",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19601,7 +21047,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:640:def:generated_required_class",
+        "identity": "tools/inventory_v2.py:637:def:generated_artifacts_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19611,7 +21057,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:669:def:build_closure_members_from_contents",
+        "identity": "tools/inventory_v2.py:673:def:generated_required_class",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19621,7 +21067,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:722:def:build_closure_members",
+        "identity": "tools/inventory_v2.py:702:def:build_closure_members_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19631,7 +21077,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:729:def:inventory",
+        "identity": "tools/inventory_v2.py:719:def:nix_build_closure",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19641,7 +21087,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:757:def:main",
+        "identity": "tools/inventory_v2.py:859:def:build_closure_members",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19651,7 +21097,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:375:def:whitespace",
+        "identity": "tools/inventory_v2.py:866:def:inventory",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19661,7 +21107,27 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:380:def:parse",
+        "identity": "tools/inventory_v2.py:894:def:main",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:390:def:whitespace",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:395:def:parse",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -20984,7 +22450,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21020,13 +22486,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21050,7 +22516,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21092,7 +22558,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21116,7 +22582,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21158,7 +22624,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21182,7 +22648,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21224,7 +22690,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21248,7 +22714,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -21283,7 +22749,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e"
             ],
             "result": "satisfied"
           },
@@ -21312,7 +22778,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -21376,7 +22842,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -21440,7 +22906,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree be7809e2a8af155f9cb50bee37e5898fc521874e",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -23232,7 +24698,7 @@
       }
     ]
   },
-  "inventory_tree": "6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+  "inventory_tree": "be7809e2a8af155f9cb50bee37e5898fc521874e",
   "runner": {
     "name": "classify-v2-scope",
     "version": 1
@@ -23240,12 +24706,12 @@
   "schema_version": 1,
   "summary": {
     "counts_by_action": {
-      "DELETE": 294,
-      "DELETE_AND_REBUILD": 1696,
-      "REGENERATE": 267,
-      "RETAIN": 10
+      "DELETE": 297,
+      "DELETE_AND_REBUILD": 1756,
+      "REGENERATE": 252,
+      "RETAIN": 25
     },
-    "total_disposition_count": 2267,
+    "total_disposition_count": 2330,
     "unclassified_count": 0,
     "unmapped_retained_count": 0
   }

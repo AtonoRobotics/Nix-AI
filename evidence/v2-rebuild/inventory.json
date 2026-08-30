@@ -146,6 +146,58 @@
     },
     {
       "class": "nix-dependency-edge",
+      "name": "contractTools->buf"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->cargo"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->clippy"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->coreutils"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->gitMinimal"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->jq"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->nixfmt"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->protobuf"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->protoc-gen-prost"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->rustc"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->rustfmt"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->shellcheck"
+    },
+    {
+      "class": "nix-dependency-edge",
       "name": "generateProto->contractTools"
     },
     {
@@ -326,7 +378,27 @@
     },
     {
       "class": "nix-dependency-edge",
+      "name": "testW01->OVMF"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testW01->coreutils"
+    },
+    {
+      "class": "nix-dependency-edge",
       "name": "testW01->habitatQemu"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testW01->python3"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testW01->qemu"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testW01->writeShellApplication"
     },
     {
       "class": "nix-dependency-edge",
@@ -341,12 +413,8 @@
       "name": "contractTools"
     },
     {
-      "class": "nix-dependency-set",
-      "name": "habitatRaw"
-    },
-    {
-      "class": "nix-dependency-set",
-      "name": "habitatState"
+      "class": "nix-derivation-factory",
+      "name": "testW01"
     },
     {
       "class": "nix-direct-output",
@@ -495,10 +563,6 @@
     {
       "class": "nix-internal-derivation",
       "name": "testRollback"
-    },
-    {
-      "class": "nix-internal-derivation",
-      "name": "testW01"
     },
     {
       "class": "nix-internal-derivation",
@@ -706,6 +770,10 @@
     },
     {
       "class": "nix-output-edge",
+      "name": "formatter->nixfmt"
+    },
+    {
+      "class": "nix-output-edge",
       "name": "packages.habitat-abi->habitatAbi"
     },
     {
@@ -815,13 +883,17 @@
     {
       "class": "nix-packages-output",
       "name": "habitat-state"
+    },
+    {
+      "class": "nix-source-edge",
+      "name": "testW01->tools/test_w01.py"
     }
   ],
   "counts": {
-    "build_closure_members": 204,
-    "dependencies": 362,
+    "build_closure_members": 222,
+    "dependencies": 404,
     "generated_artifacts": 141,
-    "public_semantics": 1298,
+    "public_semantics": 1301,
     "tracked_paths": 262
   },
   "dependencies": [
@@ -844,6 +916,16 @@
       "class": "proto-import",
       "name": "google/protobuf/timestamp.proto",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "https://habitat.invalid/schemas/context-request/v1",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/capability",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
     },
     {
       "class": "python-import",
@@ -976,6 +1058,106 @@
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
+      "class": "json-schema-reference",
+      "name": "https://habitat.invalid/schemas/context-request/v1",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/capability",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/authority",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/canonicalModel",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/completion",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/disposition",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/gate",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/generated",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/id",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/migration",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/mission",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/nonEmpty",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/predicate",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/rebuild",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/requirement",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/scope",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/service",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/step",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/stringSet",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/workPacket",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
       "class": "python-import",
       "name": "hashlib",
       "path": "contracts/v2.0.1/validate_contract.py"
@@ -999,6 +1181,96 @@
       "class": "python-import",
       "name": "sys",
       "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/authority",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/canonicalModel",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/completion",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/disposition",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/gate",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/generated",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/id",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/migration",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/mission",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/nonEmpty",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/predicate",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/rebuild",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/requirement",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/scope",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/service",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/step",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/stringSet",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "#/$defs/workPacket",
+      "path": "contracts/v2/contract.schema.json"
     },
     {
       "class": "python-import",
@@ -1604,6 +1876,16 @@
       "class": "python-relative-import",
       "name": ".domain",
       "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "https://habitat.invalid/test/not-packaged/v1",
+      "path": "tests/fixtures/schema-contracts/missing-reference/broken.schema.json"
+    },
+    {
+      "class": "json-schema-reference",
+      "name": "https://habitat.invalid/test/child/v1",
+      "path": "tests/fixtures/schema-contracts/valid/registry.schema.json"
     },
     {
       "class": "python-import",
@@ -3332,14 +3614,14 @@
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     }
   ],
-  "inventory_commit": "0f2fb5398d4e1be57e6c0ff79cb02ed972a63a0c",
+  "inventory_commit": "8756dfcce6cc5f088ba1a3d1e77622c7123fe1f0",
   "inventory_source": {
     "build_closure_members": "declared-source-graph",
     "file_contents": "git-tree",
     "snapshot_boundary": "before-report-publication",
     "tracked_paths": "git-tree"
   },
-  "inventory_tree": "6dd86bfd7d30722e6272a155d34a8c79ec46551b",
+  "inventory_tree": "be7809e2a8af155f9cb50bee37e5898fc521874e",
   "public_semantics": [
     {
       "kind": "schema_enum_value",
@@ -10315,19 +10597,19 @@
     },
     {
       "kind": "test_fixture",
-      "line": 310,
+      "line": 364,
       "name": "test_cross_relation_dependency_cycle_is_rejected",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
       "kind": "test_fixture",
-      "line": 339,
+      "line": 393,
       "name": "test_requirement_derivation_references_are_resolved_and_acyclic",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
       "kind": "test_fixture",
-      "line": 373,
+      "line": 427,
       "name": "test_inventory_cli_records_the_baseline_and_every_inventory_class",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
@@ -10363,49 +10645,55 @@
     },
     {
       "kind": "test_fixture",
-      "line": 183,
+      "line": 198,
       "name": "test_checked_in_disposition_ledger_is_complete_and_attributed",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 206,
+      "line": 221,
       "name": "test_prior_project_and_domain_fixtures_fail_retention",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 238,
+      "line": 253,
       "name": "test_every_inventory_class_is_reconstructed_from_the_exact_tree",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 277,
+      "line": 292,
+      "name": "test_inventory_metadata_is_fail_closed",
+      "path": "tests/test_v2_scope_classification.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 314,
       "name": "test_inventory_commit_is_reachable_from_a_fresh_clone",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 299,
+      "line": 336,
       "name": "test_noncanonical_manifest_bytes_fail_classification",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 357,
+      "line": 394,
       "name": "test_external_contract_cannot_weaken_binding_predicates",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 388,
+      "line": 425,
       "name": "test_same_tree_contract_mutation_cannot_replace_binding_authority",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
       "kind": "test_fixture",
-      "line": 459,
+      "line": 496,
       "name": "test_archived_v2_package_cannot_be_self_resigned_after_mutation",
       "path": "tests/test_v2_scope_classification.py"
     },
@@ -10627,31 +10915,31 @@
     },
     {
       "kind": "def",
-      "line": 460,
+      "line": 483,
       "name": "relegacy_packet",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 464,
+      "line": 487,
       "name": "contract_package",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 471,
+      "line": 494,
       "name": "validate_contract_packages",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 524,
+      "line": 547,
       "name": "retention_evidence",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 565,
+      "line": 588,
       "name": "main",
       "path": "tools/classify_v2_scope.py"
     },
@@ -10711,121 +10999,133 @@
     },
     {
       "kind": "def",
-      "line": 233,
+      "line": 248,
       "name": "nix_service_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 253,
+      "line": 268,
       "name": "proto_enum_values",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 282,
+      "line": 297,
       "name": "contract_json_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 323,
+      "line": 338,
       "name": "json_schema_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 356,
+      "line": 371,
       "name": "schema_enum_values",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 370,
+      "line": 385,
       "name": "json_token_offsets",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 419,
+      "line": 434,
       "name": "rust_enum_values",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 471,
+      "line": 486,
       "name": "public_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 476,
+      "line": 491,
       "name": "dependencies_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 569,
+      "line": 590,
+      "name": "json_schema_references",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 602,
       "name": "nix_dependencies",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 595,
+      "line": 628,
       "name": "dependencies",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 600,
+      "line": 633,
       "name": "generated_artifacts",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 604,
+      "line": 637,
       "name": "generated_artifacts_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 640,
+      "line": 673,
       "name": "generated_required_class",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 669,
+      "line": 702,
       "name": "build_closure_members_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 722,
+      "line": 719,
+      "name": "nix_build_closure",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 859,
       "name": "build_closure_members",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 729,
+      "line": 866,
       "name": "inventory",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 757,
+      "line": 894,
       "name": "main",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 375,
+      "line": 390,
       "name": "whitespace",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 380,
+      "line": 395,
       "name": "parse",
       "path": "tools/inventory_v2.py"
     },
