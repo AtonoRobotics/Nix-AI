@@ -38,7 +38,7 @@
           }
         ];
       };
-      python = pkgs.python3.withPackages (ps: [ ps.pyyaml ps.jsonschema ]);
+      python = pkgs.python3.withPackages (ps: [ ps.boto3 ps.jsonschema ps.psycopg ps.pyyaml ]);
       contractTools = with pkgs; [
         buf
         cargo
@@ -74,6 +74,23 @@
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w00.py} ${self}
         '';
+      };
+      qualifyW02 = pkgs.writeShellApplication {
+        name = "qualify-w02";
+        runtimeInputs = [ pkgs.docker-client python ];
+        text = ''
+          export PYTHONPATH=${./src}
+          exec ${python}/bin/python ${./tools/qualify_w02.py} "$@"
+        '';
+      };
+      habitatState = pkgs.python3Packages.buildPythonPackage {
+        pname = "habitat-state";
+        version = "0.1.0";
+        pyproject = true;
+        src = ./.;
+        build-system = [ pkgs.python3Packages.setuptools ];
+        dependencies = with pkgs.python3Packages; [ boto3 psycopg ];
+        doCheck = false;
       };
       habitatClosure = pkgs.closureInfo {
         rootPaths = [
@@ -214,6 +231,11 @@
           program = "${testRollback}/bin/test-rollback";
           meta.description = "Run the live boot-counted V-ROLLBACK qualification";
         };
+        test-w02 = {
+          type = "app";
+          program = "${qualifyW02}/bin/qualify-w02";
+          meta.description = "Run live PostgreSQL/MinIO W02 disaster qualification";
+        };
       };
 
       packages.${system} = {
@@ -221,6 +243,7 @@
         habitat-raw = habitatRaw;
         habitat-installer = habitatInstaller;
         habitat-recovery = habitatRecovery;
+        habitat-state = habitatState;
       };
 
       checks.${system} = {
@@ -241,7 +264,7 @@
       formatter.${system} = pkgs.nixfmt;
 
       devShells.${system}.default = pkgs.mkShell {
-        packages = contractTools ++ [ validateContracts qualifyW00 ];
+        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 habitatState ];
       };
     };
 }
