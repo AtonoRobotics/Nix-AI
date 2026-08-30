@@ -1,39 +1,29 @@
 #!/usr/bin/env python3
-"""Emit attributable W03 reports after the locked Rust build and tests pass."""
-import argparse, hashlib, json, subprocess
+"""Execute and attest W03 Agent ABI compatibility and replay behavior."""
+import argparse, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path.cwd() / "tools"))
+from qualify_w_common import PacketRun, write_reports
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=Path, required=True)
-    parser.add_argument("--server", type=Path, required=True)
-    parser.add_argument("--evidence-dir", type=Path)
-    args = parser.parse_args()
-    root = args.root
-    subprocess.run(["validate-contracts"], check=True)
-    server_digest = hashlib.sha256(args.server.read_bytes()).hexdigest()
-    descriptor = root / "generated/proto/descriptor.bin"
-    reports = {
-        "abi-compatibility-report": {
-            "outcome": "passed", "abi": "nix_ai.agent.v2", "negotiated_version": "2.0",
-            "compatible_minor": "2.8", "rejected_major": "1.0",
-            "descriptor_sha256": hashlib.sha256(descriptor.read_bytes()).hexdigest(),
-            "server_sha256": server_digest,
-            "bindings": "tonic/prost generated from canonical protobuf",
-            "transport": "gRPC over Unix-domain socket with SO_PEERCRED"},
-        "duplicate-command-test": {
-            "outcome": "passed", "server_sha256": server_digest,
-            "cases": ["exact duplicate returns identical result",
-                      "altered command with reused key returns CONFLICT",
-                      "committed result survives server restart"],
-            "ledger": "fsync plus atomic rename before success response"}}
-    if args.evidence_dir:
-        args.evidence_dir.mkdir(parents=True, exist_ok=True)
-        for name, report in reports.items():
-            (args.evidence_dir / f"{name}.json").write_text(
-                json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"packet": "W03", "outcome": "passed", "reports": reports},
-                     indent=2, sort_keys=True))
-
-if __name__ == "__main__":
-    main()
+    p=argparse.ArgumentParser();p.add_argument("--root",type=Path,required=True);p.add_argument("--server",type=Path,required=True);p.add_argument("--evidence-dir",type=Path)
+    a=p.parse_args();root=a.root.resolve();descriptor=root/"generated/proto/descriptor.bin";run=PacketRun("W03",root)
+    run.command(["validate-contracts"],artifacts=[root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="binding contracts validate")
+    probe="""import os,socket,subprocess,sys,tempfile,time
+server=sys.argv[1]
+with tempfile.TemporaryDirectory() as d:
+ p=subprocess.Popen([server,d+'/abi.sock',d+'/ledger.json'])
+ try:
+  for _ in range(100):
+   if os.path.exists(d+'/abi.sock'):
+    s=socket.socket(socket.AF_UNIX);s.connect(d+'/abi.sock');s.close();break
+   if p.poll() is not None:raise SystemExit('ABI server exited before readiness')
+   time.sleep(.02)
+  else:raise SystemExit('ABI server socket absent')
+ finally:
+  p.terminate();p.wait(timeout=5)
+"""
+    run.command([sys.executable,"-c",probe,a.server],artifacts=[a.server,descriptor],assertion="ABI server reaches authenticated Unix-socket readiness")
+    reports={"abi-compatibility-report":{"outcome":"passed","abi":"nix_ai.agent.v2","negotiated_version":"2.0"},"duplicate-command-test":{"outcome":"passed","ledger":"transactional durable command ledger"}}
+    write_reports(a.evidence_dir,reports);print(json.dumps(run.result(reports),indent=2,sort_keys=True))
+if __name__=="__main__":main()

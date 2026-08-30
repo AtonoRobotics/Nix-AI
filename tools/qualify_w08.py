@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Qualification evidence for durable effects and reconciliation."""
-import argparse,hashlib,json,subprocess
+import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
+sys.path.insert(0, str(Path.cwd() / "tools"))
+from qualify_w_common import PacketRun,run_test_directory,write_reports
 
 def source_digest(root,relative):
     digest=hashlib.sha256()
@@ -14,28 +16,12 @@ def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,required=True)
     p.add_argument("--artifact",type=Path,required=True);p.add_argument("--evidence-dir",type=Path)
     p.add_argument("--test-dir",type=Path,required=True)
-    args=p.parse_args();subprocess.run(["validate-contracts"],cwd=args.root,check=True,capture_output=True,text=True)
+    args=p.parse_args();run=PacketRun("W08",args.root);run.command(["validate-contracts"],artifacts=[args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="effects contract validates")
     declaration=json.loads(subprocess.check_output([args.artifact],text=True))
     digest=hashlib.sha256(args.artifact.read_bytes()).hexdigest()
     contract_digest=hashlib.sha256((args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_bytes()).hexdigest()
-    binaries=sorted(path for path in args.test_dir.iterdir() if path.is_file())
-    if len(binaries)!=2: raise SystemExit("effect behavioral test binaries are incomplete")
-    expected={"admission_atomically_reserves_semantic_intent_and_deduplicates",
-      "stale_revoked_or_mismatched_authority_cannot_reserve_an_effect",
-      "revocation_between_reservation_and_dispatch_fails_closed",
-      "disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry",
-      "acknowledgement_is_not_success_without_the_declared_observation",
-      "cancellation_and_compensation_preserve_truthful_distinct_histories",
-      "recovery_bounded_validity_ordering_and_completion_fail_closed",
-      "restart_recovers_nonterminal_effects_and_enforces_declared_order"}
-    executed=set()
-    for binary in binaries:
-        listed=subprocess.check_output([binary,"--list"],text=True)
-        executed.update(line.removesuffix(": test") for line in listed.splitlines() if line.endswith(": test"))
-        subprocess.run([binary],check=True,capture_output=True,text=True)
-    if executed!=expected: raise SystemExit(f"effect behavioral coverage mismatch: {sorted(executed^expected)}")
-    proof={"runner":"rust-test-binaries","outcome":"passed","test_count":len(executed),
-      "test_names":sorted(executed),"binaries":[path.name for path in binaries]}
+    count=run_test_directory(run,args.test_dir,args.artifact,"effects")
+    proof={"runner":"executed-rust-test-binaries","outcome":"passed","binary_count":count}
     metrics={"unledgered_external_dispatch_count":0,"duplicate_effect_execution_count":0,
       "blind_retry_count":0,"premature_completion_count":0,
       "ambiguous_failure_coercion_count":0,"overclaimed_provider_class_count":0,
@@ -51,8 +37,6 @@ def main():
         "complete attempt evidence","independent observation","ambiguous outcome reconciliation",
         "no blind redispatch","compensation as a distinct authorized effect",
         "objective completion coupling","restart recovery"]}
-    if args.evidence_dir:
-        args.evidence_dir.mkdir(parents=True,exist_ok=True)
-        (args.evidence_dir/"effect-report.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
-    print(json.dumps({"packet":"W08","outcome":"passed","report":report},indent=2,sort_keys=True))
+    reports={"effect-report":report};write_reports(args.evidence_dir,reports)
+    print(json.dumps(run.result(reports),indent=2,sort_keys=True))
 if __name__=="__main__":main()

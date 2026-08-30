@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Live native-isolation qualification for the declared QEMU profile."""
-import argparse, hashlib, json, os, subprocess, tempfile
+import argparse, hashlib, json, os, subprocess, tempfile, sys
 from pathlib import Path
+sys.path.insert(0, str(Path.cwd() / "tools"))
+from qualify_w_common import PacketRun,write_reports
 
 def main():
     p=argparse.ArgumentParser()
     for name in ("bwrap","bash","python","prlimit","taskset","dd","sleep","execution"):
         p.add_argument("--"+name,required=True)
     p.add_argument("--profile",type=Path,required=True)
-    p.add_argument("--evidence-dir",type=Path);args=p.parse_args()
+    p.add_argument("--evidence-dir",type=Path);args=p.parse_args();root=Path.cwd().resolve();packet=PacketRun("W06",root)
     with tempfile.TemporaryDirectory(prefix="w06-work-") as work:
         base=[args.bwrap,"--unshare-all","--die-with-parent","--new-session",
               "--ro-bind","/nix/store","/nix/store","--proc","/proc","--dev","/dev",
@@ -19,6 +21,7 @@ def main():
         environment=subprocess.run(base+[args.bash,"-c","test -z \"$AWS_SECRET_ACCESS_KEY$HOME$SSH_AUTH_SOCK\""],
                                    check=False).returncode==0
         if not environment: raise AssertionError("ambient environment escaped")
+        packet.command([args.execution],artifacts=[Path(args.execution),args.profile],assertion="execution boundary emits a profile-bound admission declaration")
         declaration=json.loads(subprocess.check_output([args.execution],text=True))
         profile=json.loads(args.profile.read_text())
         capacity=profile["capacity"]
@@ -66,9 +69,8 @@ def main():
       "secret-exposure-negative-test":{"outcome":"passed","ambient_secrets":False},
       "build-conformance-report":{"outcome":"passed","locked_nix_build":True},
       "packet-evidence-report":{"outcome":"passed","packet":"W06"}}
-    if args.evidence_dir:
-        args.evidence_dir.mkdir(parents=True,exist_ok=True)
-        for name,report in reports.items():
-            (args.evidence_dir/f"{name}.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
-    print(json.dumps({"packet":"W06","outcome":"passed","reports":reports},indent=2,sort_keys=True))
+    packet.assertions.extend([
+      {"name":"sandbox denies host secrets, sockets, evidence, peers, network, and ambient environment","passed":True},
+      {"name":"CPU, memory, storage, process, and deadline limits are behaviorally enforced","passed":True}])
+    write_reports(args.evidence_dir,reports);print(json.dumps(packet.result(reports),indent=2,sort_keys=True))
 if __name__=="__main__":main()

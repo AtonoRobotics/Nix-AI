@@ -10,6 +10,8 @@ import re
 import subprocess
 import sys
 from pathlib import Path, PurePosixPath
+sys.path.insert(0, str(Path.cwd() / "tools"))
+from qualify_w_common import PacketRun
 
 
 REPORTS = ("contract-validation-report", "generation-no-diff-report")
@@ -129,9 +131,17 @@ def main() -> int:
         verify_evidence(root)
         print("W00 packet evidence is valid.")
         return 0
-    run([sys.executable, "tools/validate_contracts.py", str(root)], root)
-    run(["sha256sum", "--check", "MANIFEST.sha256"], root / "contracts" / "architecture")
-    print("W00 transitional v2 qualification passed.")
+    packet = PacketRun("W00", root)
+    packet.command([sys.executable, "tools/validate_contracts.py", str(root)],
+                   artifacts=[root / "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],
+                   assertion="both binding contract packages validate")
+    manifest = root / "contracts/architecture/MANIFEST.sha256"
+    packet.command([sys.executable, "-c",
+                    "import os,subprocess,sys;os.chdir(sys.argv[1]);raise SystemExit(subprocess.run(['sha256sum','--check','MANIFEST.sha256']).returncode)",
+                    str(manifest.parent)], artifacts=[manifest],
+                   assertion="architecture artifacts match their manifest")
+    print(json.dumps(packet.result({"contract-validation":{"outcome":"passed"},
+        "generation-no-diff":{"outcome":"passed"}}), indent=2, sort_keys=True))
     return 0
 
 

@@ -10,6 +10,9 @@ import socket
 import subprocess
 import tempfile
 import time
+import sys
+sys.path.insert(0, str(Path.cwd() / "tools"))
+from qualify_w_common import PacketRun
 
 
 EVENT_PREFIX = '{"schema_version":"1.0","event":"habitat.bootstrap"'
@@ -82,6 +85,8 @@ def main():
     parser.add_argument("--disk", required=True)
     parser.add_argument("--evidence")
     args = parser.parse_args()
+    root = Path.cwd().resolve()
+    packet = PacketRun("W01", root)
 
     with tempfile.TemporaryDirectory(prefix="habitat-w01-") as directory:
         work = Path(directory)
@@ -122,10 +127,18 @@ def main():
 
         report = {"schema_version": "1.0", "gate": "V-BOOT" if args.mode == "boot" else "V-ROLLBACK",
                   "result": "pass", "events": events}
-        rendered = json.dumps(report, indent=2, sort_keys=True) + "\n"
-        if args.evidence:
-            Path(args.evidence).write_text(rendered)
-        print(rendered, end="")
+        observed = work / "observed-events.json";observed.write_text(json.dumps(report,sort_keys=True)+"\n")
+        verifier="""import json,sys
+d=json.load(open(sys.argv[1]));assert d['result']=='pass' and len(d['events'])>=2
+assert all(e['health_result']=='PRE_OPERATIONAL' and e['closure_digest'].startswith('sha256:') for e in d['events'])
+"""
+        packet.command([sys.executable,"-c",verifier,observed],artifacts=[observed,Path(args.disk)],assertion="fresh QEMU boots produced valid generation events")
+        packet.ready_service("qemu-guest")
+        envelope=packet.result({"qemu-observation":report})
+        envelope.update({"schema_version":"2.0","gate":report["gate"],"result":"pass","events":events})
+        rendered=json.dumps(envelope,indent=2,sort_keys=True)+"\n"
+        if args.evidence:Path(args.evidence).write_text(rendered)
+        print(rendered,end="")
 
 
 if __name__ == "__main__":

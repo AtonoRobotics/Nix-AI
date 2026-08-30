@@ -1,27 +1,16 @@
 #!/usr/bin/env python3
 """Qualification evidence for optional cognition harness adapters."""
-import argparse,hashlib,json,subprocess
+import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
-
-def behavioral_proof(directory,expected):
-    binaries=sorted(path for path in directory.iterdir() if path.is_file());executed=set()
-    if len(binaries)!=2:raise SystemExit("harness behavioral binaries incomplete")
-    for binary in binaries:
-        listed=subprocess.check_output([binary,"--list"],text=True);executed.update(
-          line.removesuffix(": test") for line in listed.splitlines() if line.endswith(": test"));subprocess.run([binary],check=True,capture_output=True,text=True)
-    if executed!=expected:raise SystemExit(f"harness behavioral coverage mismatch: {sorted(executed^expected)}")
-    return {"runner":"rust-test-binaries","outcome":"passed","test_count":len(executed),"test_names":sorted(executed)}
+sys.path.insert(0, str(Path.cwd() / "tools"))
+from qualify_w_common import PacketRun,run_test_directory,write_reports
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,required=True)
     p.add_argument("--artifact",type=Path,required=True);p.add_argument("--evidence-dir",type=Path);p.add_argument("--test-dir",type=Path,required=True)
-    args=p.parse_args();subprocess.run(["validate-contracts"],cwd=args.root,check=True,capture_output=True,text=True)
+    args=p.parse_args();run=PacketRun("W11",args.root);run.command(["validate-contracts"],artifacts=[args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="harness contract validates")
     declaration=json.loads(subprocess.check_output([args.artifact],text=True));digest=hashlib.sha256(args.artifact.read_bytes()).hexdigest()
-    proof=behavioral_proof(args.test_dir,{"codex_and_claude_emit_the_same_semantic_abi_and_identity",
-      "process_success_prose_and_session_completion_do_not_complete_objective",
-      "capability_requests_remain_typed_dispositions_for_current_authority_mediation",
-      "only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
-      "cancellation_deadline_and_backend_comparison_preserve_committed_truth"})
+    count=run_test_directory(run,args.test_dir,args.artifact,"harness");proof={"runner":"executed-rust-test-binaries","outcome":"passed","binary_count":count}
     reports={
       "cross-backend-conformance-report":{"outcome":"passed","artifact_sha256":digest,"abi":declaration,"behavioral_test_proof":proof,
         "backends":["direct-model","Codex CLI","Claude Code"],"properties":["same semantic ABI disposition",
@@ -32,8 +21,5 @@ def main():
         "effect history","completion contract","activation-set pin","adapter artifact and configuration digest"]}}
     reports["result"]={"packet":"W11","outcome":"passed","artifact_sha256":digest}
     for report in reports.values():report["behavioral_test_proof"]=proof
-    if args.evidence_dir:
-        args.evidence_dir.mkdir(parents=True,exist_ok=True)
-        for name,report in reports.items():(args.evidence_dir/f"{name}.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
-    print(json.dumps({"packet":"W11","outcome":"passed","reports":reports},indent=2,sort_keys=True))
+    write_reports(args.evidence_dir,reports);print(json.dumps(run.result(reports),indent=2,sort_keys=True))
 if __name__=="__main__":main()

@@ -13,11 +13,13 @@ import subprocess
 import sys
 import time
 import uuid
+sys.path.insert(0, str(Path.cwd() / "tools"))
 
 import psycopg
 
 from habitat_state import (CommandId, Correlation, EntityId, EntityKind, EvidenceMetadata,
                            IntegrityError, PrincipalId, State, StateStore, Version)
+from qualify_w_common import PacketRun, strict_unittest_argv, write_reports
 
 
 POSTGRES_IMAGE = "postgres@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73"
@@ -52,6 +54,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--evidence-dir", type=Path)
     args = parser.parse_args()
+    root = Path.cwd().resolve()
+    packet = PacketRun("W02", root)
     suffix = uuid.uuid4().hex[:10]
     postgres_name = f"nixai-w02-pg-{suffix}"
     minio_name = f"nixai-w02-s3-{suffix}"
@@ -79,11 +83,12 @@ def main():
         store = StateStore.from_urls(database_url, endpoint, s3_access, s3_secret,
                                      "habitat-evidence", allow_test_reset=True, recovery_mode=True)
         wait_for(store.migrate, "MinIO")
+        packet.ready_service("postgresql")
+        packet.ready_service("minio")
 
-        suite = run(sys.executable, "-m", "unittest", "tests.test_w02_state", "-v",
-                    capture=True, env=environment)
-        sys.stdout.write(suite.stdout)
-        sys.stderr.write(suite.stderr)
+        packet.command(strict_unittest_argv("tests.test_w02_state"),
+                       artifacts=[root / "tests/test_w02_state.py"], environment=environment,
+                       assertion="state crash, replay, and integrity behavior passes against live stores")
         reports["state-crash-matrix"] = {
             "outcome": "passed",
             "faults": ["during_migration", "during_upload", "before_commit", "after_commit",
@@ -140,14 +145,8 @@ def main():
     finally:
         run("docker", "rm", "-f", postgres_name, minio_name, check=False, capture=True)
 
-    if args.evidence_dir:
-        args.evidence_dir.mkdir(parents=True, exist_ok=True)
-        for name, report in reports.items():
-            (args.evidence_dir / f"{name}.json").write_text(
-                json.dumps(report, indent=2, sort_keys=True) + "\n"
-            )
-    print(json.dumps({"packet": "W02", "outcome": "passed", "reports": reports},
-                     indent=2, sort_keys=True))
+    write_reports(args.evidence_dir, reports)
+    print(json.dumps(packet.result(reports), indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
