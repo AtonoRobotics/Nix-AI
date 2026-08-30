@@ -10,7 +10,7 @@ MAPPINGS={
  "crates/habitat-execution/":("AUTH-004","EXEC-001","EXEC-002","SYS-004"),
  "crates/habitat-effects/":("EFFECT-001","EFFECT-002","EFFECT-003","EFFECT-004","EFFECT-005"),
  "crates/habitat-models/":("ABI-003","EXEC-003"),
- "crates/habitat-provider-transport/":("AUTH-004",),
+ "crates/habitat-provider-transport/":("ABI-003",),
  "crates/habitat-packages/":("PKG-001","PKG-002","PKG-003"),
  "crates/habitat-harnesses/":("ABI-003","EXEC-003"),
  "src/habitat_state/":("STATE-001","STATE-002","STATE-003","STATE-004"),
@@ -41,15 +41,17 @@ PYTHON_ALLOWED={"__future__","base64","boto3","botocore","concurrent","dataclass
  "subprocess","sys","tempfile","tools","unittest","uuid","argparse","ast","tomllib","fnmatch","secrets",
  "socket","time","signal","typing","yaml","inventory_v2","proto_contracts"}
 FORBIDDEN=re.compile(r"CredentialBroker|authorization\s*:|habitat_authority|habitat_effects|std::net|UnixStream|TcpStream|reqwest|Command::new|\bcurl\b|Authorization",re.I)
-AMBIENT=re.compile(r"(?i:\bcurl\b|\bwget\b|Authorization[\"']?\s*[:=]|reqwest|TcpStream|std::net|socket\.)|(?:PROVIDER|API)[A-Z0-9_]*(?:KEY|TOKEN|SECRET)")
+AMBIENT=re.compile(r"(?i:\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|Authorization[\"']?\s*[:=]|reqwest|TcpStream|std::net|socket\.)|\b[A-Z][A-Z0-9_]*(?:KEY|TOKEN|SECRET)\b")
 AMBIENT_EXEMPT={
  "crates/habitat-abi/src/bin/server.rs":re.compile(r"socket\.",re.I),
- "tools/qualify_w02.py":re.compile(r"socket\.",re.I),
  "tools/qualify_w05.py":re.compile(r"socket\.",re.I),
+ "tools/qualify_w02.py":re.compile(r"socket\.|HABITAT_TEST_S3_(?:ACCESS_KEY|SECRET_KEY)",re.I),
+ "tools/qualify_w06.py":re.compile(r"AWS_SECRET_ACCESS_KEY"),
  "tools/test_w01.py":re.compile(r"socket\.",re.I),
 }
 API=re.compile(r"\bpub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match)\b|=>")
+SCRIPT_BRANCH=re.compile(r"(?:^|\s)(?:if|elif|case|assert)\b|\bthen\b|&&|\|\||\bif\s*:",re.I)
 TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 FUNCTION=re.compile(r"(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 REQUIREMENT_DETAILS={}
@@ -242,13 +244,17 @@ def audit(root):
         elif relative.as_posix().startswith(("crates/habitat-models/","crates/habitat-harnesses/")):
             found=FORBIDDEN.search(content)
             if found: unresolved.append(f"forbidden-adapter-path:{relative}:{found.group(0)}")
+        if suffix in {".nix",".sh",".yml",".yaml"}:
+            for number,line in enumerate(content.splitlines(),1):
+                if SCRIPT_BRANCH.search(line) and not line.lstrip().startswith(("#","//")):
+                    records.append(record("branch",f"{relative}:{number}:script-branch",requirements,relative.as_posix()))
         executable=suffix in {".rs",".py",".sh",".nix",".yml",".yaml"}
         test_or_policy=(relative.as_posix().startswith(("tests/","evidence/","contracts/","docs/"))
             or relative.as_posix()=="tools/audit_v2_core.py" or "/tests/" in relative.as_posix())
         production_source=executable and not test_or_policy
         found=next((match for match in AMBIENT.finditer(content)
             if not (relative.as_posix() in AMBIENT_EXEMPT and AMBIENT_EXEMPT[relative.as_posix()].fullmatch(match.group(0)))),None)
-        if production_source and found and not relative.as_posix().startswith("crates/habitat-provider-transport/"):
+        if production_source and found:
             unresolved.append(f"ambient-core-path:{relative}:{found.group(0)}")
         if production_source and re.search(rb"transcript",path.read_bytes(),re.I):
             unresolved.append(f"provider-transcript-authority-surface:{relative}")

