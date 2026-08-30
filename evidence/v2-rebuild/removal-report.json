@@ -1,13 +1,36 @@
 {
   "contaminated_units": [],
-  "delete_target_count": 51,
-  "rejected_build_members": [],
-  "remaining_delete_targets": [],
+  "delete_counts_by_inventory_class": {
+    "build_closure_members": 14,
+    "dependencies": 36,
+    "generated_artifacts": 2,
+    "public_semantics": 193,
+    "tracked_paths": 51
+  },
+  "policy_exclusions": [
+    "AGENTS.md",
+    "docs/agents/domain.md",
+    "docs/agents/issue-tracker.md",
+    "docs/agents/triage-labels.md",
+    "tests/test_v2_rebuild_frontier.py",
+    "tests/test_v2_scope_classification.py",
+    "tests/test_v2_scope_removal.py",
+    "tools/classify_v2_scope.py",
+    "tools/inventory_v2.py",
+    "tools/verify_v2_removal.py"
+  ],
+  "policy_prefix_exclusions": [
+    "contracts/v2/",
+    "contracts/v2.0.1/",
+    "evidence/v2-rebuild/"
+  ],
+  "remaining_delete_units": [],
   "runner": {
     "name": "verify-v2-removal",
-    "version": 1
+    "version": 2
   },
+  "scanned_tracked_path_count": 211,
   "schema_version": 1,
   "valid": true,
-  "verified_commit": "6d0744e31a502a356ac1dce9dc3b8432720260ee"
+  "verified_commit": "b6a214212d0864fd895487a0830045e7ab54717f"
 }
