@@ -1,0 +1,1 @@
+{"implementation_commit":"aa22418912403d663835ea1cea4aaa631f328f4c","outcome":"passed","artifact_digest":"sha256:a10199c953dd575f10dd383e30345b7c129c3797565fdf3027dd577acf748cbe","properties":["authority-bound command","stable idempotency","typed effect","digest-addressed observation"]}
