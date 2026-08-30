@@ -1,0 +1,5 @@
+{
+  "implementation_commit": "13bf5e6d9791209137f401b7ff09666d464cc6a1",
+  "outcome": "passed",
+  "cases": ["repeatable-read snapshot", "common consistency marker", "state/history version agreement", "corrupt evidence rejection", "missing evidence rejection", "dedicated recovery authority"]
+}

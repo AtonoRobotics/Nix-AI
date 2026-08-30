@@ -1,0 +1,6 @@
+{
+  "implementation_commit": "13bf5e6d9791209137f401b7ff09666d464cc6a1",
+  "minio_image": "minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e",
+  "outcome": "passed",
+  "cases": ["sha256 content address", "digest and size revalidation", "append-only SQL references", "complete provenance metadata", "linked corrections", "tamper detection", "store outage fails closed"]
+}

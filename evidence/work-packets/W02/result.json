@@ -1,0 +1,7 @@
+{
+  "packet": "W02",
+  "implementation_commit": "13bf5e6d9791209137f401b7ff09666d464cc6a1",
+  "outcome": "passed",
+  "reports": ["state-crash-matrix.json", "backup-restore-report.json", "evidence-integrity-report.json"],
+  "qualification": {"live_tests": 6, "failures": 0, "flake_checks": "passed"}
+}

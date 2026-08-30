@@ -1,0 +1,7 @@
+{
+  "implementation_commit": "13bf5e6d9791209137f401b7ff09666d464cc6a1",
+  "outcome": "passed",
+  "postgres_image": "postgres@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73",
+  "faults": ["during_migration", "during_upload", "before_commit", "after_commit", "concurrent_first_write", "database_process_kill", "evidence_store_outage"],
+  "verified_invariants": ["atomic state/history", "idempotent exact replay", "altered replay rejection", "optimistic conflict", "legal state machine", "durable restart"]
+}

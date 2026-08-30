@@ -1,0 +1,9 @@
+{
+  "implementation_commit": "13bf5e6d9791209137f401b7ff09666d464cc6a1",
+  "packet": "W02",
+  "qualification_command": "nix run .#apps.x86_64-linux.test-w02 -- --evidence-dir /tmp/w02-final",
+  "flake_check": "nix flake check --show-trace",
+  "requirements": ["ARC-002", "ARC-009", "BLD-006", "OBS-001", "OBS-002", "OBS-003", "OBS-004", "OBS-006", "SEC-007", "SEC-009", "STA-001", "STA-002", "STA-005", "STA-006", "STA-007", "STA-008", "STA-009", "STA-010"],
+  "result": "passed",
+  "live_tests": 6
+}
