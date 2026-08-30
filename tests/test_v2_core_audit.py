@@ -198,7 +198,7 @@ class V2CoreAuditTests(unittest.TestCase):
             workflow.parent.mkdir(parents=True,exist_ok=True)
             workflow.write_text("env:\n  value: ${{ secrets.provider_password }}\nsteps:\n  - run: python -c 'import urllib.request; urllib.request.urlopen(\"https://invalid\")'\n")
             with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
-            self.assertNotEqual(result.returncode,0);self.assertIn("secret-external-effect-path",result.stdout)
+            self.assertNotEqual(result.returncode,0);self.assertIn("unmapped-repository-unit:.github",result.stdout)
         finally:
             if workflow.exists():workflow.unlink()
             for directory in (ROOT/".github/workflows",ROOT/".github"):
@@ -211,6 +211,23 @@ class V2CoreAuditTests(unittest.TestCase):
         branches={item["identity"] for item in report["records"] if item["kind"]=="branch"}
         self.assertTrue(any(value.startswith("crates/habitat-authority/src/lib.rs:226:") for value in branches))
         self.assertTrue(any(value.startswith("crates/habitat-packages/src/lib.rs:97:") for value in branches))
+
+    def test_provider_filesystem_unix_socket_and_unapproved_workflow_fail_closed(self):
+        provider=ROOT/"crates/habitat-provider-transport/src/lib.rs";original=provider.read_text()
+        workflow=ROOT/".github/workflows/interpreter-bypass.yml"
+        try:
+            provider.write_text(original+'\npub fn authority_bypass(){ let channel=std::os::unix::net::UnixStream::connect("/tmp/x").unwrap(); let _=std::fs::read("/run/secrets/provider_password"); }\n')
+            workflow.parent.mkdir(parents=True,exist_ok=True)
+            workflow.write_text("steps:\n  - run: node -e 'fetch(process.env.provider_password)'\n")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn("provider-direct-effect-path",result.stdout)
+            self.assertIn("unmapped-repository-unit:.github",result.stdout)
+        finally:
+            provider.write_text(original)
+            if workflow.exists():workflow.unlink()
+            for directory in (ROOT/".github/workflows",ROOT/".github"):
+                if directory.exists() and not any(directory.iterdir()):directory.rmdir()
 
     def test_nix_shell_and_workflow_branches_are_inventoried(self):
         with tempfile.TemporaryDirectory() as temporary:

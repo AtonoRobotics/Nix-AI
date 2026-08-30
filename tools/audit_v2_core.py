@@ -52,7 +52,7 @@ AMBIENT_EXEMPT={
 SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?|secrets\.)[^\n]{0,120}(?:key|token|secret|password)|(?:key|token|secret|password)[^\n]{0,120}(?:std::env::var|os\.environ(?:\.get)?|secrets\.)",re.I)
 EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|urllib|requests?\.|python\s+(?:-[A-Za-z]*c\b|-c\b)|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
 COMBINED_EXEMPT={"tools/qualify_w02.py","tools/qualify_w06.py"}
-PROVIDER_FORBIDDEN=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|TcpStream|Authorization|Bearer",re.I)
+PROVIDER_FORBIDDEN=re.compile(r"\bstd::|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|Authorization|Bearer",re.I)
 RUST_QUALIFIERS=r"(?:(?:async|const|unsafe)\s+|extern\s+\"[^\"]+\"\s+)*"
 API=re.compile(rf"\bpub(?:\([^)]*\))?\s+{RUST_QUALIFIERS}(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match|for|while|loop)\b|=>")
@@ -77,7 +77,7 @@ REPOSITORY_SCOPES=(
  ("crates/",("SCOPE-001",)),("src/",("SCOPE-001",)),("tests/",("VERIFY-001",)),
  ("tools/",("VERIFY-001",)),("evidence/",("VERIFY-001",)),("contracts/",("SCOPE-003",)),
  ("generated/",("ABI-001","SCOPE-003")),("nix/",("SYS-001","SYS-004")),
- ("docs/",("SCOPE-001",)),(".github/",("VERIFY-001",)),
+ ("docs/",("SCOPE-001",)),
 )
 ROOT_SCOPES={".gitignore":("SCOPE-001",),"AGENTS.md":("SCOPE-001",),"README.md":("SCOPE-001",),
  "CODEX-BUILD-SPEC.md":("SCOPE-003",),"Cargo.toml":("SCOPE-001",),"Cargo.lock":("SCOPE-003",),
