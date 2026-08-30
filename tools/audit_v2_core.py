@@ -5,8 +5,10 @@ from pathlib import Path
 
 MAPPINGS={
  "crates/habitat-abi/":("ABI-001","ABI-002","ABI-004"),
+ "crates/habitat-authority/":("AUTH-001","AUTH-002","AUTH-003","AUTH-004"),
  "crates/habitat-context/":("CTX-001","CTX-002","CTX-003","CTX-004"),
  "crates/habitat-execution/":("AUTH-004","EXEC-001","EXEC-002","SYS-004"),
+ "crates/habitat-effects/":("EFFECT-001","EFFECT-002","EFFECT-003","EFFECT-004","EFFECT-005"),
  "crates/habitat-models/":("ABI-003","EXEC-003"),
  "crates/habitat-provider-transport/":("AUTH-004",),
  "crates/habitat-packages/":("PKG-001","PKG-002","PKG-003"),
@@ -27,7 +29,9 @@ TEST_MAPPINGS={
 }
 CARGO_ALLOWED={
  "crates/habitat-abi/":{"hyper-util","prost","prost-types","serde","serde_json","sha2","tokio","tokio-stream","tonic","tonic-prost","tower","tempfile","tonic-prost-build"},
+ "crates/habitat-authority/":{"serde","serde_json","sha2","libc","tempfile"},
  "crates/habitat-context/":{"serde","serde_json","sha2"},"crates/habitat-execution/":{"serde","serde_json"},
+ "crates/habitat-effects/":{"habitat-authority","serde","serde_json","sha2","tempfile"},
  "crates/habitat-models/":{"serde","serde_json"},"crates/habitat-provider-transport/":{"serde_json","sha2"},
  "crates/habitat-packages/":{"ed25519-dalek","serde","serde_json","sha2"},
  "crates/habitat-harnesses/":{"habitat-models","serde","serde_json"},
@@ -35,10 +39,11 @@ CARGO_ALLOWED={
 PYTHON_ALLOWED={"__future__","base64","boto3","botocore","concurrent","dataclasses","datetime","domain","enum",
  "habitat_state","hashlib","json","jsonschema","lifecycle","os","pathlib","psycopg","re","shutil","store",
  "subprocess","sys","tempfile","tools","unittest","uuid"}
-FORBIDDEN=re.compile(r"CredentialBroker|authorization\s*:|habitat_authority|habitat_effects|std::net|UnixStream|TcpStream|reqwest|Command::new")
-API=re.compile(r"^\s*pub\s+(?:struct|enum|trait|fn)\s+([A-Za-z_][A-Za-z0-9_]*)|^\s*pub\s+fn\s+([A-Za-z_][A-Za-z0-9_]*)")
+FORBIDDEN=re.compile(r"CredentialBroker|authorization\s*:|habitat_authority|habitat_effects|std::net|UnixStream|TcpStream|reqwest|Command::new|\bcurl\b|Authorization",re.I)
+API=re.compile(r"^\s*pub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match)\b|=>")
-TEST=re.compile(r"^\s*fn\s+([A-Za-z_][A-Za-z0-9_]*)")
+TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
+REQUIREMENT_DETAILS={}
 
 def mapping(path):
     value=path.as_posix()
@@ -52,28 +57,46 @@ def mapping(path):
 def record(kind,identity,requirements,source):
     return {"kind":kind,"identity":identity,"requirement_ids":list(requirements),
       "authority":[f"contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/{value}" for value in requirements],
+      "binding":{"semantic":identity,"class":kind,"requirement_ids":list(requirements),
+          "decision":"retained only under the cited trigger, boundary, failure, and enforcement"},
       "source":source}
 
 def audit(root):
+    global REQUIREMENT_DETAILS
+    contract=json.loads((root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
+    REQUIREMENT_DETAILS={item["id"]:item for item in contract["requirements"]}
     records=[];files=[];unresolved=[]
     candidates=[]
-    for prefix in MAPPINGS:
-        candidates.extend(path for path in (root/prefix).rglob("*")
-            if path.is_file() and (path.suffix in {".rs",".py",".toml"}))
+    for top in ("crates","src"):
+        candidates.extend(path for path in (root/top).rglob("*") if path.is_file()
+            and "__pycache__" not in path.parts and path.suffix!=".pyc")
     candidates.extend(path for path in (root/"tests/fixtures").rglob("*") if path.is_file())
     candidates.extend(path for path in (root/"tests").glob("test_*.py") if path.is_file())
     for path in sorted(set(candidates)):
         relative=path.relative_to(root);requirements=mapping(relative)
         if not requirements: unresolved.append(relative.as_posix());continue
         files.append(relative.as_posix());suffix=path.suffix
+        try: content=path.read_text()
+        except UnicodeDecodeError: content=""
         if suffix in {".rs",".py"}:
-            lines=path.read_text().splitlines();pending_test=False
+            lines=content.splitlines();pending_test=False;enum_depth=0
             for number,line in enumerate(lines,1):
                 match=API.search(line)
-                if match: records.append(record("public_interface",f"{relative}:{number}:{next(v for v in match.groups() if v)}",requirements,relative.as_posix()))
+                if match:
+                    records.append(record("public_interface",f"{relative}:{number}:{match.group(1)}",requirements,relative.as_posix()))
+                    if re.search(r"\bpub\s+enum\b",line): enum_depth=line.count("{")-line.count("}") or 1
+                elif enum_depth and (variant:=re.match(r"\s*([A-Z][A-Za-z0-9_]*)\s*(?:[({=,]|$)",line)):
+                    records.append(record("public_interface",f"{relative}:{number}:enum-variant:{variant.group(1)}",requirements,relative.as_posix()))
+                if enum_depth:
+                    enum_depth+=line.count("{")-line.count("}")
+                    if enum_depth<0: enum_depth=0
                 if BRANCH.search(line) and not line.lstrip().startswith("//"):
                     records.append(record("branch",f"{relative}:{number}",requirements,relative.as_posix()))
-                if line.strip()=="#[test]":pending_test=True;continue
+                if "#[test]" in line:
+                    inline=TEST.search(line)
+                    if inline: records.append(record("test",f"{relative}:{number}:{inline.group(1)}",requirements,relative.as_posix()))
+                    else: pending_test=True
+                    continue
                 if pending_test:
                     test=TEST.search(line)
                     if test: records.append(record("test",f"{relative}:{number}:{test.group(1)}",requirements,relative.as_posix()));pending_test=False
@@ -81,7 +104,12 @@ def audit(root):
                     name=line.split("def ",1)[1].split("(",1)[0]
                     records.append(record("test",f"{relative}:{number}:{name}",requirements,relative.as_posix()))
             if suffix==".py":
-                for node in ast.walk(ast.parse(path.read_text())):
+                tree=ast.parse(content)
+                for node in ast.walk(tree):
+                    if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)) and not node.name.startswith("_"):
+                        records.append(record("public_interface",f"{relative}:{node.lineno}:{node.name}",requirements,relative.as_posix()))
+                    if isinstance(node,(ast.If,ast.Match,ast.Try)):
+                        records.append(record("branch",f"{relative}:{node.lineno}:{type(node).__name__}",requirements,relative.as_posix()))
                     names=[]
                     if isinstance(node,ast.Import):names=[value.name.split('.')[0] for value in node.names]
                     elif isinstance(node,ast.ImportFrom) and node.module:names=[node.module.split('.')[0]]
@@ -89,8 +117,11 @@ def audit(root):
                         records.append(record("dependency",f"{relative}:{node.lineno}:python-import:{dependency}",requirements,relative.as_posix()))
                         if dependency not in PYTHON_ALLOWED:unresolved.append(f"untrusted-dependency:{relative}:{dependency}")
             if relative.as_posix().startswith(("crates/habitat-models/","crates/habitat-harnesses/")):
-                found=FORBIDDEN.search(path.read_text())
+                found=FORBIDDEN.search(content)
                 if found: unresolved.append(f"forbidden-adapter-path:{relative}:{found.group(0)}")
+        elif relative.as_posix().startswith(("crates/habitat-models/","crates/habitat-harnesses/")):
+            found=FORBIDDEN.search(content)
+            if found: unresolved.append(f"forbidden-adapter-path:{relative}:{found.group(0)}")
         if path.name=="Cargo.toml":
             data=tomllib.loads(path.read_text())
             for section in ("dependencies","dev-dependencies","build-dependencies"):
@@ -100,21 +131,23 @@ def audit(root):
                     if dependency not in allowed:unresolved.append(f"untrusted-dependency:{relative}:{dependency}")
         if relative.as_posix().startswith("tests/fixtures/"):
             records.append(record("fixture",relative.as_posix(),requirements,relative.as_posix()))
-    contract=json.loads((root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
     known={item["id"] for item in contract["requirements"]}
     unresolved.extend(f"unknown-requirement:{value}" for item in records for value in item["requirement_ids"] if value not in known)
     profile=json.loads((root/"nix/profiles/qemu-x86_64-conformance.json").read_text())
     profile_ok=profile.get("gpu",{}).get("status")=="absent" and profile.get("devices")==[] and bool(profile.get("capacity"))
     if not profile_ok: unresolved.append("hardware-profile-missing-capacity-or-explicit-absence")
-    transcript_ok="observe_transcript(&mut self,_transcript:&str){}" in (root/"crates/habitat-harnesses/src/lib.rs").read_text()
-    if not transcript_ok: unresolved.append("provider-transcript-not-provably-nonauthoritative")
+    for path in (root/"crates/habitat-harnesses/src").rglob("*.rs"):
+        if re.search(r"transcript",path.read_text(),re.I): unresolved.append(f"provider-transcript-authority-surface:{path.relative_to(root)}")
     digest=hashlib.sha256()
     for relative in files:
         content=(root/relative).read_bytes();digest.update(relative.encode()+b"\0"+content+b"\0")
     counts={kind:sum(item["kind"]==kind for item in records) for kind in ("public_interface","branch","dependency","test","fixture")}
     return {"schema_version":1,"runner":{"name":"audit-v2-core","version":1},"scope_digest":digest.hexdigest(),
+      "authority_catalog":{value:{key:REQUIREMENT_DETAILS[value][key] for key in
+          ("source_authority","source_reference","trigger","shall","boundary","failure","enforcement")}
+          for value in sorted({requirement for item in records for requirement in item["requirement_ids"]})},
       "counts":counts,"candidate_file_count":len(files),"unresolved_candidates":sorted(set(unresolved)),
-      "untrusted_candidates":[],"provider_transcripts":"diagnostic-only","adapter_direct_path_count":sum(value.startswith("forbidden-adapter-path:") for value in unresolved),
+      "untrusted_candidates":sorted(set(unresolved)),"provider_transcripts":"diagnostic-only","adapter_direct_path_count":sum(value.startswith("forbidden-adapter-path:") for value in unresolved),
       "hardware_profile":{"profile_id":profile.get("profile_id"),"capacity_declared":bool(profile.get("capacity")),"gpu":profile.get("gpu",{}).get("status"),"devices":profile.get("devices")},
       "records":records,"valid":not unresolved}
 

