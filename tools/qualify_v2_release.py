@@ -13,6 +13,11 @@ import sys
 import tempfile
 from pathlib import Path
 
+from qualification import (
+    canonical_json, closure_digest, execute, validate_attestation,
+    validate_structured_result,
+)
+
 
 RUNNERS = {
     "V-SCOPE": "scope_qualification", "V-CONTRACT": "contract_qualification",
@@ -33,7 +38,7 @@ PRIMARY_REPORTS = {
     "V-END-TO-END": "end-to-end-report.json",
 }
 
-METRICS = {
+METRIC_PREDICATES = {
     "V-SCOPE": {"unmapped_semantic_count": 0, "inadmissible_source_count": 0, "contaminated_retained_unit_count": 0},
     "V-CONTRACT": {"schema_errors": 0, "reference_errors": 0, "graph_errors": 0, "hash_errors": 0, "stale_generated_count": 0},
     "V-BOOT": {"booted": True, "active_human_session_required": False, "identity_reported": True},
@@ -51,7 +56,7 @@ METRICS = {
 
 
 def canonical(value) -> bytes:
-    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode()
+    return canonical_json(value)
 
 
 def sha_bytes(value: bytes) -> str:
@@ -81,15 +86,11 @@ def source_digest(root: Path) -> str:
     return "sha256:" + digest.hexdigest()
 
 
-def command(root: Path, gate: str, argv: list[str], *, environment=None) -> dict:
-    result = subprocess.run(argv, cwd=root, env=environment, capture_output=True, text=True)
-    output = (result.stdout + result.stderr).encode()
-    if result.returncode:
-        sys.stdout.buffer.write(output)
+def command(root: Path, gate: str, argv: list[str], *, environment=None, artifacts=()) -> dict:
+    result = execute(root, source_digest(root), argv, environment=environment, artifacts=artifacts)
+    if result["exit_status"]:
         raise SystemExit(f"{gate} command failed: {' '.join(argv)}")
-    return {"kind": "executed_command", "argv": argv, "exit_code": 0,
-            "output": output.decode(), "output_sha256": sha_bytes(output),
-            "output_bytes": len(output)}
+    return result
 
 
 def _all_passed(observations: dict) -> bool:
@@ -123,7 +124,7 @@ def _runner_identity(argv: list[str]) -> str | None:
     return None
 
 
-def valid_attestations(gate: str, attestations: list[dict]) -> bool:
+def valid_attestations(root: Path, gate: str, attestations: list[dict]) -> bool:
     expected = {
         "V-SCOPE": ["tools/verify_v2_removal.py"],
         "V-CONTRACT": ["tools/validate_contracts.py"],
@@ -138,16 +139,47 @@ def valid_attestations(gate: str, attestations: list[dict]) -> bool:
     identities = [_runner_identity(item.get("argv", [])) for item in attestations]
     if identities != expected:
         return False
+    expected_source = source_digest(root)
+    expected_closure = closure_digest(root)
     for item in attestations:
-        output = item.get("output")
-        if not isinstance(output, str):
+        if validate_attestation(item, source_tree=expected_source, closure=expected_closure):
             return False
-        encoded = output.encode()
-        if (item.get("kind") != "executed_command" or item.get("exit_code") != 0
-                or item.get("output_bytes") != len(encoded)
-                or item.get("output_sha256") != sha_bytes(encoded)):
+        if item.get("exit_status") != 0:
             return False
     return True
+
+
+SERVICE_GATES = {"V-BOOT", "V-STATE", "V-ISOLATION", "V-EFFECT", "V-END-TO-END"}
+
+
+def validate_gate_report(root: Path, gate: str, report: dict) -> list[str]:
+    """Validate provenance and live behavioral results without reading prose output."""
+    errors = []
+    if gate not in RUNNERS or report.get("gate") != gate or report.get("runner") != RUNNERS[gate]:
+        errors.append("gate or runner identity mismatch")
+    attestations = report.get("attestations")
+    if not isinstance(attestations, list) or not attestations or not valid_attestations(root, gate, attestations):
+        errors.append("missing, forged, stale, or failed command attestation")
+    live_result = report.get("live_result")
+    errors.extend(validate_structured_result(live_result, require_services=gate in SERVICE_GATES))
+    if report.get("result") != "pass":
+        errors.append("gate result is not pass")
+    return errors
+
+
+def packet_results(contract: dict, passed_gates: set[str]) -> list[dict]:
+    """Evaluate every packet in contract order; dependencies cannot be bypassed."""
+    results = []
+    passed_packets = set()
+    for packet in contract.get("work_packets", []):
+        dependencies = set(packet.get("cannot_begin", []) + packet.get("cannot_integrate", [])
+                           + packet.get("cannot_pass", []))
+        passed = set(packet.get("gates", [])) <= passed_gates and dependencies <= passed_packets
+        results.append({"packet": packet.get("id"), "result": "pass" if passed else "fail",
+                        "gates": packet.get("gates", [])})
+        if passed:
+            passed_packets.add(packet.get("id"))
+    return results
 
 
 def derived_metrics(gate: str, report: dict, evidence: Path) -> dict:
@@ -180,7 +212,7 @@ def derived_metrics(gate: str, report: dict, evidence: Path) -> dict:
         passed = _all_passed(observations) and {
             "state-crash-matrix.json", "backup-restore-report.json", "evidence-integrity-report.json",
             "disaster-recovery.json"} <= set(observations)
-        return {name: 0 if passed else 1 for name in METRICS[gate]}
+        return {name: 0 if passed else 1 for name in METRIC_PREDICATES[gate]}
     if gate == "V-ABI":
         backend = json.loads((evidence / "backend-replacement-report.json").read_text())
         passed = all(_has_check(report, name) for name in
@@ -194,12 +226,12 @@ def derived_metrics(gate: str, report: dict, evidence: Path) -> dict:
     }
     if gate in exact_checks:
         passed = _has_check(report, exact_checks[gate])
-        return {name: 0 if passed else 1 for name in METRICS[gate]}
+        return {name: 0 if passed else 1 for name in METRIC_PREDICATES[gate]}
     if gate == "V-ISOLATION":
         passed = _all_passed(observations) and observations.get(
             "architecture-boundary-test.json", {}).get("provider_bypass") is False and observations.get(
             "secret-exposure-negative-test.json", {}).get("ambient_secrets") is False
-        return {name: 0 if passed else 1 for name in METRICS[gate]}
+        return {name: 0 if passed else 1 for name in METRIC_PREDICATES[gate]}
     if gate == "V-CHANGE":
         attacks = observations.get("attacks", [])
         return {"self_confirmed_candidate_count": sum(item.get("case") == "candidate self-confirmation" and not item.get("rejected") for item in attacks),
@@ -221,11 +253,19 @@ def derived_metrics(gate: str, report: dict, evidence: Path) -> dict:
 
 def write_report(root: Path, destination: Path, gate: str, attestations: list[dict],
                  *, observations=None, supporting=None) -> dict:
+    if not valid_attestations(root, gate, attestations):
+        raise SystemExit(f"{gate} did not produce complete source/closure/command/artifact attestation")
+    candidate = observations if isinstance(observations, dict) and "outcome" in observations else (
+        observations.get("qualification_result") if isinstance(observations, dict) else None)
+    live_errors = validate_structured_result(candidate, require_services=gate in SERVICE_GATES)
+    if live_errors:
+        raise SystemExit(f"{gate} did not emit qualifying structured live evidence: {'; '.join(live_errors)}")
     report = {
         "schema_version": "1.0", "gate": gate, "runner": RUNNERS[gate], "result": "pass",
         "source_tree_sha256": source_digest(root), "attestations": attestations,
+        "live_result": candidate,
         "test_count": len(attestations),
-        "metric_evidence": {name: list(range(len(attestations))) for name in METRICS[gate]},
+        "metric_evidence": {name: list(range(len(attestations))) for name in METRIC_PREDICATES[gate]},
         "supporting_evidence": supporting or [],
     }
     if observations is not None:
@@ -397,14 +437,15 @@ def verify(root: Path, evidence: Path) -> None:
             raise SystemExit(f"release evidence digest mismatch: {record['path']}")
         report = json.loads(path.read_text())
         gate = report.get("gate")
-        if report.get("runner") != RUNNERS.get(gate) or report.get("result") != "pass":
-            raise SystemExit(f"invalid gate evidence: {record['path']}")
+        report_errors = validate_gate_report(root, gate, report)
+        if report_errors:
+            raise SystemExit(f"invalid gate evidence: {record['path']}: {'; '.join(report_errors)}")
         attestations = report.get("attestations", [])
-        if not valid_attestations(gate, attestations):
-            handwritten += 1
+        # A report that lacks an authenticated execution is counted as handwritten.
+        if not valid_attestations(root, gate, attestations): handwritten += 1
         if report.get("metrics") != derived_metrics(gate, report, evidence) or report.get("test_count") != len(attestations):
             raise SystemExit(f"gate evidence does not satisfy binding predicate: {gate}")
-        expected_metric_evidence = {name: list(range(len(attestations))) for name in METRICS[gate]}
+        expected_metric_evidence = {name: list(range(len(attestations))) for name in METRIC_PREDICATES[gate]}
         if report.get("metric_evidence") != expected_metric_evidence:
             raise SystemExit(f"metric evidence is incomplete: {gate}")
         for supporting in report.get("supporting_evidence", []):
@@ -428,16 +469,9 @@ def verify(root: Path, evidence: Path) -> None:
     if set(predicates) != expected or not all(value is True or value == 0 for value in predicates.values()):
         raise SystemExit("binding completion predicates are incomplete or false")
     contract = json.loads((root / "contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
-    passed_packets = set()
-    expected_packets = []
-    for packet in contract["work_packets"]:
-        dependencies = set(packet["cannot_begin"] + packet["cannot_integrate"] + packet["cannot_pass"])
-        passed = set(packet["gates"]) <= set(reports) and dependencies <= passed_packets
-        expected_packets.append({"packet": packet["id"], "result": "pass" if passed else "fail",
-                                 "gates": packet["gates"]})
-        if passed:
-            passed_packets.add(packet["id"])
-    if summary.get("work_packets") != expected_packets or len(passed_packets) != 14:
+    expected_packets = packet_results(contract, set(reports))
+    passed_packets = {item["packet"] for item in expected_packets if item["result"] == "pass"}
+    if summary.get("work_packets") != expected_packets or len(expected_packets) != 14 or len(passed_packets) != 14:
         raise SystemExit("W00-W13 packet completion is missing or contradicted")
     removal = json.loads((root / "evidence/v2-rebuild/removal-report.json").read_text())
     retention = json.loads((root / "evidence/v2-rebuild/core-retention-audit.json").read_text())
