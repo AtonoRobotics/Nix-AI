@@ -1,43 +1,113 @@
 {
+  "$id": "https://nix-ai.invalid/contracts/work-packets-v2.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://habitat.invalid/contracts/work-packets.schema.json",
-  "title": "Habitat Work Packet Graph",
-  "type": "object",
-  "required": ["schema_version", "graph_id", "source_of_truth", "dependency_semantics", "packets"],
   "additionalProperties": false,
   "properties": {
-    "schema_version": {"const": 1},
-    "graph_id": {"type": "string", "minLength": 1},
-    "source_of_truth": {"const": true},
     "dependency_semantics": {
-      "type": "object",
-      "required": ["cannot_begin", "cannot_integrate", "cannot_pass"],
       "additionalProperties": false,
       "properties": {
-        "cannot_begin": {"type": "string", "minLength": 1},
-        "cannot_integrate": {"type": "string", "minLength": 1},
-        "cannot_pass": {"type": "string", "minLength": 1}
-      }
+        "cannot_begin": {
+          "type": "string"
+        },
+        "cannot_integrate": {
+          "type": "string"
+        },
+        "cannot_pass": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cannot_begin",
+        "cannot_integrate",
+        "cannot_pass"
+      ],
+      "type": "object"
+    },
+    "graph_id": {
+      "const": "nix-ai-core-work-graph-v2.0.1"
     },
     "packets": {
-      "type": "array",
-      "minItems": 16,
-      "maxItems": 16,
       "items": {
-        "type": "object",
-        "required": ["id", "title", "owner", "deliverable", "cannot_begin", "cannot_integrate", "cannot_pass", "exit_evidence"],
         "additionalProperties": false,
         "properties": {
-          "id": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"},
-          "title": {"type": "string", "minLength": 1},
-          "owner": {"type": "string", "minLength": 1},
-          "deliverable": {"type": "string", "minLength": 1},
-          "cannot_begin": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"}},
-          "cannot_integrate": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"}},
-          "cannot_pass": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"}},
-          "exit_evidence": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
-        }
-      }
+          "cannot_begin": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "cannot_integrate": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "cannot_pass": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "deliverable": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "gates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "id": {
+            "pattern": "^W(?:0[0-9]|1[0-3])$",
+            "type": "string"
+          },
+          "requirements": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "deliverable",
+          "requirements",
+          "cannot_begin",
+          "cannot_integrate",
+          "cannot_pass",
+          "gates"
+        ],
+        "type": "object"
+      },
+      "maxItems": 14,
+      "minItems": 14,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": 2
+    },
+    "source_authority": {
+      "const": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
     }
-  }
+  },
+  "required": [
+    "schema_version",
+    "graph_id",
+    "source_authority",
+    "source_sha256",
+    "dependency_semantics",
+    "packets"
+  ],
+  "title": "Nix AI v2 work graph",
+  "type": "object"
 }

@@ -35,6 +35,7 @@ POLICY_PATHS = {
     "tests/test_v2_rebuild_frontier.py",
     "tests/test_v2_scope_classification.py",
     "tests/test_v2_scope_removal.py",
+    "tests/test_v2_contract_derivation.py",
 }
 POLICY_PREFIXES = ("contracts/v2/", "contracts/v2.0.1/", "evidence/v2-rebuild/")
 

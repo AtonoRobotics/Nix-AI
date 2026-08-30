@@ -50,18 +50,18 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
     let mut client = connect(socket.clone()).await;
     let activation = client.get_activation(request(GetActivationRequest {
         activation_id: "activation:01".into(), activation_credential: "ephemeral".into()
-    }, "1.8")).await.unwrap();
-    assert_eq!(activation.get_ref().abi_version, "1.0");
+    }, "2.8")).await.unwrap();
+    assert_eq!(activation.get_ref().abi_version, "2.0");
     assert_eq!(activation.metadata().get("x-habitat-peer-uid").unwrap(),
                std::process::Command::new("id").arg("-u").output().unwrap()
                    .stdout.strip_suffix(b"\n").unwrap());
 
-    let first = client.submit_disposition(request(disposition("command:01", DispositionKind::Checkpoint), "1.8"))
+    let first = client.submit_disposition(request(disposition("command:01", DispositionKind::Checkpoint), "2.8"))
         .await.unwrap().into_inner();
-    let duplicate = client.submit_disposition(request(disposition("command:01", DispositionKind::Checkpoint), "1.8"))
+    let duplicate = client.submit_disposition(request(disposition("command:01", DispositionKind::Checkpoint), "2.8"))
         .await.unwrap().into_inner();
     assert_eq!(first, duplicate);
-    assert!(client.submit_disposition(request(disposition("command:01", DispositionKind::Sleep), "1.8"))
+    assert!(client.submit_disposition(request(disposition("command:01", DispositionKind::Sleep), "2.8"))
         .await.unwrap_err().message().contains("CONFLICT"));
 
     server.abort();
@@ -71,7 +71,7 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
     let restarted = start(&socket, &ledger).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut restarted_client = connect(socket).await;
-    assert_eq!(restarted_client.submit_disposition(request(disposition("command:01", DispositionKind::Checkpoint), "1.0"))
+    assert_eq!(restarted_client.submit_disposition(request(disposition("command:01", DispositionKind::Checkpoint), "2.0"))
         .await.unwrap().into_inner(), first);
     restarted.abort();
 }
@@ -83,16 +83,16 @@ async fn unknown_major_unstructured_and_oversized_commands_fail_closed() {
     let server = start(&socket, &temp.path().join("ledger.json")).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut incompatible = connect(socket.clone()).await;
-    assert!(incompatible.get_activation(request(GetActivationRequest::default(), "2.0")).await
+    assert!(incompatible.get_activation(request(GetActivationRequest::default(), "1.0")).await
         .unwrap_err().message().contains("UNSUPPORTED_ABI_VERSION"));
     let mut compatible = connect(socket).await;
     assert!(compatible.submit_disposition(request(disposition("command:invalid",
-        DispositionKind::Unspecified), "1.0")).await.unwrap_err().message().contains("INVALID_REQUEST"));
+        DispositionKind::Unspecified), "2.0")).await.unwrap_err().message().contains("INVALID_REQUEST"));
     let mut huge = disposition("command:huge", DispositionKind::Message);
     huge.payload = Some(prost_types::Struct { fields: [(
         "content".into(), prost_types::Value { kind: Some(prost_types::value::Kind::StringValue(
             "x".repeat(habitat_abi::MAX_COMMAND_BYTES))) })].into() });
-    assert!(compatible.submit_disposition(request(huge, "1.0")).await.unwrap_err().message()
+    assert!(compatible.submit_disposition(request(huge, "2.0")).await.unwrap_err().message()
         .contains("RESOURCE_EXHAUSTED"));
     server.abort();
 }

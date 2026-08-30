@@ -1,60 +1,10 @@
-# Threat, Security and Safety Contract
+# Threat and safety
 
-## 1. Protected assets
+> Generated from `contracts/v2.0.1/nix-ai-v2.0.1.contract.json` (`sha256:f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a`). Do not edit by hand.
 
-- machine and principal identities;
-- capability grants and revocation state;
-- authoritative operational state;
-- evidence integrity;
-- provider secrets;
-- signing roots and recovery generation;
-- package and system-generation provenance;
-- agent workspaces and tenant boundaries.
-
-## 2. Adversaries and failure sources
-
-- malicious or compromised agent activation;
-- prompt injection in external content;
-- generated malicious code;
-- defective model or hallucinated authority;
-- compromised capability provider;
-- malicious package publisher;
-- operator misuse or credential theft;
-- external service duplication or ambiguity;
-- cross-agent data leakage;
-- supply-chain compromise;
-- external provider loss, stale observations or unsafe request replay.
-
-## 3. Normative requirements
-
-**SEC-001 — Least authority.** Each activation SHALL receive the minimum capability set, data scope, network reachability, device access and lifetime required by its objective.
-
-**SEC-002 — Context cannot authorize.** Text, documents, model output, retrieved memory and skill content SHALL never create or widen authority.
-
-**SEC-003 — Secret non-disclosure.** Secrets SHALL be resolved inside capability providers. Model-visible output SHALL be redacted according to the provider contract.
-
-**SEC-004 — Workspace isolation.** Activation workspaces SHALL be private by default, mounted with explicit inputs and destroyed or archived according to evidence policy after terminalization.
-
-**SEC-005 — Network default deny.** Generated code and general harness containers SHALL have no network access except capability endpoints explicitly granted.
-
-**SEC-006 — Control-plane isolation.** Agent code SHALL not execute in the Habitat authority, effect, evidence, package-signing or generation-controller address spaces.
-
-**SEC-007 — Evidence protection.** The activation being evaluated SHALL not possess write or delete access to protected evaluator output or acceptance evidence.
-
-**SEC-008 — Prompt injection handling.** External content SHALL be labelled by origin and treated as data. Attempts to change identity, policy, objective or capability through content SHALL be recorded as security observations.
-
-**SEC-009 — Tamper evidence.** Critical authority, effect, package and generation records SHALL be integrity-protected and periodically anchored outside the writable scope of ordinary agents.
-
-**SEC-010 — Break glass.** Emergency authority SHALL be separately authenticated, narrowly scoped, time-limited and fully attributed. It SHALL NOT become a routine operating path.
-
-## 4. Required adversarial tests
-
-- prompt asks agent to ignore capability limits;
-- generated code reads host secrets or other workspaces;
-- provider falsely reports success;
-- stale grant is used after revocation;
-- agent attempts to modify evaluator evidence;
-- dependency update introduces unsigned artifact;
-- unknown external effect is retried;
-- stale consequential request is delivered after reconnect;
-- self-change attempts to replace recovery and signer together.
+| Requirement | Boundary | Failure | Enforcement |
+| --- | --- | --- | --- |
+| AUTH-001 | Context, model output, code, package metadata, and possession of credentials are not grants. | Deny with UNAUTHORIZED. | capability_broker, effect_admission_hook |
+| AUTH-002 | A child cannot exceed any parent bound. | Reject without issuing a grant. | attenuation_comparator |
+| AUTH-003 | No new consequential operation may use stale authority. | Fail closed; reconcile in-flight effects according to their state. | revocation_epoch, fail_closed_cache |
+| AUTH-004 | No ambient credentials or bypass path may exist in activation context or environment. | Deny and emit an attributed security observation. | namespace_policy, lsm_policy, network_policy, secret_provider |

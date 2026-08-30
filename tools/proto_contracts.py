@@ -105,7 +105,9 @@ def create_breaking_fixture(proto_root: Path, fixture: Path, destination: Path) 
     """Create a complete contract set with exactly one incompatible field removal."""
     shutil.copytree(proto_root, destination)
     marker = fixture.read_text(encoding="utf-8").strip()
-    target = destination / "habitat_agent_v1.proto"
+    target = destination / "nix_ai_agent_v2.proto"
+    if not target.exists():
+        target = destination / "habitat_agent_v1.proto"
     target.chmod(target.stat().st_mode | 0o200)
     content = target.read_text(encoding="utf-8")
     field = f"  {marker}\n"

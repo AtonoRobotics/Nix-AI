@@ -7,10 +7,10 @@ use tonic::{Request, Response, Status};
 use tonic::transport::server::UdsConnectInfo;
 
 pub mod proto {
-    tonic::include_proto!("habitat.agent.v1");
+    tonic::include_proto!("nix_ai.agent.v2");
 }
 
-pub const ABI_VERSION: &str = "1.0";
+pub const ABI_VERSION: &str = "2.0";
 pub const MAX_COMMAND_BYTES: usize = 1024 * 1024;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -20,7 +20,7 @@ pub fn negotiate_version(requested: &str) -> Result<&'static str, VersionError> 
     let (major, minor) = requested.split_once('.').ok_or(VersionError::Invalid)?;
     major.parse::<u32>().map_err(|_| VersionError::Invalid)?;
     minor.parse::<u32>().map_err(|_| VersionError::Invalid)?;
-    if major != "1" { return Err(VersionError::UnsupportedMajor); }
+    if major != "2" { return Err(VersionError::UnsupportedMajor); }
     Ok(ABI_VERSION)
 }
 
@@ -49,10 +49,10 @@ impl AgentAbi {
         let requested = request.metadata().get("x-habitat-abi-version")
             .and_then(|v| v.to_str().ok()).ok_or_else(|| structured_status(
                 "UNSUPPORTED_ABI_VERSION", "missing ABI version", false,
-                "UNCHANGED", "send x-habitat-abi-version=1.x"))?;
+                "UNCHANGED", "send x-habitat-abi-version=2.x"))?;
         negotiate_version(requested).map_err(|_| structured_status(
             "UNSUPPORTED_ABI_VERSION", "unsupported ABI version", false,
-            "UNCHANGED", "use a supported 1.x client"))?;
+            "UNCHANGED", "use a supported 2.x client"))?;
         Ok(())
     }
 

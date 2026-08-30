@@ -1,120 +1,370 @@
-schema_version: 1
-graph_id: habitat-work-packets-v1.1
-source_of_truth: true
-dependency_semantics:
-  cannot_begin: "The dependent packet may not start implementation until every named packet has passed."
-  cannot_integrate: "Exploration may proceed, but code or contracts may not merge until every named packet has passed and its consumed interfaces are stable."
-  cannot_pass: "The packet may not be declared passed until every named packet has passed and the dependency is proven in integration evidence."
-packets:
-  - id: W00
-    title: Contracts and schema validation
-    owner: contract-toolchain
-    deliverable: "Schemas, Protobuf, canonical registries, generated projections and validators"
-    cannot_begin: []
-    cannot_integrate: []
-    cannot_pass: []
-    exit_evidence: [contract-validation-report, generation-no-diff-report]
-  - id: W01
-    title: Nix image and hardware-profile framework
-    owner: image-generation
-    deliverable: "Reproducible bootable Habitat OS image"
-    cannot_begin: [W00]
-    cannot_integrate: []
-    cannot_pass: [W00]
-    exit_evidence: [qemu-boot-report, generation-identity-report, defective-boot-rollback-report]
-  - id: W02
-    title: Authoritative state and evidence primitives
-    owner: state-evidence
-    deliverable: "Transactional state, append-only history and protected evidence references"
-    cannot_begin: [W00]
-    cannot_integrate: []
-    cannot_pass: [W00]
-    exit_evidence: [state-crash-matrix, backup-restore-report, evidence-integrity-report]
-  - id: W03
-    title: Agent ABI transport
-    owner: agent-abi
-    deliverable: "Versioned Agent ABI server, client and generated bindings"
-    cannot_begin: [W00]
-    cannot_integrate: []
-    cannot_pass: [W00]
-    exit_evidence: [abi-compatibility-report, duplicate-command-test]
-  - id: W04
-    title: Identity and capability authority
-    owner: authority
-    deliverable: "Principals, grants, delegation, revocation and complete mediation"
-    cannot_begin: [W02]
-    cannot_integrate: [W03]
-    cannot_pass: [W02, W03]
-    exit_evidence: [authorization-negative-suite, attenuation-property-test, revocation-test]
-  - id: W05
-    title: Wake objective and activation lifecycle
-    owner: lifecycle
-    deliverable: "Objectives, durable wakes, activation leases and recovery"
-    cannot_begin: [W03]
-    cannot_integrate: [W02, W04]
-    cannot_pass: [W02, W03, W04]
-    exit_evidence: [wake-crash-matrix, lease-recovery-report, objective-transition-report]
-  - id: W06
-    title: Execution isolation
-    owner: execution
-    deliverable: "Process, WASI, OCI and KVM microVM execution boundaries"
-    cannot_begin: [W04]
-    cannot_integrate: [W01, W03]
-    cannot_pass: [W01, W03, W04]
-    exit_evidence: [isolation-adversarial-suite, resource-enforcement-report, termination-test]
-  - id: W07
-    title: Context compiler and broker
-    owner: context
-    deliverable: "Versioned context compilation and semantic context-fault resolution"
-    cannot_begin: [W05]
-    cannot_integrate: [W03, W06]
-    cannot_pass: [W03, W05, W06]
-    exit_evidence: [context-conformance-suite, context-fault-test, injection-defense-test]
-  - id: W08
-    title: Effect service and reconciliation
-    owner: effects
-    deliverable: "Effect admission, reservation, execution, observation and reconciliation"
-    cannot_begin: [W04]
-    cannot_integrate: [W02, W03, W06]
-    cannot_pass: [W02, W03, W04, W06]
-    exit_evidence: [effect-fault-matrix, unknown-outcome-test, compensation-test]
-  - id: W09
-    title: Direct model driver
-    owner: models
-    deliverable: "Provider-neutral frontier-model activation driver"
-    cannot_begin: [W07]
-    cannot_integrate: [W03, W05, W06]
-    cannot_pass: [W03, W05, W06, W07]
-    exit_evidence: [structured-disposition-test, provider-replacement-report, credential-isolation-test]
-  - id: W10
-    title: Capability package controller
-    owner: packages
-    deliverable: "Signed packages and immutable activation sets"
-    cannot_begin: [W06]
-    cannot_integrate: [W03, W04, W08]
-    cannot_pass: [W03, W04, W06, W08]
-    exit_evidence: [package-lifecycle-suite, pin-and-drain-test, package-rollback-test]
-  - id: W11
-    title: Harness adapters
-    owner: harness-adapters
-    deliverable: "Codex, Claude and compatible cognition backend adapters"
-    cannot_begin: [W09]
-    cannot_integrate: [W05, W10]
-    cannot_pass: [W05, W09, W10]
-    exit_evidence: [cross-backend-conformance-report, same-agent-identity-test]
-  - id: W14
-    title: Autonomous self-change
-    owner: system-change
-    deliverable: "Candidate build, evaluation, signing and activation loop"
-    cannot_begin: [W08]
-    cannot_integrate: [W01, W04, W10]
-    cannot_pass: [W01, W04, W08, W10]
-    exit_evidence: [self-change-adversarial-suite, valid-promotion-report, defective-rollback-report]
-  - id: W15
-    title: Complete conformance and release qualification
-    owner: release-qualification
-    deliverable: "Qualified Habitat OS release across declared reference profiles"
-    cannot_begin: [W11, W14]
-    cannot_integrate: [W01, W02, W03, W04, W05, W06, W07, W08, W09, W10]
-    cannot_pass: [W00, W01, W02, W03, W04, W05, W06, W07, W08, W09, W10, W11, W14]
-    exit_evidence: [complete-verification-matrix, integrated-autonomous-work-scenario, release-integrity-report]
+{
+  "dependency_semantics": {
+    "cannot_begin": "predecessor must pass before work begins",
+    "cannot_integrate": "predecessor must pass before integration",
+    "cannot_pass": "predecessor must pass before this packet passes"
+  },
+  "graph_id": "nix-ai-core-work-graph-v2.0.1",
+  "packets": [
+    {
+      "cannot_begin": [],
+      "cannot_integrate": [],
+      "cannot_pass": [],
+      "deliverable": "immutable_v2_contracts_schemas_registries_graph_generators_validators",
+      "gates": [
+        "V-SCOPE",
+        "V-CONTRACT"
+      ],
+      "id": "W00",
+      "requirements": [
+        "SCOPE-001",
+        "SCOPE-002",
+        "SCOPE-003"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W00"
+      ],
+      "cannot_integrate": [],
+      "cannot_pass": [
+        "W00"
+      ],
+      "deliverable": "reproducible_image_and_generic_hardware_profiles",
+      "gates": [
+        "V-BOOT",
+        "V-ROLLBACK"
+      ],
+      "id": "W01",
+      "requirements": [
+        "SYS-001",
+        "SYS-002",
+        "SYS-004"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W00"
+      ],
+      "cannot_integrate": [],
+      "cannot_pass": [
+        "W00"
+      ],
+      "deliverable": "authoritative_state_and_protected_evidence",
+      "gates": [
+        "V-STATE"
+      ],
+      "id": "W02",
+      "requirements": [
+        "STATE-001",
+        "STATE-003",
+        "STATE-004"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W00"
+      ],
+      "cannot_integrate": [
+        "W02"
+      ],
+      "cannot_pass": [
+        "W00",
+        "W02"
+      ],
+      "deliverable": "agent_abi_and_authenticated_local_transport",
+      "gates": [
+        "V-ABI"
+      ],
+      "id": "W03",
+      "requirements": [
+        "CORE-001",
+        "ABI-001",
+        "ABI-002",
+        "ABI-004"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W02",
+        "W03"
+      ],
+      "cannot_integrate": [],
+      "cannot_pass": [
+        "W02",
+        "W03"
+      ],
+      "deliverable": "identity_and_capability_authority",
+      "gates": [
+        "V-AUTH"
+      ],
+      "id": "W04",
+      "requirements": [
+        "AUTH-001",
+        "AUTH-002",
+        "AUTH-003"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W02",
+        "W03",
+        "W04"
+      ],
+      "cannot_integrate": [],
+      "cannot_pass": [
+        "W02",
+        "W03",
+        "W04"
+      ],
+      "deliverable": "objectives_wakes_activations_scheduler_and_leases",
+      "gates": [
+        "V-STATE",
+        "V-ABI"
+      ],
+      "id": "W05",
+      "requirements": [
+        "CORE-002",
+        "STATE-002"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W01",
+        "W03",
+        "W04"
+      ],
+      "cannot_integrate": [
+        "W05"
+      ],
+      "cannot_pass": [
+        "W01",
+        "W03",
+        "W04"
+      ],
+      "deliverable": "execution_isolation_and_resource_enforcement",
+      "gates": [
+        "V-ISOLATION"
+      ],
+      "id": "W06",
+      "requirements": [
+        "AUTH-004",
+        "EXEC-001",
+        "EXEC-002"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W03",
+        "W05",
+        "W06"
+      ],
+      "cannot_integrate": [],
+      "cannot_pass": [
+        "W03",
+        "W05",
+        "W06"
+      ],
+      "deliverable": "context_compiler_and_broker",
+      "gates": [
+        "V-CONTEXT"
+      ],
+      "id": "W07",
+      "requirements": [
+        "CTX-001",
+        "CTX-002",
+        "CTX-003",
+        "CTX-004"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W02",
+        "W03",
+        "W04",
+        "W06"
+      ],
+      "cannot_integrate": [
+        "W05"
+      ],
+      "cannot_pass": [
+        "W02",
+        "W03",
+        "W04",
+        "W06"
+      ],
+      "deliverable": "durable_effect_service_and_reconciliation",
+      "gates": [
+        "V-EFFECT"
+      ],
+      "id": "W08",
+      "requirements": [
+        "EFFECT-001",
+        "EFFECT-002",
+        "EFFECT-003",
+        "EFFECT-004",
+        "EFFECT-005"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W03",
+        "W05",
+        "W06",
+        "W07"
+      ],
+      "cannot_integrate": [
+        "W08"
+      ],
+      "cannot_pass": [
+        "W03",
+        "W05",
+        "W06",
+        "W07"
+      ],
+      "deliverable": "provider_neutral_cognition_interface_and_adapter_conformance",
+      "gates": [
+        "V-ABI",
+        "V-CONTEXT"
+      ],
+      "id": "W09",
+      "requirements": [
+        "ABI-003"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W03",
+        "W04",
+        "W06",
+        "W08"
+      ],
+      "cannot_integrate": [
+        "W09"
+      ],
+      "cannot_pass": [
+        "W03",
+        "W04",
+        "W06",
+        "W08"
+      ],
+      "deliverable": "signed_capability_package_controller",
+      "gates": [
+        "V-PACKAGE"
+      ],
+      "id": "W10",
+      "requirements": [
+        "PKG-001",
+        "PKG-002",
+        "PKG-003"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W05",
+        "W09",
+        "W10"
+      ],
+      "cannot_integrate": [],
+      "cannot_pass": [
+        "W05",
+        "W09",
+        "W10"
+      ],
+      "deliverable": "optional_harness_adapter_conformance",
+      "gates": [
+        "V-ABI",
+        "V-ISOLATION"
+      ],
+      "id": "W11",
+      "requirements": [
+        "EXEC-003"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W01",
+        "W04",
+        "W08",
+        "W10"
+      ],
+      "cannot_integrate": [
+        "W11"
+      ],
+      "cannot_pass": [
+        "W01",
+        "W04",
+        "W08",
+        "W10"
+      ],
+      "deliverable": "governed_self_change_system_generations_and_recovery",
+      "gates": [
+        "V-CHANGE",
+        "V-ROLLBACK"
+      ],
+      "id": "W12",
+      "requirements": [
+        "SYS-003",
+        "CHANGE-001",
+        "CHANGE-002",
+        "CHANGE-003"
+      ]
+    },
+    {
+      "cannot_begin": [
+        "W11",
+        "W12"
+      ],
+      "cannot_integrate": [
+        "W01",
+        "W02",
+        "W03",
+        "W04",
+        "W05",
+        "W06",
+        "W07",
+        "W08",
+        "W09",
+        "W10"
+      ],
+      "cannot_pass": [
+        "W00",
+        "W01",
+        "W02",
+        "W03",
+        "W04",
+        "W05",
+        "W06",
+        "W07",
+        "W08",
+        "W09",
+        "W10",
+        "W11",
+        "W12"
+      ],
+      "deliverable": "complete_release_qualification",
+      "gates": [
+        "V-SCOPE",
+        "V-CONTRACT",
+        "V-BOOT",
+        "V-ROLLBACK",
+        "V-STATE",
+        "V-ABI",
+        "V-AUTH",
+        "V-ISOLATION",
+        "V-CONTEXT",
+        "V-EFFECT",
+        "V-PACKAGE",
+        "V-CHANGE",
+        "V-END-TO-END"
+      ],
+      "id": "W13",
+      "requirements": [
+        "VERIFY-001"
+      ]
+    }
+  ],
+  "schema_version": 2,
+  "source_authority": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+  "source_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a"
+}

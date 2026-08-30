@@ -15,8 +15,8 @@ def main():
     descriptor = root / "generated/proto/descriptor.bin"
     reports = {
         "abi-compatibility-report": {
-            "outcome": "passed", "abi": "habitat.agent.v1", "negotiated_version": "1.0",
-            "compatible_minor": "1.8", "rejected_major": "2.0",
+            "outcome": "passed", "abi": "nix_ai.agent.v2", "negotiated_version": "2.0",
+            "compatible_minor": "2.8", "rejected_major": "1.0",
             "descriptor_sha256": hashlib.sha256(descriptor.read_bytes()).hexdigest(),
             "server_sha256": server_digest,
             "bindings": "tonic/prost generated from canonical protobuf",

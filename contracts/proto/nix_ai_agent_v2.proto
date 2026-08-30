@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package habitat.agent.v1;
+package nix_ai.agent.v2;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -96,4 +96,3 @@ message ErrorStatus {
   string current_durable_state = 4;
   string safe_next_action = 5;
 }
-

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the immutable v2 contract packages during the rebuild."""
+"""Validate immutable v2 authority and its active derived projections."""
 
 from __future__ import annotations
 
@@ -22,7 +22,12 @@ def main() -> int:
         if not package.is_dir():
             raise SystemExit(f"missing immutable contract package: {package.relative_to(ROOT)}")
         run([sys.executable, "validate_contract.py", "."], package)
-    print("Immutable v2 contract packages are valid.")
+    run(
+        [sys.executable, "tools/derive_v2_contract.py", "--root", str(ROOT), "--check"],
+        ROOT,
+    )
+    run([sys.executable, "tools/schema_contracts.py", "contracts"], ROOT)
+    print("Immutable v2 contract packages and active projections are valid.")
     return 0
 
 

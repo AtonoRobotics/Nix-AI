@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package habitat.authority.v1;
+package nix_ai.authority.v2;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -137,4 +137,3 @@ message EffectRecord {
   string uncertainty_id = 6;
   string error_code = 7;
 }
-
