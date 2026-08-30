@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -84,6 +85,10 @@ class V2ContractDerivationTests(unittest.TestCase):
             sources["nix_ai_authority_effect_v2.proto"],
         )
         self.assertNotIn(".v1", "\n".join(sources.values()))
+        authority = sources["nix_ai_authority_effect_v2.proto"]
+        self.assertNotIn("E4 =", authority)
+        self.assertIn("AUTHORITY_REQUIRED = 11;", authority)
+        self.assertNotIn("MANUAL_AUTHORITY_REQUIRED", authority)
 
     def test_regeneration_produces_no_diff(self):
         result = subprocess.run(
@@ -92,6 +97,40 @@ class V2ContractDerivationTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_interface_artifact_mutations_break_derivation_check(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            clone = Path(temporary) / "repository"
+            shutil.copytree(
+                ROOT,
+                clone,
+                ignore=shutil.ignore_patterns(".git", "target", "__pycache__"),
+            )
+            artifacts = [
+                clone / "contracts" / "proto" / "nix_ai_agent_v2.proto",
+                clone / "contracts" / "proto" / "nix_ai_authority_effect_v2.proto",
+                clone / "generated" / "proto" / "descriptor.bin",
+                clone / "generated" / "proto" / "SOURCE.sha256",
+                *sorted((clone / "generated" / "proto" / "rust").rglob("*.rs")),
+            ]
+            self.assertEqual(len(artifacts), 6)
+            for artifact in artifacts:
+                with self.subTest(artifact=str(artifact.relative_to(clone))):
+                    original = artifact.read_bytes()
+                    try:
+                        artifact.write_bytes(original + b"\n")
+                        result = subprocess.run(
+                            [
+                                sys.executable,
+                                str(clone / "tools" / "derive_v2_contract.py"),
+                                "--root", str(clone), "--check",
+                            ],
+                            capture_output=True,
+                            text=True,
+                        )
+                        self.assertNotEqual(result.returncode, 0)
+                    finally:
+                        artifact.write_bytes(original)
 
     def test_v_scope_and_v_contract_pass(self):
         contract = subprocess.run(

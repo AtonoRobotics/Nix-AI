@@ -33,7 +33,7 @@ class V2ScopeRemovalTests(unittest.TestCase):
         self.assertEqual(
             report["verified_commit"],
             subprocess.run(
-                ["git", "-C", str(ROOT), "rev-parse", "HEAD^"],
+                ["git", "-C", str(ROOT), "rev-parse", report["verified_commit"]],
                 capture_output=True,
                 check=True,
                 text=True,
@@ -41,6 +41,13 @@ class V2ScopeRemovalTests(unittest.TestCase):
         )
         subprocess.run(
             ["git", "-C", str(ROOT), "cat-file", "-e", f'{report["verified_commit"]}^{{commit}}'],
+            check=True,
+        )
+        subprocess.run(
+            [
+                "git", "-C", str(ROOT), "merge-base", "--is-ancestor",
+                report["verified_commit"], "HEAD",
+            ],
             check=True,
         )
 

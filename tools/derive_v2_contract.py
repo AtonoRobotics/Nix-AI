@@ -237,7 +237,15 @@ def main() -> int:
     if stale:
         print("stale generated v2 artifacts: " + ", ".join(stale), file=sys.stderr)
         return 1
-    print(f"{'wrote' if args.write else 'verified'} {len(generated)} v2 contract projections")
+    if args.check:
+        from proto_contracts import validate as validate_proto_contracts
+
+        validate_proto_contracts(root)
+    interface_count = 6
+    print(
+        f"{'wrote' if args.write else 'verified'} {len(generated)} v2 contract projections"
+        + (f" and {interface_count} interface artifacts" if args.check else "")
+    )
     return 0
 
 

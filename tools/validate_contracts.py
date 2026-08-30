@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import subprocess
 import sys
+import json
 from pathlib import Path
 
 
@@ -27,6 +28,15 @@ def main() -> int:
         ROOT,
     )
     run([sys.executable, "tools/schema_contracts.py", "contracts"], ROOT)
+    scope = json.loads(
+        (ROOT / "evidence" / "v2-rebuild" / "removal-report.json").read_text()
+    )
+    if (
+        not scope.get("valid")
+        or scope.get("remaining_delete_units")
+        or scope.get("contaminated_units")
+    ):
+        raise SystemExit("checked V-SCOPE removal evidence is not clean")
     print("Immutable v2 contract packages and active projections are valid.")
     return 0
 

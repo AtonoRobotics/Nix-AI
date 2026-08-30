@@ -73,7 +73,6 @@ enum ConsequenceClass {
   E1 = 2;
   E2 = 3;
   E3 = 4;
-  E4 = 5;
 }
 
 enum EffectState {
@@ -88,7 +87,7 @@ enum EffectState {
   RECONCILING = 8;
   RESOLVED_SUCCEEDED = 9;
   RESOLVED_FAILED = 10;
-  MANUAL_AUTHORITY_REQUIRED = 11;
+  AUTHORITY_REQUIRED = 11;
 }
 
 message EffectProposal {
