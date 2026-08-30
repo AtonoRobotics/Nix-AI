@@ -125,6 +125,11 @@ class V2RebuildFrontierTests(unittest.TestCase):
                 "effect_state",
                 "OUTCOME_UNKNOWN",
             ),
+            (
+                "contracts/proto/habitat_authority_effect_v1.proto",
+                "enum_value",
+                "EffectState::OUTCOME_UNKNOWN",
+            ),
         ):
             self.assertIn(expected, semantics)
         dependencies = {
@@ -145,6 +150,11 @@ class V2RebuildFrontierTests(unittest.TestCase):
             ("src/habitat_state/store.py", "python-relative-import", ".domain"),
             dependencies,
         )
+        self.assertIn(
+            ("buf.gen.yaml", "buf-plugin", "protoc-gen-prost"), dependencies
+        )
+        for dependency in ("docker-client", "qemu", "protobuf", "coreutils", "mtools"):
+            self.assertIn(("flake.nix", "nix-package", dependency), dependencies)
         self.assertEqual(
             report["counts"],
             {

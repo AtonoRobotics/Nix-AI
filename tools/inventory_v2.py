@@ -72,7 +72,7 @@ def public_semantics_from_contents(paths, read_text) -> list[dict[str, str | int
             for match in declaration.finditer(content):
                 found.append(semantic_record(relative, content, match))
             tests = re.compile(
-                r"#\[(?:[^\]]*::)?test\]\s*(?:async\s+)?fn\s+"
+                r"#\[(?:[^\]]*::)?test(?:\([^\]]*\))?\]\s*(?:async\s+)?fn\s+"
                 r"(?P<name>[A-Za-z_][A-Za-z0-9_]*)",
                 re.MULTILINE,
             )
@@ -100,6 +100,7 @@ def public_semantics_from_contents(paths, read_text) -> list[dict[str, str | int
             )
             for match in pattern.finditer(content):
                 found.append(semantic_record(relative, content, match))
+            found.extend(proto_enum_values(relative, content))
         elif suffix == ".json":
             found.extend(contract_json_semantics(relative, content))
     return found
@@ -124,11 +125,40 @@ def rust_macro_generated_types(relative: str, content: str) -> list[dict[str, st
         if not re.search(r"\bpub\s+(?:struct|enum|type|trait)\s+\$", body):
             continue
         invocation = re.compile(
-            rf"\b{re.escape(definition.group('macro'))}!\(\s*"
+            rf"\b{re.escape(definition.group('macro'))}!\s*[({{\[]\s*"
             r"(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
         )
         for match in invocation.finditer(content, definition.end()):
             found.append(semantic_record(relative, content, match, "macro_generated_type"))
+    return found
+
+
+def proto_enum_values(relative: str, content: str) -> list[dict[str, str | int]]:
+    found: list[dict[str, str | int]] = []
+    for declaration in re.finditer(
+        r"\benum\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*\{", content
+    ):
+        cursor = declaration.end()
+        depth = 1
+        while cursor < len(content) and depth:
+            if content[cursor] == "{":
+                depth += 1
+            elif content[cursor] == "}":
+                depth -= 1
+            cursor += 1
+        body = content[declaration.end() : cursor - 1]
+        for value in re.finditer(
+            r"^\s*(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*=", body, re.MULTILINE
+        ):
+            absolute = declaration.end() + value.start()
+            found.append(
+                {
+                    "path": relative,
+                    "line": content.count("\n", 0, absolute) + 1,
+                    "kind": "enum_value",
+                    "name": f"{declaration.group('name')}::{value.group('name')}",
+                }
+            )
     return found
 
 
@@ -247,6 +277,8 @@ def dependencies_from_contents(paths, read_text) -> list[dict[str, str]]:
     if "pyproject.toml" in paths:
         document = tomllib.loads(read_text("pyproject.toml") or "")
         declared = list(document.get("project", {}).get("dependencies", []))
+        for optional in document.get("project", {}).get("optional-dependencies", {}).values():
+            declared.extend(optional)
         declared.extend(document.get("build-system", {}).get("requires", []))
         for requirement in declared:
             match = re.match(r"[A-Za-z0-9_.-]+", requirement)
@@ -263,17 +295,45 @@ def dependencies_from_contents(paths, read_text) -> list[dict[str, str]]:
             if isinstance(node, ast.Import):
                 for alias in node.names:
                     found.add((relative, "python-import", alias.name.split(".")[0]))
-            elif isinstance(node, ast.ImportFrom) and node.module:
+            elif isinstance(node, ast.ImportFrom):
                 if node.level:
-                    found.add(
-                        (
-                            relative,
-                            "python-relative-import",
-                            "." * node.level + node.module,
-                        )
-                    )
-                else:
+                    base = "." * node.level + (node.module or "")
+                    if node.module:
+                        found.add((relative, "python-relative-import", base))
+                    else:
+                        for alias in node.names:
+                            found.add(
+                                (
+                                    relative,
+                                    "python-relative-import",
+                                    base + alias.name,
+                                )
+                            )
+                elif node.module:
                     found.add((relative, "python-import", node.module.split(".")[0]))
+
+    if "buf.gen.yaml" in paths:
+        content = read_text("buf.gen.yaml") or ""
+        for match in re.finditer(
+            r"^\s*-\s+(?:local|remote):\s*(?P<name>\S+)", content, re.MULTILINE
+        ):
+            found.add(("buf.gen.yaml", "buf-plugin", match.group("name")))
+
+    if "flake.nix" in paths:
+        content = read_text("flake.nix") or ""
+        for match in re.finditer(r"\bpkgs\.(?:python3Packages\.)?(?P<name>[A-Za-z0-9_-]+)", content):
+            found.add(("flake.nix", "nix-package", match.group("name")))
+        for match in re.finditer(r"\b(?:ps|pkgs\.python3Packages)\.(?P<name>[A-Za-z0-9_-]+)", content):
+            found.add(("flake.nix", "nix-package", match.group("name")))
+        for block in re.finditer(
+            r"with\s+pkgs(?:\.python3Packages)?\s*;\s*\[(?P<body>.*?)\]",
+            content,
+            re.DOTALL,
+        ):
+            for name in re.findall(r"\b[A-Za-z][A-Za-z0-9_-]*\b", block.group("body")):
+                found.add(("flake.nix", "nix-package", name))
+        for match in re.finditer(r"(?P<path>\./[A-Za-z0-9_./-]+\.nix)\b", content):
+            found.add(("flake.nix", "nix-module", match.group("path")))
 
     if "flake.lock" in paths:
         lock = json.loads(read_text("flake.lock") or "{}")

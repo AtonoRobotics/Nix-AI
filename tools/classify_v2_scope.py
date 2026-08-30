@@ -22,6 +22,8 @@ from inventory_v2 import (
 
 
 RUNNER = {"name": "classify-v2-scope", "version": 1}
+BINDING_CONTRACT_SHA256 = "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a"
+BINDING_MANIFEST_SHA256 = "5ccdd43bd2489b3f202ffa1620a11ff8593e8ffc26161c2c3f2a8e2d55aacb8c"
 INVENTORY_CLASSES = (
     "tracked_paths",
     "public_semantics",
@@ -232,6 +234,7 @@ def record(
         "requirement_ids": sorted(requirement_ids),
         "retention_predicates": sorted(retention_predicates),
         "predicate_evidence": {},
+        "authority_evidence": [],
     }
 
 
@@ -277,6 +280,16 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
             root, tree, "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
         )
     )
+    binding_contract_bytes = inventory_tree_bytes(
+        root, tree, "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    )
+    if hashlib.sha256(binding_contract_bytes).hexdigest() != BINDING_CONTRACT_SHA256:
+        raise ValueError("binding contract digest does not match trusted v2.0.1 authority")
+    binding_manifest_bytes = inventory_tree_bytes(
+        root, tree, "contracts/v2.0.1/MANIFEST.sha256"
+    )
+    if hashlib.sha256(binding_manifest_bytes).hexdigest() != BINDING_MANIFEST_SHA256:
+        raise ValueError("binding manifest digest does not match trusted v2.0.1 authority")
     if contract != binding_contract:
         raise ValueError("contract input does not match inventory tree binding contract")
     tree_paths = sorted(
@@ -360,11 +373,17 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
                 continue
             item["predicate_evidence"] = retention_evidence(
                 item["identity"],
-                inventory_class,
-                item["requirement_ids"],
                 item["retention_predicates"],
                 contract_gates,
             )
+            package = contract_package(item["identity"])
+            item["authority_evidence"] = [
+                {
+                    "requirement_ids": item["requirement_ids"],
+                    "invariant": "released contract package bytes cannot be mutated in place",
+                    "evidence": contract_gates[package]["manifest"],
+                }
+            ]
 
     all_records = [item for records in classified.values() for item in records]
     unclassified = [item for item in all_records if item["action"] not in FINAL_ACTIONS]
@@ -453,8 +472,6 @@ def validate_contract_packages(
 
 def retention_evidence(
     identity: str,
-    inventory_class: str,
-    requirement_ids: list[str],
     predicate_ids: list[str],
     contract_gates: dict[str, dict[str, str]],
 ) -> dict[str, dict[str, str | list[str]]]:

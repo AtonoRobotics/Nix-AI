@@ -115,6 +115,7 @@ class V2ScopeClassificationTests(unittest.TestCase):
             self.assertTrue(retained)
             for record in retained:
                 self.assertTrue(record["requirement_ids"], record["identity"])
+                self.assertTrue(record["authority_evidence"], record["identity"])
                 self.assertTrue(record["retention_predicates"], record["identity"])
                 self.assertEqual(
                     set(record["predicate_evidence"]),
@@ -339,7 +340,8 @@ class V2ScopeClassificationTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn(
-            "does not reproduce canonical SHA-256 manifest bytes", result.stderr
+            "binding manifest digest does not match trusted v2.0.1 authority",
+            result.stderr,
         )
 
     def test_external_contract_cannot_weaken_binding_predicates(self):
@@ -372,6 +374,77 @@ class V2ScopeClassificationTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("contract input does not match inventory tree", result.stderr)
+
+    def test_same_tree_contract_mutation_cannot_replace_binding_authority(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_path = Path(temporary)
+            clone = temporary_path / "clone"
+            subprocess.run(
+                ["git", "clone", "--quiet", str(ROOT), str(clone)],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            contract_path = (
+                clone / "contracts" / "v2.0.1" / "nix-ai-v2.0.1.contract.json"
+            )
+            contract = json.loads(contract_path.read_text())
+            contract["repository_rebuild"]["retention_predicate"][0][
+                "assertion"
+            ] = "weakened in-place mutation"
+            contract_path.write_text(json.dumps(contract, indent=2) + "\n")
+            import hashlib
+
+            digest = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+            manifest_path = clone / "contracts" / "v2.0.1" / "MANIFEST.sha256"
+            lines = []
+            for line in manifest_path.read_text().splitlines():
+                if line.endswith("  nix-ai-v2.0.1.contract.json"):
+                    line = f"{digest}  nix-ai-v2.0.1.contract.json"
+                lines.append(line)
+            manifest_path.write_text("\n".join(lines) + "\n")
+            subprocess.run(
+                ["git", "add", str(contract_path), str(manifest_path)],
+                cwd=clone,
+                check=True,
+            )
+            subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=V2 Test",
+                    "-c",
+                    "user.email=v2-test@example.invalid",
+                    "commit",
+                    "--quiet",
+                    "-m",
+                    "mutated binding fixture",
+                ],
+                cwd=clone,
+                check=True,
+            )
+            inventory_path = temporary_path / "inventory.json"
+            inventory_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "inventory_v2.py"),
+                    "--root",
+                    str(clone),
+                    "--baseline",
+                    "HEAD",
+                    "--output",
+                    str(inventory_path),
+                ],
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(inventory_result.returncode, 0, inventory_result.stderr)
+            result = self.run_classifier(
+                temporary_path / "ledger.json", inventory_path, clone
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("binding contract digest does not match", result.stderr)
 
 
 if __name__ == "__main__":
