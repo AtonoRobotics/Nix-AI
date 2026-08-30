@@ -1,0 +1,12 @@
+{
+  "baseline_commit": "c61d6be13cd9593284c32249c5b9a11691df0f67",
+  "contract_commit": "b342161f5abd5feedd8373c0a989a05949eb43e8",
+  "binding_contract": "nix-ai-core@2.0.1",
+  "supersedes": "nix-ai-core@2.0.0",
+  "successor_reason": "v2.0.0 schema omitted its required $schema instance property",
+  "runner": {
+    "name": "inventory-v2",
+    "version": 1
+  },
+  "schema_version": 1
+}

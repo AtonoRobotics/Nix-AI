@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nix-ai:contract-schema:2.0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "contract",
+    "authority",
+    "mission",
+    "scope",
+    "canonical_model",
+    "requirements",
+    "repository_rebuild",
+    "work_packets",
+    "verification_gates",
+    "completion"
+  ],
+  "properties": {
+    "$schema": {"const": "./contract.schema.json"},
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "status", "immutability", "target"],
+      "properties": {
+        "id": {"const": "nix-ai-core"},
+        "version": {"const": "2.0.1"},
+        "status": {"const": "BINDING"},
+        "immutability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["content_addressed", "mutation", "successor"],
+          "properties": {
+            "content_addressed": {"const": true},
+            "mutation": {"const": "PROHIBITED"},
+            "successor": {"const": "NEW_SEMVER_AND_NEW_DIGEST"}
+          }
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "baseline_commit"],
+          "properties": {
+            "repository": {"const": "AtonoRobotics/Nix-AI"},
+            "baseline_commit": {"pattern": "^[0-9a-f]{40}$"}
+          }
+        }
+      }
+    },
+    "authority": {"$ref": "#/$defs/authority"},
+    "mission": {"$ref": "#/$defs/mission"},
+    "scope": {"$ref": "#/$defs/scope"},
+    "canonical_model": {"$ref": "#/$defs/canonicalModel"},
+    "requirements": {
+      "type": "array",
+      "minItems": 30,
+      "items": {"$ref": "#/$defs/requirement"}
+    },
+    "repository_rebuild": {"$ref": "#/$defs/rebuild"},
+    "work_packets": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {"$ref": "#/$defs/workPacket"}
+    },
+    "verification_gates": {
+      "type": "array",
+      "minItems": 13,
+      "items": {"$ref": "#/$defs/gate"}
+    },
+    "completion": {"$ref": "#/$defs/completion"}
+  },
+  "$defs": {
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+-[0-9]{3}$"},
+    "stringSet": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonEmpty"}
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precedence", "admissible_sources", "inadmissible_sources", "default"],
+      "properties": {
+        "precedence": {"$ref": "#/$defs/stringSet"},
+        "admissible_sources": {"$ref": "#/$defs/stringSet"},
+        "inadmissible_sources": {"$ref": "#/$defs/stringSet"},
+        "default": {"const": "DENY"}
+      }
+    },
+    "mission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["product", "kernel", "construction", "native_principal", "autonomy"],
+      "properties": {
+        "product": {"const": "BOOTABLE_AUTONOMOUS_AGENT_OPERATING_SYSTEM"},
+        "kernel": {"const": "LINUX"},
+        "construction": {"const": "NIX"},
+        "native_principal": {"const": "DURABLE_AGENT"},
+        "autonomy": {"const": "NO_ACTIVE_HUMAN_SESSION_REQUIRED"}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_core_concepts", "prohibited_core_semantics"],
+      "properties": {
+        "allowed_core_concepts": {"$ref": "#/$defs/stringSet"},
+        "prohibited_core_semantics": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "canonicalModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "principals",
+        "records",
+        "services",
+        "effect_classes",
+        "effect_states",
+        "execution_profiles",
+        "hardware_profiles",
+        "change_states",
+        "error_codes"
+      ],
+      "properties": {
+        "principals": {"$ref": "#/$defs/stringSet"},
+        "records": {"$ref": "#/$defs/stringSet"},
+        "services": {"type": "array", "items": {"$ref": "#/$defs/service"}},
+        "effect_classes": {"$ref": "#/$defs/stringSet"},
+        "effect_states": {"$ref": "#/$defs/stringSet"},
+        "execution_profiles": {"$ref": "#/$defs/stringSet"},
+        "hardware_profiles": {"$ref": "#/$defs/stringSet"},
+        "change_states": {"$ref": "#/$defs/stringSet"},
+        "error_codes": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "owns", "must_not_own"],
+      "properties": {
+        "id": {"pattern": "^[a-z][a-z0-9_]+$"},
+        "owns": {"$ref": "#/$defs/stringSet"},
+        "must_not_own": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source_authority",
+        "source_reference",
+        "trigger",
+        "shall",
+        "boundary",
+        "failure",
+        "owner_packet",
+        "enforcement",
+        "evidence",
+        "acceptance"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "source_authority": {"enum": ["CURRENT_USER_DECISION", "V2_DERIVATION"]},
+        "source_reference": {"$ref": "#/$defs/nonEmpty"},
+        "trigger": {"$ref": "#/$defs/nonEmpty"},
+        "shall": {"$ref": "#/$defs/nonEmpty"},
+        "boundary": {"$ref": "#/$defs/nonEmpty"},
+        "failure": {"$ref": "#/$defs/nonEmpty"},
+        "owner_packet": {"pattern": "^W(0[0-9]|1[0-3])$"},
+        "enforcement": {"$ref": "#/$defs/stringSet"},
+        "evidence": {"$ref": "#/$defs/stringSet"},
+        "acceptance": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "rebuild": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_disposition",
+        "dispositions",
+        "retention_predicate",
+        "migration",
+        "generated_artifacts",
+        "execution_order"
+      ],
+      "properties": {
+        "default_disposition": {"const": "UNTRUSTED_RETAIN_CANDIDATE"},
+        "dispositions": {
+          "type": "array",
+          "minItems": 20,
+          "items": {"$ref": "#/$defs/disposition"}
+        },
+        "retention_predicate": {"type": "array", "minItems": 6, "items": {"$ref": "#/$defs/predicate"}},
+        "migration": {"$ref": "#/$defs/migration"},
+        "generated_artifacts": {"$ref": "#/$defs/generated"},
+        "execution_order": {"type": "array", "minItems": 12, "items": {"$ref": "#/$defs/step"}}
+      }
+    },
+    "disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "selector", "action", "reason", "proof"],
+      "properties": {
+        "id": {"pattern": "^D-[0-9]{3}$"},
+        "selector": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "maxProperties": 1,
+          "properties": {
+            "path": {"$ref": "#/$defs/nonEmpty"},
+            "glob": {"$ref": "#/$defs/nonEmpty"},
+            "semantic": {"$ref": "#/$defs/nonEmpty"}
+          }
+        },
+        "action": {"enum": ["DELETE", "DELETE_AND_REBUILD", "REGENERATE", "AUDIT_FOR_RETENTION"]},
+        "reason": {"$ref": "#/$defs/nonEmpty"},
+        "proof": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "assertion", "on_false"],
+      "properties": {
+        "id": {"pattern": "^RET-[0-9]{3}$"},
+        "assertion": {"$ref": "#/$defs/nonEmpty"},
+        "on_false": {"const": "DELETE_AND_REBUILD"}
+      }
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classes", "unknown", "rejected", "nonterminal_effects"],
+      "properties": {
+        "classes": {"const": ["V2_COMPATIBLE", "REJECTED_DOMAIN_STATE", "UNKNOWN"]},
+        "unknown": {"const": "QUARANTINE"},
+        "rejected": {"const": "QUARANTINE"},
+        "nonterminal_effects": {"const": "BLOCK_UNLESS_V2_COMPATIBLE_AND_RECONCILABLE"}
+      }
+    },
+    "generated": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "required_classes"],
+      "properties": {
+        "policy": {"const": "DELETE_THEN_REGENERATE_FROM_V2_CANONICAL_SOURCES"},
+        "required_classes": {"$ref": "#/$defs/stringSet"}
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "action", "blocked_by"],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 1},
+        "action": {"$ref": "#/$defs/nonEmpty"},
+        "blocked_by": {"type": "array", "items": {"type": "integer", "minimum": 1}}
+      }
+    },
+    "workPacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "deliverable", "cannot_begin", "cannot_integrate", "cannot_pass", "requirements", "gates"],
+      "properties": {
+        "id": {"pattern": "^W(0[0-9]|1[0-3])$"},
+        "deliverable": {"$ref": "#/$defs/nonEmpty"},
+        "cannot_begin": {"type": "array", "uniqueItems": true, "items": {"pattern": "^W(0[0-9]|1[0-3])$"}},
+        "cannot_integrate": {"type": "array", "uniqueItems": true, "items": {"pattern": "^W(0[0-9]|1[0-3])$"}},
+        "cannot_pass": {"type": "array", "uniqueItems": true, "items": {"pattern": "^W(0[0-9]|1[0-3])$"}},
+        "requirements": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "gates": {"type": "array", "uniqueItems": true, "items": {"pattern": "^V-[A-Z0-9-]+$"}}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "runner", "evidence", "pass"],
+      "properties": {
+        "id": {"pattern": "^V-[A-Z0-9-]+$"},
+        "runner": {"$ref": "#/$defs/nonEmpty"},
+        "evidence": {"$ref": "#/$defs/stringSet"},
+        "pass": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "completion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operator", "predicates", "on_false"],
+      "properties": {
+        "operator": {"const": "ALL"},
+        "predicates": {"type": "array", "minItems": 12, "items": {"$ref": "#/$defs/nonEmpty"}},
+        "on_false": {"const": "NOT_COMPLETE"}
+      }
+    }
+  }
+}

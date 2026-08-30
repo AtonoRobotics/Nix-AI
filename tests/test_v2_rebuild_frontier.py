@@ -1,0 +1,210 @@
+import json
+import jsonschema
+from pathlib import Path
+import hashlib
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class V2RebuildFrontierTests(unittest.TestCase):
+    def test_binding_contract_validates_at_its_public_cli(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "contracts" / "v2.0.1" / "validate_contract.py"),
+            ],
+            text=True,
+            capture_output=True,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        report = json.loads(result.stdout)
+        self.assertEqual(report["contract_id"], "nix-ai-core")
+        self.assertEqual(report["version"], "2.0.1")
+        self.assertTrue(report["valid"])
+        self.assertEqual(report["errors"], [])
+
+        package = ROOT / "contracts" / "v2.0.1"
+        schema = json.loads((package / "contract.schema.json").read_text())
+        contract = json.loads((package / "nix-ai-v2.0.1.contract.json").read_text())
+        jsonschema.Draft202012Validator.check_schema(schema)
+        jsonschema.Draft202012Validator(schema).validate(contract)
+
+    def test_recorded_rebuild_baseline_matches_the_binding_contract(self):
+        contract = json.loads(
+            (ROOT / "contracts" / "v2.0.1" / "nix-ai-v2.0.1.contract.json").read_text()
+        )
+        baseline = json.loads(
+            (ROOT / "evidence" / "v2-rebuild" / "baseline.json").read_text()
+        )
+
+        self.assertEqual(
+            baseline["baseline_commit"], contract["contract"]["target"]["baseline_commit"]
+        )
+        self.assertEqual(
+            baseline["contract_commit"],
+            "b342161f5abd5feedd8373c0a989a05949eb43e8",
+        )
+        self.assertEqual(baseline["runner"], {"name": "inventory-v2", "version": 1})
+
+    def test_checked_in_inventory_evidence_is_machine_readable_and_attributed(self):
+        report = json.loads(
+            (ROOT / "evidence" / "v2-rebuild" / "inventory.json").read_text()
+        )
+
+        self.assertEqual(report["runner"], {"name": "inventory-v2", "version": 1})
+        self.assertEqual(
+            report["rebuild_baseline_commit"],
+            "c61d6be13cd9593284c32249c5b9a11691df0f67",
+        )
+        self.assertIn("evidence/v2-rebuild/inventory.json", report["tracked_paths"])
+        self.assertEqual(
+            report["counts"],
+            {
+                key: len(report[key])
+                for key in (
+                    "tracked_paths",
+                    "public_semantics",
+                    "dependencies",
+                    "generated_artifacts",
+                    "build_closure_members",
+                )
+            },
+        )
+
+    def test_cross_relation_dependency_cycle_is_rejected(self):
+        source = ROOT / "contracts" / "v2.0.1"
+        with tempfile.TemporaryDirectory() as temporary:
+            package = Path(temporary) / "v2.0.1"
+            shutil.copytree(source, package)
+            contract_path = package / "nix-ai-v2.0.1.contract.json"
+            contract = json.loads(contract_path.read_text())
+            contract["work_packets"][0]["cannot_integrate"] = ["W01"]
+            contract_path.write_text(json.dumps(contract, indent=2) + "\n")
+            digest = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+            manifest_path = package / "MANIFEST.sha256"
+            manifest = manifest_path.read_text()
+            manifest = re.sub(
+                r"^[0-9a-f]{64}(  nix-ai-v2\.0\.1\.contract\.json)$",
+                digest + r"\1",
+                manifest,
+                flags=re.MULTILINE,
+            )
+            manifest_path.write_text(manifest)
+
+            result = subprocess.run(
+                [sys.executable, str(package / "validate_contract.py")],
+                text=True,
+                capture_output=True,
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("combined dependency graph cycle", result.stdout)
+
+    def test_requirement_derivation_references_are_resolved_and_acyclic(self):
+        source = ROOT / "contracts" / "v2.0.1"
+        mutations = {
+            "unknown source reference": "MISSING-001",
+            "requirement derivation graph cycle": "CHANGE-003",
+        }
+        for expected_error, source_reference in mutations.items():
+            with self.subTest(expected_error=expected_error), tempfile.TemporaryDirectory() as temporary:
+                package = Path(temporary) / "v2.0.1"
+                shutil.copytree(source, package)
+                contract_path = package / "nix-ai-v2.0.1.contract.json"
+                contract = json.loads(contract_path.read_text())
+                contract["requirements"][2]["source_reference"] = source_reference
+                contract_path.write_text(json.dumps(contract, indent=2) + "\n")
+                digest = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+                manifest_path = package / "MANIFEST.sha256"
+                manifest_path.write_text(
+                    re.sub(
+                        r"^[0-9a-f]{64}(  nix-ai-v2\.0\.1\.contract\.json)$",
+                        digest + r"\1",
+                        manifest_path.read_text(),
+                        flags=re.MULTILINE,
+                    )
+                )
+
+                result = subprocess.run(
+                    [sys.executable, str(package / "validate_contract.py")],
+                    text=True,
+                    capture_output=True,
+                )
+
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn(expected_error, result.stdout)
+
+    def test_inventory_cli_records_the_baseline_and_every_inventory_class(self):
+        baseline = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "inventory.json"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "inventory_v2.py"),
+                    "--root",
+                    str(ROOT),
+                    "--baseline",
+                    baseline,
+                    "--output",
+                    str(output),
+                ],
+                text=True,
+                capture_output=True,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            report = json.loads(output.read_text())
+            self.assertEqual(report["rebuild_baseline_commit"], baseline)
+            self.assertRegex(report["inventory_tree"], r"^[0-9a-f]{40}$")
+            self.assertEqual(report["inventory_source"]["file_contents"], "git-index")
+            self.assertEqual(
+                report["inventory_source"]["snapshot_boundary"],
+                "before-report-publication",
+            )
+            self.assertEqual(report["runner"], {"name": "inventory-v2", "version": 1})
+            self.assertIn("Cargo.toml", report["tracked_paths"])
+            self.assertIn(
+                "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+                report["tracked_paths"],
+            )
+            for inventory_class in (
+                "public_semantics",
+                "dependencies",
+                "generated_artifacts",
+                "build_closure_members",
+            ):
+                self.assertIsInstance(report[inventory_class], list)
+                self.assertGreater(len(report[inventory_class]), 0, inventory_class)
+            self.assertEqual(
+                report["counts"],
+                {
+                    key: len(report[key])
+                    for key in (
+                        "tracked_paths",
+                        "public_semantics",
+                        "dependencies",
+                        "generated_artifacts",
+                        "build_closure_members",
+                    )
+                },
+            )
+
+
+if __name__ == "__main__":
+    unittest.main()
