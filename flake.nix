@@ -211,7 +211,7 @@
         name = "qualify-w06";
         runtimeInputs = [ python ];
         text = ''
-          exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --dd ${pkgs.coreutils}/bin/dd --execution ${habitatExecution}/bin/habitat-execution --profile ${./nix/profiles/qemu-x86_64-conformance.json} "$@"
+          exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --taskset ${pkgs.util-linux}/bin/taskset --dd ${pkgs.coreutils}/bin/dd --sleep ${pkgs.coreutils}/bin/sleep --execution ${habitatExecution}/bin/habitat-execution --profile ${./nix/profiles/qemu-x86_64-conformance.json} "$@"
         '';
       };
       qualifyW07 = pkgs.writeShellApplication {

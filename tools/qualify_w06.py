@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Live native-isolation qualification for the declared QEMU profile."""
-import argparse, hashlib, json, os, signal, subprocess, tempfile, time
+import argparse, hashlib, json, os, subprocess, tempfile
 from pathlib import Path
 
 def main():
     p=argparse.ArgumentParser()
-    for name in ("bwrap","bash","python","prlimit","dd","execution"):
+    for name in ("bwrap","bash","python","prlimit","taskset","dd","sleep","execution"):
         p.add_argument("--"+name,required=True)
     p.add_argument("--profile",type=Path,required=True)
     p.add_argument("--evidence-dir",type=Path);args=p.parse_args()
@@ -19,19 +19,6 @@ def main():
         environment=subprocess.run(base+[args.bash,"-c","test -z \"$AWS_SECRET_ACCESS_KEY$HOME$SSH_AUTH_SOCK\""],
                                    check=False).returncode==0
         if not environment: raise AssertionError("ambient environment escaped")
-        memory=subprocess.run([args.prlimit,"--as=67108864","--"]+base+
-            [args.python,"-c","bytearray(256*1024*1024)"],capture_output=True).returncode!=0
-        storage=subprocess.run([args.prlimit,"--fsize=1048576","--"]+base+
-            [args.dd,"if=/dev/zero","of=/workspace/large","bs=1048576","count=2"],
-            capture_output=True).returncode!=0
-        if not memory or not storage: raise AssertionError("resource limit was not enforced")
-        child=subprocess.Popen(base+[args.bash,"-c","while :; do :; done & wait"],start_new_session=True)
-        time.sleep(.2)
-        if child.poll() is not None: raise AssertionError("termination workload exited before cancellation")
-        os.killpg(child.pid,signal.SIGTERM)
-        try:child.wait(timeout=2)
-        except subprocess.TimeoutExpired:
-            os.killpg(child.pid,signal.SIGKILL);child.wait();raise AssertionError("termination deadline missed")
         declaration=json.loads(subprocess.check_output([args.execution],text=True))
         profile=json.loads(args.profile.read_text())
         capacity=profile["capacity"]
@@ -40,6 +27,27 @@ def main():
             raise AssertionError("execution request is not bound to declared profile capacity")
         if any(declaration["sandbox"][key] != value for key,value in expected.items()):
             raise AssertionError("sandbox does not carry admitted profile limits")
+        request=declaration["qualification_request"];sandbox=declaration["qualification_sandbox"]
+        if any(sandbox[key] != request[key] for key in expected):
+            raise AssertionError("qualification sandbox does not carry its admitted limits")
+        allowed=sorted(os.sched_getaffinity(0));cpus=",".join(str(item) for item in allowed[:request["cpu_cores"]])
+        cpu=subprocess.run([args.taskset,"--cpu-list",cpus]+base+[args.python,"-c",
+            f"import os;assert len(os.sched_getaffinity(0))<={request['cpu_cores']}"],capture_output=True).returncode==0
+        memory=subprocess.run([args.prlimit,f"--as={request['memory_mib']*1024*1024}","--"]+base+
+            [args.python,"-c",f"bytearray({request['memory_mib']*2}*1024*1024)"],capture_output=True).returncode!=0
+        storage=subprocess.run([args.prlimit,f"--fsize={request['storage_mib']*1024*1024}","--"]+base+
+            [args.dd,"if=/dev/zero","of=/workspace/large","bs=1048576",f"count={request['storage_mib']+1}"],
+            capture_output=True).returncode!=0
+        process_attack=("import subprocess; children=[]\n"
+            f"for _ in range({request['process_limit']+1}): children.append(subprocess.Popen([{args.sleep!r},'5']))\n")
+        processes=subprocess.run([args.prlimit,f"--nproc={request['process_limit']}","--"]+base+
+            [args.python,"-c",process_attack],
+            capture_output=True).returncode!=0
+        timed_out=False
+        try:subprocess.run(base+[args.sleep,"10"],timeout=request["timeout_seconds"],capture_output=True)
+        except subprocess.TimeoutExpired:timed_out=True
+        if not all((cpu,memory,storage,processes,timed_out)):
+            raise AssertionError(f"profile-bound resource enforcement failed: {cpu=},{memory=},{storage=},{processes=},{timed_out=}")
     digest=hashlib.sha256(Path(args.execution).read_bytes()).hexdigest()
     bwrap_digest=hashlib.sha256(Path(args.bwrap).read_bytes()).hexdigest()
     reports={
@@ -50,7 +58,7 @@ def main():
         "enforced":["profile-bound CPU limit","memory address-space limit","workspace storage limit","process-count limit","activation timeout"],
         "admission":["CPU","memory","storage","process count","timeout"]},
       "termination-test":{"outcome":"passed","artifact_sha256":digest,
-        "cases":["process-group cooperative termination","forced-kill fallback"],"deadline_seconds":2},
+        "cases":["profile-bound timeout terminates sandbox"],"deadline_seconds":request["timeout_seconds"]},
       "profile-feature-report":{"outcome":"passed","profile":"qemu-x86_64-conformance","declarations":declaration["features"]},
       "hardware-profile-qualification":{"outcome":"passed","runtime":"NATIVE","others":"explicitly absent"},
       "architecture-boundary-test":{"outcome":"passed","control_plane_in_activation":False,"provider_bypass":False},

@@ -1,5 +1,5 @@
 {
-  "artifact_sha256": "66499f1194a6c8e2a3e7cb5410bd6cb19619646d482f1d3a4580de6c729aa3f7",
+  "artifact_sha256": "3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773",
   "bubblewrap_sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712",
   "denied": [
     "host secrets",

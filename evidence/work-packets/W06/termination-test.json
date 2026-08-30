@@ -1,9 +1,8 @@
 {
-  "artifact_sha256": "66499f1194a6c8e2a3e7cb5410bd6cb19619646d482f1d3a4580de6c729aa3f7",
+  "artifact_sha256": "3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773",
   "cases": [
-    "process-group cooperative termination",
-    "forced-kill fallback"
+    "profile-bound timeout terminates sandbox"
   ],
-  "deadline_seconds": 2,
+  "deadline_seconds": 1,
   "outcome": "passed"
 }

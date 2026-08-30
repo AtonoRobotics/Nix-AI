@@ -1227,7 +1227,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
-      "sha256": "21f30a19d19cf23100d8de3fba896ab07df04e0ebc5c5004d5ff4d3336855975",
+      "sha256": "1e33dd32d9e7008f891143e192f2dc4c943128e466b3e00babd0fb6226ddd885",
       "source": "crates/habitat-execution/src/lib.rs"
     },
     {
@@ -2629,7 +2629,7 @@
     "tests/test_w02_state.py",
     "tests/test_w05_lifecycle.py"
   ],
-  "scope_digest": "776fc82b7dab21c02d3fa7bc01aef58f756e29094f42989f87095e43251b124b",
+  "scope_digest": "ad9fd41eb5083b0179f07d8f4e4b71631e7730c8e11b64e2138f6db92872138b",
   "unresolved_candidates": [],
   "untrusted_candidates": [],
   "valid": true

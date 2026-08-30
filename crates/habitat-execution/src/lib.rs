@@ -191,6 +191,8 @@ pub struct ExecutionDeclaration {
     pub profile: HardwareProfile,
     pub admitted_request: IsolationRequest,
     pub sandbox: SandboxSpec,
+    pub qualification_request: IsolationRequest,
+    pub qualification_sandbox: SandboxSpec,
     pub features: Vec<FeatureDeclaration>,
 }
 
@@ -209,10 +211,18 @@ pub fn qemu_execution_declaration() -> ExecutionDeclaration {
         .expect("declared profile capacity must admit itself");
     let sandbox = NativeSandbox::new("/activation/work")
         .command("/nix/store/tool/bin/worker", &admitted_request);
+    let qualification_request = IsolationRequest::new(Runtime::Native, 1, 64, 1, 8, 1);
+    profile
+        .admit(&qualification_request)
+        .expect("qualification request must be within profile capacity");
+    let qualification_sandbox = NativeSandbox::new("/activation/work")
+        .command("/nix/store/tool/bin/worker", &qualification_request);
     ExecutionDeclaration {
         profile,
         admitted_request,
         sandbox,
+        qualification_request,
+        qualification_sandbox,
         features: qemu_feature_declarations(),
     }
 }
