@@ -1,0 +1,1 @@
+{"implementation_commit":"c4c880899670dce06e86454f4a2c42cd6372bc16","outcome":"passed","profile":"qemu-x86-64-conformance","NATIVE":"qualified","WASI":"absent","OCI":"absent","MicroVM":"absent","reason":"profile declares only NATIVE and no KVM"}

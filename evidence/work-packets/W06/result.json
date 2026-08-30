@@ -1,0 +1,1 @@
+{"packet":"W06","implementation_commit":"c4c880899670dce06e86454f4a2c42cd6372bc16","outcome":"passed","requirements":["ARC-004","ARC-005","ARC-007","BLD-005","HWP-004","HWP-005","SEC-001","SEC-002","SEC-003","SEC-004","SEC-005","SEC-006","SEC-008","SEC-010"],"qualification":"nix run .#apps.x86_64-linux.test-w06","flake_check":"passed"}

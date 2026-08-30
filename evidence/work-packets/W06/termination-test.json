@@ -1,0 +1,1 @@
+{"implementation_commit":"c4c880899670dce06e86454f4a2c42cd6372bc16","outcome":"passed","cases":["running descendant confirmed before cancellation","process-group termination","forced-kill fallback"],"deadline_seconds":2}
