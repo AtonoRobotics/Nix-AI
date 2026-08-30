@@ -70,7 +70,10 @@ class V2ReleaseQualificationTests(unittest.TestCase):
             subprocess.run(["cp", "-a", str(source) + "/.", str(evidence)], check=True)
             report_path = evidence / "authority-report.json"
             report = json.loads(report_path.read_text())
-            del report["attestations"][0]["output_sha256"]
+            report["attestations"][0] = {
+                "kind": "executed_command", "argv": ["handwritten-pass"], "exit_code": 0,
+                "output_sha256": "sha256:" + "0" * 64, "output_bytes": 999999,
+            }
             report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
             summary = json.loads(summary_path.read_text())
             for record in summary["gates"]:
@@ -82,6 +85,42 @@ class V2ReleaseQualificationTests(unittest.TestCase):
                 [sys.executable, "tools/qualify_v2_release.py", "--root", str(ROOT),
                  "--evidence-dir", str(evidence), "--verify-evidence"],
                 cwd=ROOT, capture_output=True, text=True,
+            )
+            self.assertNotEqual(result.returncode, 0)
+
+    def test_contradictory_headless_observation_and_packet_status_are_rejected(self):
+        source = ROOT / "evidence/v2-release"
+        with tempfile.TemporaryDirectory() as temporary:
+            evidence = Path(temporary) / "release"
+            subprocess.run(["cp", "-a", str(source), str(evidence)], check=True)
+            report_path = evidence / "end-to-end-report.json"
+            report = json.loads(report_path.read_text())
+            report["observations"]["wake-crash-matrix.json"] = {
+                "outcome": "failed", "reason": "lost work and duplicate effect; active human required"
+            }
+            report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+            summary_path = evidence / "qualification-summary.json"
+            summary = json.loads(summary_path.read_text())
+            import hashlib
+            for record in summary["gates"]:
+                if record["gate"] == "V-END-TO-END":
+                    record["sha256"] = "sha256:" + hashlib.sha256(report_path.read_bytes()).hexdigest()
+            summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+            result = subprocess.run(
+                [sys.executable, "tools/qualify_v2_release.py", "--root", str(ROOT),
+                 "--evidence-dir", str(evidence), "--verify-evidence"], cwd=ROOT,
+                capture_output=True, text=True,
+            )
+            self.assertNotEqual(result.returncode, 0)
+
+            subprocess.run(["cp", "-a", str(source) + "/.", str(evidence)], check=True)
+            summary = json.loads(summary_path.read_text())
+            summary["work_packets"] = [{"packet": "W00", "result": "fail", "gates": []}]
+            summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+            result = subprocess.run(
+                [sys.executable, "tools/qualify_v2_release.py", "--root", str(ROOT),
+                 "--evidence-dir", str(evidence), "--verify-evidence"], cwd=ROOT,
+                capture_output=True, text=True,
             )
             self.assertNotEqual(result.returncode, 0)
 

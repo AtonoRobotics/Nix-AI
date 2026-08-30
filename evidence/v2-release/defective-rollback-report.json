@@ -7,12 +7,12 @@
         ".#test-rollback",
         "--",
         "--evidence",
-        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/rollback.json"
+        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/rollback.json"
       ],
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 2621,
-      "output_sha256": "sha256:2b4c3290e0cb93f499ef1593c7ee899b3bb62b0e76f8519e1d1c8b50b993d88c"
+      "output_sha256": "sha256:7b357a2816450144426021bac5d329082867a1f413fe7a4546d354967efbf559"
     }
   ],
   "gate": "V-ROLLBACK",
@@ -31,7 +31,7 @@
   "observations": {
     "events": [
       {
-        "boot_attempt_id": "0fadcf9f-e8de-4395-8a28-a37e12a97c30",
+        "boot_attempt_id": "35f03208-3fd3-4f0f-9225-2d538d11a32c",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
         "decision": "UNCONFIRMED",
@@ -40,7 +40,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 0,
-        "machine_id": "b792a0fbb97149238dbb462f5946e28d",
+        "machine_id": "d8828c5857074752a7df35633fba88c8",
         "operational_state": "none",
         "previous_confirmed_generation_id": "none",
         "protections": {
@@ -51,7 +51,7 @@
         "system_generation_id": "531d51817f20925871466862d9db9276"
       },
       {
-        "boot_attempt_id": "9e20ec99-3222-47dc-a434-0c354d0c672b",
+        "boot_attempt_id": "b4ba7a0d-9654-4ab5-b750-b7a375796647",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
         "decision": "ACTIVE_UNCONFIRMED",
@@ -60,7 +60,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 1,
-        "machine_id": "b792a0fbb97149238dbb462f5946e28d",
+        "machine_id": "d8828c5857074752a7df35633fba88c8",
         "operational_state": "baseline-durable-state",
         "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
         "protections": {
@@ -71,7 +71,7 @@
         "system_generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33"
       },
       {
-        "boot_attempt_id": "d8d1f49a-e1ce-4337-a782-e90720f0566f",
+        "boot_attempt_id": "d3d140c2-f7b9-444e-97da-421d6fb511cf",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
         "decision": "ROLLED_BACK",
@@ -80,7 +80,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 2,
-        "machine_id": "b792a0fbb97149238dbb462f5946e28d",
+        "machine_id": "d8828c5857074752a7df35633fba88c8",
         "operational_state": "baseline-durable-state",
         "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
         "protections": {
@@ -98,7 +98,7 @@
   "result": "pass",
   "runner": "candidate_rollback_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [],
   "test_count": 1
 }

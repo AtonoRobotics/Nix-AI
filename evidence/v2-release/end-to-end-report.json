@@ -7,12 +7,12 @@
         ".#test-w05",
         "--",
         "--evidence-dir",
-        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/lifecycle"
+        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/lifecycle"
       ],
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 1520,
-      "output_sha256": "sha256:b08de484fd46ac7d5345f974a3978eec91aad6da5d4c3fb73cbbe09855792459"
+      "output_sha256": "sha256:04e40fdeffa4f6689daa36f1783afc8e3e709c4904f7f385861d157b819262c2"
     },
     {
       "argv": [
@@ -23,8 +23,8 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
-      "output_bytes": 56,
-      "output_sha256": "sha256:8fce3bd7fa8b51d09f9328f2cd5b715f8a7478cceb415804a74d0e75d03374e7"
+      "output_bytes": 697,
+      "output_sha256": "sha256:5dc727a56c43f70530234502d85ee4523e3188319f590f9d480bf31b12e6eedd"
     }
   ],
   "gate": "V-END-TO-END",
@@ -91,7 +91,7 @@
   "result": "pass",
   "runner": "headless_interruption_recovery_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [],
   "test_count": 2
 }

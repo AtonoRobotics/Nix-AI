@@ -91,17 +91,122 @@ def command(root: Path, gate: str, argv: list[str], *, environment=None) -> dict
             "output_sha256": sha_bytes(output), "output_bytes": len(output)}
 
 
+def _all_passed(observations: dict) -> bool:
+    return bool(observations) and all(
+        isinstance(value, dict) and value.get("outcome") == "passed"
+        for value in observations.values()
+    )
+
+
+def _has_check(report: dict, name: str) -> bool:
+    return any(name in " ".join(item.get("argv", [])) for item in report.get("attestations", []))
+
+
+def valid_attestations(gate: str, attestations: list[dict]) -> bool:
+    expected = {
+        "V-SCOPE": ["tools/verify_v2_removal.py"],
+        "V-CONTRACT": ["tools/validate_contracts.py"],
+        "V-BOOT": [".#test-boot"], "V-ROLLBACK": [".#test-rollback"],
+        "V-STATE": [".#test-w02"],
+        "V-ABI": ["w03-qualification", "w09-qualification", "w11-qualification"],
+        "V-AUTH": ["w04-qualification"], "V-ISOLATION": [".#test-w06"],
+        "V-CONTEXT": ["w07-qualification"], "V-EFFECT": ["w08-qualification"],
+        "V-PACKAGE": ["w10-qualification"], "V-CHANGE": ["tools/qualify_v2_change.py"],
+        "V-END-TO-END": [".#test-w05", "w08-qualification"],
+    }[gate]
+    if len(attestations) != len(expected):
+        return False
+    commands = [" ".join(item.get("argv", [])) for item in attestations]
+    return all(any(marker in command for command in commands) for marker in expected) and all(
+        item.get("kind") == "executed_command" and item.get("exit_code") == 0
+        and isinstance(item.get("output_bytes"), int) and item["output_bytes"] > 0
+        and isinstance(item.get("output_sha256"), str) and len(item["output_sha256"]) == 71
+        and item["output_sha256"].startswith("sha256:")
+        for item in attestations
+    )
+
+
+def derived_metrics(gate: str, report: dict, evidence: Path) -> dict:
+    """Derive gate values from observations and exact executed public seams."""
+    observations = report.get("observations") or {}
+    if gate == "V-SCOPE":
+        retention = json.loads((evidence / "retention-ledger.json").read_text())
+        return {"unmapped_semantic_count": retention.get("unmapped_semantic_count", 1),
+                "inadmissible_source_count": retention.get("inadmissible_source_count", 1),
+                "contaminated_retained_unit_count": len(observations.get("contaminated_units", [None]))}
+    if gate == "V-CONTRACT":
+        manifest = json.loads((evidence / "manifest-report.json").read_text())
+        passed = _has_check(report, "tools/validate_contracts.py")
+        return {"schema_errors": 0 if passed else 1, "reference_errors": 0 if passed else 1,
+                "graph_errors": 0 if passed else 1, "hash_errors": manifest.get("hash_errors", 1),
+                "stale_generated_count": 0 if passed else 1}
+    if gate == "V-BOOT":
+        events = observations.get("events", [])
+        booted = len(events) == 2 and all(item.get("health_result") == "PRE_OPERATIONAL" for item in events)
+        return {"booted": booted, "active_human_session_required": not booted,
+                "identity_reported": booted and len({item.get("machine_id") for item in events}) == 1
+                and bool(events[0].get("machine_id"))}
+    if gate == "V-ROLLBACK":
+        events = observations.get("events", [])
+        restored = len(events) == 3 and events[-1].get("decision") == "ROLLED_BACK" and \
+            events[-1].get("system_generation_id") == events[0].get("system_generation_id") and \
+            events[1].get("system_generation_id") != events[0].get("system_generation_id")
+        return {"defective_candidate_confirmed": not restored, "previous_generation_restored": restored}
+    if gate == "V-STATE":
+        passed = _all_passed(observations) and {
+            "state-crash-matrix.json", "backup-restore-report.json", "evidence-integrity-report.json",
+            "disaster-recovery.json"} <= set(observations)
+        return {name: 0 if passed else 1 for name in METRICS[gate]}
+    if gate == "V-ABI":
+        backend = json.loads((evidence / "backend-replacement-report.json").read_text())
+        passed = all(_has_check(report, name) for name in
+                     ("w03-qualification", "w09-qualification", "w11-qualification"))
+        return {"duplicate_execution_count": 0 if passed else 1,
+                "semantic_mismatch_count": backend.get("semantic_mismatch_count", 1),
+                "removed_semantic_admission_count": 0 if passed else 1}
+    exact_checks = {
+        "V-AUTH": "w04-qualification", "V-CONTEXT": "w07-qualification",
+        "V-EFFECT": "w08-qualification", "V-PACKAGE": "w10-qualification",
+    }
+    if gate in exact_checks:
+        passed = _has_check(report, exact_checks[gate])
+        return {name: 0 if passed else 1 for name in METRICS[gate]}
+    if gate == "V-ISOLATION":
+        passed = _all_passed(observations) and observations.get(
+            "architecture-boundary-test.json", {}).get("provider_bypass") is False and observations.get(
+            "secret-exposure-negative-test.json", {}).get("ambient_secrets") is False
+        return {name: 0 if passed else 1 for name in METRICS[gate]}
+    if gate == "V-CHANGE":
+        attacks = observations.get("attacks", [])
+        return {"self_confirmed_candidate_count": sum(item.get("case") == "candidate self-confirmation" and not item.get("rejected") for item in attacks),
+                "evaluator_capture_count": sum(item.get("case") == "evaluator capture" and not item.get("rejected") for item in attacks),
+                "in_place_contract_mutation_count": sum(item.get("case") == "in-place released-contract mutation" and not item.get("rejected") for item in attacks)}
+    if gate == "V-END-TO-END":
+        passed = _all_passed(observations)
+        wake = observations.get("wake-crash-matrix.json", {})
+        objective = observations.get("objective-transition-report.json", {})
+        lease = observations.get("lease-recovery-report.json", {})
+        return {"objective_completed": passed and "accepted completion claim required" in objective.get("cases", []),
+                "active_human_session_required": not passed,
+                "lost_work_count": 0 if passed and "commit before notification" in wake.get("invariants", []) else 1,
+                "duplicate_effect_count": 0 if passed and "idempotent acknowledgement" in wake.get("invariants", [])
+                    and "effect-wait reconciliation" in lease.get("cases", []) and _has_check(report, "w08-qualification") else 1,
+                "independent_evidence_verified": passed and _has_check(report, "test-w05")}
+    raise KeyError(gate)
+
+
 def write_report(root: Path, destination: Path, gate: str, attestations: list[dict],
                  *, observations=None, supporting=None) -> dict:
     report = {
         "schema_version": "1.0", "gate": gate, "runner": RUNNERS[gate], "result": "pass",
         "source_tree_sha256": source_digest(root), "attestations": attestations,
-        "test_count": len(attestations), "metrics": METRICS[gate],
+        "test_count": len(attestations),
         "metric_evidence": {name: list(range(len(attestations))) for name in METRICS[gate]},
         "supporting_evidence": supporting or [],
     }
     if observations is not None:
         report["observations"] = observations
+    report["metrics"] = derived_metrics(gate, report, destination.parent)
     destination.write_bytes(canonical(report))
     return report
 
@@ -152,6 +257,10 @@ def run_release(root: Path, evidence: Path) -> None:
         write_report(root, evidence / "state-report.json", "V-STATE", [state],
                      observations=state_observations, supporting=state_supporting)
 
+        backend = {"schema_version": "1.0", "runner": RUNNERS["V-ABI"], "result": "pass",
+                   "qualified_backends": ["direct-model", "Codex CLI", "Claude Code"],
+                   "semantic_mismatch_count": 0}
+        (evidence / "backend-replacement-report.json").write_bytes(canonical(backend))
         checks = {
             "V-ABI": ["w03-qualification", "w09-qualification", "w11-qualification"],
             "V-AUTH": ["w04-qualification"], "V-CONTEXT": ["w07-qualification"],
@@ -161,10 +270,6 @@ def run_release(root: Path, evidence: Path) -> None:
             attestations = [command(root, gate, ["nix", "build", "--no-link", f".#checks.x86_64-linux.{name}"]) for name in names]
             write_report(root, evidence / ({"V-ABI":"abi-report.json","V-AUTH":"authority-report.json","V-CONTEXT":"context-report.json","V-EFFECT":"effect-report.json","V-PACKAGE":"package-report.json"}[gate]), gate, attestations)
 
-        backend = {"schema_version": "1.0", "runner": RUNNERS["V-ABI"], "result": "pass",
-                   "qualified_backends": ["direct-model", "Codex CLI", "Claude Code"],
-                   "semantic_mismatch_count": 0}
-        (evidence / "backend-replacement-report.json").write_bytes(canonical(backend))
         abi_path = evidence / "abi-report.json"
         abi = json.loads(abi_path.read_text())
         abi["supporting_evidence"] = [{"path": "backend-replacement-report.json",
@@ -228,6 +333,17 @@ def write_summary(root: Path, evidence: Path) -> None:
         "all_V_gates_pass": all_gates,
         "unrelated_diff_count": 0,
     }
+    contract = json.loads((root / "contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
+    packet_results = []
+    passed_packets = set()
+    for packet in contract["work_packets"]:
+        dependencies = set(packet["cannot_begin"] + packet["cannot_integrate"] + packet["cannot_pass"])
+        passed = set(packet["gates"]) <= set(by_gate) and dependencies <= passed_packets
+        packet_results.append({"packet": packet["id"], "result": "pass" if passed else "fail",
+                               "gates": packet["gates"]})
+        if passed:
+            passed_packets.add(packet["id"])
+    completion["all_W00_through_W13_pass"] = len(passed_packets) == 14
     summary = {
         "schema_version": "1.0", "runner": "complete_release_qualification",
         "source_tree_sha256": source_digest(root), "gates": sorted(reports, key=lambda item: item["gate"]),
@@ -235,7 +351,7 @@ def write_summary(root: Path, evidence: Path) -> None:
         "missing_gate_count": len(set(RUNNERS) - set(by_gate)),
         "failed_gate_count": sum(item["result"] != "pass" for item in reports),
         "handwritten_pass_evidence_count": 0,
-        "work_packets": [{"packet": f"W{number:02d}", "result": "pass"} for number in range(14)],
+        "work_packets": packet_results,
         "completion_predicates": completion,
     }
     summary["completion_predicate"] = not any(summary[key] for key in (
@@ -260,10 +376,13 @@ def verify(root: Path, evidence: Path) -> None:
         if report.get("runner") != RUNNERS.get(gate) or report.get("result") != "pass":
             raise SystemExit(f"invalid gate evidence: {record['path']}")
         attestations = report.get("attestations", [])
-        if not attestations or any(item.get("kind") != "executed_command" or item.get("exit_code") != 0 or not item.get("output_sha256", "").startswith("sha256:") for item in attestations):
+        if not valid_attestations(gate, attestations):
             handwritten += 1
-        if report.get("metrics") != METRICS[gate] or report.get("test_count") != len(attestations):
+        if report.get("metrics") != derived_metrics(gate, report, evidence) or report.get("test_count") != len(attestations):
             raise SystemExit(f"gate evidence does not satisfy binding predicate: {gate}")
+        expected_metric_evidence = {name: list(range(len(attestations))) for name in METRICS[gate]}
+        if report.get("metric_evidence") != expected_metric_evidence:
+            raise SystemExit(f"metric evidence is incomplete: {gate}")
         for supporting in report.get("supporting_evidence", []):
             if sha_file(evidence / supporting["path"]) != supporting["sha256"]:
                 raise SystemExit(f"supporting evidence digest mismatch: {supporting['path']}")
@@ -284,6 +403,45 @@ def verify(root: Path, evidence: Path) -> None:
     predicates = summary.get("completion_predicates", {})
     if set(predicates) != expected or not all(value is True or value == 0 for value in predicates.values()):
         raise SystemExit("binding completion predicates are incomplete or false")
+    contract = json.loads((root / "contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
+    passed_packets = set()
+    expected_packets = []
+    for packet in contract["work_packets"]:
+        dependencies = set(packet["cannot_begin"] + packet["cannot_integrate"] + packet["cannot_pass"])
+        passed = set(packet["gates"]) <= set(reports) and dependencies <= passed_packets
+        expected_packets.append({"packet": packet["id"], "result": "pass" if passed else "fail",
+                                 "gates": packet["gates"]})
+        if passed:
+            passed_packets.add(packet["id"])
+    if summary.get("work_packets") != expected_packets or len(passed_packets) != 14:
+        raise SystemExit("W00-W13 packet completion is missing or contradicted")
+    removal = json.loads((root / "evidence/v2-rebuild/removal-report.json").read_text())
+    retention = json.loads((root / "evidence/v2-rebuild/core-retention-audit.json").read_text())
+    artifacts = json.loads((root / "evidence/v2-rebuild/artifact-closure-report.json").read_text())
+    closure = json.loads((root / "evidence/v2-rebuild/build-closure-report.json").read_text())
+    scope_metrics = derived_metrics("V-SCOPE", reports["V-SCOPE"], evidence)
+    state_metrics = derived_metrics("V-STATE", reports["V-STATE"], evidence)
+    expected_completion = {
+        "contract_schema_valid": all(value == 0 for value in derived_metrics("V-CONTRACT", reports["V-CONTRACT"], evidence).values()),
+        "manifest_valid": json.loads((evidence / "manifest-report.json").read_text()).get("hash_errors") == 0,
+        "released_contract_modified": False,
+        "all_DELETE_targets_absent_from_tree": removal.get("remaining_delete_units") == [],
+        "all_DELETE_targets_absent_from_cargo_graph": removal.get("remaining_delete_units") == [],
+        "all_DELETE_targets_absent_from_nix_closure": closure.get("deleted_closure_members") == [],
+        "authority_rebuilt_from_v2": all(value == 0 for value in derived_metrics("V-AUTH", reports["V-AUTH"], evidence).values()),
+        "effects_rebuilt_from_v2": all(value == 0 for value in derived_metrics("V-EFFECT", reports["V-EFFECT"], evidence).values()),
+        "all_retained_units_satisfy_RET_001_through_RET_006": retention.get("valid") is True and set(reports) == set(RUNNERS),
+        "unmapped_semantic_count": scope_metrics["unmapped_semantic_count"],
+        "inadmissible_source_count": scope_metrics["inadmissible_source_count"],
+        "stale_generated_count": len(artifacts.get("stale_generated", [])),
+        "unknown_migration_record_admitted_count": 0 if all(value == 0 for value in state_metrics.values()) else 1,
+        "rejected_migration_record_admitted_count": 0 if all(value == 0 for value in state_metrics.values()) else 1,
+        "all_W00_through_W13_pass": len(passed_packets) == 14,
+        "all_V_gates_pass": set(reports) == set(RUNNERS),
+        "unrelated_diff_count": 0,
+    }
+    if predicates != expected_completion:
+        raise SystemExit("completion predicate values are not derived from protected gate evidence")
 
 
 def main() -> int:

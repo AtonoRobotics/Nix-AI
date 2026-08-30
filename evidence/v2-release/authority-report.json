@@ -9,8 +9,8 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
-      "output_bytes": 251,
-      "output_sha256": "sha256:a067a835bda2759b100e6c8ed91f020f79bd5701e2f7f4fa808272c9d83dd797"
+      "output_bytes": 701,
+      "output_sha256": "sha256:22aea13f5be0b9dce4207332f5fb8e861e19a4dee115f48e629fcc3da7bba12c"
     }
   ],
   "gate": "V-AUTH",
@@ -33,7 +33,7 @@
   "result": "pass",
   "runner": "authority_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [],
   "test_count": 1
 }

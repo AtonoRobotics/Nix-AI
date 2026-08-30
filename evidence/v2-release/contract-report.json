@@ -9,7 +9,7 @@
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 2834,
-      "output_sha256": "sha256:3743d08252a30c34c820a15302bbaf8622a6333a0ea03f219b55c4b4b8ab6ab2"
+      "output_sha256": "sha256:b8c61f3c19deaf9bce4055efd047d9c33956e4a90d48c00ce64b57a85d713a6a"
     }
   ],
   "gate": "V-CONTRACT",
@@ -40,7 +40,7 @@
   "result": "pass",
   "runner": "contract_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [
     {
       "path": "manifest-report.json",

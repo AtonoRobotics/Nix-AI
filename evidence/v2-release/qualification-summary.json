@@ -26,91 +26,91 @@
       "path": "abi-report.json",
       "result": "pass",
       "runner": "abi_conformance",
-      "sha256": "sha256:02d7feba6e5da6a2e618774a715843672c6fd929bf8c13ddccc9fb919089a598"
+      "sha256": "sha256:530d3180c5d99095dfbdc48cf460a12ccb1f52b65494d5b81f5018c08ff28c6b"
     },
     {
       "gate": "V-AUTH",
       "path": "authority-report.json",
       "result": "pass",
       "runner": "authority_adversarial_qualification",
-      "sha256": "sha256:4aa51cc527955b3ee33defaefbe89c35d4ee6805116dd4d39bbba84038a52100"
+      "sha256": "sha256:5fb1863f5d8e204af304369bd844151719f59f8555d6bc553f23c839c2441b25"
     },
     {
       "gate": "V-BOOT",
       "path": "boot-report.json",
       "result": "pass",
       "runner": "qemu_boot_qualification",
-      "sha256": "sha256:db2a6e7ae7e2855697653c2d507da1533fd4a99a3973a0a31b96168fa8878469"
+      "sha256": "sha256:9393f75aa0e3f4aa74875ce903ac2cba5143f8355c10ee5031a0e810383cbd76"
     },
     {
       "gate": "V-CHANGE",
       "path": "self-change-report.json",
       "result": "pass",
       "runner": "self_change_adversarial_qualification",
-      "sha256": "sha256:4b4734ca84c3c55feb771f003c3b77ca31626c677c068d7d16ceee603e3cf1b2"
+      "sha256": "sha256:3893d43dc29f642fb47b6face773df87cc4167abae4019fd8fb7fe68ca464b8e"
     },
     {
       "gate": "V-CONTEXT",
       "path": "context-report.json",
       "result": "pass",
       "runner": "context_fault_qualification",
-      "sha256": "sha256:335c2e71973b03908edc57a31bad84da3d24f9a7c513f1aac5a5d818594aa93d"
+      "sha256": "sha256:2c0a1146b09515466d399c0bc32eecba705b20f4be0b7ebc35a25859b60179fc"
     },
     {
       "gate": "V-CONTRACT",
       "path": "contract-report.json",
       "result": "pass",
       "runner": "contract_qualification",
-      "sha256": "sha256:e23d966013085a75b816ee164b3262f364803ae8c5f76a213e8693b786663514"
+      "sha256": "sha256:5571a075fdd8d93a1fedd35c548ddda3e8100d8f7f04393091c23d749ed25dcb"
     },
     {
       "gate": "V-EFFECT",
       "path": "effect-report.json",
       "result": "pass",
       "runner": "effect_fault_recovery_qualification",
-      "sha256": "sha256:489bd721816d3e326134f65bca80f62234536cb1d4e3bd4377b67e1ad757d48b"
+      "sha256": "sha256:a7a426be1da8f94d11fe3dc2c1d84363c40687e62f56538ff15ea9f6bbf797af"
     },
     {
       "gate": "V-END-TO-END",
       "path": "end-to-end-report.json",
       "result": "pass",
       "runner": "headless_interruption_recovery_qualification",
-      "sha256": "sha256:bde2e86243577f589aff893ee8b15155ba942a90bbbec673ec5e9c3d30e0c82c"
+      "sha256": "sha256:d9cc1eab509622d7fedf742293382c8bbc2cc5235bee5bdc56b65634b2ca4ac6"
     },
     {
       "gate": "V-ISOLATION",
       "path": "isolation-report.json",
       "result": "pass",
       "runner": "execution_adversarial_qualification",
-      "sha256": "sha256:5d09012f6b6b242500aad1820df138e9f41789e78cbc23321f5f54911708251a"
+      "sha256": "sha256:5e9d4a95f5d6e66d3e8613f8327b277f4380471f10605792ab17fee05adb86bb"
     },
     {
       "gate": "V-PACKAGE",
       "path": "package-report.json",
       "result": "pass",
       "runner": "package_lifecycle_qualification",
-      "sha256": "sha256:742602b4b645d01c2062c0dd463ff3dcfcfb44fd3b4de822d98e279a5f7b11db"
+      "sha256": "sha256:b379f0fb4629911fc53a67acfce49e68043fd2155320338e95805dddaefb4115"
     },
     {
       "gate": "V-ROLLBACK",
       "path": "defective-rollback-report.json",
       "result": "pass",
       "runner": "candidate_rollback_qualification",
-      "sha256": "sha256:9a64d421b881052a6da161b4b245e79f07672c0b5049e9b8924c88fda4f282b3"
+      "sha256": "sha256:7f4abbc2f05e39e8e8cbbb013b6acf9fc53979b58f003b2f8d64f5e14a7a0606"
     },
     {
       "gate": "V-SCOPE",
       "path": "scope-report.json",
       "result": "pass",
       "runner": "scope_qualification",
-      "sha256": "sha256:00d832c9befc8a97d38ea37895e07b1e07144302253aef5cd41ecd97004b2e6b"
+      "sha256": "sha256:71d092f6b05c8425a281abdbd1b3ee1d2c1d0512fad06fb4f2e3d09d0fa4f4da"
     },
     {
       "gate": "V-STATE",
       "path": "state-report.json",
       "result": "pass",
       "runner": "state_crash_migration_restore_qualification",
-      "sha256": "sha256:b198c227439722f342c7ed69943dca6cce3904e0f8ee86d2d6592e74e62b2613"
+      "sha256": "sha256:b14d0c03ed2281da01aae67a0e8bf92a78229467179e2f5efca03d9ea083219a"
     }
   ],
   "handwritten_pass_evidence_count": 0,
@@ -126,7 +126,7 @@
     },
     {
       "path": "../v2-rebuild/artifact-closure-report.json",
-      "sha256": "sha256:fd79fcf1c160d4b1ee60a4e369c68fc66e4ec43b1a1228230d3c224b2c3e205b"
+      "sha256": "sha256:095a0ebfc8d435d845ea3600668f262384af8bcc101fa53103e561f86cd6acfa"
     },
     {
       "path": "../v2-rebuild/build-closure-report.json",
@@ -139,61 +139,121 @@
   ],
   "runner": "complete_release_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "work_packets": [
     {
+      "gates": [
+        "V-SCOPE",
+        "V-CONTRACT"
+      ],
       "packet": "W00",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-BOOT",
+        "V-ROLLBACK"
+      ],
       "packet": "W01",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-STATE"
+      ],
       "packet": "W02",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-ABI"
+      ],
       "packet": "W03",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-AUTH"
+      ],
       "packet": "W04",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-STATE",
+        "V-ABI"
+      ],
       "packet": "W05",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-ISOLATION"
+      ],
       "packet": "W06",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-CONTEXT"
+      ],
       "packet": "W07",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-EFFECT"
+      ],
       "packet": "W08",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-ABI",
+        "V-CONTEXT"
+      ],
       "packet": "W09",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-PACKAGE"
+      ],
       "packet": "W10",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-ABI",
+        "V-ISOLATION"
+      ],
       "packet": "W11",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-CHANGE",
+        "V-ROLLBACK"
+      ],
       "packet": "W12",
       "result": "pass"
     },
     {
+      "gates": [
+        "V-SCOPE",
+        "V-CONTRACT",
+        "V-BOOT",
+        "V-ROLLBACK",
+        "V-STATE",
+        "V-ABI",
+        "V-AUTH",
+        "V-ISOLATION",
+        "V-CONTEXT",
+        "V-EFFECT",
+        "V-PACKAGE",
+        "V-CHANGE",
+        "V-END-TO-END"
+      ],
       "packet": "W13",
       "result": "pass"
     }

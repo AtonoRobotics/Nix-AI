@@ -7,12 +7,12 @@
         ".#test-boot",
         "--",
         "--evidence",
-        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/boot.json"
+        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/boot.json"
       ],
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 1780,
-      "output_sha256": "sha256:a381bbb6525734203dc5cf395a2e8784b61015780232fc2bc59b5d30d05abde6"
+      "output_sha256": "sha256:472ecb51fc0d1ef04fbc1b60772188b4eb8b46a234b5433910c122f06157dc5e"
     }
   ],
   "gate": "V-BOOT",
@@ -35,7 +35,7 @@
   "observations": {
     "events": [
       {
-        "boot_attempt_id": "18d8a96f-29c3-4a10-b507-40ec13757d5b",
+        "boot_attempt_id": "f8f80dd1-ef6c-4480-a5f0-9a0510a59c10",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
         "decision": "UNCONFIRMED",
@@ -44,7 +44,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 0,
-        "machine_id": "26f020bec7024da4ae6dbcc35118bacf",
+        "machine_id": "ab6eff36be84442984d9d28dbcb3688e",
         "operational_state": "none",
         "previous_confirmed_generation_id": "none",
         "protections": {
@@ -55,7 +55,7 @@
         "system_generation_id": "531d51817f20925871466862d9db9276"
       },
       {
-        "boot_attempt_id": "8a990ff2-f6af-4e60-8a64-0be500b7d014",
+        "boot_attempt_id": "3510e5b3-ecba-434e-8d7b-8c25c815bddc",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
         "decision": "ACTIVE_UNCONFIRMED",
@@ -64,7 +64,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 1,
-        "machine_id": "26f020bec7024da4ae6dbcc35118bacf",
+        "machine_id": "ab6eff36be84442984d9d28dbcb3688e",
         "operational_state": "baseline-durable-state",
         "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
         "protections": {
@@ -82,7 +82,7 @@
   "result": "pass",
   "runner": "qemu_boot_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [],
   "test_count": 1
 }

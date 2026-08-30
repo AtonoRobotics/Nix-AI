@@ -9,12 +9,12 @@
         "--ledger",
         "/tmp/nixai-publish-issue24/evidence/v2-rebuild/disposition-ledger.json",
         "--output",
-        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/scope.json"
+        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/scope.json"
       ],
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 965,
-      "output_sha256": "sha256:4abdf7058ef5243d122eaf6e4102ebcc40d86280248bf3d92b5b97a18d7c6c60"
+      "output_sha256": "sha256:e741ceb948ffe53634709e878cd4ac20503b57fbfe60b49fa51f8f46f0d62d3a"
     }
   ],
   "gate": "V-SCOPE",
@@ -69,15 +69,15 @@
       "name": "verify-v2-removal",
       "version": 2
     },
-    "scanned_tracked_path_count": 246,
+    "scanned_tracked_path_count": 265,
     "schema_version": 1,
     "valid": true,
-    "verified_commit": "e2cec0fc9eff5e21e142ccde264178121dd7c533"
+    "verified_commit": "4b2973a599de7a0ea4fd239ee1f166dabe1ecbd1"
   },
   "result": "pass",
   "runner": "scope_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [
     {
       "path": "retention-ledger.json",

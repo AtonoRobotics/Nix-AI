@@ -9,8 +9,8 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
-      "output_bytes": 251,
-      "output_sha256": "sha256:36f64df9095c0086f462388a947dd632db7d17668667553f27050c4951f02b4d"
+      "output_bytes": 697,
+      "output_sha256": "sha256:cb8953e251a1e2687e945f68640e03db4b3d783ef074202d7e1f4fe7a329f115"
     }
   ],
   "gate": "V-CONTEXT",
@@ -37,7 +37,7 @@
   "result": "pass",
   "runner": "context_fault_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [],
   "test_count": 1
 }

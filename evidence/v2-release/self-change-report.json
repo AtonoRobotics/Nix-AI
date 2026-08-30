@@ -7,12 +7,12 @@
         "--root",
         "/tmp/nixai-publish-issue24",
         "--output",
-        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/change.json"
+        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/change.json"
       ],
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 1232,
-      "output_sha256": "sha256:0442ab73fb2bd0b4fdccdfb197ba29b9b9d3962eea6e7d06241eff7cd757b535"
+      "output_sha256": "sha256:a603e1b013069d3542d398424030eef0223113ddc8a7b5be733b5b98a1f573aa"
     }
   ],
   "gate": "V-CHANGE",
@@ -55,11 +55,11 @@
       "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
       "dependency_closure_sha256": "e85b9cd7fbaf9b42b2549698e0ac0dba1f01be73d68ebe7d6b658bc298fd05b7",
       "evaluator": "independent-qualifier",
-      "evidence_policy_sha256": "359ded99fccffd0c164122f9042a7e99e9b777455db8ade5bb36201bbbdceba6",
+      "evidence_policy_sha256": "3ff66e7c7c8894601a31f3f37e2d9914c5071da0cfd6c6bf5e9cd8e21ce56113",
       "proposer": "candidate-builder",
       "rollback_target": "previous-confirmed-generation",
       "source_sha256": "0d0dcbc7cae9abdc11216cd80cd43cb77851ce77a880bc0ef385daa51584e048",
-      "tests_sha256": "5e52c7fa0a8750063d66c03b00f0280231f01c7c66fb971699fbc6aa12a9d3f6",
+      "tests_sha256": "d88ecf76eaa4f4c0988fecf7dff34f81ee0b2b4e8b90eb16e60ac5fc7503c444",
       "thresholds": {
         "failed_gate_count": 0,
         "missing_gate_count": 0
@@ -79,7 +79,7 @@
   "result": "pass",
   "runner": "self_change_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [],
   "test_count": 1
 }

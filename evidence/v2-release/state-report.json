@@ -7,12 +7,12 @@
         ".#test-w02",
         "--",
         "--evidence-dir",
-        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/state"
+        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/state"
       ],
       "exit_code": 0,
       "kind": "executed_command",
       "output_bytes": 2216,
-      "output_sha256": "sha256:21ba60c3700803bc122d4ebed46aaa085bda765a566bfafcbb9ea2887436d397"
+      "output_sha256": "sha256:139062bfbdd676174ef3d197e02f7ad6c4bb85343c3b0a9afb8758d0732c5bec"
     }
   ],
   "gate": "V-STATE",
@@ -79,7 +79,7 @@
   "result": "pass",
   "runner": "state_crash_migration_restore_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
   "supporting_evidence": [
     {
       "path": "migration-report.json",
