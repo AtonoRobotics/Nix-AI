@@ -9,7 +9,7 @@ import json
 import re
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 REPORTS = ("contract-validation-report", "generation-no-diff-report")
@@ -21,6 +21,36 @@ REQUIREMENTS = {
 
 def sha256(path: Path) -> str:
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_tree_digest(repository: Path, source_commit: str) -> str:
+    commit = subprocess.run(
+        ["git", "-C", str(repository), "rev-parse", "--verify", f"{source_commit}^{{commit}}"],
+        capture_output=True,
+        text=True,
+    )
+    if commit.returncode:
+        raise SystemExit("W00 source_commit is not present in the repository")
+    listing = subprocess.run(
+        ["git", "-C", str(repository), "ls-tree", "-r", "--name-only", source_commit],
+        capture_output=True,
+        check=True,
+        text=True,
+    ).stdout.splitlines()
+    digest = hashlib.sha256()
+    for relative in sorted(listing):
+        parts = PurePosixPath(relative).parts
+        if "evidence" in parts or "__pycache__" in parts or parts[:2] == ("docs", "research"):
+            continue
+        content = subprocess.run(
+            ["git", "-C", str(repository), "show", f"{source_commit}:{relative}"],
+            capture_output=True,
+            check=True,
+        ).stdout
+        name = relative.encode()
+        digest.update(len(name).to_bytes(4, "big") + name)
+        digest.update(len(content).to_bytes(8, "big") + content)
+    return "sha256:" + digest.hexdigest()
 
 
 def verify_evidence(root: Path) -> None:
@@ -66,8 +96,11 @@ def verify_evidence(root: Path) -> None:
     provenance = json.loads((evidence / "provenance.json").read_text(encoding="utf-8"))
     if provenance.get("source_commit") != packet["source_commit"]:
         raise SystemExit("W00 provenance identifies a different source commit")
-    if not re.fullmatch(r"sha256:[0-9a-f]{64}", provenance.get("source_tree_digest", "")):
-        raise SystemExit("W00 provenance has an invalid qualified source-tree digest")
+    repository = root if (root / ".git").exists() else Path(__file__).resolve().parents[1]
+    if provenance.get("source_tree_digest") != source_tree_digest(
+        repository, packet["source_commit"]
+    ):
+        raise SystemExit("W00 provenance does not match its qualified Git source tree")
     sbom = json.loads((evidence / "sbom.json").read_text(encoding="utf-8"))
     spdx_required = {
         "spdxVersion", "dataLicense", "SPDXID", "name",

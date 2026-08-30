@@ -60,6 +60,13 @@ def closure_identity(item: dict) -> str:
     return f"{item['class']}:{item['name']}"
 
 
+def matches_head(root: Path, relative: str) -> bool:
+    committed = subprocess.run(
+        ["git", "-C", str(root), "show", f"HEAD:{relative}"], capture_output=True
+    )
+    return committed.returncode == 0 and committed.stdout == (root / relative).read_bytes()
+
+
 def verify(root: Path, ledger_path: Path) -> dict:
     ledger = json.loads(ledger_path.read_text())
     inventory = json.loads((ledger_path.parent / "inventory.json").read_text())
@@ -111,7 +118,9 @@ def verify(root: Path, ledger_path: Path) -> dict:
 
     contaminated = []
     for relative in tracked:
-        if relative in POLICY_PATHS or relative in inventoried_policy_paths:
+        if relative in POLICY_PATHS or (
+            relative in inventoried_policy_paths and matches_head(root, relative)
+        ):
             continue
         path = root / relative
         if not path.is_file():

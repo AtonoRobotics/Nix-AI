@@ -121,6 +121,34 @@ class V2ScopeRemovalTests(unittest.TestCase):
         self.assertFalse(any(path.startswith("crates/habitat-simulation/") for path in tracked))
         self.assertNotIn("tools/qualify_w12.py", tracked)
 
+    def test_semantic_scope_scan_rejects_mutated_policy_artifact(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            clone = Path(temporary) / "repository"
+            subprocess.run(
+                ["git", "clone", "--no-hardlinks", "--quiet", str(ROOT), str(clone)],
+                check=True,
+            )
+            shutil.copy2(
+                ROOT / "tools" / "verify_v2_removal.py",
+                clone / "tools" / "verify_v2_removal.py",
+            )
+            ledger = clone / "evidence" / "v2-rebuild" / "disposition-ledger.json"
+            content = json.loads(ledger.read_text())
+            content["new_active_profile"] = "robot_arm"
+            ledger.write_text(json.dumps(content))
+            subprocess.run(["git", "-C", str(clone), "add", str(ledger.relative_to(clone))], check=True)
+            result = subprocess.run(
+                [
+                    "python3", str(clone / "tools" / "verify_v2_removal.py"),
+                    "--root", str(clone), "--ledger", str(ledger),
+                    "--output", str(clone / "report.json"),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn(str(ledger.relative_to(clone)), result.stdout)
+
     def test_contract_validation_no_longer_depends_on_deleted_v1_bundle(self):
         validator = (ROOT / "tools" / "validate_contracts.py").read_text()
         self.assertNotIn("Habitat-OS-Codex-Build-Bundle-v1.1", validator)
