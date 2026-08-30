@@ -80,6 +80,7 @@ def public_semantics_from_contents(paths, read_text) -> list[dict[str, str | int
                 found.append(semantic_record(relative, content, match, "test_fixture"))
             found.extend(rust_enum_values(relative, content))
             found.extend(rust_macro_generated_types(relative, content))
+            found.extend(rust_state_transitions(relative, content))
         elif suffix == ".py":
             python_tree = ast.parse(content, filename=relative)
             for node in ast.walk(python_tree):
@@ -105,13 +106,16 @@ def public_semantics_from_contents(paths, read_text) -> list[dict[str, str | int
             found.extend(proto_enum_values(relative, content))
         elif suffix == ".json":
             found.extend(contract_json_semantics(relative, content))
+        elif suffix == ".nix":
+            found.extend(nix_service_semantics(relative, content))
     return found
 
 
 def semantic_record(relative, content, match, kind=None) -> dict[str, str | int]:
+    position = match.start("name")
     return {
         "path": relative,
-        "line": content.count("\n", 0, match.start()) + 1,
+        "line": content.count("\n", 0, position) + 1,
         "kind": kind or match.group("kind"),
         "name": match.group("name"),
     }
@@ -183,6 +187,69 @@ def rust_macro_generated_types(relative: str, content: str) -> list[dict[str, st
     return found
 
 
+def rust_state_transitions(relative: str, content: str) -> list[dict[str, str | int]]:
+    found: list[dict[str, str | int]] = []
+    seen = set()
+    direct = re.compile(
+        r"(?P<type>[A-Za-z_][A-Za-z0-9_]*State)::(?P<source>[A-Za-z_][A-Za-z0-9_]*)"
+        r"\s*=>\s*(?P=type)::(?P<target>[A-Za-z_][A-Za-z0-9_]*)"
+    )
+    for match in direct.finditer(content):
+        name = (
+            f"{match.group('type')}::{match.group('source')}->"
+            f"{match.group('type')}::{match.group('target')}"
+        )
+        seen.add(name)
+        found.append(
+            {
+                "path": relative,
+                "line": content.count("\n", 0, match.start("source")) + 1,
+                "kind": "transition",
+                "name": name,
+            }
+        )
+    assignment = re.compile(r"\.state\s*=\s*(?P<expression>[^;\n]+)")
+    target = re.compile(
+        r"(?P<type>[A-Za-z_][A-Za-z0-9_]*State)::(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
+    )
+    for match in assignment.finditer(content):
+        for state in target.finditer(match.group("expression")):
+            name = f"state_assignment->{state.group('type')}::{state.group('name')}"
+            if name in seen:
+                continue
+            seen.add(name)
+            position = match.start("expression") + state.start("name")
+            found.append(
+                {
+                    "path": relative,
+                    "line": content.count("\n", 0, position) + 1,
+                    "kind": "transition",
+                    "name": name,
+                }
+            )
+    return found
+
+
+def nix_service_semantics(relative: str, content: str) -> list[dict[str, str | int]]:
+    found = []
+    pattern = re.compile(
+        r"\bsystemd\.(?:user\.)?services\."
+        r"(?:\"(?P<quoted>[^\"]+)\"|(?P<plain>[A-Za-z0-9_@.-]+))"
+    )
+    for match in pattern.finditer(content):
+        name = match.group("quoted") or match.group("plain")
+        position = match.start("quoted") if match.group("quoted") else match.start("plain")
+        found.append(
+            {
+                "path": relative,
+                "line": content.count("\n", 0, position) + 1,
+                "kind": "service",
+                "name": name,
+            }
+        )
+    return found
+
+
 def proto_enum_values(relative: str, content: str) -> list[dict[str, str | int]]:
     found: list[dict[str, str | int]] = []
     for declaration in re.finditer(
@@ -220,6 +287,7 @@ def contract_json_semantics(relative: str, content: str) -> list[dict[str, str |
     canonical = document.get("canonical_model")
     if not isinstance(canonical, dict):
         return json_schema_semantics(relative, content, document)
+    value_offsets, _ = json_token_offsets(content)
     kinds = {
         "principals": "canonical_principal",
         "records": "canonical_record",
@@ -233,13 +301,14 @@ def contract_json_semantics(relative: str, content: str) -> list[dict[str, str |
     }
     found: list[dict[str, str | int]] = []
     for collection, kind in kinds.items():
-        cursor = content.find(json.dumps(collection))
-        for item in canonical.get(collection, []):
+        for index, item in enumerate(canonical.get(collection, [])):
             name = item.get("id") if isinstance(item, dict) else item
             if not isinstance(name, str):
                 continue
-            offset = content.find(json.dumps(name), max(cursor, 0))
-            cursor = offset + len(json.dumps(name)) if offset >= 0 else cursor
+            path = ("canonical_model", collection, index)
+            if isinstance(item, dict):
+                path += ("id",)
+            offset = value_offsets[path]
             found.append(
                 {
                     "path": relative,
@@ -258,11 +327,10 @@ def json_schema_semantics(
     definitions = document.get(definitions_key)
     if not isinstance(definitions, dict) and "enum" not in json.dumps(document):
         return []
+    value_offsets, key_offsets = json_token_offsets(content)
     found: list[dict[str, str | int]] = []
-    cursor = content.find(json.dumps(definitions_key))
     for name in (definitions or {}):
-        offset = content.find(json.dumps(name), max(cursor, 0))
-        cursor = offset + len(json.dumps(name)) if offset >= 0 else cursor
+        offset = key_offsets[(definitions_key, name)]
         found.append(
             {
                 "path": relative,
@@ -271,11 +339,9 @@ def json_schema_semantics(
                 "name": f"{definitions_key}/{name}",
             }
         )
-    search_offset = 0
-    for pointer, value in schema_enum_values(document, "#"):
-        value_offset = content.find(json.dumps(value), search_offset)
-        if value_offset >= 0:
-            search_offset = value_offset + len(json.dumps(value))
+    for path, value in schema_enum_values(document):
+        value_offset = value_offsets[path]
+        pointer = "#/" + "/".join(str(part) for part in path[:-1])
         found.append(
             {
                 "path": relative,
@@ -287,18 +353,67 @@ def json_schema_semantics(
     return found
 
 
-def schema_enum_values(value, pointer: str):
+def schema_enum_values(value, path=()):
     if isinstance(value, dict):
         enum = value.get("enum")
         if isinstance(enum, list):
-            for item in enum:
-                yield pointer + "/enum", item
+            for index, item in enumerate(enum):
+                yield path + ("enum", index), item
         for key, child in value.items():
             if key != "enum":
-                yield from schema_enum_values(child, f"{pointer}/{key}")
+                yield from schema_enum_values(child, path + (key,))
     elif isinstance(value, list):
         for index, child in enumerate(value):
-            yield from schema_enum_values(child, f"{pointer}/{index}")
+            yield from schema_enum_values(child, path + (index,))
+
+
+def json_token_offsets(content: str):
+    decoder = json.JSONDecoder()
+    value_offsets = {}
+    key_offsets = {}
+
+    def whitespace(index):
+        while index < len(content) and content[index].isspace():
+            index += 1
+        return index
+
+    def parse(index, path):
+        index = whitespace(index)
+        value_offsets[path] = index
+        if content[index] == "{":
+            index = whitespace(index + 1)
+            while content[index] != "}":
+                key_start = index
+                key, index = decoder.raw_decode(content, index)
+                child_path = path + (key,)
+                key_offsets[child_path] = key_start
+                index = whitespace(index)
+                if content[index] != ":":
+                    raise ValueError("invalid JSON object separator")
+                index = parse(index + 1, child_path)
+                index = whitespace(index)
+                if content[index] == ",":
+                    index = whitespace(index + 1)
+                elif content[index] != "}":
+                    raise ValueError("invalid JSON object terminator")
+            return index + 1
+        if content[index] == "[":
+            index = whitespace(index + 1)
+            item = 0
+            while content[index] != "]":
+                index = parse(index, path + (item,))
+                item += 1
+                index = whitespace(index)
+                if content[index] == ",":
+                    index = whitespace(index + 1)
+                elif content[index] != "]":
+                    raise ValueError("invalid JSON array terminator")
+            return index + 1
+        _, end = decoder.raw_decode(content, index)
+        return end
+
+    parse(0, ())
+    return value_offsets, key_offsets
 
 
 def rust_enum_values(relative: str, content: str) -> list[dict[str, str | int]]:
@@ -330,10 +445,17 @@ def rust_enum_values(relative: str, content: str) -> list[dict[str, str | int]]:
             elif character in ")}]":
                 nested -= 1
             elif character == "," and nested == 0:
-                segment = body[segment_start:offset].strip()
+                raw_segment = body[segment_start:offset]
+                leading = len(raw_segment) - len(raw_segment.lstrip())
+                segment = raw_segment.strip()
                 variant = re.match(r"(?:#\[[^\]]+\]\s*)*(?P<name>[A-Za-z_][A-Za-z0-9_]*)", segment)
                 if variant:
-                    absolute = body_start + segment_start
+                    absolute = (
+                        body_start
+                        + segment_start
+                        + leading
+                        + variant.start("name")
+                    )
                     found.append(
                         {
                             "path": relative,
@@ -535,6 +657,8 @@ def generated_required_class(path: str) -> str | None:
         return "sbom"
     if name == "provenance.json":
         return "provenance"
+    if path.startswith("evidence/") and path.endswith(".json"):
+        return "evidence_indexes"
     if "evidence" in path.lower() and "index" in name.lower():
         return "evidence_indexes"
     if name.endswith("MANIFEST.sha256"):
@@ -551,12 +675,43 @@ def build_closure_members_from_contents(paths, read_text) -> list[dict[str, str]
 
     if "flake.nix" in paths:
         text = read_text("flake.nix") or ""
-        for match in re.finditer(
-            r"^\s{8}(?P<name>[A-Za-z][A-Za-z0-9_-]*)\s*=\s*",
-            text,
-            re.MULTILINE,
-        ):
-            members.add(("nix-declared-closure-root", match.group("name")))
+        bindings = list(
+            re.finditer(
+                r"^ {6}(?P<name>[A-Za-z][A-Za-z0-9_-]*)\s*=\s*",
+                text,
+                re.MULTILINE,
+            )
+        )
+        binding_names = {match.group("name") for match in bindings}
+        for index, match in enumerate(bindings):
+            name = match.group("name")
+            members.add(("nix-internal-derivation", name))
+            end = bindings[index + 1].start() if index + 1 < len(bindings) else len(text)
+            expression = text[match.end() : end]
+            for dependency in sorted(
+                set(re.findall(r"\b[A-Za-z][A-Za-z0-9_-]*\b", expression))
+                & binding_names
+                - {name}
+            ):
+                members.add(("nix-dependency-edge", f"{name}->{dependency}"))
+
+        lines = text.splitlines()
+        output_class = None
+        for line in lines:
+            container = re.match(
+                r"^ {6}(?P<class>apps|packages|checks)\.\$\{system\}\s*=\s*\{",
+                line,
+            )
+            if container:
+                output_class = container.group("class")
+                continue
+            if output_class and line == "      };":
+                output_class = None
+                continue
+            if output_class:
+                member = re.match(r"^ {8}(?P<name>[A-Za-z0-9_-]+)\s*=", line)
+                if member:
+                    members.add((f"nix-{output_class}-output", member.group("name")))
 
     return [
         {"class": member_class, "name": name}

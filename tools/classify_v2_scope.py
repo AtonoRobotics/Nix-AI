@@ -33,6 +33,15 @@ INVENTORY_CLASSES = (
     "generated_artifacts",
     "build_closure_members",
 )
+INVENTORY_KEYS = set(INVENTORY_CLASSES) | {
+    "counts",
+    "inventory_commit",
+    "inventory_source",
+    "inventory_tree",
+    "rebuild_baseline_commit",
+    "runner",
+    "schema_version",
+}
 FINAL_ACTIONS = {"RETAIN", "DELETE", "DELETE_AND_REBUILD", "REGENERATE"}
 DOMAIN_TERMS = (
     "cordis",
@@ -268,6 +277,14 @@ def generic_identity(item: dict) -> str:
 
 
 def classify(root: Path, inventory: dict, contract: dict) -> dict:
+    unknown_inventory_keys = set(inventory) - INVENTORY_KEYS
+    if unknown_inventory_keys:
+        raise ValueError(
+            "unknown inventory classes or fields: "
+            + ", ".join(sorted(unknown_inventory_keys))
+        )
+    if set(inventory.get("counts", {})) != set(INVENTORY_CLASSES):
+        raise ValueError("inventory counts must name exactly the five inventory classes")
     repository_rebuild = contract["repository_rebuild"]
     dispositions = repository_rebuild["dispositions"]
     predicate_ids = [item["id"] for item in repository_rebuild["retention_predicate"]]

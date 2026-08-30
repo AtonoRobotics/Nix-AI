@@ -155,6 +155,56 @@ class V2RebuildFrontierTests(unittest.TestCase):
             sum(item["kind"] == "schema_enum_value" for item in report["public_semantics"]),
             122,
         )
+        semantic_lines = {
+            (item["path"], item["kind"], item["name"]): item["line"]
+            for item in report["public_semantics"]
+        }
+        self.assertEqual(
+            semantic_lines[
+                (
+                    "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+                    "canonical_service",
+                    "authority",
+                )
+            ],
+            128,
+        )
+        self.assertEqual(
+            semantic_lines[
+                (
+                    "crates/habitat-authority/src/lib.rs",
+                    "enum_value",
+                    "AuthorityError::IdentityInvalid",
+                )
+            ],
+            26,
+        )
+        self.assertEqual(
+            semantic_lines[
+                (
+                    "contracts/requirements.schema.json",
+                    "schema_enum_value",
+                    "#/properties/requirements/items/properties/criticality/enum::critical",
+                )
+            ],
+            33,
+        )
+        self.assertIn(
+            (
+                "nix/modules/habitat-image.nix",
+                "service",
+                "habitat-bootstrap",
+            ),
+            semantics,
+        )
+        self.assertIn(
+            (
+                "crates/habitat-effects/src/lib.rs",
+                "transition",
+                "state_assignment->EffectState::Executing",
+            ),
+            semantics,
+        )
         dependencies = {
             (item["path"], item["class"], item["name"])
             for item in report["dependencies"]
@@ -197,8 +247,23 @@ class V2RebuildFrontierTests(unittest.TestCase):
         }
         self.assertEqual(
             concrete_generated_classes,
-            generated_classes - {"evidence_indexes"},
+            generated_classes,
         )
+        self.assertIn(
+            {
+                "path": "evidence/v2-rebuild/inventory.json",
+                "class": "generated-output",
+                "required_class": "evidence_indexes",
+            },
+            report["generated_artifacts"],
+        )
+        closure = {
+            (item["class"], item["name"])
+            for item in report["build_closure_members"]
+        }
+        self.assertIn(("nix-internal-derivation", "habitatSimulation"), closure)
+        self.assertIn(("nix-dependency-edge", "habitatQemu->habitatRaw"), closure)
+        self.assertNotIn(("nix-declared-closure-root", "version"), closure)
         self.assertIn(
             ("src/habitat_state/store.py", "python-relative-import", ".domain"),
             dependencies,

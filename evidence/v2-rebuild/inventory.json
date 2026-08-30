@@ -37,255 +37,811 @@
       "name": "crates/habitat-simulation"
     },
     {
-      "class": "nix-declared-closure-root",
-      "name": "PROTOC"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "build-system"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "cargoBuildFlags"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "cargoTestFlags"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "contracts"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "dependencies"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "doCheck"
-    },
-    {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "generate-proto"
     },
     {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-abi"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-authority"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-context"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-effects"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-execution"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-harnesses"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-installer"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-models"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-packages"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-qemu"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-raw"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-recovery"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-simulation"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-state"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "modules"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "name"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "nativeBuildInputs"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "packages"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "pname"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "pyproject"
-    },
-    {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "qualify"
     },
     {
-      "class": "nix-declared-closure-root",
-      "name": "recovery_sectors"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "recovery_start"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "rootPaths"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "root_start"
-    },
-    {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "run-habitat-qemu"
     },
     {
-      "class": "nix-declared-closure-root",
-      "name": "runtimeInputs"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "src"
-    },
-    {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-boot"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-rollback"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w02"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w03"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w04"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w05"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w06"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w07"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w08"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w09"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w10"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w11"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "test-w12"
     },
     {
-      "class": "nix-declared-closure-root",
-      "name": "text"
-    },
-    {
-      "class": "nix-declared-closure-root",
+      "class": "nix-apps-output",
       "name": "validate-contracts"
     },
     {
-      "class": "nix-declared-closure-root",
-      "name": "version"
+      "class": "nix-checks-output",
+      "name": "contracts"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w00-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w03-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w04-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w07-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w08-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w09-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w10-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w11-qualification"
     },
     {
-      "class": "nix-declared-closure-root",
+      "class": "nix-checks-output",
       "name": "w12-qualification"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "candidateSystem->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "contractTools->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "generateProto->contractTools"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "generateProto->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "generateProto->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatAbi->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatAuthority->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatClosure->candidateSystem"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatClosure->habitatSystem"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatClosure->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatClosure->recoverySystem"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatClosure->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatContext->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatEffects->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatExecution->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatHarnesses->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatInstaller->habitatRaw"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatInstaller->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatModels->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatPackages->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatQemu->habitatRaw"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatQemu->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRaw->candidateSystem"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRaw->habitatClosure"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRaw->habitatSystem"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRaw->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRaw->recoverySystem"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRaw->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRecovery->habitatRaw"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatRecovery->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatSimulation->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatState->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "habitatSystem->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "pkgs->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "python->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW00->contractTools"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW00->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW00->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW02->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW02->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW03->habitatAbi"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW03->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW03->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW03->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW04->habitatAuthority"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW04->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW04->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW04->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW05->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW05->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW06->habitatExecution"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW06->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW06->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW07->habitatContext"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW07->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW07->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW07->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW08->habitatEffects"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW08->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW08->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW08->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW09->habitatModels"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW09->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW09->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW09->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW10->habitatPackages"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW10->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW10->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW10->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW11->habitatHarnesses"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW11->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW11->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW11->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW12->habitatSimulation"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW12->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW12->python"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "qualifyW12->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "recoverySystem->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->contractTools"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->generateProto"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatAbi"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatAuthority"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatContext"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatEffects"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatExecution"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatHarnesses"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatInstaller"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatModels"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatPackages"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatQemu"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatRaw"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatRecovery"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatSimulation"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->habitatState"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW00"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW02"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW03"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW04"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW05"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW06"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW07"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW08"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW09"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW10"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW11"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->qualifyW12"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->system"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->testBoot"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->testRollback"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "runHabitatQemu->validateContracts"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testBoot->testW01"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testRollback->testW01"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testW01->habitatQemu"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "testW01->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "validateContracts->contractTools"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "validateContracts->pkgs"
+    },
+    {
+      "class": "nix-dependency-edge",
+      "name": "validateContracts->python"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "candidateSystem"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "contractTools"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "generateProto"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatAbi"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatAuthority"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatClosure"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatContext"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatEffects"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatExecution"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatHarnesses"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatInstaller"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatModels"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatPackages"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatQemu"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatRaw"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatRecovery"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatSimulation"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatState"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "habitatSystem"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "pkgs"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "python"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW00"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW02"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW03"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW04"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW05"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW06"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW07"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW08"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW09"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW10"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW11"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "qualifyW12"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "recoverySystem"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "runHabitatQemu"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "system"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "testBoot"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "testRollback"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "testW01"
+    },
+    {
+      "class": "nix-internal-derivation",
+      "name": "validateContracts"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-abi"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-authority"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-context"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-effects"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-execution"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-harnesses"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-installer"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-models"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-packages"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-qemu"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-raw"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-recovery"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-simulation"
+    },
+    {
+      "class": "nix-packages-output",
+      "name": "habitat-state"
     }
   ],
   "counts": {
-    "build_closure_members": 70,
+    "build_closure_members": 209,
     "dependencies": 362,
-    "generated_artifacts": 83,
-    "public_semantics": 1270,
+    "generated_artifacts": 141,
+    "public_semantics": 1296,
     "tracked_paths": 262
   },
   "dependencies": [
@@ -2372,8 +2928,38 @@
     },
     {
       "class": "generated-output",
+      "path": "evidence/v2-rebuild/baseline.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/v2-rebuild/disposition-ledger.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/v2-rebuild/inventory.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W00/contract-validation-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W00/generation-no-diff-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
       "path": "evidence/work-packets/W00/provenance.json",
       "required_class": "provenance"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W00/result.json",
+      "required_class": "evidence_indexes"
     },
     {
       "class": "generated-output",
@@ -2382,13 +2968,273 @@
     },
     {
       "class": "generated-output",
+      "path": "evidence/work-packets/W01/defective-boot-rollback-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W01/generation-identity-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
       "path": "evidence/work-packets/W01/provenance.json",
       "required_class": "provenance"
     },
     {
       "class": "generated-output",
+      "path": "evidence/work-packets/W01/qemu-boot-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W01/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W02/backup-restore-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W02/evidence-integrity-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
       "path": "evidence/work-packets/W02/provenance.json",
       "required_class": "provenance"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W02/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W02/state-crash-matrix.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W03/abi-compatibility-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W03/duplicate-command-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W03/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W04/attenuation-property-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W04/authorization-negative-suite.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W04/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W04/revocation-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W05/lease-recovery-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W05/objective-transition-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W05/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W05/wake-crash-matrix.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W06/isolation-adversarial-suite.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W06/profile-feature-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W06/requirement-evidence.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W06/resource-enforcement-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W06/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W06/termination-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W07/context-conformance-suite.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W07/context-fault-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W07/injection-defense-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W07/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W08/compensation-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W08/effect-fault-matrix.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W08/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W08/unknown-outcome-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W09/credential-isolation-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W09/protected-audit-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W09/provider-replacement-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W09/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W09/structured-disposition-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W09/telemetry-evidence-correlation-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W10/architecture-boundary-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W10/package-lifecycle-suite.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W10/package-rollback-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W10/pin-and-drain-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W10/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W10/system-conformance-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W11/cross-backend-conformance-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W11/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W11/same-agent-identity-test.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W12/gpu-isolation-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W12/result.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W12/rtx-isaac-live-report.json",
+      "required_class": "evidence_indexes"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W12/simulation-effect-report.json",
+      "required_class": "evidence_indexes"
     },
     {
       "class": "dependency-lock",
@@ -2506,30 +3352,30 @@
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     }
   ],
-  "inventory_commit": "afc833585772d3029be25ace78c4a17392a11c5b",
+  "inventory_commit": "c79b16135b0015bef4d72af0084eb4c4a3013f4d",
   "inventory_source": {
     "build_closure_members": "declared-source-graph",
     "file_contents": "git-tree",
     "snapshot_boundary": "before-report-publication",
     "tracked_paths": "git-tree"
   },
-  "inventory_tree": "9ea4656274942e30a031baaa0d81d6603ece7a6a",
+  "inventory_tree": "efa6e4aeb06ca318d757c4b8e533c37115464a28",
   "public_semantics": [
     {
       "kind": "schema_enum_value",
-      "line": 14,
+      "line": 33,
       "name": "#/properties/requirements/items/properties/criticality/enum::critical",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json"
     },
     {
       "kind": "schema_enum_value",
-      "line": 14,
+      "line": 33,
       "name": "#/properties/requirements/items/properties/criticality/enum::release",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json"
     },
     {
       "kind": "schema_enum_value",
-      "line": 14,
+      "line": 33,
       "name": "#/properties/requirements/items/properties/criticality/enum::profile",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json"
     },
@@ -3855,19 +4701,19 @@
     },
     {
       "kind": "schema_enum_value",
-      "line": 14,
+      "line": 33,
       "name": "#/properties/requirements/items/properties/criticality/enum::critical",
       "path": "contracts/requirements.schema.json"
     },
     {
       "kind": "schema_enum_value",
-      "line": 14,
+      "line": 33,
       "name": "#/properties/requirements/items/properties/criticality/enum::release",
       "path": "contracts/requirements.schema.json"
     },
     {
       "kind": "schema_enum_value",
-      "line": 14,
+      "line": 33,
       "name": "#/properties/requirements/items/properties/criticality/enum::profile",
       "path": "contracts/requirements.schema.json"
     },
@@ -4545,7 +5391,7 @@
     },
     {
       "kind": "canonical_service",
-      "line": 127,
+      "line": 128,
       "name": "authority",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -5235,7 +6081,7 @@
     },
     {
       "kind": "canonical_service",
-      "line": 127,
+      "line": 128,
       "name": "authority",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -5589,7 +6435,7 @@
     },
     {
       "kind": "enum",
-      "line": 16,
+      "line": 17,
       "name": "VersionError",
       "path": "crates/habitat-abi/src/lib.rs"
     },
@@ -5601,7 +6447,7 @@
     },
     {
       "kind": "struct",
-      "line": 33,
+      "line": 34,
       "name": "AgentAbi",
       "path": "crates/habitat-abi/src/lib.rs"
     },
@@ -5625,19 +6471,19 @@
     },
     {
       "kind": "test_fixture",
-      "line": 3,
+      "line": 4,
       "name": "compatible_minor_is_accepted_and_unknown_major_is_rejected",
       "path": "crates/habitat-abi/tests/compatibility.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 43,
+      "line": 44,
       "name": "unix_peer_version_and_durable_duplicate_semantics",
       "path": "crates/habitat-abi/tests/transport.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 79,
+      "line": 80,
       "name": "unknown_major_unstructured_and_oversized_commands_fail_closed",
       "path": "crates/habitat-abi/tests/transport.rs"
     },
@@ -5655,13 +6501,13 @@
     },
     {
       "kind": "enum",
-      "line": 24,
+      "line": 25,
       "name": "AuthorityError",
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 29,
+      "line": 30,
       "name": "Grant",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -5721,7 +6567,7 @@
     },
     {
       "kind": "struct",
-      "line": 72,
+      "line": 73,
       "name": "IndependentApproval",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -5733,7 +6579,7 @@
     },
     {
       "kind": "struct",
-      "line": 78,
+      "line": 79,
       "name": "EnforcementProof",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -5745,13 +6591,13 @@
     },
     {
       "kind": "struct",
-      "line": 84,
+      "line": 85,
       "name": "Invocation",
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 92,
+      "line": 93,
       "name": "new",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -5763,13 +6609,13 @@
     },
     {
       "kind": "struct",
-      "line": 102,
+      "line": 103,
       "name": "Decision",
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 112,
+      "line": 113,
       "name": "Authority",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -5823,7 +6669,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 25,
+      "line": 26,
       "name": "AuthorityError::IdentityInvalid",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -5877,31 +6723,31 @@
     },
     {
       "kind": "test_fixture",
-      "line": 10,
+      "line": 11,
       "name": "delegation_can_only_reduce_every_parent_bound",
       "path": "crates/habitat-authority/tests/attenuation_revocation.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 35,
+      "line": 36,
       "name": "revocation_outage_self_authority_and_physical_bypass_fail_closed",
       "path": "crates/habitat-authority/tests/attenuation_revocation.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 3,
+      "line": 4,
       "name": "every_request_is_authenticated_and_mediated_against_all_grant_bounds",
       "path": "crates/habitat-authority/tests/authorization.rs"
     },
     {
       "kind": "enum",
-      "line": 5,
+      "line": 6,
       "name": "TruthClass",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 9,
+      "line": 10,
       "name": "Provenance",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -5913,7 +6759,7 @@
     },
     {
       "kind": "struct",
-      "line": 21,
+      "line": 22,
       "name": "ContextItem",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -5943,31 +6789,31 @@
     },
     {
       "kind": "struct",
-      "line": 44,
+      "line": 45,
       "name": "SourceAccess",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 47,
+      "line": 48,
       "name": "SecurityObservation",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 50,
+      "line": 51,
       "name": "Omission",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 53,
+      "line": 54,
       "name": "ContextBundle",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 60,
+      "line": 61,
       "name": "ContextError",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -5991,13 +6837,13 @@
     },
     {
       "kind": "enum",
-      "line": 89,
+      "line": 90,
       "name": "RequestedKind",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 91,
+      "line": 92,
       "name": "ContextRequest",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -6009,7 +6855,7 @@
     },
     {
       "kind": "struct",
-      "line": 107,
+      "line": 108,
       "name": "SkillDescriptor",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -6063,7 +6909,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 6,
+      "line": 7,
       "name": "TruthClass::ModelSuggestion",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -6099,7 +6945,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 61,
+      "line": 62,
       "name": "ContextError::NonMaterial",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -6159,55 +7005,55 @@
     },
     {
       "kind": "test_fixture",
-      "line": 3,
+      "line": 4,
       "name": "bundle_is_immutable_provenance_bearing_and_separates_truth_classes",
       "path": "crates/habitat-context/tests/compiler.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 12,
+      "line": 13,
       "name": "budget_and_contradictions_are_explicit",
       "path": "crates/habitat-context/tests/faults.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 21,
+      "line": 22,
       "name": "semantic_request_creates_linked_successor_and_bounds_access",
       "path": "crates/habitat-context/tests/faults.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 31,
+      "line": 32,
       "name": "faults_reject_stale_forbidden_nonmaterial_and_recursive_requests",
       "path": "crates/habitat-context/tests/faults.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 45,
+      "line": 46,
       "name": "descriptor_first_skill_selection_does_not_load_procedure",
       "path": "crates/habitat-context/tests/faults.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 54,
+      "line": 55,
       "name": "hostile_content_is_data_and_cannot_mutate_bundle_identity",
       "path": "crates/habitat-context/tests/faults.rs"
     },
     {
       "kind": "enum",
-      "line": 6,
+      "line": 7,
       "name": "ConsequenceClass",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 9,
+      "line": 10,
       "name": "ReconciliationMode",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 12,
+      "line": 13,
       "name": "ProviderContract",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6219,13 +7065,13 @@
     },
     {
       "kind": "struct",
-      "line": 20,
+      "line": 21,
       "name": "EffectProposal",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 28,
+      "line": 29,
       "name": "new",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6243,7 +7089,7 @@
     },
     {
       "kind": "struct",
-      "line": 47,
+      "line": 48,
       "name": "Admission",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6255,19 +7101,19 @@
     },
     {
       "kind": "enum",
-      "line": 53,
+      "line": 54,
       "name": "EffectState",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 57,
+      "line": 58,
       "name": "EffectRecord",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 61,
+      "line": 62,
       "name": "Attempt",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6279,7 +7125,7 @@
     },
     {
       "kind": "struct",
-      "line": 70,
+      "line": 71,
       "name": "Observation",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6507,7 +7353,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 54,
+      "line": 55,
       "name": "EffectState::OutcomeUnknown",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6561,7 +7407,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 77,
+      "line": 78,
       "name": "EffectError::EffectMissing",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6585,7 +7431,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 78,
+      "line": 79,
       "name": "EffectError::PhysicalContractIncomplete",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -6608,56 +7454,122 @@
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
+      "kind": "transition",
+      "line": 163,
+      "name": "EffectState::Reserved->EffectState::Cancelled",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 164,
+      "name": "EffectState::Executing->EffectState::OutcomeUnknown",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 131,
+      "name": "state_assignment->EffectState::Executing",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 136,
+      "name": "state_assignment->EffectState::OutcomeUnknown",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 144,
+      "name": "state_assignment->EffectState::ObservedSucceeded",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 144,
+      "name": "state_assignment->EffectState::ObservedFailed",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 153,
+      "name": "state_assignment->EffectState::Reconciling",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 159,
+      "name": "state_assignment->EffectState::ResolvedSucceeded",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 159,
+      "name": "state_assignment->EffectState::ResolvedFailed",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 163,
+      "name": "state_assignment->EffectState::Reserved",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 163,
+      "name": "state_assignment->EffectState::Cancelled",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
       "kind": "test_fixture",
-      "line": 8,
+      "line": 9,
       "name": "admission_atomically_reserves_semantic_intent_and_deduplicates",
       "path": "crates/habitat-effects/tests/admission.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 9,
+      "line": 10,
       "name": "disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry",
       "path": "crates/habitat-effects/tests/fault_matrix.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 22,
+      "line": 23,
       "name": "acknowledgement_is_not_success_without_the_declared_observation",
       "path": "crates/habitat-effects/tests/fault_matrix.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 32,
+      "line": 33,
       "name": "cancellation_and_compensation_preserve_truthful_distinct_histories",
       "path": "crates/habitat-effects/tests/fault_matrix.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 48,
+      "line": 49,
       "name": "recovery_physical_validity_ordering_and_completion_fail_closed",
       "path": "crates/habitat-effects/tests/fault_matrix.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 61,
+      "line": 62,
       "name": "restart_recovers_nonterminal_effects_and_enforces_declared_order",
       "path": "crates/habitat-effects/tests/fault_matrix.rs"
     },
     {
       "kind": "enum",
-      "line": 4,
+      "line": 5,
       "name": "Runtime",
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 7,
+      "line": 8,
       "name": "AdmissionError",
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 10,
+      "line": 11,
       "name": "IsolationRequest",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -6687,7 +7599,7 @@
     },
     {
       "kind": "struct",
-      "line": 40,
+      "line": 41,
       "name": "SandboxSpec",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -6711,13 +7623,13 @@
     },
     {
       "kind": "struct",
-      "line": 56,
+      "line": 57,
       "name": "OciImage",
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 58,
+      "line": 59,
       "name": "ImageError",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -6729,7 +7641,7 @@
     },
     {
       "kind": "struct",
-      "line": 68,
+      "line": 69,
       "name": "FeatureDeclaration",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -6789,25 +7701,25 @@
     },
     {
       "kind": "test_fixture",
-      "line": 3,
+      "line": 4,
       "name": "profile_must_admit_runtime_and_resources_before_execution",
       "path": "crates/habitat-execution/tests/admission.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 14,
+      "line": 15,
       "name": "native_and_oci_boundaries_are_default_deny_by_construction",
       "path": "crates/habitat-execution/tests/admission.rs"
     },
     {
       "kind": "struct",
-      "line": 7,
+      "line": 8,
       "name": "DurableIdentity",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 10,
+      "line": 11,
       "name": "PreparedActivation",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
@@ -7011,7 +7923,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 25,
+      "line": 26,
       "name": "HarnessError::CapabilityDenied",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
@@ -7065,55 +7977,55 @@
     },
     {
       "kind": "test_fixture",
-      "line": 13,
+      "line": 14,
       "name": "codex_and_claude_emit_the_same_semantic_abi_and_identity",
       "path": "crates/habitat-harnesses/tests/backend_conformance.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 11,
+      "line": 12,
       "name": "process_success_prose_and_session_completion_do_not_complete_objective",
       "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 19,
+      "line": 20,
       "name": "capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
       "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 28,
+      "line": 29,
       "name": "only_typed_checkpoint_is_durable_and_transcript_is_disposable",
       "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 39,
+      "line": 40,
       "name": "cancellation_deadline_and_backend_comparison_preserve_committed_truth",
       "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
     },
     {
       "kind": "enum",
-      "line": 6,
+      "line": 8,
       "name": "DispositionKind",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 11,
+      "line": 12,
       "name": "DecisionArtifact",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 14,
+      "line": 15,
       "name": "Disposition",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 18,
+      "line": 19,
       "name": "CandidateOutput",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -7125,13 +8037,13 @@
     },
     {
       "kind": "struct",
-      "line": 25,
+      "line": 26,
       "name": "CapabilityDescriptor",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 28,
+      "line": 29,
       "name": "ActivationEnvelope",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -7155,7 +8067,7 @@
     },
     {
       "kind": "enum",
-      "line": 57,
+      "line": 58,
       "name": "ActivationStatus",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -7233,13 +8145,13 @@
     },
     {
       "kind": "struct",
-      "line": 90,
+      "line": 91,
       "name": "ModelEvidence",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 94,
+      "line": 95,
       "name": "record",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -7299,7 +8211,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 8,
+      "line": 9,
       "name": "DispositionKind::Checkpoint",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -7341,7 +8253,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 22,
+      "line": 23,
       "name": "ModelError::CommandIdRequired",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -7395,49 +8307,49 @@
     },
     {
       "kind": "test_fixture",
-      "line": 14,
+      "line": 15,
       "name": "validator_rejects_missing_identity_and_invisible_capability_without_heuristics",
       "path": "crates/habitat-models/tests/driver_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 26,
+      "line": 27,
       "name": "provider_stop_does_not_complete_but_validated_completion_claim_does",
       "path": "crates/habitat-models/tests/driver_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 37,
+      "line": 38,
       "name": "cancellation_and_deadline_are_classified_without_implicit_completion",
       "path": "crates/habitat-models/tests/driver_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 45,
+      "line": 46,
       "name": "credential_exists_only_at_transport_boundary_and_evidence_is_protected",
       "path": "crates/habitat-models/tests/driver_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 8,
+      "line": 9,
       "name": "openai_and_anthropic_translate_to_identical_semantic_disposition",
       "path": "crates/habitat-models/tests/provider_replacement.rs"
     },
     {
       "kind": "struct",
-      "line": 7,
+      "line": 8,
       "name": "CapabilityVersion",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 9,
+      "line": 10,
       "name": "SupplyChain",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 12,
+      "line": 13,
       "name": "PackageManifest",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7527,13 +8439,13 @@
     },
     {
       "kind": "enum",
-      "line": 46,
+      "line": 47,
       "name": "ProviderState",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 49,
+      "line": 50,
       "name": "PackageRecord",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7575,13 +8487,13 @@
     },
     {
       "kind": "struct",
-      "line": 63,
+      "line": 64,
       "name": "ActivationEntry",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 66,
+      "line": 67,
       "name": "ActivationSet",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7773,7 +8685,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 47,
+      "line": 48,
       "name": "ProviderState::Quarantined",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7815,7 +8727,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 52,
+      "line": 53,
       "name": "PackageError::MutableArtifact",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7845,7 +8757,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 53,
+      "line": 54,
       "name": "PackageError::LiveVerificationRequired",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7875,7 +8787,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 54,
+      "line": 55,
       "name": "PackageError::CordisBoundaryViolation",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7905,7 +8817,7 @@
     },
     {
       "kind": "enum_value",
-      "line": 74,
+      "line": 75,
       "name": "CordisOperation::ExternalEffect",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -7922,44 +8834,74 @@
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
+      "kind": "transition",
+      "line": 121,
+      "name": "state_assignment->ProviderState::Staged",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 124,
+      "name": "state_assignment->ProviderState::Verifying",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 136,
+      "name": "state_assignment->ProviderState::Active",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 146,
+      "name": "state_assignment->ProviderState::Draining",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "transition",
+      "line": 150,
+      "name": "state_assignment->ProviderState::Revoked",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
       "kind": "test_fixture",
-      "line": 10,
+      "line": 11,
       "name": "signed_digest_addressed_package_is_admitted_without_granting_authority",
       "path": "crates/habitat-packages/tests/admission.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 14,
+      "line": 15,
       "name": "dependency_closure_and_behavioral_probe_gate_immutable_activation_set",
       "path": "crates/habitat-packages/tests/lifecycle.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 30,
+      "line": 31,
       "name": "replacement_drains_new_binding_while_existing_work_stays_pinned_and_rollback_is_exact",
       "path": "crates/habitat-packages/tests/lifecycle.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 45,
+      "line": 46,
       "name": "revocation_and_migration_fail_closed_with_recovery_evidence",
       "path": "crates/habitat-packages/tests/lifecycle.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 57,
+      "line": 58,
       "name": "cordis_boundary_rejects_external_or_durable_control_operations",
       "path": "crates/habitat-packages/tests/lifecycle.rs"
     },
     {
       "kind": "enum",
-      "line": 6,
+      "line": 7,
       "name": "GpuFeature",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 12,
+      "line": 13,
       "name": "CompatibilityCapsule",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -7971,13 +8913,13 @@
     },
     {
       "kind": "struct",
-      "line": 38,
+      "line": 39,
       "name": "CapsuleAdmission",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 45,
+      "line": 46,
       "name": "SimulationError",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -8001,7 +8943,7 @@
     },
     {
       "kind": "struct",
-      "line": 108,
+      "line": 109,
       "name": "SimulationCommand",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -8013,7 +8955,7 @@
     },
     {
       "kind": "struct",
-      "line": 137,
+      "line": 138,
       "name": "SimulationEffect",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -8037,7 +8979,7 @@
     },
     {
       "kind": "struct",
-      "line": 201,
+      "line": 202,
       "name": "GpuSandbox",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -8073,19 +9015,19 @@
     },
     {
       "kind": "struct",
-      "line": 260,
+      "line": 261,
       "name": "QualificationEvidence",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 267,
+      "line": 268,
       "name": "QualificationReport",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 272,
+      "line": 273,
       "name": "passed",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -8097,151 +9039,157 @@
     },
     {
       "kind": "enum_value",
-      "line": 7,
+      "line": 8,
       "name": "GpuFeature::Rtx",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 8,
+      "line": 9,
       "name": "GpuFeature::IsaacSim",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 46,
+      "line": 47,
       "name": "SimulationError::DigestRequired",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 47,
+      "line": 48,
       "name": "SimulationError::GpuMismatch",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 48,
+      "line": 49,
       "name": "SimulationError::DriverMismatch",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 49,
+      "line": 50,
       "name": "SimulationError::CapacityExceeded",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 50,
+      "line": 51,
       "name": "SimulationError::FeatureAbsent",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 51,
+      "line": 52,
       "name": "SimulationError::CapabilityDenied",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 52,
+      "line": 53,
       "name": "SimulationError::AuthorityDenied",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 53,
+      "line": 54,
       "name": "SimulationError::LeaseExists",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 54,
+      "line": 55,
       "name": "SimulationError::LeaseMissing",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum_value",
-      "line": 55,
+      "line": 56,
       "name": "SimulationError::DeviceDenied",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 6,
+      "line": 7,
       "name": "admits_only_digest_pinned_capsules_matching_the_gpu_profile",
       "path": "crates/habitat-simulation/tests/provider_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 33,
+      "line": 34,
       "name": "qualification_report_exposes_all_required_digest_addressed_evidence",
       "path": "crates/habitat-simulation/tests/provider_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 57,
+      "line": 58,
       "name": "gpu_nodes_are_lease_scoped_and_direct_host_access_is_denied",
       "path": "crates/habitat-simulation/tests/provider_boundary.rs"
     },
     {
       "kind": "test_fixture",
-      "line": 84,
+      "line": 85,
       "name": "authorized_simulation_commands_return_idempotent_typed_effects",
       "path": "crates/habitat-simulation/tests/provider_boundary.rs"
     },
     {
+      "kind": "service",
+      "line": 26,
+      "name": "systemd-bless-boot.enable",
+      "path": "flake.nix"
+    },
+    {
       "kind": "struct",
-      "line": 4,
+      "line": 5,
       "name": "GetActivationRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 21,
+      "line": 22,
       "name": "ActivationEnvelope",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 62,
+      "line": 63,
       "name": "SubmitDispositionRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 85,
+      "line": 86,
       "name": "DecisionRecord",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 102,
+      "line": 103,
       "name": "GetCommandResultRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 119,
+      "line": 120,
       "name": "CancelActivationRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 138,
+      "line": 139,
       "name": "CommandResult",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 163,
+      "line": 164,
       "name": "ErrorStatus",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum",
-      "line": 186,
+      "line": 188,
       "name": "DispositionKind",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
@@ -8259,7 +9207,7 @@
     },
     {
       "kind": "enum",
-      "line": 236,
+      "line": 238,
       "name": "RetryDisposition",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
@@ -8277,169 +9225,169 @@
     },
     {
       "kind": "enum_value",
-      "line": 188,
+      "line": 189,
       "name": "DispositionKind::Unspecified",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 189,
+      "line": 190,
       "name": "DispositionKind::ContextRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 190,
+      "line": 191,
       "name": "DispositionKind::CapabilityInvocation",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 191,
+      "line": 192,
       "name": "DispositionKind::EffectProposal",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 192,
+      "line": 193,
       "name": "DispositionKind::Delegation",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 193,
+      "line": 194,
       "name": "DispositionKind::Message",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 194,
+      "line": 195,
       "name": "DispositionKind::Checkpoint",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 195,
+      "line": 196,
       "name": "DispositionKind::Sleep",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 196,
+      "line": 197,
       "name": "DispositionKind::CompletionClaim",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 197,
+      "line": 198,
       "name": "DispositionKind::ActivationFailure",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 238,
+      "line": 239,
       "name": "RetryDisposition::Unspecified",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 239,
+      "line": 240,
       "name": "RetryDisposition::Never",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 240,
+      "line": 241,
       "name": "RetryDisposition::SameActivation",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 241,
+      "line": 242,
       "name": "RetryDisposition::NewActivation",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 242,
+      "line": 243,
       "name": "RetryDisposition::AfterDependency",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 243,
+      "line": 244,
       "name": "RetryDisposition::ReconcileOnly",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 4,
+      "line": 5,
       "name": "EvaluateRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 31,
+      "line": 32,
       "name": "AuthorityDecision",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 60,
+      "line": 61,
       "name": "DelegateRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 87,
+      "line": 88,
       "name": "GrantResult",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 106,
+      "line": 107,
       "name": "RevokeRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 125,
+      "line": 126,
       "name": "RevocationResult",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 144,
+      "line": 145,
       "name": "EffectProposal",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 192,
+      "line": 193,
       "name": "GetEffectRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 207,
+      "line": 208,
       "name": "ReconciliationRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 226,
+      "line": 227,
       "name": "CompensationRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 247,
+      "line": 248,
       "name": "EffectRecord",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum",
-      "line": 274,
+      "line": 276,
       "name": "ConsequenceClass",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
@@ -8457,7 +9405,7 @@
     },
     {
       "kind": "enum",
-      "line": 312,
+      "line": 314,
       "name": "EffectState",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
@@ -8475,111 +9423,141 @@
     },
     {
       "kind": "enum_value",
-      "line": 276,
+      "line": 277,
       "name": "ConsequenceClass::Unspecified",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 277,
+      "line": 278,
       "name": "ConsequenceClass::E0",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 278,
+      "line": 279,
       "name": "ConsequenceClass::E1",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 279,
+      "line": 280,
       "name": "ConsequenceClass::E2",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 280,
+      "line": 281,
       "name": "ConsequenceClass::E3",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 281,
+      "line": 282,
       "name": "ConsequenceClass::E4",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 314,
+      "line": 315,
       "name": "EffectState::Unspecified",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 315,
+      "line": 316,
       "name": "EffectState::Proposed",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 316,
+      "line": 317,
       "name": "EffectState::Rejected",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 317,
+      "line": 318,
       "name": "EffectState::Reserved",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 318,
+      "line": 319,
       "name": "EffectState::Executing",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 319,
+      "line": 320,
       "name": "EffectState::ObservedSucceeded",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 320,
+      "line": 321,
       "name": "EffectState::ObservedFailed",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 321,
+      "line": 322,
       "name": "EffectState::OutcomeUnknown",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 322,
+      "line": 323,
       "name": "EffectState::Reconciling",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 323,
+      "line": 324,
       "name": "EffectState::ResolvedSucceeded",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 324,
+      "line": 325,
       "name": "EffectState::ResolvedFailed",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum_value",
-      "line": 325,
+      "line": 326,
       "name": "EffectState::ManualAuthorityRequired",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "service",
+      "line": 68,
+      "name": "getty@tty1",
+      "path": "nix/modules/habitat-image.nix"
+    },
+    {
+      "kind": "service",
+      "line": 69,
+      "name": "serial-getty@ttyS0",
+      "path": "nix/modules/habitat-image.nix"
+    },
+    {
+      "kind": "service",
+      "line": 81,
+      "name": "habitat-bootstrap",
+      "path": "nix/modules/habitat-image.nix"
+    },
+    {
+      "kind": "service",
+      "line": 98,
+      "name": "habitat-stage-candidate",
+      "path": "nix/modules/habitat-image.nix"
+    },
+    {
+      "kind": "service",
+      "line": 125,
+      "name": "habitat-reject-unconfirmed-candidate",
+      "path": "nix/modules/habitat-image.nix"
     },
     {
       "kind": "class",
@@ -9375,19 +10353,19 @@
     },
     {
       "kind": "test_fixture",
-      "line": 202,
+      "line": 245,
       "name": "test_cross_relation_dependency_cycle_is_rejected",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
       "kind": "test_fixture",
-      "line": 231,
+      "line": 274,
       "name": "test_requirement_derivation_references_are_resolved_and_acyclic",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
       "kind": "test_fixture",
-      "line": 265,
+      "line": 308,
       "name": "test_inventory_cli_records_the_baseline_and_every_inventory_class",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
@@ -9681,37 +10659,37 @@
     },
     {
       "kind": "def",
-      "line": 266,
+      "line": 270,
       "name": "classify",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 421,
+      "line": 443,
       "name": "relegacy_packet",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 425,
+      "line": 447,
       "name": "contract_package",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 432,
+      "line": 454,
       "name": "validate_contract_packages",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 485,
+      "line": 507,
       "name": "retention_evidence",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 526,
+      "line": 548,
       "name": "main",
       "path": "tools/classify_v2_scope.py"
     },
@@ -9777,61 +10755,85 @@
     },
     {
       "kind": "def",
-      "line": 252,
+      "line": 254,
+      "name": "json_schema_semantics",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 290,
+      "name": "schema_enum_values",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 304,
       "name": "rust_enum_values",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 297,
+      "line": 349,
       "name": "public_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 302,
+      "line": 354,
       "name": "dependencies_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 395,
+      "line": 447,
       "name": "nix_dependencies",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 421,
+      "line": 473,
       "name": "dependencies",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 426,
+      "line": 478,
       "name": "generated_artifacts",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 439,
+      "line": 482,
+      "name": "generated_artifacts_from_contents",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 518,
+      "name": "generated_required_class",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 545,
       "name": "build_closure_members_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 461,
+      "line": 567,
       "name": "build_closure_members",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 468,
+      "line": 574,
       "name": "inventory",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 496,
+      "line": 602,
       "name": "main",
       "path": "tools/inventory_v2.py"
     },

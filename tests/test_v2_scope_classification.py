@@ -264,6 +264,16 @@ class V2ScopeClassificationTests(unittest.TestCase):
                     result.stderr,
                 )
 
+        forged = dict(source)
+        forged["sixth_class"] = [{"identity": "silently-dropped"}]
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_path = Path(temporary)
+            inventory = temporary_path / "inventory.json"
+            inventory.write_text(json.dumps(forged))
+            result = self.run_classifier(temporary_path / "ledger.json", inventory)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("unknown inventory classes or fields: sixth_class", result.stderr)
+
     def test_inventory_commit_is_reachable_from_a_fresh_clone(self):
         inventory = json.loads(
             (ROOT / "evidence" / "v2-rebuild" / "inventory.json").read_text()
