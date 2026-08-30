@@ -496,6 +496,12 @@ def dependencies_from_contents(paths, read_text) -> list[dict[str, str]]:
         "build-dependencies",
     }
     for relative in paths:
+        if relative.endswith(".json"):
+            content = read_text(relative)
+            if content is not None:
+                document = json.loads(content)
+                for reference in json_schema_references(document):
+                    found.add((relative, "json-schema-reference", reference))
         if not relative.endswith("Cargo.toml"):
             continue
         content = read_text(relative)
@@ -579,6 +585,18 @@ def dependencies_from_contents(paths, read_text) -> list[dict[str, str]]:
         {"path": path, "class": dependency_class, "name": name}
         for path, dependency_class, name in sorted(found)
     ]
+
+
+def json_schema_references(value):
+    if isinstance(value, dict):
+        reference = value.get("$ref")
+        if isinstance(reference, str):
+            yield reference
+        for child in value.values():
+            yield from json_schema_references(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from json_schema_references(child)
 
 
 def nix_dependencies(relative: str, content: str) -> set[tuple[str, str, str]]:
@@ -720,11 +738,21 @@ def nix_build_closure(text: str) -> set[tuple[str, str]]:
         r"(?:nixosSystem|withPackages|writeShellApplication|buildPythonPackage|"
         r"buildRustPackage|closureInfo|runCommand|mkShell)\b"
     )
-    derivations = {name for name, expression in expressions.items() if constructor.search(expression)}
+    factories = {
+        name
+        for name, expression in expressions.items()
+        if re.match(r"\s*[A-Za-z_][A-Za-z0-9_]*\s*:", expression)
+        and constructor.search(expression)
+    }
+    derivations = {
+        name
+        for name, expression in expressions.items()
+        if constructor.search(expression) and name not in factories
+    }
     dependency_sets = {
         name
         for name, expression in expressions.items()
-        if re.search(r"\bwith\s+pkgs(?:\.[A-Za-z0-9_]+)?\s*;\s*\[", expression)
+        if re.match(r"\s*with\s+pkgs(?:\.[A-Za-z0-9_]+)?\s*;\s*\[", expression)
     }
     changed = True
     while changed:
@@ -733,20 +761,45 @@ def nix_build_closure(text: str) -> set[tuple[str, str]]:
             if name in derivations:
                 continue
             first = re.match(r"\s*(?P<name>[A-Za-z][A-Za-z0-9_]*)", expression)
-            if first and first.group("name") in derivations:
+            if first and first.group("name") in (derivations | factories):
                 derivations.add(name)
                 changed = True
     for name in derivations:
         members.add(("nix-internal-derivation", name))
         dependencies = (
             set(re.findall(r"\b[A-Za-z][A-Za-z0-9_]*\b", expressions[name]))
-            & (derivations | dependency_sets)
+            & (derivations | dependency_sets | factories)
             - {name}
         )
         for dependency in dependencies:
             members.add(("nix-dependency-edge", f"{name}->{dependency}"))
     for name in dependency_sets:
         members.add(("nix-dependency-set", name))
+        match = re.match(
+            r"\s*with\s+pkgs(?:\.[A-Za-z0-9_]+)?\s*;\s*\[(?P<body>.*?)\]",
+            expressions[name],
+            re.DOTALL,
+        )
+        if match:
+            for dependency in re.findall(
+                r"\b[A-Za-z][A-Za-z0-9_-]*\b", match.group("body")
+            ):
+                members.add(("nix-dependency-edge", f"{name}->{dependency}"))
+    for name in factories:
+        members.add(("nix-derivation-factory", name))
+        dependencies = (
+            set(re.findall(r"\b[A-Za-z][A-Za-z0-9_]*\b", expressions[name]))
+            & (derivations | dependency_sets | factories)
+            - {name}
+        )
+        for dependency in dependencies:
+            members.add(("nix-dependency-edge", f"{name}->{dependency}"))
+        for dependency in re.findall(r"\bpkgs\.([A-Za-z0-9_-]+)", expressions[name]):
+            members.add(("nix-dependency-edge", f"{name}->{dependency}"))
+        for source in re.findall(
+            r"\$\{\./(?P<path>[A-Za-z0-9_./-]+)\}", expressions[name]
+        ):
+            members.add(("nix-source-edge", f"{name}->{source}"))
 
     output_text = text[let_end:]
     containers = list(
@@ -797,6 +850,9 @@ def nix_build_closure(text: str) -> set[tuple[str, str]]:
                 & (derivations | dependency_sets)
             ):
                 members.add(("nix-output-edge", f"{name}->{dependency}"))
+            if name == "formatter":
+                for package in re.findall(r"\bpkgs\.([A-Za-z0-9_-]+)", expression):
+                    members.add(("nix-output-edge", f"formatter->{package}"))
     return members
 
 

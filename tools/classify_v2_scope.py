@@ -285,6 +285,23 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
         )
     if set(inventory.get("counts", {})) != set(INVENTORY_CLASSES):
         raise ValueError("inventory counts must name exactly the five inventory classes")
+    expected_source = {
+        "tracked_paths": "git-tree",
+        "file_contents": "git-tree",
+        "build_closure_members": "declared-source-graph",
+        "snapshot_boundary": "before-report-publication",
+    }
+    expected_counts = {
+        inventory_class: len(inventory.get(inventory_class, []))
+        for inventory_class in INVENTORY_CLASSES
+    }
+    if (
+        inventory.get("schema_version") != 1
+        or inventory.get("runner") != {"name": "inventory-v2", "version": 1}
+        or inventory.get("inventory_source") != expected_source
+        or inventory.get("counts") != expected_counts
+    ):
+        raise ValueError("inventory metadata does not match trusted format")
     repository_rebuild = contract["repository_rebuild"]
     dispositions = repository_rebuild["dispositions"]
     predicate_ids = [item["id"] for item in repository_rebuild["retention_predicate"]]
@@ -325,6 +342,11 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
         raise ValueError("archived v2.0.0 manifest digest does not match trusted authority")
     if contract != binding_contract:
         raise ValueError("contract input does not match inventory tree binding contract")
+    if (
+        inventory.get("rebuild_baseline_commit")
+        != binding_contract["contract"]["target"]["baseline_commit"]
+    ):
+        raise ValueError("inventory metadata does not match trusted format")
     tree_paths = sorted(
         path
         for path in git(root, "ls-tree", "-r", "--name-only", tree).splitlines()
@@ -370,6 +392,7 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
             identity = identity_function(item)
             if (
                 inventory_class == "generated_artifacts"
+                and parent["action"] != "RETAIN"
                 and (
                     item["class"] == "required-generated-class"
                     or item.get("required_class")

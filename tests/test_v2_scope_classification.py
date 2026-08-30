@@ -174,6 +174,21 @@ class V2ScopeClassificationTests(unittest.TestCase):
                 archived_v2["predicate_evidence"]["RET-006"]["result"],
                 "not_applicable",
             )
+            immutable_generated = [
+                record
+                for record in ledger["dispositions"]["generated_artifacts"]
+                if record["identity"].startswith(("contracts/v2/", "contracts/v2.0.1/"))
+                and ":required-generated-class:" not in record["identity"]
+            ]
+            self.assertTrue(immutable_generated)
+            self.assertTrue(
+                all(record["action"] == "RETAIN" for record in immutable_generated)
+            )
+            for schema in (
+                "contracts/v2/contract.schema.json:generated-output:json_schemas",
+                "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas",
+            ):
+                self.assertIn(schema, {record["identity"] for record in immutable_generated})
 
             for identity in (".gitignore", "AGENTS.md", "tools/inventory_v2.py"):
                 self.assertNotIn(identity, retained_by_identity)
@@ -273,6 +288,28 @@ class V2ScopeClassificationTests(unittest.TestCase):
             result = self.run_classifier(temporary_path / "ledger.json", inventory)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("unknown inventory classes or fields: sixth_class", result.stderr)
+
+    def test_inventory_metadata_is_fail_closed(self):
+        source = json.loads(
+            (ROOT / "evidence" / "v2-rebuild" / "inventory.json").read_text()
+        )
+        mutations = {
+            "counts": {**source["counts"], "dependencies": -999},
+            "runner": {"name": "forged", "version": 1},
+            "schema_version": 999,
+            "rebuild_baseline_commit": "0" * 40,
+            "inventory_source": {**source["inventory_source"], "file_contents": "untrusted"},
+        }
+        for field, value in mutations.items():
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as temporary:
+                forged = dict(source)
+                forged[field] = value
+                temporary_path = Path(temporary)
+                inventory = temporary_path / "inventory.json"
+                inventory.write_text(json.dumps(forged))
+                result = self.run_classifier(temporary_path / "ledger.json", inventory)
+            self.assertNotEqual(result.returncode, 0, field)
+            self.assertIn("inventory metadata does not match trusted format", result.stderr)
 
     def test_inventory_commit_is_reachable_from_a_fresh_clone(self):
         inventory = json.loads(

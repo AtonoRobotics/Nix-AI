@@ -235,6 +235,19 @@ class V2RebuildFrontierTests(unittest.TestCase):
             ),
             dependencies,
         )
+        schema_references = {
+            (item["path"], item["name"])
+            for item in report["dependencies"]
+            if item["class"] == "json-schema-reference"
+        }
+        self.assertEqual(len(schema_references), 42)
+        self.assertIn(
+            (
+                "contracts/schemas/agent-disposition.schema.json",
+                "https://habitat.invalid/schemas/context-request/v1",
+            ),
+            schema_references,
+        )
         generated_classes = {
             item["name"]
             for item in report["generated_artifacts"]
@@ -287,6 +300,22 @@ class V2RebuildFrontierTests(unittest.TestCase):
         self.assertNotIn(("nix-internal-derivation", "system"), closure)
         self.assertNotIn(("nix-internal-derivation", "pkgs"), closure)
         self.assertNotIn(("nix-internal-derivation", "contractTools"), closure)
+        self.assertIn(("nix-dependency-set", "contractTools"), closure)
+        self.assertIn(("nix-derivation-factory", "testW01"), closure)
+        self.assertNotIn(("nix-internal-derivation", "testW01"), closure)
+        self.assertIn(("nix-dependency-edge", "testBoot->testW01"), closure)
+        self.assertIn(("nix-dependency-edge", "testRollback->testW01"), closure)
+        self.assertIn(("nix-dependency-edge", "testW01->habitatQemu"), closure)
+        for dependency in ("coreutils", "python3", "qemu", "OVMF"):
+            self.assertIn(
+                ("nix-dependency-edge", f"testW01->{dependency}"), closure
+            )
+        self.assertIn(
+            ("nix-source-edge", "testW01->tools/test_w01.py"), closure
+        )
+        self.assertIn(("nix-dependency-edge", "contractTools->jq"), closure)
+        self.assertIn(("nix-dependency-edge", "contractTools->python"), closure)
+        self.assertIn(("nix-output-edge", "formatter->nixfmt"), closure)
         self.assertNotIn(("nix-dependency-edge", "runHabitatQemu->qualifyW12"), closure)
         self.assertNotIn(("nix-declared-closure-root", "version"), closure)
         self.assertIn(
