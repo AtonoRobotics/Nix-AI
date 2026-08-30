@@ -1,0 +1,1 @@
+{"packet":"W10","implementation_commit":"519102d5c50bdd57bcdcd6d8fce5ca05ef67c2cd","outcome":"passed","requirements":["ARC-006","ARC-008","PKG-001","PKG-002","PKG-003","PKG-004","PKG-005","PKG-006","PKG-007","PKG-008","PKG-009","PKG-010"],"dependencies":{"W03":"passed","W04":"passed","W06":"passed","W08":"passed"},"qualification":"nix run .#test-w10","flake_check":"passed"}
