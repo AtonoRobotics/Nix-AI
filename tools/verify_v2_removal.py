@@ -24,9 +24,6 @@ FORBIDDEN = re.compile(
     r"\bisaac(?:[-_ ]sim)?\b|\bomniverse\b|\bsimulation\b|\bembodiment\b|"
     r"\bjetson\b|\bnvidia\b|\brtx\b|\bcuda\b)"
 )
-TEXT_SUFFIXES = {
-    "", ".json", ".md", ".nix", ".proto", ".py", ".rs", ".toml", ".yaml", ".yml"
-}
 POLICY_PATHS = {
     "AGENTS.md",
     "docs/agents/domain.md",
@@ -112,7 +109,7 @@ def verify(root: Path, ledger_path: Path) -> dict:
         if relative in POLICY_PATHS or relative.startswith(POLICY_PREFIXES):
             continue
         path = root / relative
-        if path.suffix.lower() not in TEXT_SUFFIXES or not path.is_file():
+        if not path.is_file():
             continue
         for line_number, line in enumerate(path.read_text(errors="replace").splitlines(), 1):
             if FORBIDDEN.search(line):
