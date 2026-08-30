@@ -182,6 +182,36 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertTrue(any("hidden_public_api" in item["identity"] for item in report["records"] if item["kind"]=="public_interface"))
         finally:source.write_text(original)
 
+    def test_multiline_extern_public_api_is_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        try:
+            source.write_text(original+'\npub\nextern "C" fn split_public_api() {}\n')
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+            self.assertEqual(result.returncode,0,result.stdout)
+            self.assertTrue(any("split_public_api" in item["identity"] for item in report["records"] if item["kind"]=="public_interface"))
+        finally:source.write_text(original)
+
+    def test_github_secret_and_python_urllib_effect_fail_closed(self):
+        workflow=ROOT/".github/workflows/python-bypass.yml"
+        try:
+            workflow.parent.mkdir(parents=True,exist_ok=True)
+            workflow.write_text("env:\n  value: ${{ secrets.provider_password }}\nsteps:\n  - run: python -c 'import urllib.request; urllib.request.urlopen(\"https://invalid\")'\n")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("secret-external-effect-path",result.stdout)
+        finally:
+            if workflow.exists():workflow.unlink()
+            for directory in (ROOT/".github/workflows",ROOT/".github"):
+                if directory.exists() and not any(directory.iterdir()):directory.rmdir()
+
+    def test_rust_and_python_loop_control_is_inventoried(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+        self.assertEqual(result.returncode,0,result.stdout)
+        branches={item["identity"] for item in report["records"] if item["kind"]=="branch"}
+        self.assertTrue(any(value.startswith("crates/habitat-authority/src/lib.rs:226:") for value in branches))
+        self.assertTrue(any(value.startswith("crates/habitat-packages/src/lib.rs:97:") for value in branches))
+
     def test_nix_shell_and_workflow_branches_are_inventoried(self):
         with tempfile.TemporaryDirectory() as temporary:
             output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())

@@ -49,13 +49,13 @@ AMBIENT_EXEMPT={
  "tools/qualify_w06.py":re.compile(r"AWS_SECRET_ACCESS_KEY"),
  "tools/test_w01.py":re.compile(r"socket\.",re.I),
 }
-SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?)[^\n]{0,120}(?:key|token|secret)|(?:key|token|secret)[^\n]{0,120}(?:std::env::var|os\.environ(?:\.get)?)",re.I)
-EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
+SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?|secrets\.)[^\n]{0,120}(?:key|token|secret|password)|(?:key|token|secret|password)[^\n]{0,120}(?:std::env::var|os\.environ(?:\.get)?|secrets\.)",re.I)
+EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|urllib|requests?\.|python\s+(?:-[A-Za-z]*c\b|-c\b)|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
 COMBINED_EXEMPT={"tools/qualify_w02.py","tools/qualify_w06.py"}
 PROVIDER_FORBIDDEN=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|TcpStream|Authorization|Bearer",re.I)
 RUST_QUALIFIERS=r"(?:(?:async|const|unsafe)\s+|extern\s+\"[^\"]+\"\s+)*"
 API=re.compile(rf"\bpub(?:\([^)]*\))?\s+{RUST_QUALIFIERS}(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
-BRANCH=re.compile(r"\b(?:if|match)\b|=>")
+BRANCH=re.compile(r"\b(?:if|match|for|while|loop)\b|=>")
 SCRIPT_BRANCH=re.compile(r"(?:^|\s)(?:if|elif|while|for|case|assert)(?=\s)|\bthen\b|&&|\|\||^\s*if\s*:",re.I)
 TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 FUNCTION=re.compile(rf"(?:pub(?:\([^)]*\))?\s+)?{RUST_QUALIFIERS}fn\s+([A-Za-z_][A-Za-z0-9_]*)")
@@ -172,18 +172,20 @@ def audit(root):
         if suffix in {".rs",".py"}:
             lines=content.splitlines();pending_test=False;current_requirements=requirements
             current_scope="module";brace_depth=0;scope_depth=None
+            if suffix==".rs":
+                for match in API.finditer(content):
+                    number=content[:match.start()].count("\n")+1
+                    identity=f"{relative}:{number}:{match.group(1)}"
+                    bound=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
+                    records.append(record("public_interface",identity,bound,relative.as_posix()))
             for number,line in enumerate(lines,1):
                 function=FUNCTION.search(line)
                 if function:
                     current_scope=function.group(1);scope_depth=brace_depth
                     scope_identity=f"{relative}:{number}:{current_scope}"
                     current_requirements=semantic_requirements("public_interface",scope_identity,relative.as_posix(),requirements)
-                match=API.search(line)
-                if match:
-                    identity=f"{relative}:{number}:{match.group(1)}"
-                    current_requirements=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
-                    records.append(record("public_interface",identity,current_requirements,relative.as_posix()))
-                if BRANCH.search(line) and not line.lstrip().startswith("//"):
+                branch_source=re.sub(r'"(?:\\.|[^"\\])*"', '""', line.split("//",1)[0])
+                if BRANCH.search(branch_source):
                     records.append(record("branch",f"{relative}:{number}:scope:{current_scope}",current_requirements,relative.as_posix()))
                 if "#[test]" in line:
                     inline=TEST.search(line)
@@ -233,7 +235,7 @@ def audit(root):
                 for node in ast.walk(tree):
                     if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)) and not node.name.startswith("_"):
                         records.append(record("public_interface",f"{relative}:{node.lineno}:{node.name}",requirements,relative.as_posix()))
-                    if isinstance(node,(ast.If,ast.Match,ast.Try)):
+                    if isinstance(node,(ast.If,ast.Match,ast.Try,ast.For,ast.AsyncFor,ast.While)):
                         records.append(record("branch",f"{relative}:{node.lineno}:{type(node).__name__}",requirements,relative.as_posix()))
                     names=[]
                     if isinstance(node,ast.Import):names=[value.name.split('.')[0] for value in node.names]
