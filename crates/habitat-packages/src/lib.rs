@@ -1,8 +1,10 @@
-//! Signed capability packages and immutable activation sets.
+//! Content-bound package admission, immutable activation sets, and governed change.
 use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
+
+pub const CONTRACT_VERSION: &str = "V2.0.1";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CapabilityVersion {
@@ -31,8 +33,24 @@ pub struct PackageManifest {
     pub isolation: Vec<String>,
     pub state_schema: String,
     pub supply_chain: SupplyChain,
+    pub requested_authority: Vec<String>,
+    pub memory_limit_bytes: u64,
+    pub cpu_limit_millis: u32,
+    pub execution_profile: String,
+    pub abi_version: String,
+    pub migration_contract: String,
+    pub live_verification_contract: String,
 }
 pub struct ManifestBuilder(PackageManifest);
+pub struct PackagePolicy<'a> {
+    pub authority: &'a [&'a str],
+    pub memory_limit_bytes: u64,
+    pub cpu_limit_millis: u32,
+    pub execution_profile: &'a str,
+    pub abi_version: &'a str,
+    pub migration_contract: &'a str,
+    pub live_verification_contract: &'a str,
+}
 impl PackageManifest {
     pub fn builder(id: &str, version: &str, publisher: &str, digest: &str) -> ManifestBuilder {
         ManifestBuilder(Self {
@@ -54,6 +72,13 @@ impl PackageManifest {
                 vulnerability_result: String::new(),
                 reproducibility: String::new(),
             },
+            requested_authority: vec![],
+            memory_limit_bytes: 64 * 1024 * 1024,
+            cpu_limit_millis: 1_000,
+            execution_profile: "isolated".into(),
+            abi_version: CONTRACT_VERSION.into(),
+            migration_contract: "migration:stateless".into(),
+            live_verification_contract: "probe:default".into(),
         })
     }
     pub fn signing_bytes(&self) -> Vec<u8> {
@@ -79,8 +104,8 @@ impl PackageManifest {
     }
 }
 impl ManifestBuilder {
-    pub fn artifact(mut self, value: &str) -> Self {
-        self.0.artifact_ref = value.into();
+    pub fn artifact(mut self, v: &str) -> Self {
+        self.0.artifact_ref = v.into();
         self
     }
     pub fn provides(mut self, id: &str, version: &str) -> Self {
@@ -116,6 +141,16 @@ impl ManifestBuilder {
         };
         self
     }
+    pub fn policy(mut self, policy: PackagePolicy<'_>) -> Self {
+        self.0.requested_authority = policy.authority.iter().map(|v| (*v).into()).collect();
+        self.0.memory_limit_bytes = policy.memory_limit_bytes;
+        self.0.cpu_limit_millis = policy.cpu_limit_millis;
+        self.0.execution_profile = policy.execution_profile.into();
+        self.0.abi_version = policy.abi_version.into();
+        self.0.migration_contract = policy.migration_contract.into();
+        self.0.live_verification_contract = policy.live_verification_contract.into();
+        self
+    }
     pub fn build(self) -> PackageManifest {
         self.0
     }
@@ -130,12 +165,88 @@ impl TrustStore {
     pub fn new() -> Self {
         Self::default()
     }
-    pub fn trust(&mut self, publisher: &str, key: VerifyingKey) {
-        self.keys.insert(publisher.into(), key);
+    pub fn trust(&mut self, p: &str, k: VerifyingKey) {
+        self.keys.insert(p.into(), k);
     }
-    pub fn revoke(&mut self, publisher: &str) {
-        self.revoked.insert(publisher.into());
+    pub fn revoke(&mut self, p: &str) {
+        self.revoked.insert(p.into());
     }
+}
+
+#[derive(Clone, Debug)]
+pub struct BundleSubmission {
+    pub manifest: PackageManifest,
+    pub bundle: Vec<u8>,
+    pub signature: [u8; 64],
+    pub provenance: Vec<u8>,
+    pub sbom: Vec<u8>,
+    pub dependency_closure: Vec<String>,
+}
+impl BundleSubmission {
+    pub fn signing_bytes(
+        m: &PackageManifest,
+        b: &[u8],
+        p: &[u8],
+        s: &[u8],
+        c: &[String],
+    ) -> Vec<u8> {
+        serde_json::to_vec(&(m, digest(b), digest(p), digest(s), c))
+            .expect("serializable submission")
+    }
+    pub fn unsigned(
+        manifest: PackageManifest,
+        bundle: Vec<u8>,
+        provenance: Vec<u8>,
+        sbom: Vec<u8>,
+        dependency_closure: Vec<String>,
+    ) -> Self {
+        Self {
+            manifest,
+            bundle,
+            signature: [0; 64],
+            provenance,
+            sbom,
+            dependency_closure,
+        }
+    }
+    pub fn bytes_to_sign(&self) -> Vec<u8> {
+        Self::signing_bytes(
+            &self.manifest,
+            &self.bundle,
+            &self.provenance,
+            &self.sbom,
+            &self.dependency_closure,
+        )
+    }
+}
+#[derive(Clone, Debug)]
+pub struct AdmissionPolicy {
+    pub allowed_authority: BTreeSet<String>,
+    pub max_memory_bytes: u64,
+    pub max_cpu_millis: u32,
+    pub execution_profiles: BTreeSet<String>,
+    pub abi_version: String,
+}
+impl AdmissionPolicy {
+    pub fn strict(a: &[&str], m: u64, c: u32, p: &[&str]) -> Self {
+        Self {
+            allowed_authority: a.iter().map(|v| (*v).into()).collect(),
+            max_memory_bytes: m,
+            max_cpu_millis: c,
+            execution_profiles: p.iter().map(|v| (*v).into()).collect(),
+            abi_version: CONTRACT_VERSION.into(),
+        }
+    }
+}
+pub trait ProbeExecutor {
+    fn execute(&mut self, contract: &str, bundle: &[u8]) -> Result<Vec<u8>, String>;
+}
+
+#[derive(Deserialize)]
+struct ProvenanceStatement {
+    source: String,
+    lock: String,
+    builder: String,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -159,14 +270,24 @@ pub struct PackageRecord {
     pub state: ProviderState,
     pub provider_authority: bool,
     pub agent_authority: bool,
+    pub admission_evidence: String,
 }
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PackageError {
     PublisherUntrusted,
     PublisherRevoked,
     SignatureInvalid,
+    ContentDigestMismatch,
     MutableArtifact,
-    SupplyChainIncomplete,
+    ProvenanceInvalid,
+    SbomInvalid,
+    ClosureMismatch,
+    AuthorityExceeded,
+    ResourcesExceeded,
+    ExecutionProfileDenied,
+    AbiIncompatible,
+    MigrationContractMissing,
+    LiveContractMissing,
     PackageMissing,
     DependencyUnresolved,
     HostRequirementMissing,
@@ -175,40 +296,24 @@ pub enum PackageError {
     NoActiveSet,
     NoRollback,
     DestructiveMigrationUnproven,
+    StagingRace,
 }
-
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct HostProfile {
     hardware: BTreeSet<String>,
     isolation: BTreeSet<String>,
 }
 impl HostProfile {
-    pub fn new(hardware: &[&str], isolation: &[&str]) -> Self {
+    pub fn new(h: &[&str], i: &[&str]) -> Self {
         Self {
-            hardware: hardware.iter().map(|v| (*v).into()).collect(),
-            isolation: isolation.iter().map(|v| (*v).into()).collect(),
+            hardware: h.iter().map(|v| (*v).into()).collect(),
+            isolation: i.iter().map(|v| (*v).into()).collect(),
         }
     }
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ResolvedSet {
     packages: Vec<String>,
-    key: String,
-}
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct BehavioralProbe {
-    contract: String,
-    evidence: String,
-    passed: bool,
-}
-impl BehavioralProbe {
-    pub fn passed(contract: &str, evidence: &str) -> Self {
-        Self {
-            contract: contract.into(),
-            evidence: evidence.into(),
-            passed: true,
-        }
-    }
 }
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ActivationEntry {
@@ -250,10 +355,10 @@ pub struct MigrationContract {
     pub destructive: bool,
     pub evidence: Option<String>,
 }
+
 pub struct PackageController {
     trust: TrustStore,
     packages: BTreeMap<String, PackageRecord>,
-    verified: HashMap<String, String>,
     current: Option<ActivationSet>,
     history: Vec<ActivationSet>,
     bindings: HashMap<String, WorkBinding>,
@@ -263,63 +368,102 @@ impl PackageController {
         Self {
             trust,
             packages: BTreeMap::new(),
-            verified: HashMap::new(),
             current: None,
             history: vec![],
             bindings: HashMap::new(),
         }
     }
-    pub fn admit(
+    pub fn admit_bundle(
         &mut self,
-        manifest: PackageManifest,
-        signature: [u8; 64],
+        s: BundleSubmission,
+        policy: &AdmissionPolicy,
+        probe: &mut dyn ProbeExecutor,
     ) -> Result<PackageRecord, PackageError> {
-        if self.trust.revoked.contains(&manifest.publisher) {
+        let m = &s.manifest;
+        if self.trust.revoked.contains(&m.publisher) {
             return Err(PackageError::PublisherRevoked);
         }
-        let key = self
+        let k = self
             .trust
             .keys
-            .get(&manifest.publisher)
+            .get(&m.publisher)
             .ok_or(PackageError::PublisherUntrusted)?;
-        key.verify(
-            &manifest.signing_bytes(),
-            &Signature::from_bytes(&signature),
-        )
-        .map_err(|_| PackageError::SignatureInvalid)?;
-        if !valid_digest(&manifest.content_digest)
-            || !manifest.artifact_ref.contains("@sha256:")
-            || manifest
-                .artifact_ref
-                .rsplit("@sha256:")
-                .next()
-                .map(|v| v.len() != 64)
-                .unwrap_or(true)
+        k.verify(&s.bytes_to_sign(), &Signature::from_bytes(&s.signature))
+            .map_err(|_| PackageError::SignatureInvalid)?;
+        if m.content_digest != digest(&s.bundle) {
+            return Err(PackageError::ContentDigestMismatch);
+        }
+        if m.artifact_ref.rsplit_once("@sha256:").map(|(_, v)| v)
+            != m.content_digest.strip_prefix("sha256:")
         {
             return Err(PackageError::MutableArtifact);
         }
-        let supply = &manifest.supply_chain;
-        if [
-            &supply.source,
-            &supply.lock,
-            &supply.build_environment,
-            &supply.sbom,
-            &supply.vulnerability_result,
-            &supply.reproducibility,
-        ]
-        .iter()
-        .any(|v| v.is_empty())
+        let provenance: ProvenanceStatement =
+            serde_json::from_slice(&s.provenance).map_err(|_| PackageError::ProvenanceInvalid)?;
+        if provenance.source != m.supply_chain.source
+            || provenance.lock != m.supply_chain.lock
+            || provenance.builder != m.supply_chain.build_environment
+            || m.supply_chain.reproducibility.is_empty()
         {
-            return Err(PackageError::SupplyChainIncomplete);
+            return Err(PackageError::ProvenanceInvalid);
         }
-        let record = PackageRecord {
-            manifest: manifest.clone(),
+        if s.sbom.is_empty()
+            || m.supply_chain.sbom != digest(&s.sbom)
+            || m.supply_chain.vulnerability_result != "vuln:passed"
+        {
+            return Err(PackageError::SbomInvalid);
+        }
+        let expected = m
+            .requires
+            .iter()
+            .map(|r| format!("{}@{}", r.id, r.version))
+            .collect::<BTreeSet<_>>();
+        if expected != s.dependency_closure.iter().cloned().collect() {
+            return Err(PackageError::ClosureMismatch);
+        }
+        if !m
+            .requested_authority
+            .iter()
+            .all(|v| policy.allowed_authority.contains(v))
+        {
+            return Err(PackageError::AuthorityExceeded);
+        }
+        if m.memory_limit_bytes > policy.max_memory_bytes
+            || m.cpu_limit_millis > policy.max_cpu_millis
+        {
+            return Err(PackageError::ResourcesExceeded);
+        }
+        if !policy.execution_profiles.contains(&m.execution_profile) {
+            return Err(PackageError::ExecutionProfileDenied);
+        }
+        if m.abi_version != policy.abi_version {
+            return Err(PackageError::AbiIncompatible);
+        }
+        if m.migration_contract.is_empty() {
+            return Err(PackageError::MigrationContractMissing);
+        }
+        if m.live_verification_contract.is_empty() {
+            return Err(PackageError::LiveContractMissing);
+        }
+        let out = probe
+            .execute(&m.live_verification_contract, &s.bundle)
+            .map_err(|_| PackageError::BehavioralProbeFailed)?;
+        if out.is_empty() {
+            return Err(PackageError::BehavioralProbeFailed);
+        }
+        if self.packages.contains_key(&m.id) {
+            return Err(PackageError::StagingRace);
+        }
+        let ev = digest(&serde_json::to_vec(&(s.bytes_to_sign(), out)).expect("evidence"));
+        let r = PackageRecord {
+            manifest: m.clone(),
             state: ProviderState::Admitted,
             provider_authority: false,
             agent_authority: false,
+            admission_evidence: ev,
         };
-        self.packages.insert(manifest.id.clone(), record.clone());
-        Ok(record)
+        self.packages.insert(m.id.clone(), r.clone());
+        Ok(r)
     }
     pub fn package_count(&self) -> usize {
         self.packages.len()
@@ -331,13 +475,13 @@ impl PackageController {
             if !selected.insert(id.clone()) {
                 continue;
             }
-            let record = self.packages.get(&id).ok_or(PackageError::PackageMissing)?;
-            if !record
+            let r = self.packages.get(&id).ok_or(PackageError::PackageMissing)?;
+            if !r
                 .manifest
                 .hardware
                 .iter()
                 .all(|v| host.hardware.contains(v))
-                || !record
+                || !r
                     .manifest
                     .isolation
                     .iter()
@@ -345,85 +489,65 @@ impl PackageController {
             {
                 return Err(PackageError::HostRequirementMissing);
             }
-            for requirement in &record.manifest.requires {
-                let provider = self
+            for req in &r.manifest.requires {
+                let p = self
                     .packages
                     .values()
                     .find(|p| {
-                        p.manifest.provides.iter().any(|provided| {
-                            provided.id == requirement.id && provided.version == requirement.version
-                        })
+                        p.manifest
+                            .provides
+                            .iter()
+                            .any(|x| x.id == req.id && x.version == req.version)
                     })
                     .ok_or(PackageError::DependencyUnresolved)?;
-                pending.push(provider.manifest.id.clone());
+                pending.push(p.manifest.id.clone())
             }
         }
-        let packages = selected.into_iter().collect::<Vec<_>>();
-        let key = activation_set_digest(&packages);
-        Ok(ResolvedSet { packages, key })
+        Ok(ResolvedSet {
+            packages: selected.into_iter().collect(),
+        })
     }
-    pub fn stage(&mut self, resolved: &ResolvedSet) -> Result<(), PackageError> {
-        for id in &resolved.packages {
+    pub fn stage(&mut self, r: &ResolvedSet) -> Result<(), PackageError> {
+        for id in &r.packages {
             self.packages
                 .get_mut(id)
                 .ok_or(PackageError::PackageMissing)?
-                .state = ProviderState::Staged;
+                .state = ProviderState::Staged
         }
         Ok(())
     }
-    pub fn verify(
-        &mut self,
-        resolved: &ResolvedSet,
-        probe: BehavioralProbe,
-    ) -> Result<(), PackageError> {
-        if !probe.passed || probe.contract.is_empty() || probe.evidence.is_empty() {
-            return Err(PackageError::BehavioralProbeFailed);
+    pub fn activate(&mut self, r: &ResolvedSet) -> Result<ActivationSet, PackageError> {
+        let mut entries = vec![];
+        let mut evidence = vec![];
+        for id in &r.packages {
+            let x = self.packages.get(id).ok_or(PackageError::PackageMissing)?;
+            if x.admission_evidence.is_empty() {
+                return Err(PackageError::LiveVerificationRequired);
+            }
+            let p = &x.manifest;
+            entries.push(ActivationEntry {
+                package_id: p.id.clone(),
+                version: p.version.clone(),
+                artifact_ref: p.artifact_ref.clone(),
+                configuration_digest: digest(format!("{}:{}", p.id, p.version).as_bytes()),
+                state_schema: p.state_schema.clone(),
+                grants: p.requested_authority.clone(),
+            });
+            evidence.push(x.admission_evidence.clone())
         }
-        for id in &resolved.packages {
-            self.packages
-                .get_mut(id)
-                .ok_or(PackageError::PackageMissing)?
-                .state = ProviderState::Verifying;
-        }
-        self.verified.insert(resolved.key.clone(), probe.evidence);
-        Ok(())
-    }
-    pub fn activate(&mut self, resolved: &ResolvedSet) -> Result<ActivationSet, PackageError> {
-        let evidence = self
-            .verified
-            .get(&resolved.key)
-            .ok_or(PackageError::LiveVerificationRequired)?
-            .clone();
-        let mut entries = resolved
-            .packages
-            .iter()
-            .map(|id| {
-                let p = &self.packages[id].manifest;
-                ActivationEntry {
-                    package_id: p.id.clone(),
-                    version: p.version.clone(),
-                    artifact_ref: p.artifact_ref.clone(),
-                    configuration_digest: format!(
-                        "sha256:{:x}",
-                        Sha256::digest(format!("{}:{}", p.id, p.version))
-                    ),
-                    state_schema: p.state_schema.clone(),
-                    grants: vec![],
-                }
-            })
-            .collect::<Vec<_>>();
         entries.sort_by(|a, b| a.package_id.cmp(&b.package_id));
+        evidence.sort();
         let mut set = ActivationSet {
             id: String::new(),
             entries,
-            verification_evidence: vec![evidence],
+            verification_evidence: evidence,
         };
         set.id = activation_set_digest(&set);
-        if let Some(current) = self.current.replace(set.clone()) {
-            self.history.push(current)
+        if let Some(c) = self.current.replace(set.clone()) {
+            self.history.push(c)
         }
-        for id in &resolved.packages {
-            self.packages.get_mut(id).unwrap().state = ProviderState::Active;
+        for id in &r.packages {
+            self.packages.get_mut(id).expect("resolved").state = ProviderState::Active
         }
         Ok(set)
     }
@@ -431,84 +555,280 @@ impl PackageController {
         &mut self,
         roots: &[&str],
         host: &HostProfile,
-        evidence: &str,
+        _: &str,
     ) -> Result<ActivationSet, PackageError> {
-        let resolved = self.resolve(roots, host)?;
-        self.stage(&resolved)?;
-        self.verify(
-            &resolved,
-            BehavioralProbe::passed("declared-capability-contract", evidence),
-        )?;
-        self.activate(&resolved)
+        let r = self.resolve(roots, host)?;
+        self.stage(&r)?;
+        self.activate(&r)
     }
-    pub fn bind(&mut self, activation: &str) -> Result<WorkBinding, PackageError> {
-        let set = self.current.as_ref().ok_or(PackageError::NoActiveSet)?;
-        let binding = WorkBinding {
-            activation_id: activation.into(),
-            activation_set_id: set.id.clone(),
+    pub fn bind(&mut self, a: &str) -> Result<WorkBinding, PackageError> {
+        let s = self.current.as_ref().ok_or(PackageError::NoActiveSet)?;
+        let b = WorkBinding {
+            activation_id: a.into(),
+            activation_set_id: s.id.clone(),
         };
-        self.bindings.insert(activation.into(), binding.clone());
-        Ok(binding)
+        self.bindings.insert(a.into(), b.clone());
+        Ok(b)
     }
-    pub fn binding(&self, activation: &str) -> Option<&WorkBinding> {
-        self.bindings.get(activation)
+    pub fn binding(&self, a: &str) -> Option<&WorkBinding> {
+        self.bindings.get(a)
     }
-    pub fn drain(&mut self, package: &str) -> Result<(), PackageError> {
+    pub fn drain(&mut self, p: &str) -> Result<(), PackageError> {
         self.packages
-            .get_mut(package)
+            .get_mut(p)
             .ok_or(PackageError::PackageMissing)?
             .state = ProviderState::Draining;
         Ok(())
     }
     pub fn rollback(&mut self) -> Result<ActivationSet, PackageError> {
-        let prior = self.history.pop().ok_or(PackageError::NoRollback)?;
-        self.current = Some(prior.clone());
-        Ok(prior)
+        let p = self.history.pop().ok_or(PackageError::NoRollback)?;
+        self.current = Some(p.clone());
+        Ok(p)
     }
     pub fn revoke(
         &mut self,
-        package: &str,
-        effects: &[&str],
-        objectives: &[&str],
+        p: &str,
+        e: &[&str],
+        o: &[&str],
     ) -> Result<RecoveryPlan, PackageError> {
         self.packages
-            .get_mut(package)
+            .get_mut(p)
             .ok_or(PackageError::PackageMissing)?
             .state = ProviderState::Revoked;
         Ok(RecoveryPlan {
-            unresolved_effects: effects.iter().map(|v| (*v).into()).collect(),
-            recovery_wakes: objectives
-                .iter()
-                .map(|v| format!("recovery-wake:{v}"))
-                .collect(),
+            unresolved_effects: e.iter().map(|v| (*v).into()).collect(),
+            recovery_wakes: o.iter().map(|v| format!("recovery-wake:{v}")).collect(),
         })
     }
-    pub fn migrate(
-        &mut self,
-        package: &str,
-        contract: MigrationContract,
-    ) -> Result<String, PackageError> {
-        if !self.packages.contains_key(package) {
+    pub fn migrate(&mut self, p: &str, c: MigrationContract) -> Result<String, PackageError> {
+        if !self.packages.contains_key(p) {
             return Err(PackageError::PackageMissing);
         }
-        if contract.destructive && contract.evidence.is_none() {
+        if c.destructive && c.evidence.is_none() {
             return Err(PackageError::DestructiveMigrationUnproven);
         }
-        Ok(contract
-            .evidence
+        Ok(c.evidence
             .unwrap_or_else(|| "evidence:non-destructive-migration".into()))
     }
 }
-fn valid_digest(value: &str) -> bool {
-    value
-        .strip_prefix("sha256:")
-        .map(|v| v.len() == 64 && v.bytes().all(|b| b.is_ascii_hexdigit()))
-        .unwrap_or(false)
-}
 
-pub fn activation_set_digest<T: Serialize>(value: &T) -> String {
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ChangeState {
+    Proposed,
+    Built,
+    Evaluated,
+    Signed,
+    Staged,
+    Activated,
+    Confirmed,
+    Rejected,
+    Quarantined,
+    RolledBack,
+}
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ChangeProposal {
+    pub id: String,
+    pub source_digest: String,
+    pub dependency_closure_digest: String,
+    pub contract_version: String,
+    pub tests_digest: String,
+    pub threshold: u32,
+    pub evaluator: String,
+    pub evaluator_closure: String,
+    pub target_generation: u64,
+    pub rollback_generation: u64,
+    pub requested_authority: BTreeSet<String>,
+}
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ChangeRecord {
+    pub proposal: ChangeProposal,
+    pub state: ChangeState,
+    pub evidence: Vec<String>,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum ChangeError {
+    Duplicate,
+    Missing,
+    InvalidTransition,
+    EvaluatorCapture,
+    SelfConfirmation,
+    AuthorityWidened,
+    RollbackTargetMissing,
+    EvaluationFailed,
+    HealthGateFailed,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct ChangeJournal {
+    records: BTreeMap<String, ChangeRecord>,
+    protected_evaluator: String,
+    protected_closure: String,
+    allowed_authority: BTreeSet<String>,
+    generations: BTreeSet<u64>,
+}
+impl ChangeJournal {
+    pub fn new(e: &str, c: &str, a: &[&str], g: &[u64]) -> Self {
+        Self {
+            records: BTreeMap::new(),
+            protected_evaluator: e.into(),
+            protected_closure: c.into(),
+            allowed_authority: a.iter().map(|v| (*v).into()).collect(),
+            generations: g.iter().copied().collect(),
+        }
+    }
+    pub fn propose(&mut self, p: ChangeProposal) -> Result<(), ChangeError> {
+        if self.records.contains_key(&p.id) {
+            return Err(ChangeError::Duplicate);
+        }
+        if p.contract_version != CONTRACT_VERSION
+            || p.evaluator != self.protected_evaluator
+            || p.evaluator_closure != self.protected_closure
+        {
+            return Err(ChangeError::EvaluatorCapture);
+        }
+        if !p.requested_authority.is_subset(&self.allowed_authority) {
+            return Err(ChangeError::AuthorityWidened);
+        }
+        if !self.generations.contains(&p.rollback_generation)
+            || p.rollback_generation == p.target_generation
+        {
+            return Err(ChangeError::RollbackTargetMissing);
+        }
+        self.records.insert(
+            p.id.clone(),
+            ChangeRecord {
+                proposal: p,
+                state: ChangeState::Proposed,
+                evidence: vec![],
+            },
+        );
+        Ok(())
+    }
+    fn transition(
+        &mut self,
+        id: &str,
+        from: ChangeState,
+        to: ChangeState,
+        e: &str,
+    ) -> Result<(), ChangeError> {
+        let r = self.records.get_mut(id).ok_or(ChangeError::Missing)?;
+        if r.state != from {
+            return Err(ChangeError::InvalidTransition);
+        }
+        if e.is_empty() {
+            return Err(ChangeError::EvaluationFailed);
+        }
+        r.state = to;
+        r.evidence.push(digest(e.as_bytes()));
+        Ok(())
+    }
+    pub fn built(&mut self, id: &str, e: &str) -> Result<(), ChangeError> {
+        self.transition(id, ChangeState::Proposed, ChangeState::Built, e)
+    }
+    pub fn evaluated(
+        &mut self,
+        id: &str,
+        evaluator: &str,
+        closure: &str,
+        score: u32,
+        e: &str,
+    ) -> Result<(), ChangeError> {
+        let r = self.records.get(id).ok_or(ChangeError::Missing)?;
+        if evaluator != self.protected_evaluator
+            || closure != self.protected_closure
+            || evaluator != r.proposal.evaluator
+            || closure != r.proposal.evaluator_closure
+        {
+            return Err(ChangeError::EvaluatorCapture);
+        }
+        if score < r.proposal.threshold {
+            return self.transition(id, ChangeState::Built, ChangeState::Rejected, e);
+        }
+        self.transition(id, ChangeState::Built, ChangeState::Evaluated, e)
+    }
+    pub fn signed(&mut self, id: &str, e: &str) -> Result<(), ChangeError> {
+        self.transition(id, ChangeState::Evaluated, ChangeState::Signed, e)
+    }
+    pub fn staged(&mut self, id: &str, e: &str) -> Result<(), ChangeError> {
+        self.transition(id, ChangeState::Signed, ChangeState::Staged, e)
+    }
+    pub fn activated(&mut self, id: &str, e: &str) -> Result<(), ChangeError> {
+        let t = self
+            .records
+            .get(id)
+            .ok_or(ChangeError::Missing)?
+            .proposal
+            .target_generation;
+        self.generations.insert(t);
+        self.transition(id, ChangeState::Staged, ChangeState::Activated, e)
+    }
+    pub fn confirmed(
+        &mut self,
+        id: &str,
+        actor: &str,
+        recovered: bool,
+        healthy: bool,
+        e: &str,
+    ) -> Result<(), ChangeError> {
+        let evaluator = self
+            .records
+            .get(id)
+            .ok_or(ChangeError::Missing)?
+            .proposal
+            .evaluator
+            .clone();
+        if actor == evaluator {
+            return Err(ChangeError::SelfConfirmation);
+        }
+        if !recovered || !healthy {
+            return Err(ChangeError::HealthGateFailed);
+        }
+        self.transition(id, ChangeState::Activated, ChangeState::Confirmed, e)
+    }
+    pub fn quarantine(&mut self, id: &str, e: &str) -> Result<(), ChangeError> {
+        let s = self.records.get(id).ok_or(ChangeError::Missing)?.state;
+        if !matches!(
+            s,
+            ChangeState::Built
+                | ChangeState::Evaluated
+                | ChangeState::Signed
+                | ChangeState::Staged
+                | ChangeState::Activated
+        ) {
+            return Err(ChangeError::InvalidTransition);
+        }
+        let r = self.records.get_mut(id).expect("checked");
+        r.state = ChangeState::Quarantined;
+        r.evidence.push(digest(e.as_bytes()));
+        Ok(())
+    }
+    pub fn rollback(&mut self, id: &str, e: &str) -> Result<u64, ChangeError> {
+        let r = self.records.get_mut(id).ok_or(ChangeError::Missing)?;
+        if !matches!(r.state, ChangeState::Activated | ChangeState::Quarantined) {
+            return Err(ChangeError::InvalidTransition);
+        }
+        if !self.generations.contains(&r.proposal.rollback_generation) {
+            return Err(ChangeError::RollbackTargetMissing);
+        }
+        r.state = ChangeState::RolledBack;
+        r.evidence.push(digest(e.as_bytes()));
+        Ok(r.proposal.rollback_generation)
+    }
+    pub fn record(&self, id: &str) -> Option<&ChangeRecord> {
+        self.records.get(id)
+    }
+    pub fn snapshot(&self) -> Vec<u8> {
+        serde_json::to_vec(self).expect("journal serializes")
+    }
+    pub fn restore(b: &[u8]) -> Result<Self, serde_json::Error> {
+        serde_json::from_slice(b)
+    }
+}
+fn digest(v: &[u8]) -> String {
+    format!("sha256:{:x}", Sha256::digest(v))
+}
+pub fn activation_set_digest<T: Serialize>(v: &T) -> String {
     format!(
-        "activation-set:sha256:{:x}",
-        Sha256::digest(serde_json::to_vec(value).unwrap())
+        "activation-set:{}",
+        digest(&serde_json::to_vec(v).expect("serializable"))
     )
 }
