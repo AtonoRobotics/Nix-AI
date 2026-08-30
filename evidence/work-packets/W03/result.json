@@ -1,0 +1,1 @@
+{"packet":"W03","implementation_commit":"1cded0f79f8acddc65f7f39dd9f2e04aa8dc2d12","outcome":"passed","requirements":["ABI-001","ABI-002","ABI-003","ABI-004","ABI-005","ABI-006","ABI-007","ABI-008","ABI-009","ABI-010"],"qualification":"nix run .#apps.x86_64-linux.test-w03","flake_check":"passed"}
