@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -68,16 +69,30 @@ class V2ScopeRemovalTests(unittest.TestCase):
         self.assertEqual(report["contaminated_units"], [])
 
     def test_semantic_scope_scan_rejects_opaque_and_vendor_contamination(self):
-        for value in ("physical_safety", "robot_arm", "isaac_sim", "gpu:rtx", "nvidia", "cuda"):
-            with self.subTest(value=value), tempfile.TemporaryDirectory() as temporary:
+        cases = (
+            ("opaque.txt", "physical_safety"),
+            ("opaque.txt", "robot_arm"),
+            ("opaque.txt", "isaac_sim"),
+            ("opaque.txt", "gpu:rtx"),
+            ("opaque.txt", "nvidia"),
+            ("opaque.txt", "cuda"),
+            ("evidence/v2-rebuild/bypass.txt", "robot_arm"),
+        )
+        for relative, value in cases:
+            with self.subTest(relative=relative, value=value), tempfile.TemporaryDirectory() as temporary:
                 clone = Path(temporary) / "repository"
                 subprocess.run(
                     ["git", "clone", "--no-hardlinks", "--quiet", str(ROOT), str(clone)],
                     check=True,
                 )
-                contaminated = clone / "opaque.txt"
+                shutil.copy2(
+                    ROOT / "tools" / "verify_v2_removal.py",
+                    clone / "tools" / "verify_v2_removal.py",
+                )
+                contaminated = clone / relative
+                contaminated.parent.mkdir(parents=True, exist_ok=True)
                 contaminated.write_text(value)
-                subprocess.run(["git", "-C", str(clone), "add", "opaque.txt"], check=True)
+                subprocess.run(["git", "-C", str(clone), "add", relative], check=True)
                 result = subprocess.run(
                     [
                         "python3",
@@ -93,7 +108,7 @@ class V2ScopeRemovalTests(unittest.TestCase):
                     text=True,
                 )
                 self.assertNotEqual(result.returncode, 0, value)
-                self.assertIn("opaque.txt", result.stdout)
+                self.assertIn(relative, result.stdout)
 
     def test_rejected_domain_components_are_untracked(self):
         tracked = subprocess.run(

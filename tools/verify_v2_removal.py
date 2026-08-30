@@ -65,6 +65,11 @@ def verify(root: Path, ledger_path: Path) -> dict:
     inventory = json.loads((ledger_path.parent / "inventory.json").read_text())
     tracked = sorted(filter(None, git(root, "ls-files").splitlines()))
     tracked_set = set(tracked)
+    inventoried_policy_paths = {
+        path
+        for path in inventory["tracked_paths"]
+        if path.startswith(POLICY_PREFIXES)
+    }
 
     delete_counts = {}
     remaining_delete_units = []
@@ -106,7 +111,7 @@ def verify(root: Path, ledger_path: Path) -> dict:
 
     contaminated = []
     for relative in tracked:
-        if relative in POLICY_PATHS or relative.startswith(POLICY_PREFIXES):
+        if relative in POLICY_PATHS or relative in inventoried_policy_paths:
             continue
         path = root / relative
         if not path.is_file():
