@@ -243,6 +243,18 @@ def audit(root):
                         definition=content[content.find(f"macro_rules! {macro}"):invocation.start()]
                         for method in re.findall(r"pub\s+fn\s+([A-Za-z_][A-Za-z0-9_]*)",definition):
                             records.append(record("public_interface",f"{relative}:{line}:macro-method:{name}.{method}",requirements,relative.as_posix()))
+                for definition,start,end in rust_blocks(content,r"macro_rules!\s*([A-Za-z_][A-Za-z0-9_]*)"):
+                    macro=definition.group(1);body=content[start:end]
+                    if ":vis" not in body:continue
+                    visibility=re.search(r"\$([A-Za-z_][A-Za-z0-9_]*):vis",body)
+                    name_parameter=re.search(r"\$([A-Za-z_][A-Za-z0-9_]*):ident",body)
+                    understood=(visibility and name_parameter and re.search(
+                        rf"\${re.escape(visibility.group(1))}\s+struct\s+\${re.escape(name_parameter.group(1))}\b",body))
+                    if not understood:
+                        unresolved.append(f"unparsed-public-macro:{relative}:{macro}");continue
+                    for invocation in re.finditer(rf"\b{re.escape(macro)}!\s*[\(\{{\[]\s*pub\s+([A-Z][A-Za-z0-9_]*)\b",content):
+                        name=invocation.group(1);line=content[:invocation.start()].count("\n")+1
+                        records.append(record("public_interface",f"{relative}:{line}:macro-public-type:{name}",requirements,relative.as_posix()))
             if suffix==".py":
                 tree=ast.parse(content)
                 for node in ast.walk(tree):

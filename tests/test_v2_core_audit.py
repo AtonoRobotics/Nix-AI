@@ -313,6 +313,20 @@ make_public! { GeneratedSurface }
             self.assertTrue(any("macro-public-type:GeneratedSurface" in value for value in identities))
         finally:source.write_text(original)
 
+    def test_visibility_macro_public_surface_is_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        addition='''
+macro_rules! expose_public { ($visibility:vis $name:ident) => { $visibility struct $name; } }
+expose_public!(pub AuditVisibleSurface);
+'''
+        try:
+            source.write_text(original+addition)
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+            self.assertEqual(result.returncode,0,result.stdout)
+            self.assertTrue(any("macro-public-type:AuditVisibleSurface" in item["identity"] for item in report["records"]))
+        finally:source.write_text(original)
+
     def test_undeclared_dependency_fails_closed(self):
         manifest=ROOT/"crates/habitat-models/Cargo.toml";original=manifest.read_text()
         try:
