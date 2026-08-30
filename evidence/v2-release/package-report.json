@@ -9,8 +9,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/77cj5d5hvy6kzknn72kvamba2pgsxbh2-validate-contracts.drv\n  /nix/store/w02rkx6b0m3wip6zknd9c4yzji3w44d7-habitat-packages-0.1.0.drv\n  /nix/store/wzcdvfj9hiznrlgqj4p1ykvps6ri5vsg-qualify-w10.drv\n  /nix/store/lchncns6gzm7i1qcdrg535p32psj5j3q-habitat-w10-qualification.drv\nbuilding '/nix/store/w02rkx6b0m3wip6zknd9c4yzji3w44d7-habitat-packages-0.1.0.drv'...\nbuilding '/nix/store/77cj5d5hvy6kzknn72kvamba2pgsxbh2-validate-contracts.drv'...\nbuilding '/nix/store/wzcdvfj9hiznrlgqj4p1ykvps6ri5vsg-qualify-w10.drv'...\nbuilding '/nix/store/lchncns6gzm7i1qcdrg535p32psj5j3q-habitat-w10-qualification.drv'...\n",
       "output_bytes": 699,
-      "output_sha256": "sha256:2d33789ed57fe08d6b5ad46bcbcd1ae63fb757b4af64ad7eb1ca11bfdff9335f"
+      "output_sha256": "sha256:28d2010e30d908180074fc12d5415e5d2d6c88d7a05e961278a85bdeb33def39"
     }
   ],
   "gate": "V-PACKAGE",
@@ -33,7 +34,7 @@
   "result": "pass",
   "runner": "package_lifecycle_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [],
   "test_count": 1
 }

@@ -88,7 +88,8 @@ def command(root: Path, gate: str, argv: list[str], *, environment=None) -> dict
         sys.stdout.buffer.write(output)
         raise SystemExit(f"{gate} command failed: {' '.join(argv)}")
     return {"kind": "executed_command", "argv": argv, "exit_code": 0,
-            "output_sha256": sha_bytes(output), "output_bytes": len(output)}
+            "output": output.decode(), "output_sha256": sha_bytes(output),
+            "output_bytes": len(output)}
 
 
 def _all_passed(observations: dict) -> bool:
@@ -100,6 +101,26 @@ def _all_passed(observations: dict) -> bool:
 
 def _has_check(report: dict, name: str) -> bool:
     return any(name in " ".join(item.get("argv", [])) for item in report.get("attestations", []))
+
+
+def _runner_identity(argv: list[str]) -> str | None:
+    """Return the exact public runner represented by an invocation."""
+    if len(argv) == 4 and argv[:3] == ["nix", "build", "--no-link"]:
+        target = argv[3]
+        prefix = ".#checks.x86_64-linux."
+        return target[len(prefix):] if target.startswith(prefix) else None
+    if len(argv) == 6 and argv[:2] == ["nix", "run"] and argv[3] == "--":
+        option = "--evidence" if argv[2] in {".#test-boot", ".#test-rollback"} else "--evidence-dir"
+        return argv[2] if argv[4] == option and Path(argv[5]).is_absolute() else None
+    if len(argv) >= 2 and Path(argv[0]).name.startswith("python3"):
+        script = argv[1]
+        if script == "tools/validate_contracts.py" and len(argv) == 3 and Path(argv[2]).is_absolute():
+            return script
+        if script == "tools/verify_v2_removal.py" and len(argv) == 8 and argv[2::2] == ["--root", "--ledger", "--output"]:
+            return script if all(Path(value).is_absolute() for value in argv[3::2]) else None
+        if script == "tools/qualify_v2_change.py" and len(argv) == 6 and argv[2::2] == ["--root", "--output"]:
+            return script if all(Path(value).is_absolute() for value in argv[3::2]) else None
+    return None
 
 
 def valid_attestations(gate: str, attestations: list[dict]) -> bool:
@@ -114,16 +135,19 @@ def valid_attestations(gate: str, attestations: list[dict]) -> bool:
         "V-PACKAGE": ["w10-qualification"], "V-CHANGE": ["tools/qualify_v2_change.py"],
         "V-END-TO-END": [".#test-w05", "w08-qualification"],
     }[gate]
-    if len(attestations) != len(expected):
+    identities = [_runner_identity(item.get("argv", [])) for item in attestations]
+    if identities != expected:
         return False
-    commands = [" ".join(item.get("argv", [])) for item in attestations]
-    return all(any(marker in command for command in commands) for marker in expected) and all(
-        item.get("kind") == "executed_command" and item.get("exit_code") == 0
-        and isinstance(item.get("output_bytes"), int) and item["output_bytes"] > 0
-        and isinstance(item.get("output_sha256"), str) and len(item["output_sha256"]) == 71
-        and item["output_sha256"].startswith("sha256:")
-        for item in attestations
-    )
+    for item in attestations:
+        output = item.get("output")
+        if not isinstance(output, str):
+            return False
+        encoded = output.encode()
+        if (item.get("kind") != "executed_command" or item.get("exit_code") != 0
+                or item.get("output_bytes") != len(encoded)
+                or item.get("output_sha256") != sha_bytes(encoded)):
+            return False
+    return True
 
 
 def derived_metrics(gate: str, report: dict, evidence: Path) -> dict:

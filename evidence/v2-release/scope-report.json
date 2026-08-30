@@ -9,12 +9,13 @@
         "--ledger",
         "/tmp/nixai-publish-issue24/evidence/v2-rebuild/disposition-ledger.json",
         "--output",
-        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/scope.json"
+        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/scope.json"
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "{\"contaminated_units\": [], \"delete_counts_by_inventory_class\": {\"build_closure_members\": 14, \"dependencies\": 36, \"generated_artifacts\": 2, \"public_semantics\": 193, \"tracked_paths\": 51}, \"policy_exclusions\": [\"AGENTS.md\", \"docs/agents/domain.md\", \"docs/agents/issue-tracker.md\", \"docs/agents/triage-labels.md\", \"tests/test_v2_artifact_closure.py\", \"tests/test_v2_contract_derivation.py\", \"tests/test_v2_rebuild_frontier.py\", \"tests/test_v2_scope_classification.py\", \"tests/test_v2_scope_removal.py\", \"tools/classify_v2_scope.py\", \"tools/inventory_v2.py\", \"tools/qualify_v2_artifacts.py\", \"tools/verify_v2_build_closure.py\", \"tools/verify_v2_removal.py\"], \"policy_prefix_exclusions\": [\"contracts/v2/\", \"contracts/v2.0.1/\", \"evidence/v2-rebuild/\"], \"remaining_delete_units\": [], \"runner\": {\"name\": \"verify-v2-removal\", \"version\": 2}, \"scanned_tracked_path_count\": 265, \"schema_version\": 1, \"valid\": true, \"verified_commit\": \"82138651769f402a603418158b376699d9630bac\"}\n",
       "output_bytes": 965,
-      "output_sha256": "sha256:e741ceb948ffe53634709e878cd4ac20503b57fbfe60b49fa51f8f46f0d62d3a"
+      "output_sha256": "sha256:82ce1f154208d9beefadf45fba5ad615b1519cccc6424f181f9cbbf2d3fa7533"
     }
   ],
   "gate": "V-SCOPE",
@@ -72,12 +73,12 @@
     "scanned_tracked_path_count": 265,
     "schema_version": 1,
     "valid": true,
-    "verified_commit": "4b2973a599de7a0ea4fd239ee1f166dabe1ecbd1"
+    "verified_commit": "82138651769f402a603418158b376699d9630bac"
   },
   "result": "pass",
   "runner": "scope_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [
     {
       "path": "retention-ledger.json",

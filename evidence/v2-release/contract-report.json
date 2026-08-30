@@ -8,8 +8,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "+ (cd contracts/v2 && /nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3 validate_contract.py .)\n{\n  \"contract_id\": \"nix-ai-core\",\n  \"disposition_count\": 30,\n  \"errors\": [],\n  \"gate_count\": 13,\n  \"requirement_count\": 40,\n  \"valid\": true,\n  \"version\": \"2.0.0\",\n  \"work_packet_count\": 14\n}\n+ (cd contracts/v2.0.1 && /nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3 validate_contract.py .)\n{\n  \"contract_id\": \"nix-ai-core\",\n  \"disposition_count\": 30,\n  \"errors\": [],\n  \"gate_count\": 13,\n  \"requirement_count\": 40,\n  \"valid\": true,\n  \"version\": \"2.0.1\",\n  \"work_packet_count\": 14\n}\n+ (cd . && /nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3 tools/derive_v2_contract.py --root /tmp/nixai-publish-issue24 --check)\nverified 25 v2 contract projections and 6 interface artifacts\n+ (cd . && /nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3 tools/schema_contracts.py contracts)\nPASS: 10 schemas and 2 registry instances\n+ (cd . && /nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3 tools/audit_v2_core.py --root /tmp/nixai-publish-issue24 --output /tmp/nix-shell.SfiWH9/tmppkp8cbn2/core-retention-audit.json)\n{\"candidate_file_count\": 55, \"counts\": {\"dependency\": 61, \"fixture\": 6, \"source_unit\": 31, \"test\": 18}, \"unresolved_candidates\": [], \"valid\": true}\n+ (cd . && /nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3 tools/qualify_v2_artifacts.py --root /tmp/nixai-publish-issue24 --output /tmp/nix-shell.SfiWH9/tmppkp8cbn2/artifact-closure-report.json)\n{\"artifact_classes\": [\"requirements_registry\", \"work_graph\", \"architecture_projections\", \"json_schemas\", \"protobuf_descriptors\", \"language_bindings\", \"lockfiles\", \"sbom\", \"provenance\", \"evidence_indexes\", \"sha256_manifests\"], \"deleted_closure_members\": [], \"stale_generated\": [], \"unowned_dependencies\": [], \"valid\": true}\nImmutable v2 contract packages, active projections, and retained core are valid.\n/tmp/nixai-publish-issue24/tools/schema_contracts.py:13: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.\n  from jsonschema import RefResolver, validators\n/tmp/nixai-publish-issue24/tools/schema_contracts.py:14: DeprecationWarning: jsonschema.exceptions.RefResolutionError is deprecated as of version 4.18.0. If you wish to catch potential reference resolution errors, directly catch referencing.exceptions.Unresolvable.\n  from jsonschema.exceptions import RefResolutionError\n",
       "output_bytes": 2834,
-      "output_sha256": "sha256:b8c61f3c19deaf9bce4055efd047d9c33956e4a90d48c00ce64b57a85d713a6a"
+      "output_sha256": "sha256:bb98efdd41095b656a3602881cc318a022087825bddab1ad5e0a29bba9cf408d"
     }
   ],
   "gate": "V-CONTRACT",
@@ -40,7 +41,7 @@
   "result": "pass",
   "runner": "contract_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [
     {
       "path": "manifest-report.json",

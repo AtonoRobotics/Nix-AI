@@ -9,8 +9,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/mkiin659h9a45hk4p09sy78a3yjncy16-habitat-abi-0.1.0.drv\n  /nix/store/z0w4w4f013ckdix0w43mp8s5fisqk562-validate-contracts.drv\n  /nix/store/i1gj8mby6ivpcp6yzfrfhrkymwk8v4s5-qualify-w03.drv\n  /nix/store/7fpw01qngy0p86hmi550lmyjn2f8pc03-habitat-w03-qualification.drv\nbuilding '/nix/store/mkiin659h9a45hk4p09sy78a3yjncy16-habitat-abi-0.1.0.drv'...\nbuilding '/nix/store/z0w4w4f013ckdix0w43mp8s5fisqk562-validate-contracts.drv'...\nbuilding '/nix/store/i1gj8mby6ivpcp6yzfrfhrkymwk8v4s5-qualify-w03.drv'...\nbuilding '/nix/store/7fpw01qngy0p86hmi550lmyjn2f8pc03-habitat-w03-qualification.drv'...\n",
       "output_bytes": 689,
-      "output_sha256": "sha256:d78bf03dcdac8b7952b29f60a1a32ff14c5d5c27cefdda4651f2686a363cc3fb"
+      "output_sha256": "sha256:cae4f56918daf6903b801ca9eda1ba716909e3378d4279cf0f3c558e3a0aa6d9"
     },
     {
       "argv": [
@@ -21,8 +22,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 3 derivations will be built:\n  /nix/store/v9wzfns7di17g6z57kma74i0yy8i2n49-habitat-models-0.1.0.drv\n  /nix/store/2n3s84r8cxyrgrahv08rzghcl037vq1j-qualify-w09.drv\n  /nix/store/adj5bskann91q12mh62w6qsmi6payqr9-habitat-w09-qualification.drv\nbuilding '/nix/store/v9wzfns7di17g6z57kma74i0yy8i2n49-habitat-models-0.1.0.drv'...\nbuilding '/nix/store/2n3s84r8cxyrgrahv08rzghcl037vq1j-qualify-w09.drv'...\nbuilding '/nix/store/adj5bskann91q12mh62w6qsmi6payqr9-habitat-w09-qualification.drv'...\n",
       "output_bytes": 545,
-      "output_sha256": "sha256:b1f7a0ede1c2e5e7a18be4b5b08d8b397a3840e039a087bdeab0a9b7aad9204f"
+      "output_sha256": "sha256:a5ca569de14061515e03eb10dd43b19d21342b8e63fc14b7125149736c2634b9"
     },
     {
       "argv": [
@@ -33,8 +35,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 3 derivations will be built:\n  /nix/store/99j1myz0aj2api1dmmv4iba9gli25k3p-habitat-harnesses-0.1.0.drv\n  /nix/store/3gqjwhdy5scsynvrg1jrsqnxqv01pjbq-qualify-w11.drv\n  /nix/store/2iy3shf01yzx0dcdpmcdjyflhk2pwmp0-habitat-w11-qualification.drv\nbuilding '/nix/store/99j1myz0aj2api1dmmv4iba9gli25k3p-habitat-harnesses-0.1.0.drv'...\nbuilding '/nix/store/3gqjwhdy5scsynvrg1jrsqnxqv01pjbq-qualify-w11.drv'...\nbuilding '/nix/store/2iy3shf01yzx0dcdpmcdjyflhk2pwmp0-habitat-w11-qualification.drv'...\n",
       "output_bytes": 551,
-      "output_sha256": "sha256:595ee23820190cd515fbd1ced110d99a88960399e8e3807e152f72668cc4a6c8"
+      "output_sha256": "sha256:06c8bbb92da2b4672b7c61121c0c4d93051721265624993fca572bbcce1404ff"
     }
   ],
   "gate": "V-ABI",
@@ -63,7 +66,7 @@
   "result": "pass",
   "runner": "abi_conformance",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [
     {
       "path": "backend-replacement-report.json",

@@ -7,12 +7,13 @@
         ".#test-w05",
         "--",
         "--evidence-dir",
-        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/lifecycle"
+        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/lifecycle"
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "{\n  \"outcome\": \"passed\",\n  \"packet\": \"W05\",\n  \"reports\": {\n    \"lease-recovery-report\": {\n      \"cases\": [\n        \"clock trust rejection\",\n        \"expired lease classification\",\n        \"effect-wait reconciliation\",\n        \"restart recovery\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"objective-transition-report\": {\n      \"cases\": [\n        \"legal transitions\",\n        \"implicit success rejected\",\n        \"accepted completion claim required\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"wake-crash-matrix\": {\n      \"faults\": [\n        \"notification_loss\",\n        \"database_process_kill\"\n      ],\n      \"invariants\": [\n        \"commit before notification\",\n        \"at-least-once delivery\",\n        \"idempotent acknowledgement\"\n      ],\n      \"outcome\": \"passed\"\n    }\n  }\n}\nwarning: Git tree '/tmp/nixai-publish-issue24' is dirty\ntest_expired_activation_is_classified_and_untrusted_clock_is_denied (tests.test_w05_lifecycle.LifecycleTests.test_expired_activation_is_classified_and_untrusted_clock_is_denied) ... ok\ntest_lost_notification_does_not_lose_wake_and_objective_requires_claim (tests.test_w05_lifecycle.LifecycleTests.test_lost_notification_does_not_lose_wake_and_objective_requires_claim) ... ok\ntest_wake_is_committed_before_notification_and_redelivered_after_signal_loss (tests.test_w05_lifecycle.LifecycleTests.test_wake_is_committed_before_notification_and_redelivered_after_signal_loss) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.144s\n\nOK\n",
       "output_bytes": 1520,
-      "output_sha256": "sha256:04e40fdeffa4f6689daa36f1783afc8e3e709c4904f7f385861d157b819262c2"
+      "output_sha256": "sha256:b08de484fd46ac7d5345f974a3978eec91aad6da5d4c3fb73cbbe09855792459"
     },
     {
       "argv": [
@@ -23,8 +24,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/9n3rcnlswg2lijpr58flpxhldmjddn8z-validate-contracts.drv\n  /nix/store/dr9j95bi8m4nb8gny28l4n5cx89xyb2y-habitat-effects-0.1.0.drv\n  /nix/store/ra866zllp5df4ks3d407mijck3q4fhnp-qualify-w08.drv\n  /nix/store/fzsd3zgnc7k0bv2dh7x6ycg6rq8zi6yg-habitat-w08-qualification.drv\nbuilding '/nix/store/dr9j95bi8m4nb8gny28l4n5cx89xyb2y-habitat-effects-0.1.0.drv'...\nbuilding '/nix/store/9n3rcnlswg2lijpr58flpxhldmjddn8z-validate-contracts.drv'...\nbuilding '/nix/store/ra866zllp5df4ks3d407mijck3q4fhnp-qualify-w08.drv'...\nbuilding '/nix/store/fzsd3zgnc7k0bv2dh7x6ycg6rq8zi6yg-habitat-w08-qualification.drv'...\n",
       "output_bytes": 697,
-      "output_sha256": "sha256:5dc727a56c43f70530234502d85ee4523e3188319f590f9d480bf31b12e6eedd"
+      "output_sha256": "sha256:d6b5fe340fbf9f95a33692797a1331d9d568dc2b7922473cf2aec61eb5d24534"
     }
   ],
   "gate": "V-END-TO-END",
@@ -91,7 +93,7 @@
   "result": "pass",
   "runner": "headless_interruption_recovery_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [],
   "test_count": 2
 }

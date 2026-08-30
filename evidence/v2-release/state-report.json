@@ -7,12 +7,13 @@
         ".#test-w02",
         "--",
         "--evidence-dir",
-        "/tmp/nix-shell.sxSpDN/nix-ai-v2-release-0cl0_wdt/state"
+        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/state"
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "{\n  \"outcome\": \"passed\",\n  \"packet\": \"W02\",\n  \"reports\": {\n    \"backup-restore-report\": {\n      \"cases\": [\n        \"consistent restore\",\n        \"corrupt evidence rejection\",\n        \"referential integrity\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"disaster-recovery\": {\n      \"database_restart\": \"durable and idempotent\",\n      \"evidence_store_loss\": \"failed closed and recovered\",\n      \"outcome\": \"passed\"\n    },\n    \"evidence-integrity-report\": {\n      \"cases\": [\n        \"append-only SQL trigger\",\n        \"content tamper\",\n        \"linked correction\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"state-crash-matrix\": {\n      \"faults\": [\n        \"during_migration\",\n        \"during_upload\",\n        \"before_commit\",\n        \"after_commit\",\n        \"concurrent_first_write\",\n        \"database_process_kill\",\n        \"evidence_store_outage\"\n      ],\n      \"invariants\": [\n        \"atomic state/history\",\n        \"idempotent replay\",\n        \"optimistic conflict\"\n      ],\n      \"outcome\": \"passed\"\n    }\n  }\n}\nwarning: Git tree '/tmp/nixai-publish-issue24' is dirty\ntest_concurrent_writers_clock_projection_and_migration_boundaries (tests.test_w02_state.TransactionalStateTests.test_concurrent_writers_clock_projection_and_migration_boundaries) ... ok\ntest_consistent_backup_restores_state_and_rejects_corruption (tests.test_w02_state.TransactionalStateTests.test_consistent_backup_restores_state_and_rejects_corruption) ... ok\ntest_crash_before_commit_and_upload_leave_no_authoritative_record (tests.test_w02_state.TransactionalStateTests.test_crash_before_commit_and_upload_leave_no_authoritative_record) ... ok\ntest_history_state_machine_and_evidence_tamper_detection (tests.test_w02_state.TransactionalStateTests.test_history_state_machine_and_evidence_tamper_detection) ... ok\ntest_maintenance_authority_and_evidence_bounds (tests.test_w02_state.TransactionalStateTests.test_maintenance_authority_and_evidence_bounds) ... ok\ntest_transition_is_atomic_conflict_safe_and_replay_idempotent (tests.test_w02_state.TransactionalStateTests.test_transition_is_atomic_conflict_safe_and_replay_idempotent) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.446s\n\nOK\n",
       "output_bytes": 2216,
-      "output_sha256": "sha256:139062bfbdd676174ef3d197e02f7ad6c4bb85343c3b0a9afb8758d0732c5bec"
+      "output_sha256": "sha256:6351845c02a48dde6d3bc403339f66fd2c2bfeb4c063be44ddfa99ea935107c3"
     }
   ],
   "gate": "V-STATE",
@@ -79,7 +80,7 @@
   "result": "pass",
   "runner": "state_crash_migration_restore_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [
     {
       "path": "migration-report.json",

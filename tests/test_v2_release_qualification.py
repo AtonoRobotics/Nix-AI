@@ -71,7 +71,9 @@ class V2ReleaseQualificationTests(unittest.TestCase):
             report_path = evidence / "authority-report.json"
             report = json.loads(report_path.read_text())
             report["attestations"][0] = {
-                "kind": "executed_command", "argv": ["handwritten-pass"], "exit_code": 0,
+                "kind": "executed_command",
+                "argv": ["handwritten-pass", "w04-qualification"], "exit_code": 0,
+                "output": "fabricated runner output",
                 "output_sha256": "sha256:" + "0" * 64, "output_bytes": 999999,
             }
             report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")

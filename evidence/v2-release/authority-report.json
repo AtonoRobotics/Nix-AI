@@ -9,8 +9,9 @@
       ],
       "exit_code": 0,
       "kind": "executed_command",
+      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/7fk355cs16w3r73zpjbc7brm7mn0rn1n-habitat-authority-0.1.0.drv\n  /nix/store/7j42jkzbi1ll16303qmbfavb8qc37w80-validate-contracts.drv\n  /nix/store/xmlpjrmj57zbr7fd6m32abxyi51w78ms-qualify-w04.drv\n  /nix/store/03272xxyysfdhmnr1cmypfn115paadg6-habitat-w04-qualification.drv\nbuilding '/nix/store/7fk355cs16w3r73zpjbc7brm7mn0rn1n-habitat-authority-0.1.0.drv'...\nbuilding '/nix/store/7j42jkzbi1ll16303qmbfavb8qc37w80-validate-contracts.drv'...\nbuilding '/nix/store/xmlpjrmj57zbr7fd6m32abxyi51w78ms-qualify-w04.drv'...\nbuilding '/nix/store/03272xxyysfdhmnr1cmypfn115paadg6-habitat-w04-qualification.drv'...\n",
       "output_bytes": 701,
-      "output_sha256": "sha256:22aea13f5be0b9dce4207332f5fb8e861e19a4dee115f48e629fcc3da7bba12c"
+      "output_sha256": "sha256:eec6dd207775c59bfed5affdadef3fd8ea5f36948683603e8962d8efc1f87b24"
     }
   ],
   "gate": "V-AUTH",
@@ -33,7 +34,7 @@
   "result": "pass",
   "runner": "authority_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:b53353a90af8e34aee3b2588f8086121f145a64b0a2a80b5efae9b3e8ebdf5ef",
+  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
   "supporting_evidence": [],
   "test_count": 1
 }
