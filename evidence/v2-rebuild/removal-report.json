@@ -1,0 +1,13 @@
+{
+  "contaminated_units": [],
+  "delete_target_count": 51,
+  "rejected_build_members": [],
+  "remaining_delete_targets": [],
+  "runner": {
+    "name": "verify-v2-removal",
+    "version": 1
+  },
+  "schema_version": 1,
+  "valid": true,
+  "verified_commit": "6d0744e31a502a356ac1dce9dc3b8432720260ee"
+}

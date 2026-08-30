@@ -10,6 +10,22 @@ LEDGER = ROOT / "evidence" / "v2-rebuild" / "disposition-ledger.json"
 
 
 class V2ScopeRemovalTests(unittest.TestCase):
+    def test_checked_removal_report_is_runner_attributed_and_clean(self):
+        report = json.loads(
+            (ROOT / "evidence" / "v2-rebuild" / "removal-report.json").read_text()
+        )
+        self.assertEqual(report["schema_version"], 1)
+        self.assertEqual(report["runner"], {"name": "verify-v2-removal", "version": 1})
+        self.assertTrue(report["valid"])
+        self.assertEqual(report["delete_target_count"], 51)
+        self.assertEqual(report["remaining_delete_targets"], [])
+        self.assertEqual(report["contaminated_units"], [])
+        self.assertEqual(report["rejected_build_members"], [])
+        subprocess.run(
+            ["git", "-C", str(ROOT), "cat-file", "-e", f'{report["verified_commit"]}^{{commit}}'],
+            check=True,
+        )
+
     def test_exact_delete_set_and_semantic_scope_are_clean(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "report.json"
