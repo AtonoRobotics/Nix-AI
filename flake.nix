@@ -255,6 +255,20 @@
             --test-dir ${habitatHarnesses}/libexec/nix-ai-tests "$@"
         '';
       };
+      qualifyV2Release = pkgs.writeShellApplication {
+        name = "qualify-v2-release";
+        runtimeInputs = contractTools ++ [ pkgs.docker-client ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_v2_release.py} --root ${self} --run "$@"
+        '';
+      };
+      verifyV2Release = pkgs.writeShellApplication {
+        name = "verify-v2-release";
+        runtimeInputs = [ python ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_v2_release.py} --root ${self} --verify-evidence "$@"
+        '';
+      };
       habitatClosure = pkgs.closureInfo {
         rootPaths = [
           habitatSystem.config.system.build.toplevel
@@ -461,6 +475,16 @@
           program = "${qualifyW11}/bin/qualify-w11";
           meta.description = "Run W11 Codex and Claude harness conformance";
         };
+        qualify-v2-release = {
+          type = "app";
+          program = "${qualifyV2Release}/bin/qualify-v2-release";
+          meta.description = "Run every live v2 release gate and regenerate protected evidence";
+        };
+        test-w13 = {
+          type = "app";
+          program = "${verifyV2Release}/bin/verify-v2-release";
+          meta.description = "Verify all v2 gates and the binding completion predicate";
+        };
       };
 
       packages.${system} = {
@@ -481,6 +505,12 @@
       };
 
       checks.${system} = {
+        release-qualification = pkgs.runCommand "nix-ai-v2-release-qualification" {
+          nativeBuildInputs = [ verifyV2Release ];
+        } ''
+          verify-v2-release
+          touch "$out"
+        '';
         artifact-qualification = artifactQualification;
         w11-qualification = pkgs.runCommand "habitat-w11-qualification" {
           nativeBuildInputs = [ qualifyW11 ];
@@ -535,7 +565,8 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
-          qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses ];
+          qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 qualifyV2Release verifyV2Release
+          habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses ];
       };
     };
 }

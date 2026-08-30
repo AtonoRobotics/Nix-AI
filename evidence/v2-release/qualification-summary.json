@@ -1,0 +1,201 @@
+{
+  "completion_predicate": true,
+  "completion_predicates": {
+    "all_DELETE_targets_absent_from_cargo_graph": true,
+    "all_DELETE_targets_absent_from_nix_closure": true,
+    "all_DELETE_targets_absent_from_tree": true,
+    "all_V_gates_pass": true,
+    "all_W00_through_W13_pass": true,
+    "all_retained_units_satisfy_RET_001_through_RET_006": true,
+    "authority_rebuilt_from_v2": true,
+    "contract_schema_valid": true,
+    "effects_rebuilt_from_v2": true,
+    "inadmissible_source_count": 0,
+    "manifest_valid": true,
+    "rejected_migration_record_admitted_count": 0,
+    "released_contract_modified": false,
+    "stale_generated_count": 0,
+    "unknown_migration_record_admitted_count": 0,
+    "unmapped_semantic_count": 0,
+    "unrelated_diff_count": 0
+  },
+  "failed_gate_count": 0,
+  "gates": [
+    {
+      "gate": "V-ABI",
+      "path": "abi-report.json",
+      "result": "pass",
+      "runner": "abi_conformance",
+      "sha256": "sha256:02d7feba6e5da6a2e618774a715843672c6fd929bf8c13ddccc9fb919089a598"
+    },
+    {
+      "gate": "V-AUTH",
+      "path": "authority-report.json",
+      "result": "pass",
+      "runner": "authority_adversarial_qualification",
+      "sha256": "sha256:4aa51cc527955b3ee33defaefbe89c35d4ee6805116dd4d39bbba84038a52100"
+    },
+    {
+      "gate": "V-BOOT",
+      "path": "boot-report.json",
+      "result": "pass",
+      "runner": "qemu_boot_qualification",
+      "sha256": "sha256:db2a6e7ae7e2855697653c2d507da1533fd4a99a3973a0a31b96168fa8878469"
+    },
+    {
+      "gate": "V-CHANGE",
+      "path": "self-change-report.json",
+      "result": "pass",
+      "runner": "self_change_adversarial_qualification",
+      "sha256": "sha256:4b4734ca84c3c55feb771f003c3b77ca31626c677c068d7d16ceee603e3cf1b2"
+    },
+    {
+      "gate": "V-CONTEXT",
+      "path": "context-report.json",
+      "result": "pass",
+      "runner": "context_fault_qualification",
+      "sha256": "sha256:335c2e71973b03908edc57a31bad84da3d24f9a7c513f1aac5a5d818594aa93d"
+    },
+    {
+      "gate": "V-CONTRACT",
+      "path": "contract-report.json",
+      "result": "pass",
+      "runner": "contract_qualification",
+      "sha256": "sha256:e23d966013085a75b816ee164b3262f364803ae8c5f76a213e8693b786663514"
+    },
+    {
+      "gate": "V-EFFECT",
+      "path": "effect-report.json",
+      "result": "pass",
+      "runner": "effect_fault_recovery_qualification",
+      "sha256": "sha256:489bd721816d3e326134f65bca80f62234536cb1d4e3bd4377b67e1ad757d48b"
+    },
+    {
+      "gate": "V-END-TO-END",
+      "path": "end-to-end-report.json",
+      "result": "pass",
+      "runner": "headless_interruption_recovery_qualification",
+      "sha256": "sha256:bde2e86243577f589aff893ee8b15155ba942a90bbbec673ec5e9c3d30e0c82c"
+    },
+    {
+      "gate": "V-ISOLATION",
+      "path": "isolation-report.json",
+      "result": "pass",
+      "runner": "execution_adversarial_qualification",
+      "sha256": "sha256:5d09012f6b6b242500aad1820df138e9f41789e78cbc23321f5f54911708251a"
+    },
+    {
+      "gate": "V-PACKAGE",
+      "path": "package-report.json",
+      "result": "pass",
+      "runner": "package_lifecycle_qualification",
+      "sha256": "sha256:742602b4b645d01c2062c0dd463ff3dcfcfb44fd3b4de822d98e279a5f7b11db"
+    },
+    {
+      "gate": "V-ROLLBACK",
+      "path": "defective-rollback-report.json",
+      "result": "pass",
+      "runner": "candidate_rollback_qualification",
+      "sha256": "sha256:9a64d421b881052a6da161b4b245e79f07672c0b5049e9b8924c88fda4f282b3"
+    },
+    {
+      "gate": "V-SCOPE",
+      "path": "scope-report.json",
+      "result": "pass",
+      "runner": "scope_qualification",
+      "sha256": "sha256:00d832c9befc8a97d38ea37895e07b1e07144302253aef5cd41ecd97004b2e6b"
+    },
+    {
+      "gate": "V-STATE",
+      "path": "state-report.json",
+      "result": "pass",
+      "runner": "state_crash_migration_restore_qualification",
+      "sha256": "sha256:b198c227439722f342c7ed69943dca6cce3904e0f8ee86d2d6592e74e62b2613"
+    }
+  ],
+  "handwritten_pass_evidence_count": 0,
+  "missing_gate_count": 0,
+  "protected_evidence": [
+    {
+      "path": "../v2-rebuild/removal-report.json",
+      "sha256": "sha256:892f1e725a9a81e431ecf48d5364ac5c2213b860aa27b178245f9ef106c0da4b"
+    },
+    {
+      "path": "../v2-rebuild/core-retention-audit.json",
+      "sha256": "sha256:8665fe64cae99f5536df37c0bd1337721e068d5efe90a1f7ce3a7f4de4e9647f"
+    },
+    {
+      "path": "../v2-rebuild/artifact-closure-report.json",
+      "sha256": "sha256:fd79fcf1c160d4b1ee60a4e369c68fc66e4ec43b1a1228230d3c224b2c3e205b"
+    },
+    {
+      "path": "../v2-rebuild/build-closure-report.json",
+      "sha256": "sha256:479351213bb3a89896cb9f6aed5efe03a9e10a56ed3322dadc718770f1556cba"
+    },
+    {
+      "path": "../v2-rebuild/disposition-ledger.json",
+      "sha256": "sha256:2b1140791d088589738ff5f5713bbecc52e838c22429d886cb36100d8aaf29cf"
+    }
+  ],
+  "runner": "complete_release_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "work_packets": [
+    {
+      "packet": "W00",
+      "result": "pass"
+    },
+    {
+      "packet": "W01",
+      "result": "pass"
+    },
+    {
+      "packet": "W02",
+      "result": "pass"
+    },
+    {
+      "packet": "W03",
+      "result": "pass"
+    },
+    {
+      "packet": "W04",
+      "result": "pass"
+    },
+    {
+      "packet": "W05",
+      "result": "pass"
+    },
+    {
+      "packet": "W06",
+      "result": "pass"
+    },
+    {
+      "packet": "W07",
+      "result": "pass"
+    },
+    {
+      "packet": "W08",
+      "result": "pass"
+    },
+    {
+      "packet": "W09",
+      "result": "pass"
+    },
+    {
+      "packet": "W10",
+      "result": "pass"
+    },
+    {
+      "packet": "W11",
+      "result": "pass"
+    },
+    {
+      "packet": "W12",
+      "result": "pass"
+    },
+    {
+      "packet": "W13",
+      "result": "pass"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w08-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 251,
+      "output_sha256": "sha256:830008eca7861908e61489feffc4a6daa52a90fd4d613185d2a04f74ca56f028"
+    }
+  ],
+  "gate": "V-EFFECT",
+  "metric_evidence": {
+    "blind_retry_count": [
+      0
+    ],
+    "duplicate_effect_execution_count": [
+      0
+    ],
+    "premature_completion_count": [
+      0
+    ],
+    "unledgered_external_dispatch_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "blind_retry_count": 0,
+    "duplicate_effect_execution_count": 0,
+    "premature_completion_count": 0,
+    "unledgered_external_dispatch_count": 0
+  },
+  "result": "pass",
+  "runner": "effect_fault_recovery_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [],
+  "test_count": 1
+}

@@ -1,0 +1,85 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3",
+        "tools/qualify_v2_change.py",
+        "--root",
+        "/tmp/nixai-publish-issue24",
+        "--output",
+        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/change.json"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 1232,
+      "output_sha256": "sha256:0442ab73fb2bd0b4fdccdfb197ba29b9b9d3962eea6e7d06241eff7cd757b535"
+    }
+  ],
+  "gate": "V-CHANGE",
+  "metric_evidence": {
+    "evaluator_capture_count": [
+      0
+    ],
+    "in_place_contract_mutation_count": [
+      0
+    ],
+    "self_confirmed_candidate_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "evaluator_capture_count": 0,
+    "in_place_contract_mutation_count": 0,
+    "self_confirmed_candidate_count": 0
+  },
+  "observations": {
+    "attacks": [
+      {
+        "case": "in-place released-contract mutation",
+        "rejected": true
+      },
+      {
+        "case": "candidate self-confirmation",
+        "rejected": true
+      },
+      {
+        "case": "evaluator capture",
+        "rejected": true
+      },
+      {
+        "case": "unbound rollback target",
+        "rejected": true
+      }
+    ],
+    "candidate_manifest": {
+      "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
+      "dependency_closure_sha256": "e85b9cd7fbaf9b42b2549698e0ac0dba1f01be73d68ebe7d6b658bc298fd05b7",
+      "evaluator": "independent-qualifier",
+      "evidence_policy_sha256": "359ded99fccffd0c164122f9042a7e99e9b777455db8ade5bb36201bbbdceba6",
+      "proposer": "candidate-builder",
+      "rollback_target": "previous-confirmed-generation",
+      "source_sha256": "0d0dcbc7cae9abdc11216cd80cd43cb77851ce77a880bc0ef385daa51584e048",
+      "tests_sha256": "5e52c7fa0a8750063d66c03b00f0280231f01c7c66fb971699fbc6aa12a9d3f6",
+      "thresholds": {
+        "failed_gate_count": 0,
+        "missing_gate_count": 0
+      }
+    },
+    "contract_manifest_sha256": "5ccdd43bd2489b3f202ffa1620a11ff8593e8ffc26161c2c3f2a8e2d55aacb8c",
+    "gate": "V-CHANGE",
+    "metrics": {
+      "evaluator_capture_count": 0,
+      "in_place_contract_mutation_count": 0,
+      "self_confirmed_candidate_count": 0
+    },
+    "result": "pass",
+    "runner": "self_change_adversarial_qualification",
+    "schema_version": "1.0"
+  },
+  "result": "pass",
+  "runner": "self_change_adversarial_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [],
+  "test_count": 1
+}

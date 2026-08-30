@@ -1,0 +1,134 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "run",
+        ".#test-w06",
+        "--",
+        "--evidence-dir",
+        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/isolation"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 2668,
+      "output_sha256": "sha256:fa9ccd655039e0bd96d7581556572956d68e06278c249f57574ea1cf4304a441"
+    }
+  ],
+  "gate": "V-ISOLATION",
+  "metric_evidence": {
+    "adapter_bypass_count": [
+      0
+    ],
+    "ambient_authority_path_count": [
+      0
+    ],
+    "escape_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "adapter_bypass_count": 0,
+    "ambient_authority_path_count": 0,
+    "escape_count": 0
+  },
+  "observations": {
+    "architecture-boundary-test.json": {
+      "control_plane_in_activation": false,
+      "outcome": "passed",
+      "provider_bypass": false
+    },
+    "build-conformance-report.json": {
+      "locked_nix_build": true,
+      "outcome": "passed"
+    },
+    "hardware-profile-qualification.json": {
+      "others": "explicitly absent",
+      "outcome": "passed",
+      "runtime": "NATIVE"
+    },
+    "isolation-adversarial-suite.json": {
+      "artifact_sha256": "3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773",
+      "bubblewrap_sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712",
+      "denied": [
+        "host secrets",
+        "provider socket",
+        "evaluator evidence",
+        "peer workspace",
+        "host network",
+        "ambient environment"
+      ],
+      "outcome": "passed"
+    },
+    "packet-evidence-report.json": {
+      "outcome": "passed",
+      "packet": "W06"
+    },
+    "profile-feature-report.json": {
+      "declarations": [
+        {
+          "reason": "live bwrap namespace qualification",
+          "runtime": "Native",
+          "status": "qualified"
+        },
+        {
+          "reason": "not declared by profile",
+          "runtime": "Wasi",
+          "status": "absent"
+        },
+        {
+          "reason": "not declared by profile",
+          "runtime": "Oci",
+          "status": "absent"
+        },
+        {
+          "reason": "KVM not declared by profile",
+          "runtime": "MicroVm",
+          "status": "absent"
+        }
+      ],
+      "outcome": "passed",
+      "profile": "qemu-x86_64-conformance"
+    },
+    "resource-enforcement-report.json": {
+      "admission": [
+        "CPU",
+        "memory",
+        "storage",
+        "process count",
+        "timeout"
+      ],
+      "artifact_sha256": "3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773",
+      "enforced": [
+        "profile-bound CPU limit",
+        "memory address-space limit",
+        "workspace storage limit",
+        "process-count limit",
+        "activation timeout"
+      ],
+      "outcome": "passed"
+    },
+    "secret-exposure-negative-test.json": {
+      "ambient_secrets": false,
+      "outcome": "passed"
+    },
+    "system-conformance-report.json": {
+      "isolation_selected_before_execution": true,
+      "outcome": "passed"
+    },
+    "termination-test.json": {
+      "artifact_sha256": "3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773",
+      "cases": [
+        "profile-bound timeout terminates sandbox"
+      ],
+      "deadline_seconds": 1,
+      "outcome": "passed"
+    }
+  },
+  "result": "pass",
+  "runner": "execution_adversarial_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [],
+  "test_count": 1
+}

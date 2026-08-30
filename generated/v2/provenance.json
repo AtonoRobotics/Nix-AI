@@ -67,7 +67,7 @@
     },
     {
       "path": "flake.nix",
-      "sha256": "d9ad46c4a7f15ae6694def04c488b637412b6b30c753c3e991678f6579431073"
+      "sha256": "0d0dcbc7cae9abdc11216cd80cd43cb77851ce77a880bc0ef385daa51584e048"
     },
     {
       "path": "tools/derive_v2_contract.py",
@@ -79,7 +79,15 @@
     },
     {
       "path": "tools/qualify_v2_artifacts.py",
-      "sha256": "53fab1c496b910cb6e9c3e33e35e49158cf045035ced314cedd88727acbf0e72"
+      "sha256": "c84b1c673b1d471a97bf9e16deec77da905f9d4f25836b96580e74148a28e9d4"
+    },
+    {
+      "path": "tools/qualify_v2_change.py",
+      "sha256": "942b72ede0d7311138039ac55d55ad2089921c535128f18c7a7f5547817fcd2f"
+    },
+    {
+      "path": "tools/qualify_v2_release.py",
+      "sha256": "359ded99fccffd0c164122f9042a7e99e9b777455db8ade5bb36201bbbdceba6"
     },
     {
       "path": "tools/verify_v2_build_closure.py",

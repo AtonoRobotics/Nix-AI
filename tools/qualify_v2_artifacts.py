@@ -109,6 +109,10 @@ def evidence_index(root: Path):
     entries = []
     for path in sorted((root / "evidence").rglob("*.json")):
         relative = path.relative_to(root).as_posix()
+        if relative.startswith("evidence/v2-release/"):
+            # Release evidence digests the artifact report, so including it here
+            # would create an impossible evidence-index digest cycle.
+            continue
         if relative in {"evidence/v2-rebuild/artifact-closure-report.json",
                         "evidence/v2-rebuild/build-closure-report.json"}:
             continue
@@ -121,6 +125,7 @@ def provenance(root: Path):
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json", "Cargo.toml", "Cargo.lock",
         "flake.nix", "flake.lock", "tools/derive_v2_contract.py", "tools/proto_contracts.py",
         "tools/qualify_v2_artifacts.py", "tools/verify_v2_build_closure.py", "buf.yaml", "buf.gen.yaml",
+        "tools/qualify_v2_change.py", "tools/qualify_v2_release.py",
     ]
     sources.extend(path.relative_to(root).as_posix() for path in sorted((root / "crates").glob("*/Cargo.toml")))
     sources.extend(path.relative_to(root).as_posix() for path in sorted((root / "contracts/proto").glob("*.proto")))

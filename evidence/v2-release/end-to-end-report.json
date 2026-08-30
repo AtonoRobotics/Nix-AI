@@ -1,0 +1,97 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "run",
+        ".#test-w05",
+        "--",
+        "--evidence-dir",
+        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/lifecycle"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 1520,
+      "output_sha256": "sha256:b08de484fd46ac7d5345f974a3978eec91aad6da5d4c3fb73cbbe09855792459"
+    },
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w08-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 56,
+      "output_sha256": "sha256:8fce3bd7fa8b51d09f9328f2cd5b715f8a7478cceb415804a74d0e75d03374e7"
+    }
+  ],
+  "gate": "V-END-TO-END",
+  "metric_evidence": {
+    "active_human_session_required": [
+      0,
+      1
+    ],
+    "duplicate_effect_count": [
+      0,
+      1
+    ],
+    "independent_evidence_verified": [
+      0,
+      1
+    ],
+    "lost_work_count": [
+      0,
+      1
+    ],
+    "objective_completed": [
+      0,
+      1
+    ]
+  },
+  "metrics": {
+    "active_human_session_required": false,
+    "duplicate_effect_count": 0,
+    "independent_evidence_verified": true,
+    "lost_work_count": 0,
+    "objective_completed": true
+  },
+  "observations": {
+    "lease-recovery-report.json": {
+      "cases": [
+        "clock trust rejection",
+        "expired lease classification",
+        "effect-wait reconciliation",
+        "restart recovery"
+      ],
+      "outcome": "passed"
+    },
+    "objective-transition-report.json": {
+      "cases": [
+        "legal transitions",
+        "implicit success rejected",
+        "accepted completion claim required"
+      ],
+      "outcome": "passed"
+    },
+    "wake-crash-matrix.json": {
+      "faults": [
+        "notification_loss",
+        "database_process_kill"
+      ],
+      "invariants": [
+        "commit before notification",
+        "at-least-once delivery",
+        "idempotent acknowledgement"
+      ],
+      "outcome": "passed"
+    }
+  },
+  "result": "pass",
+  "runner": "headless_interruption_recovery_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [],
+  "test_count": 2
+}

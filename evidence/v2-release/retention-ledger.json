@@ -1,0 +1,9 @@
+{
+  "contaminated_retained_unit_count": 0,
+  "inadmissible_source_count": 0,
+  "runner": "scope_qualification",
+  "schema_version": "1.0",
+  "source": "../v2-rebuild/disposition-ledger.json",
+  "source_sha256": "sha256:2b1140791d088589738ff5f5713bbecc52e838c22429d886cb36100d8aaf29cf",
+  "unmapped_semantic_count": 0
+}

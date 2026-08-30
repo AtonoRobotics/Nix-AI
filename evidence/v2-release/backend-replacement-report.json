@@ -1,0 +1,11 @@
+{
+  "qualified_backends": [
+    "direct-model",
+    "Codex CLI",
+    "Claude Code"
+  ],
+  "result": "pass",
+  "runner": "abi_conformance",
+  "schema_version": "1.0",
+  "semantic_mismatch_count": 0
+}

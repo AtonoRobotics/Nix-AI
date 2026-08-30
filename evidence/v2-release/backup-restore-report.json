@@ -1,0 +1,13 @@
+{
+  "observation": {
+    "cases": [
+      "consistent restore",
+      "corrupt evidence rejection",
+      "referential integrity"
+    ],
+    "outcome": "passed"
+  },
+  "result": "pass",
+  "runner": "state_crash_migration_restore_qualification",
+  "schema_version": "1.0"
+}

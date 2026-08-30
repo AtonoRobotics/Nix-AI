@@ -1,0 +1,74 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w03-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 251,
+      "output_sha256": "sha256:93c793b8cc0c4718c8b082494f3b14dfe7eea33f134a1bf9289b4688e59b377c"
+    },
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w09-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 251,
+      "output_sha256": "sha256:7bdcac090f4ffa683ff1ad9311fea3310b13989e474270bbc0eb13c3c912c78b"
+    },
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w11-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 251,
+      "output_sha256": "sha256:3987ac8611d70b30b864f97cb9d69ede9dfcc790619e162b5d85a1f412dd9f01"
+    }
+  ],
+  "gate": "V-ABI",
+  "metric_evidence": {
+    "duplicate_execution_count": [
+      0,
+      1,
+      2
+    ],
+    "removed_semantic_admission_count": [
+      0,
+      1,
+      2
+    ],
+    "semantic_mismatch_count": [
+      0,
+      1,
+      2
+    ]
+  },
+  "metrics": {
+    "duplicate_execution_count": 0,
+    "removed_semantic_admission_count": 0,
+    "semantic_mismatch_count": 0
+  },
+  "result": "pass",
+  "runner": "abi_conformance",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [
+    {
+      "path": "backend-replacement-report.json",
+      "sha256": "sha256:d3a8744cc3fa208e439d34b4d74e314e72780a0e97f24de2d01b673d598e4c2c"
+    }
+  ],
+  "test_count": 3
+}

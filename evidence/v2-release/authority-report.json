@@ -1,0 +1,39 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w04-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 251,
+      "output_sha256": "sha256:a067a835bda2759b100e6c8ed91f020f79bd5701e2f7f4fa808272c9d83dd797"
+    }
+  ],
+  "gate": "V-AUTH",
+  "metric_evidence": {
+    "post_bound_revoked_invocation_count": [
+      0
+    ],
+    "unauthorized_action_count": [
+      0
+    ],
+    "widening_delegation_acceptance_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "post_bound_revoked_invocation_count": 0,
+    "unauthorized_action_count": 0,
+    "widening_delegation_acceptance_count": 0
+  },
+  "result": "pass",
+  "runner": "authority_adversarial_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [],
+  "test_count": 1
+}

@@ -1,0 +1,94 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "run",
+        ".#test-w02",
+        "--",
+        "--evidence-dir",
+        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/state"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 2216,
+      "output_sha256": "sha256:21ba60c3700803bc122d4ebed46aaa085bda765a566bfafcbb9ea2887436d397"
+    }
+  ],
+  "gate": "V-STATE",
+  "metric_evidence": {
+    "lost_wake_count": [
+      0
+    ],
+    "partial_commit_count": [
+      0
+    ],
+    "silent_coercion_count": [
+      0
+    ],
+    "stale_fence_commit_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "lost_wake_count": 0,
+    "partial_commit_count": 0,
+    "silent_coercion_count": 0,
+    "stale_fence_commit_count": 0
+  },
+  "observations": {
+    "backup-restore-report.json": {
+      "cases": [
+        "consistent restore",
+        "corrupt evidence rejection",
+        "referential integrity"
+      ],
+      "outcome": "passed"
+    },
+    "disaster-recovery.json": {
+      "database_restart": "durable and idempotent",
+      "evidence_store_loss": "failed closed and recovered",
+      "outcome": "passed"
+    },
+    "evidence-integrity-report.json": {
+      "cases": [
+        "append-only SQL trigger",
+        "content tamper",
+        "linked correction"
+      ],
+      "outcome": "passed"
+    },
+    "state-crash-matrix.json": {
+      "faults": [
+        "during_migration",
+        "during_upload",
+        "before_commit",
+        "after_commit",
+        "concurrent_first_write",
+        "database_process_kill",
+        "evidence_store_outage"
+      ],
+      "invariants": [
+        "atomic state/history",
+        "idempotent replay",
+        "optimistic conflict"
+      ],
+      "outcome": "passed"
+    }
+  },
+  "result": "pass",
+  "runner": "state_crash_migration_restore_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [
+    {
+      "path": "migration-report.json",
+      "sha256": "sha256:567d0ea7e3b2bc338e49faabd09bbeddf0838e9d964a3922c58446e69dc22ca9"
+    },
+    {
+      "path": "backup-restore-report.json",
+      "sha256": "sha256:3d7e64ed775c1fe6a0a40b1cefa209951375acb1925795037494e4d797ba3fbb"
+    }
+  ],
+  "test_count": 1
+}

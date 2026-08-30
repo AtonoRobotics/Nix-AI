@@ -1,0 +1,88 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3",
+        "tools/verify_v2_removal.py",
+        "--root",
+        "/tmp/nixai-publish-issue24",
+        "--ledger",
+        "/tmp/nixai-publish-issue24/evidence/v2-rebuild/disposition-ledger.json",
+        "--output",
+        "/tmp/nix-shell.gNkVal/nix-ai-v2-release-9ndza9uy/scope.json"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 965,
+      "output_sha256": "sha256:4abdf7058ef5243d122eaf6e4102ebcc40d86280248bf3d92b5b97a18d7c6c60"
+    }
+  ],
+  "gate": "V-SCOPE",
+  "metric_evidence": {
+    "contaminated_retained_unit_count": [
+      0
+    ],
+    "inadmissible_source_count": [
+      0
+    ],
+    "unmapped_semantic_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "contaminated_retained_unit_count": 0,
+    "inadmissible_source_count": 0,
+    "unmapped_semantic_count": 0
+  },
+  "observations": {
+    "contaminated_units": [],
+    "delete_counts_by_inventory_class": {
+      "build_closure_members": 14,
+      "dependencies": 36,
+      "generated_artifacts": 2,
+      "public_semantics": 193,
+      "tracked_paths": 51
+    },
+    "policy_exclusions": [
+      "AGENTS.md",
+      "docs/agents/domain.md",
+      "docs/agents/issue-tracker.md",
+      "docs/agents/triage-labels.md",
+      "tests/test_v2_artifact_closure.py",
+      "tests/test_v2_contract_derivation.py",
+      "tests/test_v2_rebuild_frontier.py",
+      "tests/test_v2_scope_classification.py",
+      "tests/test_v2_scope_removal.py",
+      "tools/classify_v2_scope.py",
+      "tools/inventory_v2.py",
+      "tools/qualify_v2_artifacts.py",
+      "tools/verify_v2_build_closure.py",
+      "tools/verify_v2_removal.py"
+    ],
+    "policy_prefix_exclusions": [
+      "contracts/v2/",
+      "contracts/v2.0.1/",
+      "evidence/v2-rebuild/"
+    ],
+    "remaining_delete_units": [],
+    "runner": {
+      "name": "verify-v2-removal",
+      "version": 2
+    },
+    "scanned_tracked_path_count": 246,
+    "schema_version": 1,
+    "valid": true,
+    "verified_commit": "e2cec0fc9eff5e21e142ccde264178121dd7c533"
+  },
+  "result": "pass",
+  "runner": "scope_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [
+    {
+      "path": "retention-ledger.json",
+      "sha256": "sha256:850fb53eadb9d3afb6c89493bc53393fc5f08db3af735e8c7567035a0321b959"
+    }
+  ],
+  "test_count": 1
+}

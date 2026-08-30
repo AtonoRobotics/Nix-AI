@@ -1,0 +1,43 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "nix",
+        "build",
+        "--no-link",
+        ".#checks.x86_64-linux.w07-qualification"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 251,
+      "output_sha256": "sha256:36f64df9095c0086f462388a947dd632db7d17668667553f27050c4951f02b4d"
+    }
+  ],
+  "gate": "V-CONTEXT",
+  "metric_evidence": {
+    "context_created_authority_count": [
+      0
+    ],
+    "context_item_without_provenance_count": [
+      0
+    ],
+    "silent_contradiction_resolution_count": [
+      0
+    ],
+    "unbounded_process_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "context_created_authority_count": 0,
+    "context_item_without_provenance_count": 0,
+    "silent_contradiction_resolution_count": 0,
+    "unbounded_process_count": 0
+  },
+  "result": "pass",
+  "runner": "context_fault_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [],
+  "test_count": 1
+}

@@ -1,0 +1,8 @@
+{
+  "architecture_manifest_sha256": "sha256:891f960cf96df6b651523b4754bfe20e50238101b32770bafb4495a0e0fd30e4",
+  "hash_errors": 0,
+  "runner": "contract_qualification",
+  "schema_version": "1.0",
+  "v2_0_1_manifest_sha256": "sha256:5ccdd43bd2489b3f202ffa1620a11ff8593e8ffc26161c2c3f2a8e2d55aacb8c",
+  "v2_manifest_sha256": "sha256:63621cccd011aca6704bba1e2d5ef78bdd5967e6576da012f28430657d422ce5"
+}

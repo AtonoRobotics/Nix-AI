@@ -1,0 +1,51 @@
+{
+  "attestations": [
+    {
+      "argv": [
+        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3",
+        "tools/validate_contracts.py",
+        "/tmp/nixai-publish-issue24"
+      ],
+      "exit_code": 0,
+      "kind": "executed_command",
+      "output_bytes": 2834,
+      "output_sha256": "sha256:3743d08252a30c34c820a15302bbaf8622a6333a0ea03f219b55c4b4b8ab6ab2"
+    }
+  ],
+  "gate": "V-CONTRACT",
+  "metric_evidence": {
+    "graph_errors": [
+      0
+    ],
+    "hash_errors": [
+      0
+    ],
+    "reference_errors": [
+      0
+    ],
+    "schema_errors": [
+      0
+    ],
+    "stale_generated_count": [
+      0
+    ]
+  },
+  "metrics": {
+    "graph_errors": 0,
+    "hash_errors": 0,
+    "reference_errors": 0,
+    "schema_errors": 0,
+    "stale_generated_count": 0
+  },
+  "result": "pass",
+  "runner": "contract_qualification",
+  "schema_version": "1.0",
+  "source_tree_sha256": "sha256:df0ea9dfb0f507f8a11c058d01f935ae37f8587e63dddc8075219f0230b1be10",
+  "supporting_evidence": [
+    {
+      "path": "manifest-report.json",
+      "sha256": "sha256:620d269f199600c6cfcf4e7b6523e718f43d46b7e648c4d1745c342a5efcacbd"
+    }
+  ],
+  "test_count": 1
+}
