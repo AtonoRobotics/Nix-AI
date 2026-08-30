@@ -126,6 +126,14 @@
             --root ${self} --library ${habitatAuthority}/bin/habitat-authority "$@"
         '';
       };
+      qualifyW05 = pkgs.writeShellApplication {
+        name = "qualify-w05";
+        runtimeInputs = [ pkgs.docker-client python ];
+        text = ''
+          export PYTHONPATH=${./src}
+          exec ${python}/bin/python ${./tools/qualify_w05.py} "$@"
+        '';
+      };
       habitatClosure = pkgs.closureInfo {
         rootPaths = [
           habitatSystem.config.system.build.toplevel
@@ -279,6 +287,11 @@
           type = "app";
           program = "${qualifyW04}/bin/qualify-w04";
           meta.description = "Verify W04 capability authority invariants";
+        };
+        test-w05 = {
+          type = "app";
+          program = "${qualifyW05}/bin/qualify-w05";
+          meta.description = "Run W05 wake and lease crash qualification";
         };
       };
 
