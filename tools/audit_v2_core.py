@@ -52,7 +52,7 @@ AMBIENT_EXEMPT={
 SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?|secrets\.)[^\n]{0,120}(?:key|token|secret|password)|(?:key|token|secret|password)[^\n]{0,120}(?:std::env::var|os\.environ(?:\.get)?|secrets\.)",re.I)
 EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|urllib|requests?\.|python\s+(?:-[A-Za-z]*c\b|-c\b)|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
 COMBINED_EXEMPT={"tools/qualify_w02.py","tools/qualify_w06.py"}
-PROVIDER_FORBIDDEN=re.compile(r"\bstd::|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|Authorization|Bearer",re.I)
+PROVIDER_FORBIDDEN=re.compile(r"\bstd::|\bcore::|\bunsafe\b|\bextern\b|\basm!|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|Authorization|Bearer",re.I)
 RUST_QUALIFIERS=r"(?:(?:async|const|unsafe)\s+|extern\s+\"[^\"]+\"\s+)*"
 API=re.compile(rf"\bpub(?:\([^)]*\))?\s+{RUST_QUALIFIERS}(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match|for|while|loop)\b|=>")
@@ -153,8 +153,11 @@ def audit(root):
     ignored={".git","target","__pycache__",".pytest_cache"};self_artifact="evidence/v2-rebuild/core-retention-audit.json"
     repository_files=[]
     for path in sorted(root.rglob("*")):
-        if not path.is_file() or path.is_symlink() or any(part in ignored for part in path.relative_to(root).parts):continue
         relative=path.relative_to(root)
+        if any(part in ignored for part in relative.parts):continue
+        if path.is_symlink():
+            unresolved.append(f"symlink-repository-unit:{relative}");continue
+        if not path.is_file():continue
         if relative.as_posix()==self_artifact:continue
         requirements=repository_scope(relative)
         if not requirements:unresolved.append(f"unmapped-repository-unit:{relative}");continue
@@ -167,8 +170,15 @@ def audit(root):
             unresolved.append(f"unmapped-semantic-unit:{relative}")
         if not requirements: unresolved.append(relative.as_posix());continue
         files.append(relative.as_posix());suffix=path.suffix
+        if relative.as_posix().startswith("crates/") and not (suffix==".rs" or path.name=="Cargo.toml"):
+            unresolved.append(f"unsupported-core-source-class:{relative}")
+        if relative.as_posix().startswith("src/") and suffix!=".py":
+            unresolved.append(f"unsupported-core-source-class:{relative}")
         try: content=path.read_text()
-        except UnicodeDecodeError: content=""
+        except UnicodeDecodeError:
+            content=""
+            if relative.as_posix().startswith(("crates/","src/","tools/","tests/","nix/")):
+                unresolved.append(f"undecodable-semantic-source:{relative}")
         if suffix in {".rs",".py"}:
             lines=content.splitlines();pending_test=False;current_requirements=requirements
             current_scope="module";brace_depth=0;scope_depth=None

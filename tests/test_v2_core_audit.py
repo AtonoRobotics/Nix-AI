@@ -229,6 +229,31 @@ class V2CoreAuditTests(unittest.TestCase):
             for directory in (ROOT/".github/workflows",ROOT/".github"):
                 if directory.exists() and not any(directory.iterdir()):directory.rmdir()
 
+    def test_provider_ffi_effect_fails_closed(self):
+        provider=ROOT/"crates/habitat-provider-transport/src/lib.rs";original=provider.read_text()
+        try:
+            provider.write_text(original+'\nunsafe extern "C" { fn system(command:*const core::ffi::c_char)->core::ffi::c_int; }\n')
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("provider-direct-effect-path",result.stdout)
+        finally:provider.write_text(original)
+
+    def test_symlink_undecodable_and_unknown_core_source_classes_fail_closed(self):
+        symlink=ROOT/"crates/habitat-models/src/linked.rs"
+        binary=ROOT/"crates/habitat-models/src/opaque.py"
+        unknown=ROOT/"crates/habitat-models/src/opaque.c"
+        try:
+            symlink.symlink_to("lib.rs")
+            binary.write_bytes(b"\xff\xfe\x00")
+            unknown.write_text("void external_effect(void) {}\n")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn("symlink-repository-unit",result.stdout)
+            self.assertIn("undecodable-semantic-source",result.stdout)
+            self.assertIn("unsupported-core-source-class",result.stdout)
+        finally:
+            for path in (symlink,binary,unknown):
+                if path.exists() or path.is_symlink():path.unlink()
+
     def test_nix_shell_and_workflow_branches_are_inventoried(self):
         with tempfile.TemporaryDirectory() as temporary:
             output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
