@@ -214,6 +214,10 @@ class V2ScopeClassificationTests(unittest.TestCase):
 
         self.assertEqual(ledger["runner"], {"name": "classify-v2-scope", "version": 1})
         self.assertEqual(ledger["inventory_tree"], inventory["inventory_tree"])
+        self.assertEqual(ledger["inventory_tree"], inventory["inventory_tree"])
+        self.assertNotEqual(ledger["inventory_tree"], subprocess.run(
+            ["git", "rev-parse", "HEAD^{tree}"], cwd=ROOT, text=True,
+            capture_output=True, check=True).stdout.strip())
         self.assertEqual(ledger["summary"]["unclassified_count"], 0)
         self.assertEqual(ledger["summary"]["unmapped_retained_count"], 0)
         self.assertEqual(

@@ -22,7 +22,7 @@ ARCHITECTURE_FILES = (
     "17-REMEDIATION-RECORD.md", "README.md",
 )
 INTERFACE_SOURCE_SHA256 = {
-    "contracts/proto/nix_ai_agent_v2.proto": "da215a9d709054942d7e898b9cfe9eb2627e461a00c8bbc1f4d31c5915d2cccc",
+    "contracts/proto/nix_ai_agent_v2.proto": "856065189e6c319eb8599f47e937fe75065b34e59850223a75222c6974594b4d",
     "contracts/proto/nix_ai_authority_effect_v2.proto": "e689e38f38ba1099dd64b58274aa48aa8869369d41c98015d6d01c505d7f550a",
 }
 

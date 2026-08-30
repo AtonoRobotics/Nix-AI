@@ -3,11 +3,11 @@
     "direct_dependency_count": 0,
     "provider_transcripts": "diagnostic-only"
   },
-  "candidate_file_count": 55,
+  "candidate_file_count": 64,
   "counts": {
-    "dependency": 61,
-    "fixture": 6,
-    "source_unit": 31,
+    "dependency": 74,
+    "fixture": 5,
+    "source_unit": 41,
     "test": 18
   },
   "hardware_profile": {
@@ -16,9 +16,80 @@
     "gpu": "absent",
     "profile_id": "qemu-x86_64-conformance"
   },
-  "mapping_granularity": "exact-file authority scope; no source-language parser",
+  "mapping_granularity": "exact-file authority, owner, and requirement-overlapping test scope; no source-language parser",
   "records": [
     {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-004",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-004",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "contracts/proto/nix_ai_agent_v2.proto",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "ABI-001",
+        "ABI-004",
+        "AUTH-004",
+        "EFFECT-001"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "contracts/proto/",
+      "sha256": "856065189e6c319eb8599f47e937fe75065b34e59850223a75222c6974594b4d",
+      "source": "contracts/proto/nix_ai_agent_v2.proto",
+      "verification_tests": [
+        "crates/habitat-abi/tests/compatibility.rs",
+        "crates/habitat-abi/tests/transport.rs",
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs",
+        "crates/habitat-execution/tests/admission.rs"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-004",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-004",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "contracts/proto/nix_ai_authority_effect_v2.proto",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "ABI-001",
+        "ABI-004",
+        "AUTH-004",
+        "EFFECT-001"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "contracts/proto/",
+      "sha256": "e689e38f38ba1099dd64b58274aa48aa8869369d41c98015d6d01c505d7f550a",
+      "source": "contracts/proto/nix_ai_authority_effect_v2.proto",
+      "verification_tests": [
+        "crates/habitat-abi/tests/compatibility.rs",
+        "crates/habitat-abi/tests/transport.rs",
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs",
+        "crates/habitat-execution/tests/admission.rs"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
       ],
@@ -35,9 +106,14 @@
       "review_unit": "exact-file-bytes",
       "selector": "contracts/schemas/hardware-profile.schema.json",
       "sha256": "59926523e5bb3b090fde7822157510a689ac8aa8084d35618b09936e2cd35238",
-      "source": "contracts/schemas/hardware-profile.schema.json"
+      "source": "contracts/schemas/hardware-profile.schema.json",
+      "verification_tests": [
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-002",
@@ -58,7 +134,11 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-abi/",
       "sha256": "322870b05ba843556ec55b76d5d1096a10277dd44cb36072d0b63d099f029ab0",
-      "source": "crates/habitat-abi/Cargo.toml"
+      "source": "crates/habitat-abi/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-abi/tests/compatibility.rs",
+        "crates/habitat-abi/tests/transport.rs"
+      ]
     },
     {
       "authority": [
@@ -194,7 +274,7 @@
       ],
       "identity": "crates/habitat-abi/Cargo.toml:dependencies:tokio",
       "kind": "dependency",
-      "necessity": "asynchronous transport runtime",
+      "necessity": "asynchronous runtime coordination",
       "predicates": [
         "RET-003"
       ],
@@ -334,6 +414,7 @@
       "source": "crates/habitat-abi/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-002",
@@ -353,10 +434,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-abi/",
-      "sha256": "20a6dde7dab4e029a369270c7e7b817ee8d7acc4ba3bb62337b27821bc1fb061",
-      "source": "crates/habitat-abi/build.rs"
+      "sha256": "b2bd2d1899503a2d46a5e5f03147d5aa4f57eea5c708d6ebe5ab094d08a6767d",
+      "source": "crates/habitat-abi/build.rs",
+      "verification_tests": [
+        "crates/habitat-abi/tests/compatibility.rs",
+        "crates/habitat-abi/tests/transport.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-002",
@@ -376,10 +462,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-abi/",
-      "sha256": "55fcef7241cffc67a74848c6f786cfbc95680909f97a7b6978481e01526b4c7c",
-      "source": "crates/habitat-abi/src/bin/server.rs"
+      "sha256": "f2b739d5db6f57db8cbaac6f6b37c8ee50223e3689365a9b140f89d54a2b37ee",
+      "source": "crates/habitat-abi/src/bin/server.rs",
+      "verification_tests": [
+        "crates/habitat-abi/tests/compatibility.rs",
+        "crates/habitat-abi/tests/transport.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-002",
@@ -399,10 +490,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-abi/",
-      "sha256": "40e1dd982ea104804083844f06a0e309b505651c94afed23b2b768b762089edc",
-      "source": "crates/habitat-abi/src/lib.rs"
+      "sha256": "28d934ee847ec8be005915baf3e3783b9c4fc79f488472823c061243da74c420",
+      "source": "crates/habitat-abi/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-abi/tests/compatibility.rs",
+        "crates/habitat-abi/tests/transport.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-002",
@@ -421,10 +517,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-abi/",
-      "sha256": "4e5393c38395514a220d215235df0ffc086823cc3183621eed18d565aa8ae809",
+      "sha256": "3753d5569b82bc1dd1841e91adc50955faf761e52eeed3df508a5a74bdcf49d0",
       "source": "crates/habitat-abi/tests/compatibility.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-002",
@@ -443,10 +540,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-abi/",
-      "sha256": "09970dfc509c93775f6676f0a360d69c941cb5a6f3988fabd4896bb27277e890",
+      "sha256": "ee79740ded22e831f196fbf8a9e7216a8190e79e439595147c3ce5b23a91dad4",
       "source": "crates/habitat-abi/tests/transport.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-002",
@@ -469,7 +567,12 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-authority/",
       "sha256": "8042080116b662bd10374cb51a304f3bff98672f783be1ba8320e6d3a6587e65",
-      "source": "crates/habitat-authority/Cargo.toml"
+      "source": "crates/habitat-authority/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-execution/tests/admission.rs"
+      ]
     },
     {
       "authority": [
@@ -587,6 +690,7 @@
       "source": "crates/habitat-authority/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-002",
@@ -609,9 +713,15 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-authority/",
       "sha256": "6be3e2b15bf2691d3932303cc5501ed1240dc030c7a422839a5eb842fd09850b",
-      "source": "crates/habitat-authority/src/bin/authority.rs"
+      "source": "crates/habitat-authority/src/bin/authority.rs",
+      "verification_tests": [
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-execution/tests/admission.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-002",
@@ -633,10 +743,16 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-authority/",
-      "sha256": "3eb3617571e6c3aca04b082b3ab2f6f93c50a785c2389085c56ffd0637821ad0",
-      "source": "crates/habitat-authority/src/lib.rs"
+      "sha256": "ffedcf7efac52bd93fbdfbaa0fb9c4293baab9e3e967d2cb2ceef13281ee7e64",
+      "source": "crates/habitat-authority/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-execution/tests/admission.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-002",
@@ -657,10 +773,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-authority/",
-      "sha256": "9f507a3a8b19dd4f43d80e489b1026140cffdb9cbbf20ef8f253b1b98499a2fc",
+      "sha256": "3302e08b8ed2a7160fae26197d90cc24aa0f55668a76c3e62223060af9873f21",
       "source": "crates/habitat-authority/tests/attenuation_revocation.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-002",
@@ -681,10 +798,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-authority/",
-      "sha256": "ea85fa06f3167ffa95e9cf0d9d7029c953c45924c8ef1e9092723fc2cb7bbaa9",
+      "sha256": "a889a3e8b9eea70d7b3699a21333d28d7d8dde0210cd0b2ed9d539e3538b99ff",
       "source": "crates/habitat-authority/tests/authorization.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-002",
@@ -707,7 +825,11 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-context/",
       "sha256": "701b7e080d2055f2294c6055bde2ee8acc047b91e27343b37155ac704544b51f",
-      "source": "crates/habitat-context/Cargo.toml"
+      "source": "crates/habitat-context/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-context/tests/compiler.rs",
+        "crates/habitat-context/tests/faults.rs"
+      ]
     },
     {
       "authority": [
@@ -779,6 +901,7 @@
       "source": "crates/habitat-context/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-002",
@@ -800,10 +923,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-context/",
-      "sha256": "ceb2915ee3903aedc5a3b982fbc386071e5da0906f1ece59344450422ba42635",
-      "source": "crates/habitat-context/src/lib.rs"
+      "sha256": "a91938f7fa1f52a52ccbeb4de720bfef79d5c5ea1cea0bab69c90c65328eec89",
+      "source": "crates/habitat-context/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-context/tests/compiler.rs",
+        "crates/habitat-context/tests/faults.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-002",
@@ -825,10 +953,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-context/",
-      "sha256": "d764c4cc1a6849e35ddf6b817b1dd6cfed7f56ad7d563b0615dfa0ed62c0040c",
-      "source": "crates/habitat-context/src/main.rs"
+      "sha256": "91d630702c6e26afa67dd13264c4ee4ae1628156407b401ff36fc0ac271acc93",
+      "source": "crates/habitat-context/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-context/tests/compiler.rs",
+        "crates/habitat-context/tests/faults.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-002",
@@ -849,10 +982,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-context/",
-      "sha256": "db4875b58053831f54c8f771c0702bcb348191e124261ff0986c08141dad40f9",
+      "sha256": "8cdc0ef0694e4fe516427612deb6a0f1c469459827bc3084909405648f93a4af",
       "source": "crates/habitat-context/tests/compiler.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CTX-002",
@@ -873,10 +1007,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-context/",
-      "sha256": "0b6457ad32021eed26eca58cb8369fec3bcb7af6a5bc97f4ccb6930badc62cd9",
+      "sha256": "c8c5cf577975fe7105290fe71161498ddf550579c3949fb309ab22996ac96d8c",
       "source": "crates/habitat-context/tests/faults.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-002",
@@ -901,7 +1036,11 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-effects/",
       "sha256": "740d0494187b86d7e2e90bd67ee82babecc857bc6ea5af1ea106573dedc8ffbc",
-      "source": "crates/habitat-effects/Cargo.toml"
+      "source": "crates/habitat-effects/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs"
+      ]
     },
     {
       "authority": [
@@ -1029,6 +1168,7 @@
       "source": "crates/habitat-effects/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-002",
@@ -1052,10 +1192,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-effects/",
-      "sha256": "a71fa5cc388fed4fa9881467401121681099e4aedec7e7201f3608f5eb63e435",
-      "source": "crates/habitat-effects/src/lib.rs"
+      "sha256": "ca3ffd3dcb5e18892492ed6de733ea064f339e299f3f97e4dc8af93a078c9e61",
+      "source": "crates/habitat-effects/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-002",
@@ -1079,10 +1224,15 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-effects/",
-      "sha256": "817f1e5d99bf531d7c82e3a89b8a85299263e14a7bc6ff4f004b3af62deede64",
-      "source": "crates/habitat-effects/src/main.rs"
+      "sha256": "6c4088947b6f14c4eea56f95cfe3266b3107dfd6f32526346e0147ff5e2e413d",
+      "source": "crates/habitat-effects/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-002",
@@ -1105,10 +1255,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-effects/",
-      "sha256": "375e83c7e350fad2bd945b75c44bbda697662d98a6676bc140c2cb6a7061c062",
+      "sha256": "6479e97609682475de33519ebf105fd15b3f4bc3aab79f81c80910456bf26f67",
       "source": "crates/habitat-effects/tests/admission.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-002",
@@ -1131,10 +1282,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-effects/",
-      "sha256": "c3bc48c7f505656d37a5a35157d88c46c5a433ab481178848a93dee0ed6fad5b",
+      "sha256": "465e75078cd1fa6c736355c07ea86ee74ec00781c9aeadeeccdca7b684f83206",
       "source": "crates/habitat-effects/tests/fault_matrix.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-004",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-001",
@@ -1157,7 +1309,13 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
       "sha256": "e5c735b0b0885b5baa7a8dbb37022e259ba6885e8f034799bfcdac0bc983a222",
-      "source": "crates/habitat-execution/Cargo.toml"
+      "source": "crates/habitat-execution/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
     },
     {
       "authority": [
@@ -1206,6 +1364,7 @@
       "source": "crates/habitat-execution/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-004",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-001",
@@ -1228,9 +1387,16 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
       "sha256": "1e33dd32d9e7008f891143e192f2dc4c943128e466b3e00babd0fb6226ddd885",
-      "source": "crates/habitat-execution/src/lib.rs"
+      "source": "crates/habitat-execution/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-004",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-001",
@@ -1253,9 +1419,16 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
       "sha256": "1dc3ee7c5fd6f2dfe3bf2cc1db1899dfb07d43fb498bc83f7a527149b09c1f94",
-      "source": "crates/habitat-execution/src/main.rs"
+      "source": "crates/habitat-execution/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-authority/tests/attenuation_revocation.rs",
+        "crates/habitat-authority/tests/authorization.rs",
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/AUTH-004",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-001",
@@ -1280,6 +1453,7 @@
       "source": "crates/habitat-execution/tests/admission.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
@@ -1298,7 +1472,13 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-harnesses/",
       "sha256": "82ad8e5391cd116929f1bdbdc6db7a366738e4831bebc2c2bbdea841465bed1a",
-      "source": "crates/habitat-harnesses/Cargo.toml"
+      "source": "crates/habitat-harnesses/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-harnesses/tests/backend_conformance.rs",
+        "crates/habitat-harnesses/tests/runtime_boundary.rs",
+        "crates/habitat-models/tests/driver_boundary.rs",
+        "crates/habitat-models/tests/provider_replacement.rs"
+      ]
     },
     {
       "authority": [
@@ -1358,6 +1538,7 @@
       "source": "crates/habitat-harnesses/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
@@ -1376,9 +1557,16 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-harnesses/",
       "sha256": "6523610caaf6004a2062deb593e58f8aceb614a22648ee14ecee9a488d610bac",
-      "source": "crates/habitat-harnesses/src/lib.rs"
+      "source": "crates/habitat-harnesses/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-harnesses/tests/backend_conformance.rs",
+        "crates/habitat-harnesses/tests/runtime_boundary.rs",
+        "crates/habitat-models/tests/driver_boundary.rs",
+        "crates/habitat-models/tests/provider_replacement.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
@@ -1396,10 +1584,17 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-harnesses/",
-      "sha256": "6cd863459c62fc2fa540eb26f8d4c9f5e8cd405ffddcc2dc1a378f0e677ba4d0",
-      "source": "crates/habitat-harnesses/src/main.rs"
+      "sha256": "af5c490b1c0442e56220da47944aa469709e57243327e8344a05a7914deab94c",
+      "source": "crates/habitat-harnesses/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-harnesses/tests/backend_conformance.rs",
+        "crates/habitat-harnesses/tests/runtime_boundary.rs",
+        "crates/habitat-models/tests/driver_boundary.rs",
+        "crates/habitat-models/tests/provider_replacement.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
@@ -1416,10 +1611,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-harnesses/",
-      "sha256": "f7069fe5192a115fbfa6e2460a8ce1407096c85a711f2ed014696be1119a957f",
+      "sha256": "4426e61ac66909fafee39f1b1ac93a7c3dc416da4e430e53c91dbf5536cc5eae",
       "source": "crates/habitat-harnesses/tests/backend_conformance.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
@@ -1440,6 +1636,7 @@
       "source": "crates/habitat-harnesses/tests/runtime_boundary.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
       ],
@@ -1456,7 +1653,13 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-models/",
       "sha256": "5bab8f1e34d949f236be33a22102e0ba566a327f3767be3ce05363c1122f86ef",
-      "source": "crates/habitat-models/Cargo.toml"
+      "source": "crates/habitat-models/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-harnesses/tests/backend_conformance.rs",
+        "crates/habitat-harnesses/tests/runtime_boundary.rs",
+        "crates/habitat-models/tests/driver_boundary.rs",
+        "crates/habitat-models/tests/provider_replacement.rs"
+      ]
     },
     {
       "authority": [
@@ -1493,6 +1696,7 @@
       "source": "crates/habitat-models/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
       ],
@@ -1508,10 +1712,17 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-models/",
-      "sha256": "b40890723c35958c07ae155a3ea29dc787610ee2b044ae0c5fee917facc68079",
-      "source": "crates/habitat-models/src/lib.rs"
+      "sha256": "2ad0033bfdd1fbe6745ed55b1f3a663033fa583d35f9b15697d69395273fe6d4",
+      "source": "crates/habitat-models/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-harnesses/tests/backend_conformance.rs",
+        "crates/habitat-harnesses/tests/runtime_boundary.rs",
+        "crates/habitat-models/tests/driver_boundary.rs",
+        "crates/habitat-models/tests/provider_replacement.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
       ],
@@ -1527,10 +1738,17 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-models/",
-      "sha256": "ef4de413f5349af3a7cfdc35ddb0b0d0b017f2c69d90de0bb38d17351289c6ac",
-      "source": "crates/habitat-models/src/main.rs"
+      "sha256": "2cc656b5d6f1a93299bf25bb1066caefc7f19f0814ca8555412ed18743ba7d54",
+      "source": "crates/habitat-models/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-harnesses/tests/backend_conformance.rs",
+        "crates/habitat-harnesses/tests/runtime_boundary.rs",
+        "crates/habitat-models/tests/driver_boundary.rs",
+        "crates/habitat-models/tests/provider_replacement.rs"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
       ],
@@ -1545,10 +1763,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-models/",
-      "sha256": "65603e8402a17eacd265c76e34a37fc9f2900b9840a872b0d31de14745e15e31",
+      "sha256": "7ec0352ffc8d3ef9ccfd11eab3a71b49957fdc2203b3cc33595731c46526de61",
       "source": "crates/habitat-models/tests/driver_boundary.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
       ],
@@ -1563,10 +1782,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-models/",
-      "sha256": "88ee76b4e1e1a382d877ea4a20a0b8e07880700a8e107621925cc1fc2b8a1195",
+      "sha256": "33dc2dad4bd9863c6ca4c27262da05949871d67d2819a941ea7251b4ff8733d9",
       "source": "crates/habitat-models/tests/provider_replacement.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-002",
@@ -1587,7 +1807,16 @@
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-packages/",
       "sha256": "8e105330ddc88fda42e6e8b547b601162dda11893ab02a9d7c8a2576d0df6d7b",
-      "source": "crates/habitat-packages/Cargo.toml"
+      "source": "crates/habitat-packages/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-packages/tests/admission.rs",
+        "crates/habitat-packages/tests/lifecycle.rs",
+        "tests/fixtures/schema-contracts/malformed/broken.schema.json",
+        "tests/fixtures/schema-contracts/missing-reference/broken.schema.json",
+        "tests/fixtures/schema-contracts/valid/registry.schema.json",
+        "tests/fixtures/schema-contracts/valid/registry.yaml",
+        "tests/fixtures/schema-contracts/valid/schemas/child.schema.json"
+      ]
     },
     {
       "authority": [
@@ -1674,6 +1903,7 @@
       "source": "crates/habitat-packages/Cargo.toml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-002",
@@ -1693,10 +1923,20 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-packages/",
-      "sha256": "39a8ebc8dd633530210686665608c86dc78602c3f1152fe6b03982d350c8b648",
-      "source": "crates/habitat-packages/src/lib.rs"
+      "sha256": "0f11e9587928e624411e9e0d426dfd5b7000e853f0f6b1336012556ae8bfdddf",
+      "source": "crates/habitat-packages/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-packages/tests/admission.rs",
+        "crates/habitat-packages/tests/lifecycle.rs",
+        "tests/fixtures/schema-contracts/malformed/broken.schema.json",
+        "tests/fixtures/schema-contracts/missing-reference/broken.schema.json",
+        "tests/fixtures/schema-contracts/valid/registry.schema.json",
+        "tests/fixtures/schema-contracts/valid/registry.yaml",
+        "tests/fixtures/schema-contracts/valid/schemas/child.schema.json"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-002",
@@ -1716,10 +1956,20 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-packages/",
-      "sha256": "5f3a3fe8d84144e1ac41edb0537a2603c1ac7698dfe5f64173afb09dcc521c1a",
-      "source": "crates/habitat-packages/src/main.rs"
+      "sha256": "2fdae8d64d1d17e0e6dcc54ec1046afa378fb265509aac24deea5c6f4e61b2f6",
+      "source": "crates/habitat-packages/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-packages/tests/admission.rs",
+        "crates/habitat-packages/tests/lifecycle.rs",
+        "tests/fixtures/schema-contracts/malformed/broken.schema.json",
+        "tests/fixtures/schema-contracts/missing-reference/broken.schema.json",
+        "tests/fixtures/schema-contracts/valid/registry.schema.json",
+        "tests/fixtures/schema-contracts/valid/registry.yaml",
+        "tests/fixtures/schema-contracts/valid/schemas/child.schema.json"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-002",
@@ -1738,10 +1988,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-packages/",
-      "sha256": "a33a4ce41ae70570aa802949d53d7b922c360f1c16ec35a469a6ca120e9ca92c",
+      "sha256": "47d9e9e37d304bcc7617ddb2977c637316452069479b4986bb60b043ba1b935a",
       "source": "crates/habitat-packages/tests/admission.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-002",
@@ -1760,10 +2011,194 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-packages/",
-      "sha256": "5a96ce08e5f9d2b158f3296751cd7ef404ba5a3d8f1e21d382bae1743b3d01f5",
+      "sha256": "e367266c9889907dc0b1e7f125a9598b9f3d63beaac3133fb3db1dd4f76a8986",
       "source": "crates/habitat-packages/tests/lifecycle.rs"
     },
     {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-005"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "crates/habitat-runtime/Cargo.toml",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "CORE-001",
+        "CORE-002",
+        "STATE-002",
+        "EFFECT-005"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "crates/habitat-runtime/",
+      "sha256": "eb19c6c1e04714ffc6344c123ceffd3c46e4a9d0756e98a14ae257234ac8c5e8",
+      "source": "crates/habitat-runtime/Cargo.toml",
+      "verification_tests": [
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs",
+        "tests/test_w05_lifecycle.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-005"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "crates/habitat-runtime/src/lib.rs",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "CORE-001",
+        "CORE-002",
+        "STATE-002",
+        "EFFECT-005"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "crates/habitat-runtime/",
+      "sha256": "0c0ad5fc41c54afdec3e6bd4fc86b70948a86907de05e120fd237351031fe7f6",
+      "source": "crates/habitat-runtime/src/lib.rs",
+      "verification_tests": [
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs",
+        "tests/test_w05_lifecycle.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EFFECT-005"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "crates/habitat-runtime/src/main.rs",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "CORE-001",
+        "CORE-002",
+        "STATE-002",
+        "EFFECT-005"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "crates/habitat-runtime/",
+      "sha256": "ca22e935303ea04f47983259fcc3f4786d46f6c893fc92da51c75e6a6bbac3d7",
+      "source": "crates/habitat-runtime/src/main.rs",
+      "verification_tests": [
+        "crates/habitat-effects/tests/admission.rs",
+        "crates/habitat-effects/tests/fault_matrix.rs",
+        "tests/test_w05_lifecycle.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "nix/images/habitat-raw.nix",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "SYS-001",
+        "SYS-002",
+        "SYS-003",
+        "SYS-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "nix/images/",
+      "sha256": "6023ea5f7459b95c7e2eb1a1826ffdfd76711399dd45620ac98ab61cf25ba13e",
+      "source": "nix/images/habitat-raw.nix",
+      "verification_tests": [
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "nix/modules/habitat-image.nix",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "SYS-001",
+        "SYS-002",
+        "SYS-003",
+        "SYS-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "nix/modules/",
+      "sha256": "927b1403ab80f8b6a8b4182840d5a05367cdb7c42ded7e429fe266e15010f70b",
+      "source": "nix/modules/habitat-image.nix",
+      "verification_tests": [
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "nix/modules/habitat-runtime.nix",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "SYS-001",
+        "SYS-002",
+        "SYS-003",
+        "SYS-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "nix/modules/",
+      "sha256": "ab65bca43e03d34054d7d45f04c1c4847b7c3192a5c7fb41a9161b22a7c68f29",
+      "source": "nix/modules/habitat-runtime.nix",
+      "verification_tests": [
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
       ],
@@ -1778,11 +2213,40 @@
         "SYS-004"
       ],
       "review_unit": "exact-file-bytes",
-      "selector": "nix/profiles/qemu-x86_64-conformance.json",
+      "selector": "nix/profiles/",
       "sha256": "7a7daf7c09e3120d4089595ba8d61611a1c4b7719bd2e47b4b2373439d4facb2",
-      "source": "nix/profiles/qemu-x86_64-conformance.json"
+      "source": "nix/profiles/qemu-x86_64-conformance.json",
+      "verification_tests": [
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
     },
     {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "nix/profiles/qemu-x86_64-conformance.nix",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "SYS-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "nix/profiles/",
+      "sha256": "05053a51cb04c9aca94c103ac8d0ad363b71f5ff483a6e1a4cec884dc46cb897",
+      "source": "nix/profiles/qemu-x86_64-conformance.nix",
+      "verification_tests": [
+        "crates/habitat-execution/tests/admission.rs",
+        "tests/test_w01_profile.py"
+      ]
+    },
+    {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
@@ -1804,8 +2268,12 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "src/habitat_state/",
-      "sha256": "2246fd1a4d08239b7a7c4947bed04ed074fbce2872891601f5b298f76af3aa4a",
-      "source": "src/habitat_state/__init__.py"
+      "sha256": "4cdf1d7658637ac12328f84e60ac506ea9780145e5867a5323aa8555a9201408",
+      "source": "src/habitat_state/__init__.py",
+      "verification_tests": [
+        "tests/test_w02_state.py",
+        "tests/test_w05_lifecycle.py"
+      ]
     },
     {
       "authority": [
@@ -1827,7 +2295,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "2246fd1a4d08239b7a7c4947bed04ed074fbce2872891601f5b298f76af3aa4a",
+      "sha256": "4cdf1d7658637ac12328f84e60ac506ea9780145e5867a5323aa8555a9201408",
       "source": "src/habitat_state/__init__.py"
     },
     {
@@ -1850,7 +2318,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "2246fd1a4d08239b7a7c4947bed04ed074fbce2872891601f5b298f76af3aa4a",
+      "sha256": "4cdf1d7658637ac12328f84e60ac506ea9780145e5867a5323aa8555a9201408",
       "source": "src/habitat_state/__init__.py"
     },
     {
@@ -1873,10 +2341,340 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "2246fd1a4d08239b7a7c4947bed04ed074fbce2872891601f5b298f76af3aa4a",
+      "sha256": "4cdf1d7658637ac12328f84e60ac506ea9780145e5867a5323aa8555a9201408",
       "source": "src/habitat_state/__init__.py"
     },
     {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/__init__.py:python:command_ledger",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "4cdf1d7658637ac12328f84e60ac506ea9780145e5867a5323aa8555a9201408",
+      "source": "src/habitat_state/__init__.py"
+    },
+    {
+      "action": "RETAIN_CURRENT",
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "coverage": "all APIs and control flow in these exact reviewed bytes",
+      "identity": "src/habitat_state/command_ledger.py",
+      "kind": "source_unit",
+      "predicates": [
+        "RET-001",
+        "RET-002"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "selector": "src/habitat_state/",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py",
+      "verification_tests": [
+        "tests/test_w02_state.py",
+        "tests/test_w05_lifecycle.py"
+      ]
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:__future__",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:json",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:os",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:pathlib",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:socket",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:socketserver",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:stat",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:struct",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:dataclasses",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:psycopg",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:psycopg",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:argparse",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
@@ -1899,7 +2697,11 @@
       "review_unit": "exact-file-bytes",
       "selector": "src/habitat_state/",
       "sha256": "9874aa20122279c633ebce924e618f9ebcc992f9ed1d6e18ace93e385e47c560",
-      "source": "src/habitat_state/domain.py"
+      "source": "src/habitat_state/domain.py",
+      "verification_tests": [
+        "tests/test_w02_state.py",
+        "tests/test_w05_lifecycle.py"
+      ]
     },
     {
       "authority": [
@@ -1994,6 +2796,7 @@
       "source": "src/habitat_state/domain.py"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
@@ -2015,8 +2818,12 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "src/habitat_state/",
-      "sha256": "1b598f2710e8d4eb8fae66b4bcba963644044b6182bddedbf2ab564cd80ba944",
-      "source": "src/habitat_state/lifecycle.py"
+      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "source": "src/habitat_state/lifecycle.py",
+      "verification_tests": [
+        "tests/test_w02_state.py",
+        "tests/test_w05_lifecycle.py"
+      ]
     },
     {
       "authority": [
@@ -2038,7 +2845,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "1b598f2710e8d4eb8fae66b4bcba963644044b6182bddedbf2ab564cd80ba944",
+      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2061,7 +2868,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "1b598f2710e8d4eb8fae66b4bcba963644044b6182bddedbf2ab564cd80ba944",
+      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2084,7 +2891,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "1b598f2710e8d4eb8fae66b4bcba963644044b6182bddedbf2ab564cd80ba944",
+      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2107,7 +2914,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "1b598f2710e8d4eb8fae66b4bcba963644044b6182bddedbf2ab564cd80ba944",
+      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2130,10 +2937,11 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "1b598f2710e8d4eb8fae66b4bcba963644044b6182bddedbf2ab564cd80ba944",
+      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
@@ -2156,7 +2964,11 @@
       "review_unit": "exact-file-bytes",
       "selector": "src/habitat_state/",
       "sha256": "d9f3d50bfdcc55f82d71f889b5f8902cf5960f274ebcd74755e846e54babb79e",
-      "source": "src/habitat_state/store.py"
+      "source": "src/habitat_state/store.py",
+      "verification_tests": [
+        "tests/test_w02_state.py",
+        "tests/test_w05_lifecycle.py"
+      ]
     },
     {
       "authority": [
@@ -2435,26 +3247,7 @@
       "source": "src/habitat_state/store.py"
     },
     {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-001",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-004"
-      ],
-      "coverage": "canonical or opaque test material",
-      "identity": "tests/fixtures/proto-contracts/breaking/remove-activation-id.field",
-      "kind": "fixture",
-      "predicates": [
-        "RET-004"
-      ],
-      "requirement_ids": [
-        "ABI-001",
-        "ABI-004"
-      ],
-      "review_unit": "exact-file-bytes",
-      "selector": "tests/fixtures/proto-contracts/",
-      "sha256": "3cf3ff288389fb72b390d3137f8e1338fcce41bf1789f0bd857c3cf187cae93d",
-      "source": "tests/fixtures/proto-contracts/breaking/remove-activation-id.field"
-    },
-    {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001"
       ],
@@ -2473,6 +3266,7 @@
       "source": "tests/fixtures/schema-contracts/malformed/broken.schema.json"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001"
       ],
@@ -2491,6 +3285,7 @@
       "source": "tests/fixtures/schema-contracts/missing-reference/broken.schema.json"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001"
       ],
@@ -2509,6 +3304,7 @@
       "source": "tests/fixtures/schema-contracts/valid/registry.schema.json"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001"
       ],
@@ -2527,6 +3323,7 @@
       "source": "tests/fixtures/schema-contracts/valid/registry.yaml"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/PKG-001"
       ],
@@ -2545,6 +3342,7 @@
       "source": "tests/fixtures/schema-contracts/valid/schemas/child.schema.json"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
       ],
@@ -2563,6 +3361,7 @@
       "source": "tests/test_w01_profile.py"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
@@ -2581,10 +3380,11 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "tests/test_w02_state.py",
-      "sha256": "939dd76d779fc0d4cbef26f25b37b6a73cbd260c1fb16e9ad9b509e42ee005ea",
+      "sha256": "47c44fb2169e5ef616cc28d8f31b185b9e9a75c28b8699de7b1a49df7f0e04b7",
       "source": "tests/test_w02_state.py"
     },
     {
+      "action": "RETAIN_CURRENT",
       "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/CORE-002",
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002"
@@ -2601,17 +3401,18 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "tests/test_w05_lifecycle.py",
-      "sha256": "da030af5686856d937dcbad53d8fda1d2e11b02d0d690ff2bf756fd86de2f4d3",
+      "sha256": "ecb1a42c5236c077b13b93e1ddce8345756fad0f6fc9e44551e780c62c828df5",
       "source": "tests/test_w05_lifecycle.py"
     }
   ],
   "runner": {
     "name": "audit-v2-core",
-    "version": 2
+    "version": 3
   },
-  "schema_version": 2,
-  "scope": "issue-28-retained-core-candidates",
+  "schema_version": 3,
+  "scope": "current-v2-retained-implementation",
   "scope_boundary": [
+    "contracts/proto/",
     "crates/habitat-abi/",
     "crates/habitat-authority/",
     "crates/habitat-context/",
@@ -2620,16 +3421,19 @@
     "crates/habitat-harnesses/",
     "crates/habitat-models/",
     "crates/habitat-packages/",
+    "crates/habitat-runtime/",
+    "nix/images/",
+    "nix/modules/",
+    "nix/profiles/",
     "src/habitat_state/",
     "contracts/schemas/hardware-profile.schema.json",
-    "nix/profiles/qemu-x86_64-conformance.json",
     "tests/fixtures/proto-contracts/",
     "tests/fixtures/schema-contracts/",
     "tests/test_w01_profile.py",
     "tests/test_w02_state.py",
     "tests/test_w05_lifecycle.py"
   ],
-  "scope_digest": "ad9fd41eb5083b0179f07d8f4e4b71631e7730c8e11b64e2138f6db92872138b",
+  "scope_digest": "c3baed082980fce117dad4f4aa0a8bafec3353d3b61f2439de087298f5431c95",
   "unresolved_candidates": [],
   "untrusted_candidates": [],
   "valid": true

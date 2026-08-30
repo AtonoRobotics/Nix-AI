@@ -1,5 +1,5 @@
 {
-  "cargo_lock_sha256": "d1c4bb4d083ad734107c44e60e63fc33f288bde9f1ed80c75d2fc815bf73b6b9",
+  "cargo_lock_sha256": "3e83ba86d8f11054a5d77bce8216239c1f9afc79c5ba5a5acf9165cbf2c67553",
   "command": "cargo generate-lockfile --offline",
   "format": "nix-ai-v2-lock-regeneration-1"
 }

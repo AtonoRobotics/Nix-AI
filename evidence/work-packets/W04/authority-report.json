@@ -33,7 +33,7 @@
   ],
   "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
   "gate": "V-AUTH",
-  "implementation_sha256": "57cd8c21d7552981d397f487d02873fc6a6de0cb71e0270dbcfeb54ea2acf39d",
+  "implementation_sha256": "d29b267cf3f3d4240551622fcac9b3005d53932f7ce87a1f1124dee5c524b540",
   "metrics": {
     "post_bound_revoked_invocation_count": 0,
     "unauthorized_action_count": 0,

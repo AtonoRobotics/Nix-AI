@@ -14,7 +14,7 @@
   ],
   "contaminated_generated": [],
   "deleted_closure_members": [],
-  "dependency_owner_count": 373,
+  "dependency_owner_count": 374,
   "records": [
     {
       "class": "requirements_registry",
@@ -164,22 +164,22 @@
     {
       "class": "protobuf_descriptors",
       "path": "generated/proto/descriptor.bin",
-      "sha256": "e2987c2e695142a7d5a5746a016c9a850eb30b955edae41f38f42f88c0c86394"
+      "sha256": "15d89ac4a3f83386b5d0ac2cf3f5a882e0517b75bc8ef39444419b9d57f56c69"
     },
     {
       "class": "language_bindings",
       "path": "generated/proto/rust/nix_ai/agent/v2/nix_ai.agent.v2.rs",
-      "sha256": "0b15921bf56f410080dab5a5f169e5b0c2fe57e3ab781b982dc778921cf2b1f9"
+      "sha256": "8d711f746f58f687601991041070a8b9c1cb6b517fe183b38b0b2bbd3546be13"
     },
     {
       "class": "language_bindings",
       "path": "generated/proto/rust/nix_ai/authority/v2/nix_ai.authority.v2.rs",
-      "sha256": "cc96e6de9f9b86c497cf45a10e9619cc2d37f2b05e4e197197e2f00dd40ddeee"
+      "sha256": "73f6caeabf97a8fd134b57a87fb1df6a6d5dccf203384ba4f586207f5b3c02f1"
     },
     {
       "class": "lockfiles",
       "path": "Cargo.lock",
-      "sha256": "d1c4bb4d083ad734107c44e60e63fc33f288bde9f1ed80c75d2fc815bf73b6b9"
+      "sha256": "3e83ba86d8f11054a5d77bce8216239c1f9afc79c5ba5a5acf9165cbf2c67553"
     },
     {
       "class": "lockfiles",
@@ -189,17 +189,17 @@
     {
       "class": "sbom",
       "path": "generated/v2/sbom.json",
-      "sha256": "e85b9cd7fbaf9b42b2549698e0ac0dba1f01be73d68ebe7d6b658bc298fd05b7"
+      "sha256": "94511b76bd0067cb9ada25f3b170f4b22b25d1cdcf0c142be202a43a0a763842"
     },
     {
       "class": "provenance",
       "path": "generated/v2/provenance.json",
-      "sha256": "bda54cefbc1282b9d0f2fde80e0a292037f43cb795bbf134de0177ec419dabbc"
+      "sha256": "8a1749171d3941ce3f2140f88ed8cb1c681a46e8c6813a1baaef043cde0e5970"
     },
     {
       "class": "evidence_indexes",
       "path": "generated/v2/evidence-index.json",
-      "sha256": "2b96dcdf6b1ca412adece1aee906a1ff9e8b9e5e1aafd3d789a36d36805bf90b"
+      "sha256": "f167b5180b69d42ea1cce29be13a983c932a0e60604f0b635ff371492cd25b0a"
     },
     {
       "class": "sha256_manifests",
@@ -219,7 +219,7 @@
     {
       "class": "sha256_manifests",
       "path": "generated/v2/MANIFEST.sha256",
-      "sha256": "9d3ee1239b027cae7985c77bcf8b3cd9989a6fc7696f128e4fa3d1d70687f6f5"
+      "sha256": "9a06a05163a21ecff40f6f9e466fe52ca25fe11d0546fd5d4ea698c1be455a00"
     }
   ],
   "schema_version": "1.0",

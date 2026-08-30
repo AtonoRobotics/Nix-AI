@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Bounded retention audit for the remaining v2 core-service candidates.
+"""Exhaustive retention audit for the current v2 implementation.
 
 Whole-repository disposition belongs to the exact-tree ledger produced for issue #24.
-This audit covers only the retained service roots named below. Each exact source file is
+This audit covers every retained implementation root named below. Each exact source file is
 the review unit: its digest and v2 authority are recorded, and any byte change requires a
 new checked ledger. Language syntax is deliberately not reimplemented here.
 """
@@ -10,6 +10,7 @@ import argparse
 import ast
 import hashlib
 import json
+import re
 import tomllib
 from pathlib import Path
 
@@ -22,7 +23,12 @@ COMPONENTS = {
     "crates/habitat-models/": ("ABI-003",),
     "crates/habitat-packages/": ("PKG-001", "PKG-002", "PKG-003"),
     "crates/habitat-harnesses/": ("ABI-003", "EXEC-003"),
+    "crates/habitat-runtime/": ("CORE-001", "CORE-002", "STATE-002", "EFFECT-005"),
     "src/habitat_state/": ("STATE-001", "STATE-002", "STATE-003", "STATE-004"),
+    "contracts/proto/": ("ABI-001", "ABI-004", "AUTH-004", "EFFECT-001"),
+    "nix/images/": ("SYS-001", "SYS-002", "SYS-003", "SYS-004"),
+    "nix/modules/": ("SYS-001", "SYS-002", "SYS-003", "SYS-004"),
+    "nix/profiles/": ("SYS-004",),
 }
 EXTRA_FILES = {
     "tests/test_w01_profile.py": ("SYS-004",),
@@ -30,7 +36,6 @@ EXTRA_FILES = {
     "tests/test_w05_lifecycle.py": ("CORE-002", "STATE-002"),
     "tests/fixtures/proto-contracts/": ("ABI-001", "ABI-004"),
     "tests/fixtures/schema-contracts/": ("PKG-001",),
-    "nix/profiles/qemu-x86_64-conformance.json": ("SYS-004",),
     "contracts/schemas/hardware-profile.schema.json": ("SYS-004",),
 }
 ALLOWED_CARGO = {
@@ -42,6 +47,9 @@ ALLOWED_CARGO = {
     "crates/habitat-models/": {"serde", "serde_json"},
     "crates/habitat-packages/": {"ed25519-dalek", "serde", "serde_json", "sha2"},
     "crates/habitat-harnesses/": {"habitat-models", "serde", "serde_json"},
+    "crates/habitat-runtime/": {"habitat-abi", "habitat-authority", "habitat-context",
+        "habitat-effects", "habitat-execution", "habitat-harnesses", "habitat-models",
+        "habitat-packages", "serde", "serde_json", "tokio"},
 }
 DEPENDENCY_PURPOSES = {
     "serde": "canonical record encoding", "serde_json": "typed JSON boundary encoding",
@@ -54,21 +62,52 @@ DEPENDENCY_PURPOSES = {
     "ed25519-dalek": "package signature verification",
     "habitat-authority": "current authority evaluation at effect admission",
     "habitat-models": "normalized cognition ABI consumed by harnesses",
+    "habitat-abi": "authenticated canonical Agent ABI boundary",
+    "habitat-context": "objective context compilation",
+    "habitat-effects": "durable effect admission and reconciliation",
+    "habitat-execution": "isolated execution boundary",
+    "habitat-harnesses": "provider-neutral cognition dispatch",
+    "habitat-packages": "content-bound package admission",
+    "tokio": "asynchronous runtime coordination",
 }
 PYTHON_ALLOWED = {"__future__", "boto3", "botocore", "concurrent", "dataclasses", "datetime",
-    "base64", "domain", "enum", "habitat_state", "hashlib", "json", "lifecycle", "os", "pathlib", "re",
-    "psycopg", "secrets", "store", "time", "typing", "unittest", "uuid"}
+    "argparse", "base64", "command_ledger", "domain", "enum", "habitat_state", "hashlib", "json",
+    "lifecycle", "os", "pathlib", "re", "psycopg", "secrets", "socket", "socketserver", "stat",
+    "store", "struct", "time", "typing", "unittest", "uuid"}
 ADAPTER_ROOTS = ("crates/habitat-models/", "crates/habitat-harnesses/")
 FORBIDDEN_ADAPTER_DEPENDENCIES = {"habitat-authority", "habitat-effects",
     "reqwest", "hyper", "libc", "tokio"}
+SOURCE_SUFFIXES = {".py", ".rs", ".toml", ".proto", ".nix", ".json", ".yaml", ".yml"}
+PROHIBITED_CURRENT_PATTERN = re.compile(
+    "(?:" + "|".join(bytes.fromhex(value).decode() for value in (
+        "636f72646973", "6f6d6e697665727365", "6973616163", "6a6574736f6e",
+        "686162697461742d706879736963616c", "686162697461742d73696d756c6174696f6e",
+    )) + ")", re.IGNORECASE
+)
 
 def authority(path):
     value = path.as_posix()
-    for prefix, requirements in COMPONENTS.items():
-        if value.startswith(prefix): return prefix, requirements
-    for selector, requirements in EXTRA_FILES.items():
-        if value == selector or value.startswith(selector): return selector, requirements
-    return None, None
+    matches = [(prefix, requirements) for prefix, requirements in COMPONENTS.items()
+        if value.startswith(prefix)]
+    matches += [(selector, requirements) for selector, requirements in EXTRA_FILES.items()
+        if value == selector or value.startswith(selector)]
+    if len(matches) > 1:
+        return "DUPLICATE:" + ",".join(item[0] for item in matches), ()
+    return matches[0] if matches else (None, None)
+
+def implementation_candidates(root):
+    for path in sorted(root.rglob("*")):
+        relative = path.relative_to(root)
+        if any(part in {"__pycache__", "target", ".pytest_cache", ".git"}
+               for part in relative.parts):
+            continue
+        if not path.is_file() or path.is_symlink() or relative.suffix not in SOURCE_SUFFIXES:
+            continue
+        value = relative.as_posix()
+        if value.startswith(("crates/", "src/", "nix/", "contracts/proto/")):
+            yield path
+        elif any(value == selector or value.startswith(selector) for selector in EXTRA_FILES):
+            yield path
 
 def dependency_sections(data, prefix=""):
     for key, value in data.items():
@@ -88,12 +127,15 @@ def audit(root):
     contract = json.loads((root / "contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
     known_requirements = {item["id"] for item in contract["requirements"]}
     records, unresolved, candidates = [], [], []
-    for path in sorted(root.rglob("*")):
-        if any(part in {"__pycache__", "target", ".pytest_cache"} for part in path.relative_to(root).parts): continue
-        if not path.is_file() or path.is_symlink(): continue
+    for path in implementation_candidates(root):
         relative = path.relative_to(root)
         selector, requirements = authority(relative)
-        if not requirements: continue
+        if selector and selector.startswith("DUPLICATE:"):
+            unresolved.append(f"duplicate-ownership:{relative}:{selector.removeprefix('DUPLICATE:')}")
+            continue
+        if not requirements:
+            unresolved.append(f"unclassified-current-source:{relative}")
+            continue
         candidates.append(relative.as_posix())
         raw = path.read_bytes(); digest = hashlib.sha256(raw).hexdigest()
         try: content = raw.decode()
@@ -104,10 +146,13 @@ def audit(root):
         kind = "fixture" if is_fixture else "test" if is_test else "source_unit"
         predicates = ["RET-004"] if is_test or is_fixture else ["RET-001", "RET-002"]
         records.append(record(kind, relative.as_posix(), requirements, relative.as_posix(), digest,
-            selector=selector, predicates=predicates,
+            selector=selector, action="RETAIN_CURRENT", predicates=predicates,
             coverage="all APIs and control flow in these exact reviewed bytes" if kind == "source_unit" else "canonical or opaque test material"))
+        if (relative.as_posix().startswith(("crates/", "src/", "nix/", "contracts/proto/"))
+                and PROHIBITED_CURRENT_PATTERN.search(content)):
+            unresolved.append(f"prohibited-current-concept:{relative}")
         if path.name == "Cargo.toml":
-            component = next(prefix for prefix in COMPONENTS if relative.as_posix().startswith(prefix))
+            component = selector
             for section, dependencies in dependency_sections(tomllib.loads(content)):
                 for dependency in sorted(dependencies):
                     purpose = DEPENDENCY_PURPOSES.get(dependency)
@@ -140,13 +185,25 @@ def audit(root):
     if not profile_ok: unresolved.append("hardware-profile-missing-capacity-or-explicit-absence")
     unknown = sorted({req for item in records for req in item["requirement_ids"] if req not in known_requirements})
     unresolved.extend(f"unknown-requirement:{item}" for item in unknown)
+    test_records = [item for item in records if item["kind"] in {"test", "fixture"}]
+    for item in records:
+        if item["kind"] != "source_unit":
+            continue
+        requirements = set(item["requirement_ids"])
+        item["verification_tests"] = sorted(test["identity"] for test in test_records
+            if requirements.intersection(test["requirement_ids"]))
+        if not item["verification_tests"]:
+            unresolved.append(f"source-without-verification-test:{item['identity']}")
     digest = hashlib.sha256()
     for relative in candidates: digest.update(relative.encode() + b"\0" + (root / relative).read_bytes() + b"\0")
     counts = {kind: sum(item["kind"] == kind for item in records)
         for kind in ("source_unit", "dependency", "test", "fixture")}
-    return {"schema_version": 2, "runner": {"name": "audit-v2-core", "version": 2},
-        "scope": "issue-28-retained-core-candidates", "scope_boundary": sorted(COMPONENTS) + sorted(EXTRA_FILES),
-        "mapping_granularity": "exact-file authority scope; no source-language parser",
+    identities = [item["identity"] for item in records if item["kind"] != "dependency"]
+    duplicates = sorted({item for item in identities if identities.count(item) > 1})
+    unresolved.extend(f"duplicate-record:{item}" for item in duplicates)
+    return {"schema_version": 3, "runner": {"name": "audit-v2-core", "version": 3},
+        "scope": "current-v2-retained-implementation", "scope_boundary": sorted(COMPONENTS) + sorted(EXTRA_FILES),
+        "mapping_granularity": "exact-file authority, owner, and requirement-overlapping test scope; no source-language parser",
         "scope_digest": digest.hexdigest(), "candidate_file_count": len(candidates), "counts": counts,
         "adapter_boundary": {"direct_dependency_count": sum(item.startswith("adapter-direct-path:") for item in unresolved),
             "provider_transcripts": "diagnostic-only"},

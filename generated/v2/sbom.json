@@ -436,6 +436,11 @@
       "section": "members"
     },
     {
+      "dependency_identity": "habitat-runtime@0.1.0#workspace",
+      "owner_identity": "workspace",
+      "section": "members"
+    },
+    {
       "dependency_identity": "hashbrown@0.15.5#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "petgraph@0.8.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
@@ -2129,6 +2134,10 @@
       "version": "0.1.0"
     },
     {
+      "name": "habitat-runtime",
+      "version": "0.1.0"
+    },
+    {
       "checksum": "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1",
       "name": "hashbrown",
       "source": "registry+https://github.com/rust-lang/crates.io-index",
@@ -2659,6 +2668,7 @@
     "crates/habitat-execution",
     "crates/habitat-harnesses",
     "crates/habitat-models",
-    "crates/habitat-packages"
+    "crates/habitat-packages",
+    "crates/habitat-runtime"
   ]
 }

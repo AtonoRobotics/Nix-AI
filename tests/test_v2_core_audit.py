@@ -15,10 +15,18 @@ class V2CoreAuditTests(unittest.TestCase):
             generated = json.loads(output.read_text())
         checked = json.loads((ROOT / "evidence/v2-rebuild/core-retention-audit.json").read_text())
         self.assertEqual(generated, checked); self.assertTrue(generated["valid"])
-        self.assertEqual(generated["scope"], "issue-28-retained-core-candidates")
+        self.assertEqual(generated["scope"], "current-v2-retained-implementation")
         self.assertEqual(generated["unresolved_candidates"], [])
         self.assertIn("no source-language parser", generated["mapping_granularity"])
         self.assertEqual(len({item["source"] for item in generated["records"]}), generated["candidate_file_count"])
+        owned_records = [item for item in generated["records"] if item["kind"] != "dependency"]
+        source_records = [item for item in owned_records if item["kind"] == "source_unit"]
+        self.assertTrue(all(item["action"] == "RETAIN_CURRENT" for item in owned_records))
+        self.assertEqual(len({item["identity"] for item in owned_records}), len(owned_records))
+        self.assertTrue(any(item["source"].startswith("crates/habitat-runtime/") for item in source_records))
+        self.assertTrue(any(item["source"].startswith("contracts/proto/") for item in source_records))
+        self.assertTrue(any(item["source"].startswith("nix/modules/") for item in source_records))
+        self.assertTrue(all(item.get("verification_tests") for item in source_records))
 
     def test_every_record_has_exact_bytes_and_explicit_authority(self):
         report = json.loads((ROOT / "evidence/v2-rebuild/core-retention-audit.json").read_text())
@@ -40,6 +48,31 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout)
             self.assertTrue(any(item["source"] == "crates/habitat-models/src/new_unit.rs" for item in generated["records"]))
             self.assertNotEqual(generated, json.loads((ROOT / "evidence/v2-rebuild/core-retention-audit.json").read_text()))
+        finally:
+            if source.exists(): source.unlink()
+
+    def test_new_unowned_component_fails_closed(self):
+        source = ROOT / "crates/habitat-unowned/src/lib.rs"
+        try:
+            source.parent.mkdir(parents=True)
+            source.write_text("pub struct Unowned;\n")
+            with tempfile.TemporaryDirectory() as temporary:
+                result = self.run_audit(ROOT, Path(temporary) / "audit.json")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("unclassified-current-source:crates/habitat-unowned/src/lib.rs", result.stdout)
+        finally:
+            if source.exists(): source.unlink()
+            if source.parent.exists(): source.parent.rmdir()
+            if source.parent.parent.exists(): source.parent.parent.rmdir()
+
+    def test_prohibited_concept_in_current_source_fails_closed(self):
+        source = ROOT / "crates/habitat-models/src/forbidden_unit.rs"
+        try:
+            source.write_text("pub struct OmniverseAdapter;\n")
+            with tempfile.TemporaryDirectory() as temporary:
+                result = self.run_audit(ROOT, Path(temporary) / "audit.json")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("prohibited-current-concept", result.stdout)
         finally:
             if source.exists(): source.unlink()
 

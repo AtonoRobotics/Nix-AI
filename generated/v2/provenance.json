@@ -3,11 +3,11 @@
   "sources": [
     {
       "path": "Cargo.lock",
-      "sha256": "d1c4bb4d083ad734107c44e60e63fc33f288bde9f1ed80c75d2fc815bf73b6b9"
+      "sha256": "3e83ba86d8f11054a5d77bce8216239c1f9afc79c5ba5a5acf9165cbf2c67553"
     },
     {
       "path": "Cargo.toml",
-      "sha256": "9f4e60c2cf5a2b6b56985df85bb88ad1f4f8ba15d49dd2053106e54941883faa"
+      "sha256": "e9c086ad6692973e8cbc8bf583702c3a5cc9788eb389d30fbbc54c0720f73870"
     },
     {
       "path": "buf.gen.yaml",
@@ -19,7 +19,7 @@
     },
     {
       "path": "contracts/proto/nix_ai_agent_v2.proto",
-      "sha256": "da215a9d709054942d7e898b9cfe9eb2627e461a00c8bbc1f4d31c5915d2cccc"
+      "sha256": "856065189e6c319eb8599f47e937fe75065b34e59850223a75222c6974594b4d"
     },
     {
       "path": "contracts/proto/nix_ai_authority_effect_v2.proto",
@@ -62,16 +62,20 @@
       "sha256": "8e105330ddc88fda42e6e8b547b601162dda11893ab02a9d7c8a2576d0df6d7b"
     },
     {
+      "path": "crates/habitat-runtime/Cargo.toml",
+      "sha256": "eb19c6c1e04714ffc6344c123ceffd3c46e4a9d0756e98a14ae257234ac8c5e8"
+    },
+    {
       "path": "flake.lock",
       "sha256": "00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
     },
     {
       "path": "flake.nix",
-      "sha256": "0d0dcbc7cae9abdc11216cd80cd43cb77851ce77a880bc0ef385daa51584e048"
+      "sha256": "dda1902fec988e197e2e01709366a5478b4a677d61b076b12d5d01a5fa68eda5"
     },
     {
       "path": "tools/derive_v2_contract.py",
-      "sha256": "60f21790ea796af1b931139dc0310374f0bd02cf3ceb6ddbb9f885dfd3d8aa9d"
+      "sha256": "4fd573af8271639fe5587164a4c297eaef2b2e9b4e88aff8964d81b03262860c"
     },
     {
       "path": "tools/proto_contracts.py",
@@ -87,7 +91,7 @@
     },
     {
       "path": "tools/qualify_v2_release.py",
-      "sha256": "948f6f5568a449f19135da7a5dc7effabe939cccd176fa718a619fac1c633a53"
+      "sha256": "f3879e9bb629f6811b1681441c203482fc29ccc83d81c48d1dc21fb0d9560df8"
     },
     {
       "path": "tools/verify_v2_build_closure.py",

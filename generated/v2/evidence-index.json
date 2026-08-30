@@ -6,7 +6,7 @@
     },
     {
       "path": "evidence/v2-rebuild/core-retention-audit.json",
-      "sha256": "8665fe64cae99f5536df37c0bd1337721e068d5efe90a1f7ce3a7f4de4e9647f"
+      "sha256": "ce1969967dc1ff304b76df5d1cac729dd2938428c52483233f83aa4e0db6b455"
     },
     {
       "path": "evidence/v2-rebuild/disposition-ledger.json",
@@ -98,7 +98,7 @@
     },
     {
       "path": "evidence/work-packets/W04/authority-report.json",
-      "sha256": "42940c59477039fc95e48882145d508818bbfbdeec1a8970b6e82fe4e95b5101"
+      "sha256": "179464f45f587b509dd499161c9fc3b2f10eaf37b05e1fdb193bb71aff452381"
     },
     {
       "path": "evidence/work-packets/W04/result.json",
@@ -194,7 +194,7 @@
     },
     {
       "path": "evidence/work-packets/W08/effect-report.json",
-      "sha256": "1e604e387d0eb468c9c99b1fcb51816ac2fb5a4d3a14ad001dc8f391cc76478e"
+      "sha256": "d6cb1c47586eb297f15632f13303dfe145ba29720e195187f1788dcbeba41cda"
     },
     {
       "path": "evidence/work-packets/W08/result.json",
