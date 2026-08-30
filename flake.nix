@@ -118,6 +118,14 @@
         cargoBuildFlags = [ "-p" "habitat-execution" ];
         cargoTestFlags = [ "-p" "habitat-execution" ];
       };
+      habitatContext = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-context";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-context" ];
+        cargoTestFlags = [ "-p" "habitat-context" ];
+      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
@@ -147,6 +155,13 @@
         runtimeInputs = [ python ];
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --dd ${pkgs.coreutils}/bin/dd --execution ${habitatExecution}/bin/habitat-execution "$@"
+        '';
+      };
+      qualifyW07 = pkgs.writeShellApplication {
+        name = "qualify-w07";
+        runtimeInputs = [ habitatContext python validateContracts ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w07.py} --root ${self} --artifact ${habitatContext}/bin/habitat-context "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -313,6 +328,11 @@
           program = "${qualifyW06}/bin/qualify-w06";
           meta.description = "Run W06 native isolation adversarial qualification";
         };
+        test-w07 = {
+          type = "app";
+          program = "${qualifyW07}/bin/qualify-w07";
+          meta.description = "Run W07 context compiler and fault qualification";
+        };
       };
 
       packages.${system} = {
@@ -324,9 +344,15 @@
         habitat-abi = habitatAbi;
         habitat-authority = habitatAuthority;
         habitat-execution = habitatExecution;
+        habitat-context = habitatContext;
       };
 
       checks.${system} = {
+        w07-qualification = pkgs.runCommand "habitat-w07-qualification" {
+          nativeBuildInputs = [ qualifyW07 ];
+        } ''
+          qualify-w07 --evidence-dir "$out"
+        '';
         w04-qualification = pkgs.runCommand "habitat-w04-qualification" {
           nativeBuildInputs = [ qualifyW04 ];
         } ''
@@ -355,7 +381,7 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
-          qualifyW06 habitatState habitatAbi habitatAuthority habitatExecution ];
+          qualifyW06 qualifyW07 habitatState habitatAbi habitatAuthority habitatExecution habitatContext ];
       };
     };
 }

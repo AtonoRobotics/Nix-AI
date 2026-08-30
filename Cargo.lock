@@ -294,6 +294,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "habitat-context"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "habitat-execution"
 version = "0.1.0"
 dependencies = [
