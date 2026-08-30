@@ -1,1 +1,9 @@
-{"implementation_commit":"c4c880899670dce06e86454f4a2c42cd6372bc16","outcome":"passed","cases":["running descendant confirmed before cancellation","process-group termination","forced-kill fallback"],"deadline_seconds":2}
+{
+  "artifact_sha256": "bf6dc0dbc5e55999b55cea01d6e53cbc6960bb65a857fc0a660b70191eff5502",
+  "cases": [
+    "process-group cooperative termination",
+    "forced-kill fallback"
+  ],
+  "deadline_seconds": 2,
+  "outcome": "passed"
+}

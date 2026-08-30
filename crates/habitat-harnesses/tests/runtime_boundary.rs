@@ -19,7 +19,11 @@ fn envelope() -> ActivationEnvelope {
     }
 }
 fn prepared() -> PreparedActivation {
-    HarnessAdapter::prepare(&envelope(), "activation-set:sha256:pinned", &["grant:read"])
+    HarnessAdapter::prepare(
+        &envelope(),
+        "activation-set:sha256:pinned",
+        &["grant:weather.read"],
+    )
 }
 
 #[test]
@@ -54,6 +58,16 @@ fn capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access(
         Err(HarnessError::CapabilityDenied)
     );
     assert!(proxy.environment().is_empty());
+}
+
+#[test]
+fn model_visible_but_ungranted_capability_is_not_available_to_the_harness() {
+    let prepared = HarnessAdapter::prepare(&envelope(), "activation-set:sha256:pinned", &[]);
+    let proxy = CapabilityProxy::from_prepared(&prepared);
+    assert_eq!(
+        proxy.invoke("habitat://capability/weather.read", json!({})),
+        Err(HarnessError::CapabilityDenied)
+    );
 }
 
 #[test]

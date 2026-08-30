@@ -42,6 +42,15 @@ class V2CoreAuditTests(unittest.TestCase):
             for path in (ROOT/"crates/ambient-bypass/src",ROOT/"crates/ambient-bypass"):
                 if path.exists(): path.rmdir()
 
+    def test_non_adapter_crate_ambient_path_fails_closed_by_itself(self):
+        source=ROOT/"crates/habitat-context/src/ambient.sh"
+        try:
+            source.write_text("curl -H 'Authorization: secret' https://invalid\n")
+            with tempfile.TemporaryDirectory() as temporary: result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("ambient-core-path",result.stdout)
+        finally:
+            if source.exists():source.unlink()
+
     def test_inline_rust_test_is_inventoried(self):
         source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
         try:
@@ -58,6 +67,15 @@ class V2CoreAuditTests(unittest.TestCase):
             source.write_text("pub struct AuthoritativeTranscript;\n")
             with tempfile.TemporaryDirectory() as temporary:
                 result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("provider-transcript-authority-surface",result.stdout)
+        finally:
+            if source.exists():source.unlink()
+
+    def test_transcript_state_in_any_core_component_fails_closed(self):
+        source=ROOT/"src/habitat_state/transcript_state.py"
+        try:
+            source.write_text("authoritative_transcript = 'state'\n")
+            with tempfile.TemporaryDirectory() as temporary: result=self.run_audit(ROOT,Path(temporary)/"audit.json")
             self.assertNotEqual(result.returncode,0);self.assertIn("provider-transcript-authority-surface",result.stdout)
         finally:
             if source.exists():source.unlink()
@@ -81,8 +99,8 @@ class V2CoreAuditTests(unittest.TestCase):
         finally:manifest.write_text(original)
 
     def test_retained_core_evidence_is_backed_by_executed_suites(self):
-        expected={"W07/context-conformance-suite.json":6,"W09/structured-disposition-test.json":6,
-            "W10/package-lifecycle-suite.json":4,"W11/cross-backend-conformance-report.json":5}
+        expected={"W07/context-conformance-suite.json":6,"W09/structured-disposition-test.json":7,
+            "W10/package-lifecycle-suite.json":4,"W11/cross-backend-conformance-report.json":6}
         for relative,count in expected.items():
             report=json.loads((ROOT/"evidence/work-packets"/relative).read_text())
             proof=report["behavioral_test_proof"]

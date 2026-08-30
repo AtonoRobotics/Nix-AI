@@ -2,7 +2,7 @@
   "packet_id": "W01",
   "status": "passed",
   "source_commit": "3e4a935b5b39e1f46eafeed08676bd431aecbd55",
-  "qualified_profiles": ["qemu-x86-64-conformance"],
+  "qualified_profiles": ["qemu-x86_64-conformance"],
   "commands_executed": [
     "nix develop --command python -m unittest discover -s tests -v",
     "nix flake check --show-trace",

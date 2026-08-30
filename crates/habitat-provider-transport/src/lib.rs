@@ -6,12 +6,17 @@ pub struct CredentialBroker {
     provider: String,
     credential: String,
 }
-#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RequestEvidence {
-    pub provider: String,
-    pub endpoint: String,
-    pub activation: String,
-    pub body_digest: String,
+    provider: String,
+    endpoint_digest: String,
+    activation: String,
+    body_digest: String,
+}
+#[derive(Debug, PartialEq, Eq)]
+pub enum TransportError {
+    UnsafeProvider,
+    UnsafeActivation,
+    MissingCredential,
 }
 pub trait ProviderTransport {
     type Output;
@@ -24,11 +29,17 @@ pub trait ProviderTransport {
     ) -> Self::Output;
 }
 impl CredentialBroker {
-    pub fn new(provider: &str, credential: &str) -> Self {
-        Self {
+    pub fn new(provider: &str, credential: &str) -> Result<Self, TransportError> {
+        if !safe_identifier(provider) {
+            return Err(TransportError::UnsafeProvider);
+        }
+        if credential.is_empty() {
+            return Err(TransportError::MissingCredential);
+        }
+        Ok(Self {
             provider: provider.into(),
             credential: credential.into(),
-        }
+        })
     }
     pub fn dispatch<T: ProviderTransport>(
         &self,
@@ -36,7 +47,10 @@ impl CredentialBroker {
         endpoint: &str,
         activation: &str,
         body: &Value,
-    ) -> (T::Output, RequestEvidence) {
+    ) -> Result<(T::Output, RequestEvidence), TransportError> {
+        if !safe_identifier(activation) {
+            return Err(TransportError::UnsafeActivation);
+        }
         let bytes = serde_json::to_vec(body).expect("JSON provider request");
         let output = transport.send(
             endpoint,
@@ -44,17 +58,37 @@ impl CredentialBroker {
             activation,
             body,
         );
-        (
+        Ok((
             output,
             RequestEvidence {
                 provider: self.provider.clone(),
-                endpoint: endpoint.into(),
+                endpoint_digest: format!("sha256:{:x}", Sha256::digest(endpoint.as_bytes())),
                 activation: activation.into(),
                 body_digest: format!("sha256:{:x}", Sha256::digest(bytes)),
             },
-        )
+        ))
     }
     pub fn provider(&self) -> &str {
         &self.provider
     }
+}
+impl RequestEvidence {
+    pub fn provider(&self) -> &str {
+        &self.provider
+    }
+    pub fn endpoint_digest(&self) -> &str {
+        &self.endpoint_digest
+    }
+    pub fn activation(&self) -> &str {
+        &self.activation
+    }
+    pub fn body_digest(&self) -> &str {
+        &self.body_digest
+    }
+}
+fn safe_identifier(value: &str) -> bool {
+    !value.is_empty()
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-' | b':'))
 }

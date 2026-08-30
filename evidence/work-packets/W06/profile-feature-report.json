@@ -1,1 +1,26 @@
-{"implementation_commit":"c4c880899670dce06e86454f4a2c42cd6372bc16","outcome":"passed","profile":"qemu-x86-64-conformance","NATIVE":"qualified","WASI":"absent","OCI":"absent","MicroVM":"absent","reason":"profile declares only NATIVE and no KVM"}
+{
+  "declarations": [
+    {
+      "reason": "live bwrap namespace qualification",
+      "runtime": "Native",
+      "status": "qualified"
+    },
+    {
+      "reason": "not declared by profile",
+      "runtime": "Wasi",
+      "status": "absent"
+    },
+    {
+      "reason": "not declared by profile",
+      "runtime": "Oci",
+      "status": "absent"
+    },
+    {
+      "reason": "KVM not declared by profile",
+      "runtime": "MicroVm",
+      "status": "absent"
+    }
+  ],
+  "outcome": "passed",
+  "profile": "qemu-x86_64-conformance"
+}

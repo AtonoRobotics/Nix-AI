@@ -15,7 +15,11 @@ class W01ProfileTests(unittest.TestCase):
 
         Draft202012Validator.check_schema(schema)
         Draft202012Validator(schema).validate(profile)
-        self.assertEqual(profile["profile_id"], "qemu-x86-64-conformance")
+        self.assertEqual(profile["profile_id"], "qemu-x86_64-conformance")
+        self.assertRegex(profile["firmware"]["digest"],r"^sha256:[0-9a-f]{64}$")
+        self.assertRegex(profile["drivers"]["digest"],r"^sha256:[0-9a-f]{64}$")
+        self.assertEqual(profile["isolation"]["default"],"DENY")
+        self.assertTrue(profile["isolation"]["enforcement"])
         self.assertEqual(profile["trust_root"], "SOFTWARE_DEGRADED")
         self.assertEqual(profile["gpu"]["status"], "absent")
         self.assertEqual(profile["devices"], [])

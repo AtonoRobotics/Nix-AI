@@ -1,1 +1,16 @@
-{"implementation_commit":"c4c880899670dce06e86454f4a2c42cd6372bc16","outcome":"passed","enforced":["memory address-space limit","workspace file-size limit","activation timeout"],"admission":["CPU","memory","storage","process count","timeout"]}
+{
+  "admission": [
+    "CPU",
+    "memory",
+    "storage",
+    "process count",
+    "timeout"
+  ],
+  "artifact_sha256": "bf6dc0dbc5e55999b55cea01d6e53cbc6960bb65a857fc0a660b70191eff5502",
+  "enforced": [
+    "memory address-space limit",
+    "workspace file-size limit",
+    "activation timeout"
+  ],
+  "outcome": "passed"
+}

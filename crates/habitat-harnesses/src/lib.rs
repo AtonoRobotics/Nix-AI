@@ -15,11 +15,11 @@ pub struct DurableIdentity {
     pub activation_set_id: String,
     pub context_bundle_id: String,
 }
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct PreparedActivation {
     pub envelope: ActivationEnvelope,
     pub identity: DurableIdentity,
-    pub allowed_capability_endpoints: Vec<String>,
+    allowed_capability_endpoints: Vec<String>,
     pub adapter_artifact: String,
     pub adapter_configuration_digest: String,
 }
@@ -34,7 +34,8 @@ impl HarnessAdapter {
         objective_ids:envelope.objective_ids.clone(),activation_id:envelope.activation_id.clone(),
         grant_ids:grants.iter().map(|v|(*v).into()).collect(),activation_set_id:activation_set.into(),
         context_bundle_id:envelope.context_bundle_id.clone()},allowed_capability_endpoints:envelope.visible_capabilities
-            .iter().map(|capability|format!("habitat://capability/{}",capability.id)).collect(),
+            .iter().filter(|capability|grants.iter().any(|grant|*grant==format!("grant:{}",capability.id)))
+            .map(|capability|format!("habitat://capability/{}",capability.id)).collect(),
         adapter_artifact:"harness-adapter@sha256:0000000000000000000000000000000000000000000000000000000000000011".into(),
         adapter_configuration_digest:"sha256:1111111111111111111111111111111111111111111111111111111111111111".into()}
     }

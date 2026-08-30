@@ -1,14 +1,17 @@
 {
   "schema_version": "1.0",
-  "profile_id": "qemu-x86-64-conformance",
+  "profile_id": "qemu-x86_64-conformance",
   "version": "1.0.0",
   "architecture": "x86_64",
   "kernel": {"version": "6.12-lts", "digest": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5", "bsp_ref": "nixpkgs#linuxPackages_6_12"},
+  "firmware": {"source_ref": "nixpkgs#OVMF.fd", "digest": "sha256:3e9e1f40c2049ac3f8055fd39c14c5af38b6e14ba48c5a14d105e90d5dc25c29"},
+  "drivers": {"source_ref": "nixpkgs#linuxPackages_6_12", "digest": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"},
   "boot": {"secure_boot": false, "automatic_rollback": true},
   "trust_root": "SOFTWARE_DEGRADED",
   "gpu": {"status": "absent"},
   "devices": [],
   "execution_runtimes": ["NATIVE"],
+  "isolation": {"default": "DENY", "enforcement": ["user-namespace", "resource-limits", "read-only-nix-store"]},
   "storage": {"recovery_partition": true, "state_volume": "/var/lib/habitat"},
   "capacity": {"cpu_cores": 2, "memory_mib": 2048, "storage_mib": 8192},
   "qualification_evidence_refs": ["qemu-boot-report", "defective-boot-rollback-report"]

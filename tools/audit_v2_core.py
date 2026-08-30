@@ -40,10 +40,24 @@ PYTHON_ALLOWED={"__future__","base64","boto3","botocore","concurrent","dataclass
  "habitat_state","hashlib","json","jsonschema","lifecycle","os","pathlib","psycopg","re","shutil","store",
  "subprocess","sys","tempfile","tools","unittest","uuid"}
 FORBIDDEN=re.compile(r"CredentialBroker|authorization\s*:|habitat_authority|habitat_effects|std::net|UnixStream|TcpStream|reqwest|Command::new|\bcurl\b|Authorization",re.I)
+AMBIENT=re.compile(r"\bcurl\b|Authorization|reqwest|TcpStream|std::net",re.I)
 API=re.compile(r"^\s*pub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match)\b|=>")
 TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 REQUIREMENT_DETAILS={}
+SEMANTIC_RULES=(
+ ("crates/habitat-harnesses/",r"CapabilityProxy",("AUTH-004","EXEC-003")),
+ ("crates/habitat-harnesses/",r"HarnessRuntime|RuntimeStatus|RuntimeOutcome",("EXEC-003",)),
+ ("crates/habitat-harnesses/",r"Backend|Checkpoint|Adapter|translate|HarnessOutput|DurableIdentity",("ABI-003",)),
+ ("crates/habitat-harnesses/",r"PreparedActivation|HarnessAdapter",("ABI-003","EXEC-003")),
+ ("crates/habitat-models/",r"Capability|DispositionValidator|ModelDriver|ActivationEnvelope",("ABI-003","EXEC-003")),
+ ("crates/habitat-models/",r"Adapter|Disposition|Candidate|ModelEvidence|DecisionArtifact",("ABI-003",)),
+ ("crates/habitat-authority/",r"Peer|Identity|Invocation|bind|evaluate",("AUTH-001",)),
+ ("crates/habitat-authority/",r"Policy|Decision|deny",("AUTH-002",)),
+ ("crates/habitat-authority/",r"Grant|Revocation|delegate|revoke",("AUTH-003",)),
+ ("crates/habitat-execution/",r"Profile|Capacity|Resource",("SYS-004","EXEC-002")),
+ ("crates/habitat-execution/",r"Boundary|Isolation|admit",("AUTH-004","EXEC-001")),
+)
 
 def mapping(path):
     value=path.as_posix()
@@ -54,12 +68,20 @@ def mapping(path):
     if value in TEST_MAPPINGS:return TEST_MAPPINGS[value]
     return None
 
+def semantic_requirements(kind,identity,source,defaults):
+    if kind=="public_interface":
+        for prefix,pattern,requirements in SEMANTIC_RULES:
+            if source.startswith(prefix) and re.search(pattern,identity,re.I):return requirements
+    return defaults
+
 def record(kind,identity,requirements,source):
-    return {"kind":kind,"identity":identity,"requirement_ids":list(requirements),
+    result={"kind":kind,"identity":identity,"requirement_ids":list(requirements),
       "authority":[f"contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/{value}" for value in requirements],
       "binding":{"semantic":identity,"class":kind,"requirement_ids":list(requirements),
           "decision":"retained only under the cited trigger, boundary, failure, and enforcement"},
       "source":source}
+    if kind=="dependency":result["binding"]["necessity"]="declared source/build edge for this retained unit; any undeclared edge is rejected"
+    return result
 
 def audit(root):
     global REQUIREMENT_DETAILS
@@ -79,19 +101,28 @@ def audit(root):
         try: content=path.read_text()
         except UnicodeDecodeError: content=""
         if suffix in {".rs",".py"}:
-            lines=content.splitlines();pending_test=False;enum_depth=0
+            lines=content.splitlines();pending_test=False;enum_depth=0;current_requirements=requirements
             for number,line in enumerate(lines,1):
+                opened_enum=False
                 match=API.search(line)
                 if match:
-                    records.append(record("public_interface",f"{relative}:{number}:{match.group(1)}",requirements,relative.as_posix()))
-                    if re.search(r"\bpub\s+enum\b",line): enum_depth=line.count("{")-line.count("}") or 1
+                    identity=f"{relative}:{number}:{match.group(1)}"
+                    current_requirements=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
+                    records.append(record("public_interface",identity,current_requirements,relative.as_posix()))
+                    if re.search(r"\bpub\s+enum\b",line):
+                        opened_enum=True
+                        enum_depth=line.count("{")-line.count("}")
+                        same_line=re.search(r"\{(.*)\}",line)
+                        if same_line:
+                            for variant in re.findall(r"(?:^|,)\s*([A-Z][A-Za-z0-9_]*)",same_line.group(1)):
+                                records.append(record("public_interface",f"{relative}:{number}:enum-variant:{variant}",current_requirements,relative.as_posix()))
                 elif enum_depth and (variant:=re.match(r"\s*([A-Z][A-Za-z0-9_]*)\s*(?:[({=,]|$)",line)):
-                    records.append(record("public_interface",f"{relative}:{number}:enum-variant:{variant.group(1)}",requirements,relative.as_posix()))
-                if enum_depth:
+                    records.append(record("public_interface",f"{relative}:{number}:enum-variant:{variant.group(1)}",current_requirements,relative.as_posix()))
+                if enum_depth and not opened_enum:
                     enum_depth+=line.count("{")-line.count("}")
-                    if enum_depth<0: enum_depth=0
+                    if enum_depth<=0: enum_depth=0
                 if BRANCH.search(line) and not line.lstrip().startswith("//"):
-                    records.append(record("branch",f"{relative}:{number}",requirements,relative.as_posix()))
+                    records.append(record("branch",f"{relative}:{number}",current_requirements,relative.as_posix()))
                 if "#[test]" in line:
                     inline=TEST.search(line)
                     if inline: records.append(record("test",f"{relative}:{number}:{inline.group(1)}",requirements,relative.as_posix()))
@@ -122,6 +153,12 @@ def audit(root):
         elif relative.as_posix().startswith(("crates/habitat-models/","crates/habitat-harnesses/")):
             found=FORBIDDEN.search(content)
             if found: unresolved.append(f"forbidden-adapter-path:{relative}:{found.group(0)}")
+        production_source=(relative.as_posix().startswith("src/") or "/src/" in relative.as_posix())
+        found=AMBIENT.search(content)
+        if production_source and found and not relative.as_posix().startswith("crates/habitat-provider-transport/"):
+            unresolved.append(f"ambient-core-path:{relative}:{found.group(0)}")
+        if production_source and re.search(rb"transcript",path.read_bytes(),re.I):
+            unresolved.append(f"provider-transcript-authority-surface:{relative}")
         if path.name=="Cargo.toml":
             data=tomllib.loads(path.read_text())
             for section in ("dependencies","dev-dependencies","build-dependencies"):
@@ -134,12 +171,12 @@ def audit(root):
     known={item["id"] for item in contract["requirements"]}
     unresolved.extend(f"unknown-requirement:{value}" for item in records for value in item["requirement_ids"] if value not in known)
     profile=json.loads((root/"nix/profiles/qemu-x86_64-conformance.json").read_text())
-    profile_ok=profile.get("gpu",{}).get("status")=="absent" and profile.get("devices")==[] and bool(profile.get("capacity"))
+    canonical_profiles=set(contract["canonical_model"]["hardware_profiles"])
+    profile_ok=(profile.get("profile_id") in canonical_profiles and profile.get("gpu",{}).get("status")=="absent"
+      and profile.get("devices")==[] and bool(profile.get("capacity")) and bool(profile.get("kernel",{}).get("digest"))
+      and bool(profile.get("firmware",{}).get("digest")) and bool(profile.get("drivers",{}).get("digest"))
+      and profile.get("isolation",{}).get("default")=="DENY" and bool(profile.get("isolation",{}).get("enforcement")))
     if not profile_ok: unresolved.append("hardware-profile-missing-capacity-or-explicit-absence")
-    for component in ("habitat-models","habitat-harnesses"):
-        for path in (root/f"crates/{component}/src").rglob("*"):
-            if path.is_file() and re.search(rb"transcript",path.read_bytes(),re.I):
-                unresolved.append(f"provider-transcript-authority-surface:{path.relative_to(root)}")
     digest=hashlib.sha256()
     for relative in files:
         content=(root/relative).read_bytes();digest.update(relative.encode()+b"\0"+content+b"\0")

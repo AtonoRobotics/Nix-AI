@@ -43,7 +43,7 @@ def main():
         "admission":["CPU","memory","storage","process count","timeout"]},
       "termination-test":{"outcome":"passed","artifact_sha256":digest,
         "cases":["process-group cooperative termination","forced-kill fallback"],"deadline_seconds":2},
-      "profile-feature-report":{"outcome":"passed","profile":"qemu-x86-64-conformance","declarations":declarations},
+      "profile-feature-report":{"outcome":"passed","profile":"qemu-x86_64-conformance","declarations":declarations},
       "hardware-profile-qualification":{"outcome":"passed","runtime":"NATIVE","others":"explicitly absent"},
       "architecture-boundary-test":{"outcome":"passed","control_plane_in_activation":False,"provider_bypass":False},
       "system-conformance-report":{"outcome":"passed","isolation_selected_before_execution":True},

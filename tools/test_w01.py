@@ -68,7 +68,7 @@ def boot(qemu: str, code: str, disk: Path, variables: Path, log: Path, expected:
 
 def validate_common(event):
     assert event["health_result"] == "PRE_OPERATIONAL"
-    assert event["hardware_profile_id"] == "qemu-x86-64-conformance"
+    assert event["hardware_profile_id"] == "qemu-x86_64-conformance"
     assert event["protections"] == {"nix_store_read_only": True, "recovery_read_only": True}
     assert event["closure_digest"].startswith("sha256:")
 
