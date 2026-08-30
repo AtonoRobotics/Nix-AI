@@ -284,8 +284,8 @@
   "counts": {
     "build_closure_members": 70,
     "dependencies": 362,
-    "generated_artifacts": 11,
-    "public_semantics": 1106,
+    "generated_artifacts": 83,
+    "public_semantics": 1270,
     "tracked_paths": 262
   },
   "dependencies": [
@@ -2106,28 +2106,298 @@
       "path": "Cargo.lock"
     },
     {
+      "class": "generated-output",
+      "path": "Cargo.lock",
+      "required_class": "lockfiles"
+    },
+    {
       "class": "integrity-manifest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/BUNDLE-MANIFEST.sha256"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/BUNDLE-MANIFEST.sha256",
+      "required_class": "sha256_manifests"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/13-IMPLEMENTATION-WORK-GRAPH.md",
+      "required_class": "work_graph"
     },
     {
       "class": "integrity-manifest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/MANIFEST.sha256"
     },
     {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/MANIFEST.sha256",
+      "required_class": "sha256_manifests"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.yaml",
+      "required_class": "requirements_registry"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/work-packets.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/work-packets.yaml",
+      "required_class": "work_graph"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-activation.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/00-GOVERNANCE.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/01-ARCHITECTURE.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/02-AGENT-ABI.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/03-STATE-AND-LIFECYCLE.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/04-AUTHORITY-CAPABILITIES.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/05-EFFECTS.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/06-CONTEXT.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/07-CAPABILITY-PACKAGES.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/08-SYSTEM-GENERATIONS.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/09-THREAT-SAFETY.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/10-HARDWARE-PROFILES.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/11-OBSERVABILITY-SLOS.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/12-VERIFICATION-MATRIX.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/13-IMPLEMENTATION-WORK-GRAPH.md",
+      "required_class": "work_graph"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/14-DECISION-REGISTER.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/15-TRACEABILITY.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/17-REMEDIATION-RECORD.md",
+      "required_class": "architecture_projections"
+    },
+    {
       "class": "integrity-manifest",
       "path": "contracts/architecture/MANIFEST.sha256"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/MANIFEST.sha256",
+      "required_class": "sha256_manifests"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/architecture/README.md",
+      "required_class": "architecture_projections"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/requirements.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/requirements.yaml",
+      "required_class": "requirements_registry"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/agent-activation.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/agent-disposition.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/capability-package.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/context-request.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/effect.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/hardware-profile.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/schemas/system-generation.schema.json",
+      "required_class": "json_schemas"
     },
     {
       "class": "integrity-manifest",
       "path": "contracts/v2.0.1/MANIFEST.sha256"
     },
     {
+      "class": "generated-output",
+      "path": "contracts/v2.0.1/MANIFEST.sha256",
+      "required_class": "sha256_manifests"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/v2.0.1/contract.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
       "class": "integrity-manifest",
       "path": "contracts/v2/MANIFEST.sha256"
     },
     {
+      "class": "generated-output",
+      "path": "contracts/v2/MANIFEST.sha256",
+      "required_class": "sha256_manifests"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/v2/contract.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/work-packets.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "contracts/work-packets.yaml",
+      "required_class": "work_graph"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W00/provenance.json",
+      "required_class": "provenance"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W00/sbom.json",
+      "required_class": "sbom"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W01/provenance.json",
+      "required_class": "provenance"
+    },
+    {
+      "class": "generated-output",
+      "path": "evidence/work-packets/W02/provenance.json",
+      "required_class": "provenance"
+    },
+    {
       "class": "dependency-lock",
       "path": "flake.lock"
+    },
+    {
+      "class": "generated-output",
+      "path": "flake.lock",
+      "required_class": "lockfiles"
     },
     {
       "class": "generated-output",
@@ -2139,22 +2409,130 @@
     },
     {
       "class": "generated-output",
+      "path": "generated/proto/descriptor.bin",
+      "required_class": "protobuf_descriptors"
+    },
+    {
+      "class": "generated-output",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "class": "generated-output",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs",
+      "required_class": "language_bindings"
+    },
+    {
+      "class": "generated-output",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "class": "generated-output",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs",
+      "required_class": "language_bindings"
+    },
+    {
+      "class": "generated-output",
+      "path": "tests/fixtures/schema-contracts/malformed/broken.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "tests/fixtures/schema-contracts/missing-reference/broken.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "tests/fixtures/schema-contracts/valid/registry.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "generated-output",
+      "path": "tests/fixtures/schema-contracts/valid/schemas/child.schema.json",
+      "required_class": "json_schemas"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "requirements_registry",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "work_graph",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "architecture_projections",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "json_schemas",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "protobuf_descriptors",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "language_bindings",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "lockfiles",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "sbom",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "provenance",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "evidence_indexes",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "class": "required-generated-class",
+      "name": "sha256_manifests",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     }
   ],
-  "inventory_commit": "171e0553db615088c83815157f9d29565226fcd5",
+  "inventory_commit": "afc833585772d3029be25ace78c4a17392a11c5b",
   "inventory_source": {
     "build_closure_members": "declared-source-graph",
     "file_contents": "git-tree",
     "snapshot_boundary": "before-report-publication",
     "tracked_paths": "git-tree"
   },
-  "inventory_tree": "cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+  "inventory_tree": "9ea4656274942e30a031baaa0d81d6603ece7a6a",
   "public_semantics": [
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/requirements/items/properties/criticality/enum::critical",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/requirements/items/properties/criticality/enum::release",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/requirements/items/properties/criticality/enum::profile",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json"
+    },
     {
       "kind": "service",
       "line": 8,
@@ -2580,6 +2958,324 @@
       "line": 91,
       "name": "EffectState::MANUAL_AUTHORITY_REQUIRED",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::CONTEXT_REQUEST",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::CAPABILITY_INVOCATION",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::EFFECT_PROPOSAL",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::DELEGATION",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::MESSAGE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::CHECKPOINT",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::SLEEP",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::COMPLETION_CLAIM",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::ACTIVATION_FAILURE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 42,
+      "name": "$defs/capability",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::NATIVE_SERVICE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::CORDIS",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::WASI_COMPONENT",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::OCI",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::MICROVM",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::REMOTE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::PHYSICAL_ADAPTER",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/mode/enum::STATELESS",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/mode/enum::EPHEMERAL",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/mode/enum::PERSISTENT",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::NOT_REQUIRED",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::BACKWARD_COMPATIBLE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::RESTORE_REQUIRED",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::IRREVERSIBLE_PROHIBITED",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 37,
+      "name": "#/properties/activation/properties/drain_policy/enum::DRAIN",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 37,
+      "name": "#/properties/activation/properties/drain_policy/enum::MIGRATE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 37,
+      "name": "#/properties/activation/properties/drain_policy/enum::TERMINATE_AND_RECONCILE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::FACT",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::EVIDENCE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::PROCEDURE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::CAPABILITY_DOCUMENTATION",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::PRECEDENT",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::FRESH_OBSERVATION",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E0",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E1",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E2",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E3",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E4",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 12,
+      "name": "#/properties/architecture/enum::x86_64",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 12,
+      "name": "#/properties/architecture/enum::aarch64",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 12,
+      "name": "#/properties/architecture/enum::riscv64",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::TPM2",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::TEE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::HSM",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::SOFTWARE_DEGRADED",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::NATIVE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::WASI",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::OCI",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::MICROVM",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::REMOTE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/state_schema_compatibility/enum::UNCHANGED",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/state_schema_compatibility/enum::BACKWARD_COMPATIBLE",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/state_schema_compatibility/enum::RESTORE_REQUIRED",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json"
     },
     {
       "kind": "def",
@@ -3158,6 +3854,486 @@
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/requirements/items/properties/criticality/enum::critical",
+      "path": "contracts/requirements.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/requirements/items/properties/criticality/enum::release",
+      "path": "contracts/requirements.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/requirements/items/properties/criticality/enum::profile",
+      "path": "contracts/requirements.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::CONTEXT_REQUEST",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::CAPABILITY_INVOCATION",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::EFFECT_PROPOSAL",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::DELEGATION",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::MESSAGE",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::CHECKPOINT",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::SLEEP",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::COMPLETION_CLAIM",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 14,
+      "name": "#/properties/kind/enum::ACTIVATION_FAILURE",
+      "path": "contracts/schemas/agent-disposition.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 42,
+      "name": "$defs/capability",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::NATIVE_SERVICE",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::CORDIS",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::WASI_COMPONENT",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::OCI",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::MICROVM",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::REMOTE",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 28,
+      "name": "#/properties/execution/properties/kind/enum::PHYSICAL_ADAPTER",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/mode/enum::STATELESS",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/mode/enum::EPHEMERAL",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/mode/enum::PERSISTENT",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::NOT_REQUIRED",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::BACKWARD_COMPATIBLE",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::RESTORE_REQUIRED",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 36,
+      "name": "#/properties/state/properties/rollback/enum::IRREVERSIBLE_PROHIBITED",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 37,
+      "name": "#/properties/activation/properties/drain_policy/enum::DRAIN",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 37,
+      "name": "#/properties/activation/properties/drain_policy/enum::MIGRATE",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 37,
+      "name": "#/properties/activation/properties/drain_policy/enum::TERMINATE_AND_RECONCILE",
+      "path": "contracts/schemas/capability-package.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::FACT",
+      "path": "contracts/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::EVIDENCE",
+      "path": "contracts/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::PROCEDURE",
+      "path": "contracts/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::CAPABILITY_DOCUMENTATION",
+      "path": "contracts/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::PRECEDENT",
+      "path": "contracts/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/requested_kind/enum::FRESH_OBSERVATION",
+      "path": "contracts/schemas/context-request.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E0",
+      "path": "contracts/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E1",
+      "path": "contracts/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E2",
+      "path": "contracts/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E3",
+      "path": "contracts/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 22,
+      "name": "#/properties/consequence_class/enum::E4",
+      "path": "contracts/schemas/effect.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 12,
+      "name": "#/properties/architecture/enum::x86_64",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 12,
+      "name": "#/properties/architecture/enum::aarch64",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 12,
+      "name": "#/properties/architecture/enum::riscv64",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::TPM2",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::TEE",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::HSM",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/trust_root/enum::SOFTWARE_DEGRADED",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::NATIVE",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::WASI",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::OCI",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::MICROVM",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 19,
+      "name": "#/properties/execution_runtimes/items/enum::REMOTE",
+      "path": "contracts/schemas/hardware-profile.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/state_schema_compatibility/enum::UNCHANGED",
+      "path": "contracts/schemas/system-generation.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/state_schema_compatibility/enum::BACKWARD_COMPATIBLE",
+      "path": "contracts/schemas/system-generation.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 16,
+      "name": "#/properties/state_schema_compatibility/enum::RESTORE_REQUIRED",
+      "path": "contracts/schemas/system-generation.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 74,
+      "name": "$defs/nonEmpty",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 75,
+      "name": "$defs/id",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 76,
+      "name": "$defs/stringSet",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 81,
+      "name": "$defs/authority",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 92,
+      "name": "$defs/mission",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 104,
+      "name": "$defs/scope",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 113,
+      "name": "$defs/canonicalModel",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 139,
+      "name": "$defs/service",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 149,
+      "name": "$defs/requirement",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 179,
+      "name": "$defs/rebuild",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 203,
+      "name": "$defs/disposition",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 225,
+      "name": "$defs/predicate",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 235,
+      "name": "$defs/migration",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 246,
+      "name": "$defs/generated",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 255,
+      "name": "$defs/step",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 265,
+      "name": "$defs/workPacket",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 279,
+      "name": "$defs/gate",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 290,
+      "name": "$defs/completion",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 167,
+      "name": "#/$defs/requirement/properties/source_authority/enum::CURRENT_USER_DECISION",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 167,
+      "name": "#/$defs/requirement/properties/source_authority/enum::V2_DERIVATION",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 220,
+      "name": "#/$defs/disposition/properties/action/enum::DELETE",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 220,
+      "name": "#/$defs/disposition/properties/action/enum::DELETE_AND_REBUILD",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 220,
+      "name": "#/$defs/disposition/properties/action/enum::REGENERATE",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 220,
+      "name": "#/$defs/disposition/properties/action/enum::AUDIT_FOR_RETENTION",
+      "path": "contracts/v2.0.1/contract.schema.json"
+    },
+    {
       "kind": "canonical_principal",
       "line": 89,
       "name": "MACHINE",
@@ -3369,13 +4545,13 @@
     },
     {
       "kind": "canonical_service",
-      "line": 17,
+      "line": 127,
       "name": "authority",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
     {
       "kind": "canonical_service",
-      "line": 61,
+      "line": 129,
       "name": "effect",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -3387,7 +4563,7 @@
     },
     {
       "kind": "canonical_service",
-      "line": 125,
+      "line": 131,
       "name": "cognition",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -3399,7 +4575,7 @@
     },
     {
       "kind": "canonical_service",
-      "line": 56,
+      "line": 133,
       "name": "evidence",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -3555,7 +4731,7 @@
     },
     {
       "kind": "change_state",
-      "line": 138,
+      "line": 164,
       "name": "PROPOSED",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -3573,7 +4749,7 @@
     },
     {
       "kind": "change_state",
-      "line": 139,
+      "line": 167,
       "name": "REJECTED",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -3651,7 +4827,7 @@
     },
     {
       "kind": "error_code",
-      "line": 144,
+      "line": 182,
       "name": "OUTCOME_UNKNOWN",
       "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
@@ -3704,6 +4880,150 @@
       "path": "contracts/v2.0.1/validate_contract.py"
     },
     {
+      "kind": "schema_definition",
+      "line": 72,
+      "name": "$defs/nonEmpty",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 73,
+      "name": "$defs/id",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 74,
+      "name": "$defs/stringSet",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 79,
+      "name": "$defs/authority",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 90,
+      "name": "$defs/mission",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 102,
+      "name": "$defs/scope",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 111,
+      "name": "$defs/canonicalModel",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 137,
+      "name": "$defs/service",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 147,
+      "name": "$defs/requirement",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 177,
+      "name": "$defs/rebuild",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 201,
+      "name": "$defs/disposition",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 223,
+      "name": "$defs/predicate",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 233,
+      "name": "$defs/migration",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 244,
+      "name": "$defs/generated",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 253,
+      "name": "$defs/step",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 263,
+      "name": "$defs/workPacket",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 277,
+      "name": "$defs/gate",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_definition",
+      "line": 288,
+      "name": "$defs/completion",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 165,
+      "name": "#/$defs/requirement/properties/source_authority/enum::CURRENT_USER_DECISION",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 165,
+      "name": "#/$defs/requirement/properties/source_authority/enum::V2_DERIVATION",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 218,
+      "name": "#/$defs/disposition/properties/action/enum::DELETE",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 218,
+      "name": "#/$defs/disposition/properties/action/enum::DELETE_AND_REBUILD",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 218,
+      "name": "#/$defs/disposition/properties/action/enum::REGENERATE",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
+      "kind": "schema_enum_value",
+      "line": 218,
+      "name": "#/$defs/disposition/properties/action/enum::AUDIT_FOR_RETENTION",
+      "path": "contracts/v2/contract.schema.json"
+    },
+    {
       "kind": "canonical_principal",
       "line": 89,
       "name": "MACHINE",
@@ -3915,13 +5235,13 @@
     },
     {
       "kind": "canonical_service",
-      "line": 17,
+      "line": 127,
       "name": "authority",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
     {
       "kind": "canonical_service",
-      "line": 61,
+      "line": 129,
       "name": "effect",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -3933,7 +5253,7 @@
     },
     {
       "kind": "canonical_service",
-      "line": 125,
+      "line": 131,
       "name": "cognition",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -3945,7 +5265,7 @@
     },
     {
       "kind": "canonical_service",
-      "line": 56,
+      "line": 133,
       "name": "evidence",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -4101,7 +5421,7 @@
     },
     {
       "kind": "change_state",
-      "line": 138,
+      "line": 164,
       "name": "PROPOSED",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -4119,7 +5439,7 @@
     },
     {
       "kind": "change_state",
-      "line": 139,
+      "line": 167,
       "name": "REJECTED",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -4197,7 +5517,7 @@
     },
     {
       "kind": "error_code",
-      "line": 144,
+      "line": 182,
       "name": "OUTCOME_UNKNOWN",
       "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
@@ -8055,19 +9375,19 @@
     },
     {
       "kind": "test_fixture",
-      "line": 172,
+      "line": 202,
       "name": "test_cross_relation_dependency_cycle_is_rejected",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
       "kind": "test_fixture",
-      "line": 201,
+      "line": 231,
       "name": "test_requirement_derivation_references_are_resolved_and_acyclic",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
       "kind": "test_fixture",
-      "line": 235,
+      "line": 265,
       "name": "test_inventory_cli_records_the_baseline_and_every_inventory_class",
       "path": "tests/test_v2_rebuild_frontier.py"
     },
@@ -8141,6 +9461,12 @@
       "kind": "test_fixture",
       "line": 378,
       "name": "test_same_tree_contract_mutation_cannot_replace_binding_authority",
+      "path": "tests/test_v2_scope_classification.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 449,
+      "name": "test_archived_v2_package_cannot_be_self_resigned_after_mutation",
       "path": "tests/test_v2_scope_classification.py"
     },
     {
@@ -8289,103 +9615,103 @@
     },
     {
       "kind": "def",
-      "line": 70,
+      "line": 72,
       "name": "requirement_ids_for",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 85,
+      "line": 87,
       "name": "git",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 94,
+      "line": 96,
       "name": "inventory_tree_contents",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 103,
+      "line": 105,
       "name": "inventory_tree_bytes",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 112,
+      "line": 114,
       "name": "explicit_path_disposition",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 124,
+      "line": 126,
       "name": "classify_path",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 221,
+      "line": 223,
       "name": "record",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 241,
+      "line": 243,
       "name": "inherited_record",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 252,
+      "line": 254,
       "name": "semantic_identity",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 256,
+      "line": 258,
       "name": "dependency_identity",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 260,
+      "line": 262,
       "name": "generic_identity",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 264,
+      "line": 266,
       "name": "classify",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 409,
+      "line": 421,
       "name": "relegacy_packet",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 413,
+      "line": 425,
       "name": "contract_package",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 420,
+      "line": 432,
       "name": "validate_contract_packages",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 473,
+      "line": 485,
       "name": "retention_evidence",
       "path": "tools/classify_v2_scope.py"
     },
     {
       "kind": "def",
-      "line": 514,
+      "line": 526,
       "name": "main",
       "path": "tools/classify_v2_scope.py"
     },
@@ -8415,79 +9741,97 @@
     },
     {
       "kind": "def",
-      "line": 109,
+      "line": 111,
       "name": "semantic_record",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 118,
+      "line": 120,
+      "name": "python_enum_values",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 145,
+      "name": "python_state_transitions",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 168,
       "name": "rust_macro_generated_types",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 136,
+      "line": 186,
       "name": "proto_enum_values",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 165,
+      "line": 215,
       "name": "contract_json_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 202,
+      "line": 252,
       "name": "rust_enum_values",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 247,
+      "line": 297,
       "name": "public_semantics",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 252,
+      "line": 302,
       "name": "dependencies_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 350,
+      "line": 395,
+      "name": "nix_dependencies",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "kind": "def",
+      "line": 421,
       "name": "dependencies",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 355,
+      "line": 426,
       "name": "generated_artifacts",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 368,
+      "line": 439,
       "name": "build_closure_members_from_contents",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 390,
+      "line": 461,
       "name": "build_closure_members",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 397,
+      "line": 468,
       "name": "inventory",
       "path": "tools/inventory_v2.py"
     },
     {
       "kind": "def",
-      "line": 425,
+      "line": 496,
       "name": "main",
       "path": "tools/inventory_v2.py"
     },

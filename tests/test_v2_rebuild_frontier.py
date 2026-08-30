@@ -140,8 +140,21 @@ class V2RebuildFrontierTests(unittest.TestCase):
                 "transition",
                 "EntityKind.ACTIVATION:State.RUNNING->State.COMPLETED",
             ),
+            (
+                "contracts/v2.0.1/contract.schema.json",
+                "schema_definition",
+                "$defs/requirement",
+            ),
         ):
             self.assertIn(expected, semantics)
+        self.assertEqual(
+            sum(item["kind"] == "schema_definition" for item in report["public_semantics"]),
+            38,
+        )
+        self.assertEqual(
+            sum(item["kind"] == "schema_enum_value" for item in report["public_semantics"]),
+            122,
+        )
         dependencies = {
             (item["path"], item["class"], item["name"])
             for item in report["dependencies"]
@@ -155,6 +168,36 @@ class V2RebuildFrontierTests(unittest.TestCase):
                 "jsonschema",
             ),
             dependencies,
+        )
+        generated_classes = {
+            item["name"]
+            for item in report["generated_artifacts"]
+            if item["class"] == "required-generated-class"
+        }
+        self.assertEqual(
+            generated_classes,
+            {
+                "requirements_registry",
+                "work_graph",
+                "architecture_projections",
+                "json_schemas",
+                "protobuf_descriptors",
+                "language_bindings",
+                "lockfiles",
+                "sbom",
+                "provenance",
+                "evidence_indexes",
+                "sha256_manifests",
+            },
+        )
+        concrete_generated_classes = {
+            item["required_class"]
+            for item in report["generated_artifacts"]
+            if item.get("required_class")
+        }
+        self.assertEqual(
+            concrete_generated_classes,
+            generated_classes - {"evidence_indexes"},
         )
         self.assertIn(
             ("src/habitat_state/store.py", "python-relative-import", ".domain"),

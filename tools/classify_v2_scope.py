@@ -16,7 +16,7 @@ import tempfile
 from inventory_v2 import (
     build_closure_members_from_contents,
     dependencies_from_contents,
-    generated_artifacts,
+    generated_artifacts_from_contents,
     public_semantics_from_contents,
 )
 
@@ -260,6 +260,10 @@ def dependency_identity(item: dict) -> str:
 
 
 def generic_identity(item: dict) -> str:
+    if item.get("required_class"):
+        return f"{item['path']}:{item['class']}:{item['required_class']}"
+    if item.get("path") and item.get("name"):
+        return f"{item['path']}:{item['class']}:{item['name']}"
     return item.get("path") or f"{item['class']}:{item['name']}"
 
 
@@ -315,7 +319,7 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
     reconstructed = {
         "public_semantics": public_semantics_from_contents(tree_paths, read_tree),
         "dependencies": dependencies_from_contents(tree_paths, read_tree),
-        "generated_artifacts": generated_artifacts(tree_paths),
+        "generated_artifacts": generated_artifacts_from_contents(tree_paths, read_tree),
         "build_closure_members": build_closure_members_from_contents(
             tree_paths, read_tree
         ),
@@ -347,6 +351,24 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
         for item in inventory[inventory_class]:
             parent = by_path[item["path"]]
             identity = identity_function(item)
+            if (
+                inventory_class == "generated_artifacts"
+                and (
+                    item["class"] == "required-generated-class"
+                    or item.get("required_class")
+                )
+            ):
+                records.append(
+                    record(
+                        identity,
+                        "REGENERATE",
+                        "D-023",
+                        "Binding v2.0.1 contract requires this generated artifact class.",
+                        [],
+                        [],
+                    )
+                )
+                continue
             if (
                 parent["action"] == "RETAIN"
                 and inventory_class in {"public_semantics", "dependencies"}

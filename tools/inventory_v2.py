@@ -219,7 +219,7 @@ def contract_json_semantics(relative: str, content: str) -> list[dict[str, str |
         return []
     canonical = document.get("canonical_model")
     if not isinstance(canonical, dict):
-        return []
+        return json_schema_semantics(relative, content, document)
     kinds = {
         "principals": "canonical_principal",
         "records": "canonical_record",
@@ -233,11 +233,13 @@ def contract_json_semantics(relative: str, content: str) -> list[dict[str, str |
     }
     found: list[dict[str, str | int]] = []
     for collection, kind in kinds.items():
+        cursor = content.find(json.dumps(collection))
         for item in canonical.get(collection, []):
             name = item.get("id") if isinstance(item, dict) else item
             if not isinstance(name, str):
                 continue
-            offset = content.find(json.dumps(name))
+            offset = content.find(json.dumps(name), max(cursor, 0))
+            cursor = offset + len(json.dumps(name)) if offset >= 0 else cursor
             found.append(
                 {
                     "path": relative,
@@ -247,6 +249,56 @@ def contract_json_semantics(relative: str, content: str) -> list[dict[str, str |
                 }
             )
     return found
+
+
+def json_schema_semantics(
+    relative: str, content: str, document: dict
+) -> list[dict[str, str | int]]:
+    definitions_key = "$defs" if isinstance(document.get("$defs"), dict) else "definitions"
+    definitions = document.get(definitions_key)
+    if not isinstance(definitions, dict) and "enum" not in json.dumps(document):
+        return []
+    found: list[dict[str, str | int]] = []
+    cursor = content.find(json.dumps(definitions_key))
+    for name in (definitions or {}):
+        offset = content.find(json.dumps(name), max(cursor, 0))
+        cursor = offset + len(json.dumps(name)) if offset >= 0 else cursor
+        found.append(
+            {
+                "path": relative,
+                "line": content.count("\n", 0, max(offset, 0)) + 1,
+                "kind": "schema_definition",
+                "name": f"{definitions_key}/{name}",
+            }
+        )
+    search_offset = 0
+    for pointer, value in schema_enum_values(document, "#"):
+        value_offset = content.find(json.dumps(value), search_offset)
+        if value_offset >= 0:
+            search_offset = value_offset + len(json.dumps(value))
+        found.append(
+            {
+                "path": relative,
+                "line": content.count("\n", 0, max(value_offset, 0)) + 1,
+                "kind": "schema_enum_value",
+                "name": f"{pointer}::{value}",
+            }
+        )
+    return found
+
+
+def schema_enum_values(value, pointer: str):
+    if isinstance(value, dict):
+        enum = value.get("enum")
+        if isinstance(enum, list):
+            for item in enum:
+                yield pointer + "/enum", item
+        for key, child in value.items():
+            if key != "enum":
+                yield from schema_enum_values(child, f"{pointer}/{key}")
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            yield from schema_enum_values(child, f"{pointer}/{index}")
 
 
 def rust_enum_values(relative: str, content: str) -> list[dict[str, str | int]]:
@@ -424,6 +476,10 @@ def dependencies(root: Path, paths: list[str]) -> list[dict[str, str]]:
 
 
 def generated_artifacts(paths: list[str]) -> list[dict[str, str]]:
+    return generated_artifacts_from_contents(paths, lambda _path: None)
+
+
+def generated_artifacts_from_contents(paths, read_text) -> list[dict[str, str]]:
     generated_names = {"Cargo.lock", "flake.lock"}
     result = []
     for path in paths:
@@ -433,7 +489,57 @@ def generated_artifacts(paths: list[str]) -> list[dict[str, str]]:
             result.append({"path": path, "class": "dependency-lock"})
         elif Path(path).name.endswith("MANIFEST.sha256"):
             result.append({"path": path, "class": "integrity-manifest"})
+        required_class = generated_required_class(path)
+        if required_class:
+            result.append(
+                {
+                    "path": path,
+                    "class": "generated-output",
+                    "required_class": required_class,
+                }
+            )
+    binding_path = "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    if binding_path in paths:
+        contract = json.loads(read_text(binding_path) or "{}")
+        required = contract.get("repository_rebuild", {}).get(
+            "generated_artifacts", {}
+        ).get("required_classes", [])
+        for name in required:
+            result.append(
+                {
+                    "path": binding_path,
+                    "class": "required-generated-class",
+                    "name": name,
+                }
+            )
     return result
+
+
+def generated_required_class(path: str) -> str | None:
+    name = Path(path).name
+    if name == "requirements.yaml":
+        return "requirements_registry"
+    if name == "work-packets.yaml" or name == "13-IMPLEMENTATION-WORK-GRAPH.md":
+        return "work_graph"
+    if path.startswith("contracts/architecture/") and path.endswith(".md"):
+        return "architecture_projections"
+    if path.endswith(".schema.json"):
+        return "json_schemas"
+    if name == "descriptor.bin":
+        return "protobuf_descriptors"
+    if path.startswith("generated/proto/") and path.endswith((".rs", ".py")):
+        return "language_bindings"
+    if name in {"Cargo.lock", "flake.lock"}:
+        return "lockfiles"
+    if name == "sbom.json":
+        return "sbom"
+    if name == "provenance.json":
+        return "provenance"
+    if "evidence" in path.lower() and "index" in name.lower():
+        return "evidence_indexes"
+    if name.endswith("MANIFEST.sha256"):
+        return "sha256_manifests"
+    return None
 
 
 def build_closure_members_from_contents(paths, read_text) -> list[dict[str, str]]:
@@ -486,7 +592,7 @@ def inventory(root: Path, baseline: str) -> dict:
         "tracked_paths": paths,
         "public_semantics": public_semantics_from_contents(paths, read_tree),
         "dependencies": dependencies_from_contents(paths, read_tree),
-        "generated_artifacts": generated_artifacts(paths),
+        "generated_artifacts": generated_artifacts_from_contents(paths, read_tree),
         "build_closure_members": build_closure_members_from_contents(paths, read_tree),
     }
     report["counts"] = {name: len(report[name]) for name in INVENTORY_CLASSES}

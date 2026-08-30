@@ -4337,6 +4337,16 @@
         "rule_id": "D-027"
       },
       {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Cargo.lock:generated-output:lockfiles",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
         "action": "DELETE",
         "authority_evidence": [],
         "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/BUNDLE-MANIFEST.sha256",
@@ -4345,6 +4355,26 @@
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-001"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/BUNDLE-MANIFEST.sha256:generated-output:sha256_manifests",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/13-IMPLEMENTATION-WORK-GRAPH.md:generated-output:work_graph",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
       },
       {
         "action": "DELETE",
@@ -4357,6 +4387,296 @@
         "rule_id": "D-001"
       },
       {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/MANIFEST.sha256:generated-output:sha256_manifests",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.yaml:generated-output:requirements_registry",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/work-packets.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/work-packets.yaml:generated-output:work_graph",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-activation.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/00-GOVERNANCE.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/01-ARCHITECTURE.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/02-AGENT-ABI.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/03-STATE-AND-LIFECYCLE.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/04-AUTHORITY-CAPABILITIES.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/05-EFFECTS.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/06-CONTEXT.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/07-CAPABILITY-PACKAGES.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/08-SYSTEM-GENERATIONS.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/09-THREAT-SAFETY.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/10-HARDWARE-PROFILES.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/11-OBSERVABILITY-SLOS.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/12-VERIFICATION-MATRIX.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/13-IMPLEMENTATION-WORK-GRAPH.md:generated-output:work_graph",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/14-DECISION-REGISTER.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/15-TRACEABILITY.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/17-REMEDIATION-RECORD.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "contracts/architecture/MANIFEST.sha256",
@@ -4367,10 +4687,120 @@
         "rule_id": "D-029"
       },
       {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/MANIFEST.sha256:generated-output:sha256_manifests",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/architecture/README.md:generated-output:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/requirements.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/requirements.yaml:generated-output:requirements_registry",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-activation.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/effect.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/system-generation.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -4406,13 +4836,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -4433,10 +4863,30 @@
         "rule_id": "RET-BINDING-CONTRACT"
       },
       {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/MANIFEST.sha256:generated-output:sha256_manifests",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -4471,7 +4921,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a"
             ],
             "result": "satisfied"
           },
@@ -4497,6 +4947,86 @@
         "rule_id": "RET-BINDING-CONTRACT"
       },
       {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2/MANIFEST.sha256:generated-output:sha256_manifests",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/work-packets.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/work-packets.yaml:generated-output:work_graph",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "evidence/work-packets/W00/provenance.json:generated-output:provenance",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "evidence/work-packets/W00/sbom.json:generated-output:sbom",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "evidence/work-packets/W01/provenance.json:generated-output:provenance",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "evidence/work-packets/W02/provenance.json:generated-output:provenance",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "flake.lock",
@@ -4505,6 +5035,16 @@
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-029"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "flake.lock:generated-output:lockfiles",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
       },
       {
         "action": "REGENERATE",
@@ -4529,9 +5069,29 @@
       {
         "action": "REGENERATE",
         "authority_evidence": [],
+        "identity": "generated/proto/descriptor.bin:generated-output:protobuf_descriptors",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
         "identity": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs:generated-output:language_bindings",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-023"
@@ -4545,9 +5105,199 @@
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs:generated-output:language_bindings",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "tests/fixtures/schema-contracts/malformed/broken.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "tests/fixtures/schema-contracts/missing-reference/broken.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "tests/fixtures/schema-contracts/valid/registry.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "tests/fixtures/schema-contracts/valid/schemas/child.schema.json:generated-output:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:requirements_registry",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:work_graph",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:architecture_projections",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:json_schemas",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:protobuf_descriptors",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:language_bindings",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:lockfiles",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sbom",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:provenance",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:evidence_indexes",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
+      },
+      {
+        "action": "REGENERATE",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:required-generated-class:sha256_manifests",
+        "predicate_evidence": {},
+        "reason": "Binding v2.0.1 contract requires this generated artifact class.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-023"
       }
     ],
     "public_semantics": [
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json:14:schema_enum_value:#/properties/requirements/items/properties/criticality/enum::critical",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json:14:schema_enum_value:#/properties/requirements/items/properties/criticality/enum::release",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json:14:schema_enum_value:#/properties/requirements/items/properties/criticality/enum::profile",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/contracts/requirements.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
       {
         "action": "DELETE",
         "authority_evidence": [],
@@ -5254,6 +6004,536 @@
         "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:91:enum_value:EffectState::MANUAL_AUTHORITY_REQUIRED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::CONTEXT_REQUEST",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::CAPABILITY_INVOCATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::EFFECT_PROPOSAL",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::DELEGATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::MESSAGE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::CHECKPOINT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::SLEEP",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::COMPLETION_CLAIM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::ACTIVATION_FAILURE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:42:schema_definition:$defs/capability",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::NATIVE_SERVICE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::CORDIS",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::WASI_COMPONENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::OCI",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::MICROVM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::REMOTE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::PHYSICAL_ADAPTER",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/mode/enum::STATELESS",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/mode/enum::EPHEMERAL",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/mode/enum::PERSISTENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::NOT_REQUIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::BACKWARD_COMPATIBLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::RESTORE_REQUIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::IRREVERSIBLE_PROHIBITED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:37:schema_enum_value:#/properties/activation/properties/drain_policy/enum::DRAIN",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:37:schema_enum_value:#/properties/activation/properties/drain_policy/enum::MIGRATE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json:37:schema_enum_value:#/properties/activation/properties/drain_policy/enum::TERMINATE_AND_RECONCILE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::FACT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::EVIDENCE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::PROCEDURE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::CAPABILITY_DOCUMENTATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::PRECEDENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::FRESH_OBSERVATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E0",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E1",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E2",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E3",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E4",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:12:schema_enum_value:#/properties/architecture/enum::x86_64",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:12:schema_enum_value:#/properties/architecture/enum::aarch64",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:12:schema_enum_value:#/properties/architecture/enum::riscv64",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::TPM2",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::TEE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::HSM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::SOFTWARE_DEGRADED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::NATIVE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::WASI",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::OCI",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::MICROVM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::REMOTE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json:16:schema_enum_value:#/properties/state_schema_compatibility/enum::UNCHANGED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json:16:schema_enum_value:#/properties/state_schema_compatibility/enum::BACKWARD_COMPATIBLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json:16:schema_enum_value:#/properties/state_schema_compatibility/enum::RESTORE_REQUIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/schemas/system-generation.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-001"
@@ -6221,6 +7501,806 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "contracts/requirements.schema.json:14:schema_enum_value:#/properties/requirements/items/properties/criticality/enum::critical",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/requirements.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/requirements.schema.json:14:schema_enum_value:#/properties/requirements/items/properties/criticality/enum::release",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/requirements.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/requirements.schema.json:14:schema_enum_value:#/properties/requirements/items/properties/criticality/enum::profile",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/requirements.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::CONTEXT_REQUEST",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::CAPABILITY_INVOCATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::EFFECT_PROPOSAL",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::DELEGATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::MESSAGE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::CHECKPOINT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::SLEEP",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::COMPLETION_CLAIM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/agent-disposition.schema.json:14:schema_enum_value:#/properties/kind/enum::ACTIVATION_FAILURE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/agent-disposition.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:42:schema_definition:$defs/capability",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::NATIVE_SERVICE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::CORDIS",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::WASI_COMPONENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::OCI",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::MICROVM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::REMOTE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:28:schema_enum_value:#/properties/execution/properties/kind/enum::PHYSICAL_ADAPTER",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/mode/enum::STATELESS",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/mode/enum::EPHEMERAL",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/mode/enum::PERSISTENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::NOT_REQUIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::BACKWARD_COMPATIBLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::RESTORE_REQUIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:36:schema_enum_value:#/properties/state/properties/rollback/enum::IRREVERSIBLE_PROHIBITED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:37:schema_enum_value:#/properties/activation/properties/drain_policy/enum::DRAIN",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:37:schema_enum_value:#/properties/activation/properties/drain_policy/enum::MIGRATE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/capability-package.schema.json:37:schema_enum_value:#/properties/activation/properties/drain_policy/enum::TERMINATE_AND_RECONCILE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/capability-package.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-020"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::FACT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::EVIDENCE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::PROCEDURE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::CAPABILITY_DOCUMENTATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::PRECEDENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/context-request.schema.json:16:schema_enum_value:#/properties/requested_kind/enum::FRESH_OBSERVATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/context-request.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E0",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-021"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E1",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-021"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E2",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-021"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E3",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-021"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/effect.schema.json:22:schema_enum_value:#/properties/consequence_class/enum::E4",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/effect.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-021"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:12:schema_enum_value:#/properties/architecture/enum::x86_64",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:12:schema_enum_value:#/properties/architecture/enum::aarch64",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:12:schema_enum_value:#/properties/architecture/enum::riscv64",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::TPM2",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::TEE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::HSM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:16:schema_enum_value:#/properties/trust_root/enum::SOFTWARE_DEGRADED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::NATIVE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::WASI",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::OCI",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::MICROVM",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/hardware-profile.schema.json:19:schema_enum_value:#/properties/execution_runtimes/items/enum::REMOTE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/system-generation.schema.json:16:schema_enum_value:#/properties/state_schema_compatibility/enum::UNCHANGED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/system-generation.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/system-generation.schema.json:16:schema_enum_value:#/properties/state_schema_compatibility/enum::BACKWARD_COMPATIBLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/system-generation.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/schemas/system-generation.schema.json:16:schema_enum_value:#/properties/state_schema_compatibility/enum::RESTORE_REQUIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/schemas/system-generation.schema.json",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:74:schema_definition:$defs/nonEmpty",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:75:schema_definition:$defs/id",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:76:schema_definition:$defs/stringSet",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:81:schema_definition:$defs/authority",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:92:schema_definition:$defs/mission",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:104:schema_definition:$defs/scope",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:113:schema_definition:$defs/canonicalModel",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:139:schema_definition:$defs/service",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:149:schema_definition:$defs/requirement",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:179:schema_definition:$defs/rebuild",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:203:schema_definition:$defs/disposition",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:225:schema_definition:$defs/predicate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:235:schema_definition:$defs/migration",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:246:schema_definition:$defs/generated",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:255:schema_definition:$defs/step",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:265:schema_definition:$defs/workPacket",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:279:schema_definition:$defs/gate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:290:schema_definition:$defs/completion",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:167:schema_enum_value:#/$defs/requirement/properties/source_authority/enum::CURRENT_USER_DECISION",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:167:schema_enum_value:#/$defs/requirement/properties/source_authority/enum::V2_DERIVATION",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:220:schema_enum_value:#/$defs/disposition/properties/action/enum::DELETE",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:220:schema_enum_value:#/$defs/disposition/properties/action/enum::DELETE_AND_REBUILD",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:220:schema_enum_value:#/$defs/disposition/properties/action/enum::REGENERATE",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2.0.1/contract.schema.json:220:schema_enum_value:#/$defs/disposition/properties/action/enum::AUDIT_FOR_RETENTION",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:89:canonical_principal:MACHINE",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
@@ -6571,7 +8651,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:17:canonical_service:authority",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:127:canonical_service:authority",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -6581,7 +8661,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:61:canonical_service:effect",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:129:canonical_service:effect",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -6601,7 +8681,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:125:canonical_service:cognition",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:131:canonical_service:cognition",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -6621,7 +8701,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:56:canonical_service:evidence",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:133:canonical_service:evidence",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -6881,7 +8961,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:138:change_state:PROPOSED",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:164:change_state:PROPOSED",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -6911,7 +8991,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:139:change_state:REJECTED",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:167:change_state:REJECTED",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7041,7 +9121,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:144:error_code:OUTCOME_UNKNOWN",
+        "identity": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json:182:error_code:OUTCOME_UNKNOWN",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7122,6 +9202,246 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "contracts/v2.0.1/validate_contract.py:112:def:main",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:72:schema_definition:$defs/nonEmpty",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:73:schema_definition:$defs/id",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:74:schema_definition:$defs/stringSet",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:79:schema_definition:$defs/authority",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:90:schema_definition:$defs/mission",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:102:schema_definition:$defs/scope",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:111:schema_definition:$defs/canonicalModel",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:137:schema_definition:$defs/service",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:147:schema_definition:$defs/requirement",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:177:schema_definition:$defs/rebuild",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:201:schema_definition:$defs/disposition",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:223:schema_definition:$defs/predicate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:233:schema_definition:$defs/migration",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:244:schema_definition:$defs/generated",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:253:schema_definition:$defs/step",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:263:schema_definition:$defs/workPacket",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:277:schema_definition:$defs/gate",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:288:schema_definition:$defs/completion",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:165:schema_enum_value:#/$defs/requirement/properties/source_authority/enum::CURRENT_USER_DECISION",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:165:schema_enum_value:#/$defs/requirement/properties/source_authority/enum::V2_DERIVATION",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:218:schema_enum_value:#/$defs/disposition/properties/action/enum::DELETE",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:218:schema_enum_value:#/$defs/disposition/properties/action/enum::DELETE_AND_REBUILD",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:218:schema_enum_value:#/$defs/disposition/properties/action/enum::REGENERATE",
+        "predicate_evidence": {},
+        "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/v2/contract.schema.json:218:schema_enum_value:#/$defs/disposition/properties/action/enum::AUDIT_FOR_RETENTION",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7481,7 +9801,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:17:canonical_service:authority",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:127:canonical_service:authority",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7491,7 +9811,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:61:canonical_service:effect",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:129:canonical_service:effect",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7511,7 +9831,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:125:canonical_service:cognition",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:131:canonical_service:cognition",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7531,7 +9851,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:56:canonical_service:evidence",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:133:canonical_service:evidence",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7791,7 +10111,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:138:change_state:PROPOSED",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:164:change_state:PROPOSED",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7821,7 +10141,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:139:change_state:REJECTED",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:167:change_state:REJECTED",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -7951,7 +10271,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:144:error_code:OUTCOME_UNKNOWN",
+        "identity": "contracts/v2/nix-ai-v2.0.0.contract.json:182:error_code:OUTCOME_UNKNOWN",
         "predicate_evidence": {},
         "reason": "Immutable package bytes remain archived, but executable semantics and dependencies require independent per-unit v2 proof.",
         "requirement_ids": [],
@@ -14381,7 +16701,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:172:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
+        "identity": "tests/test_v2_rebuild_frontier.py:202:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -14391,7 +16711,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:201:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
+        "identity": "tests/test_v2_rebuild_frontier.py:231:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -14401,7 +16721,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:235:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
+        "identity": "tests/test_v2_rebuild_frontier.py:265:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -14522,6 +16842,16 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "tests/test_v2_scope_classification.py:378:test_fixture:test_same_tree_contract_mutation_cannot_replace_binding_authority",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-028"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tests/test_v2_scope_classification.py:449:test_fixture:test_archived_v2_package_cannot_be_self_resigned_after_mutation",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -14771,7 +17101,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:70:def:requirement_ids_for",
+        "identity": "tools/classify_v2_scope.py:72:def:requirement_ids_for",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14781,7 +17111,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:85:def:git",
+        "identity": "tools/classify_v2_scope.py:87:def:git",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14791,7 +17121,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:94:def:inventory_tree_contents",
+        "identity": "tools/classify_v2_scope.py:96:def:inventory_tree_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14801,7 +17131,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:103:def:inventory_tree_bytes",
+        "identity": "tools/classify_v2_scope.py:105:def:inventory_tree_bytes",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14811,7 +17141,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:112:def:explicit_path_disposition",
+        "identity": "tools/classify_v2_scope.py:114:def:explicit_path_disposition",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14821,7 +17151,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:124:def:classify_path",
+        "identity": "tools/classify_v2_scope.py:126:def:classify_path",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14831,7 +17161,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:221:def:record",
+        "identity": "tools/classify_v2_scope.py:223:def:record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14841,7 +17171,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:241:def:inherited_record",
+        "identity": "tools/classify_v2_scope.py:243:def:inherited_record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14851,7 +17181,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:252:def:semantic_identity",
+        "identity": "tools/classify_v2_scope.py:254:def:semantic_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14861,7 +17191,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:256:def:dependency_identity",
+        "identity": "tools/classify_v2_scope.py:258:def:dependency_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14871,7 +17201,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:260:def:generic_identity",
+        "identity": "tools/classify_v2_scope.py:262:def:generic_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14881,7 +17211,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:264:def:classify",
+        "identity": "tools/classify_v2_scope.py:266:def:classify",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14891,7 +17221,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:409:def:relegacy_packet",
+        "identity": "tools/classify_v2_scope.py:421:def:relegacy_packet",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14901,7 +17231,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:413:def:contract_package",
+        "identity": "tools/classify_v2_scope.py:425:def:contract_package",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14911,7 +17241,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:420:def:validate_contract_packages",
+        "identity": "tools/classify_v2_scope.py:432:def:validate_contract_packages",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14921,7 +17251,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:473:def:retention_evidence",
+        "identity": "tools/classify_v2_scope.py:485:def:retention_evidence",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14931,7 +17261,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:514:def:main",
+        "identity": "tools/classify_v2_scope.py:526:def:main",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14981,7 +17311,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:109:def:semantic_record",
+        "identity": "tools/inventory_v2.py:111:def:semantic_record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14991,7 +17321,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:118:def:rust_macro_generated_types",
+        "identity": "tools/inventory_v2.py:120:def:python_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15001,7 +17331,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:136:def:proto_enum_values",
+        "identity": "tools/inventory_v2.py:145:def:python_state_transitions",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15011,7 +17341,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:165:def:contract_json_semantics",
+        "identity": "tools/inventory_v2.py:168:def:rust_macro_generated_types",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15021,7 +17351,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:202:def:rust_enum_values",
+        "identity": "tools/inventory_v2.py:186:def:proto_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15031,7 +17361,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:247:def:public_semantics",
+        "identity": "tools/inventory_v2.py:215:def:contract_json_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15041,7 +17371,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:252:def:dependencies_from_contents",
+        "identity": "tools/inventory_v2.py:252:def:rust_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15051,7 +17381,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:350:def:dependencies",
+        "identity": "tools/inventory_v2.py:297:def:public_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15061,7 +17391,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:355:def:generated_artifacts",
+        "identity": "tools/inventory_v2.py:302:def:dependencies_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15071,7 +17401,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:368:def:build_closure_members_from_contents",
+        "identity": "tools/inventory_v2.py:395:def:nix_dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15081,7 +17411,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:390:def:build_closure_members",
+        "identity": "tools/inventory_v2.py:421:def:dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15091,7 +17421,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:397:def:inventory",
+        "identity": "tools/inventory_v2.py:426:def:generated_artifacts",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15101,7 +17431,37 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:425:def:main",
+        "identity": "tools/inventory_v2.py:439:def:build_closure_members_from_contents",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:461:def:build_closure_members",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:468:def:inventory",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:496:def:main",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -16424,7 +18784,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -16460,13 +18820,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -16490,7 +18850,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -16532,7 +18892,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -16556,7 +18916,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -16598,7 +18958,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -16622,7 +18982,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -16664,7 +19024,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -16688,7 +19048,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -16723,7 +19083,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a"
             ],
             "result": "satisfied"
           },
@@ -16752,7 +19112,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -16816,7 +19176,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -16880,7 +19240,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 9ea4656274942e30a031baaa0d81d6603ece7a6a",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -18672,7 +21032,7 @@
       }
     ]
   },
-  "inventory_tree": "cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
+  "inventory_tree": "9ea4656274942e30a031baaa0d81d6603ece7a6a",
   "runner": {
     "name": "classify-v2-scope",
     "version": 1
@@ -18680,12 +21040,12 @@
   "schema_version": 1,
   "summary": {
     "counts_by_action": {
-      "DELETE": 228,
-      "DELETE_AND_REBUILD": 1436,
-      "REGENERATE": 137,
+      "DELETE": 284,
+      "DELETE_AND_REBUILD": 1544,
+      "REGENERATE": 209,
       "RETAIN": 10
     },
-    "total_disposition_count": 1811,
+    "total_disposition_count": 2047,
     "unclassified_count": 0,
     "unmapped_retained_count": 0
   }
