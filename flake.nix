@@ -7,11 +7,63 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      runtimeCredentials = pkgs.writeShellApplication {
+        name = "habitat-runtime-credentials";
+        runtimeInputs = [ pkgs.coreutils ];
+        text = ''
+          set -euo pipefail
+          umask 0077
+          credential_dir=/run/habitat-credentials
+          install -d -m 0700 "$credential_dir"
+          token="$(tr -d '-' </proc/sys/kernel/random/uuid)$(tr -d '\n' </etc/machine-id)"
+          password="$(printf '%s' "$token" | sha256sum | cut -d ' ' -f 1)"
+          printf 'MINIO_ROOT_USER=habitat\nMINIO_ROOT_PASSWORD=%s\n' "$password" > "$credential_dir/minio-root.env"
+          printf 'postgresql:///habitat?host=/run/postgresql\n' > "$credential_dir/database-url"
+          printf 'http://habitat:%s@127.0.0.1:9000\n' "$password" > "$credential_dir/object-store-url"
+          chmod 0400 "$credential_dir"/*
+        '';
+      };
+      runtimeConfiguration = {
+        services.postgresql = {
+          enable = true;
+          package = pkgs.postgresql_17;
+          ensureDatabases = [ "habitat" ];
+          ensureUsers = [{ name = "habitat-state"; ensureDBOwnership = true; }];
+        };
+        services.minio = {
+          enable = true;
+          listenAddress = "127.0.0.1:9000";
+          consoleAddress = "127.0.0.1:9001";
+          browser = false;
+          rootCredentialsFile = "/run/habitat-credentials/minio-root.env";
+        };
+        systemd.services.habitat-runtime-credentials = {
+          description = "Create ephemeral Habitat runtime credentials";
+          wantedBy = [ "multi-user.target" ];
+          before = [ "minio.service" "habitat-state.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${runtimeCredentials}/bin/habitat-runtime-credentials";
+            RemainAfterExit = true;
+          };
+        };
+        systemd.services.minio = {
+          after = [ "habitat-runtime-credentials.service" ];
+          requires = [ "habitat-runtime-credentials.service" ];
+        };
+        habitat.runtime = {
+          enable = true;
+          package = habitatRuntime;
+          databaseCredential = "/run/habitat-credentials/database-url";
+          objectStoreCredential = "/run/habitat-credentials/object-store-url";
+        };
+      };
       habitatSystem = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./nix/profiles/qemu-x86_64-conformance.nix
           ./nix/images/habitat-raw.nix
+          runtimeConfiguration
         ];
       };
       candidateSystem = nixpkgs.lib.nixosSystem {
@@ -19,6 +71,7 @@
         modules = [
           ./nix/profiles/qemu-x86_64-conformance.nix
           ./nix/images/habitat-raw.nix
+          runtimeConfiguration
           {
             habitat.generationRole = "candidate";
             boot.uki.tries = 1;
@@ -32,6 +85,7 @@
         modules = [
           ./nix/profiles/qemu-x86_64-conformance.nix
           ./nix/images/habitat-raw.nix
+          runtimeConfiguration
           {
             habitat.generationRole = "recovery";
             networking.hostName = "habitat-recovery";
@@ -182,6 +236,14 @@
           find target -type f -executable \( -name 'backend_conformance-*' -o -name 'runtime_boundary-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
         '';
       };
+      habitatRuntime = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-runtime";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-runtime" ];
+        cargoTestFlags = [ "-p" "habitat-runtime" ];
+      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
@@ -279,7 +341,7 @@
       v2BuildClosure = pkgs.closureInfo {
         rootPaths = [
           habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects
-          habitatModels habitatPackages habitatHarnesses habitatQemu
+          habitatModels habitatPackages habitatHarnesses habitatRuntime habitatQemu
         ];
       };
       artifactQualification = pkgs.runCommand "nix-ai-v2-artifact-qualification" {
@@ -501,6 +563,7 @@
         habitat-models = habitatModels;
         habitat-packages = habitatPackages;
         habitat-harnesses = habitatHarnesses;
+        habitat-runtime = habitatRuntime;
         v2-build-closure = v2BuildClosure;
       };
 
@@ -566,7 +629,7 @@
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
           qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 qualifyV2Release verifyV2Release
-          habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses ];
+          habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses habitatRuntime ];
       };
     };
 }
