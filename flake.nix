@@ -150,6 +150,14 @@
         cargoBuildFlags = [ "-p" "habitat-packages" ];
         cargoTestFlags = [ "-p" "habitat-packages" ];
       };
+      habitatHarnesses = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-harnesses";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-harnesses" ];
+        cargoTestFlags = [ "-p" "habitat-harnesses" ];
+      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
@@ -207,6 +215,13 @@
         runtimeInputs = [ habitatPackages python validateContracts ];
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w10.py} --root ${self} --artifact ${habitatPackages}/bin/habitat-packages "$@"
+        '';
+      };
+      qualifyW11 = pkgs.writeShellApplication {
+        name = "qualify-w11";
+        runtimeInputs = [ habitatHarnesses python validateContracts ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w11.py} --root ${self} --artifact ${habitatHarnesses}/bin/habitat-harnesses "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -393,6 +408,11 @@
           program = "${qualifyW10}/bin/qualify-w10";
           meta.description = "Run W10 signed package lifecycle qualification";
         };
+        test-w11 = {
+          type = "app";
+          program = "${qualifyW11}/bin/qualify-w11";
+          meta.description = "Run W11 Codex and Claude harness conformance";
+        };
       };
 
       packages.${system} = {
@@ -408,9 +428,15 @@
         habitat-effects = habitatEffects;
         habitat-models = habitatModels;
         habitat-packages = habitatPackages;
+        habitat-harnesses = habitatHarnesses;
       };
 
       checks.${system} = {
+        w11-qualification = pkgs.runCommand "habitat-w11-qualification" {
+          nativeBuildInputs = [ qualifyW11 ];
+        } ''
+          qualify-w11 --evidence-dir "$out"
+        '';
         w10-qualification = pkgs.runCommand "habitat-w10-qualification" {
           nativeBuildInputs = [ qualifyW10 ];
         } ''
@@ -459,7 +485,7 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
-          qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages ];
+          qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses ];
       };
     };
 }
