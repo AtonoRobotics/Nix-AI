@@ -34,3 +34,5 @@ Budget note: multi-subsystem production completion with live image qualification
 - 2026-08-30 runtime leaf verified 4/4, parent integration verified, committed as 7a3eb41
 - 2026-08-30 qualification verifier leaf verified 3/3 and committed as 824ba32
 - 2026-08-30 current-core audit leaf self-verified; final regeneration awaits live-runner completion
+- 2026-08-30 exact committed tree: 91 Python tests pass with 11 service-configuration skips; Rust fmt, strict clippy, and workspace tests pass
+- 2026-08-30 production acceptance abandoned honestly: nixpkgs rejects abandoned vulnerable MinIO, preventing the fresh QEMU/release run; runtime PostgreSQL/MinIO coordinator persistence remains incomplete
