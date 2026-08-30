@@ -313,7 +313,7 @@ make_public! { GeneratedSurface }
             self.assertTrue(any("macro-public-type:GeneratedSurface" in value for value in identities))
         finally:source.write_text(original)
 
-    def test_visibility_macro_public_surface_is_inventoried(self):
+    def test_visibility_macro_public_surface_fails_closed(self):
         source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
         addition='''
 macro_rules! expose_public { ($visibility:vis $name:ident) => { $visibility struct $name; } }
@@ -322,10 +322,43 @@ expose_public!(pub AuditVisibleSurface);
         try:
             source.write_text(original+addition)
             with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output)
+            self.assertNotEqual(result.returncode,0);self.assertIn("unparsed-item-macro",result.stdout)
+        finally:source.write_text(original)
+
+    def test_reordered_and_token_tree_public_macros_fail_closed(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        addition='''
+macro_rules! expose_reordered { ($name:ident, $visibility:vis) => { $visibility struct $name; } }
+expose_reordered!(ReorderedVisibleSurface, pub);
+macro_rules! synth { ($($v:tt)*) => { $($v)* struct GeneratedSurface; } }
+synth!(pub);
+'''
+        try:
+            source.write_text(original+addition)
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("unparsed-item-macro",result.stdout)
+        finally:source.write_text(original)
+
+    def test_comment_brace_trait_member_is_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        try:
+            source.write_text(original+'\npub trait CommentBraceSurface { // }\n fn inventoried_trait_method(&self);\n}\n')
+            with tempfile.TemporaryDirectory() as temporary:
                 output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
             self.assertEqual(result.returncode,0,result.stdout)
-            self.assertTrue(any("macro-public-type:AuditVisibleSurface" in item["identity"] for item in report["records"]))
+            self.assertTrue(any("CommentBraceSurface.inventoried_trait_method" in item["identity"] for item in report["records"]))
         finally:source.write_text(original)
+
+    def test_target_specific_cargo_dependency_is_inventoried_and_rejected(self):
+        manifest=ROOT/"crates/habitat-models/Cargo.toml";original=manifest.read_text()
+        try:
+            manifest.write_text(original+'\n[target.\'cfg(target_os = "none")\'.dependencies]\nhidden-model-edge = { package = "habitat-models", path = "../habitat-models" }\n')
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+            self.assertNotEqual(result.returncode,0);self.assertIn("untrusted-dependency",result.stdout)
+            self.assertTrue(any("hidden-model-edge" in item["identity"] for item in report["records"] if item["kind"]=="dependency"))
+        finally:manifest.write_text(original)
 
     def test_undeclared_dependency_fails_closed(self):
         manifest=ROOT/"crates/habitat-models/Cargo.toml";original=manifest.read_text()

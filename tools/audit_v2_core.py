@@ -137,6 +137,36 @@ def rust_blocks(content,header):
                     yield match,opening+1,position
                     break
 
+def mask_rust_noncode(content):
+    """Preserve offsets/newlines while removing quoted and commented braces from syntax scans."""
+    result=list(content);index=0;state="code";block_depth=0
+    while index<len(content):
+        pair=content[index:index+2]
+        if state=="code" and pair=="//":state="line"
+        elif state=="code" and pair=="/*":state="block";block_depth=1
+        elif state=="block" and pair=="/*":block_depth+=1
+        elif state=="block" and pair=="*/":
+            result[index]=result[index+1]=" ";index+=2;block_depth-=1
+            if block_depth==0:state="code"
+            continue
+        elif state=="code" and content[index]=='"':state="string"
+        elif state=="string" and content[index]=='\\':
+            result[index]=" ";index+=1
+            if index<len(content) and content[index]!="\n":result[index]=" "
+            index+=1;continue
+        elif state=="string" and content[index]=='"':result[index]=" ";state="code";index+=1;continue
+        if state!="code" and content[index]!="\n":result[index]=" "
+        if state=="line" and content[index]=="\n":state="code"
+        index+=1
+    return "".join(result)
+
+def dependency_sections(data,prefix=""):
+    for key,value in data.items():
+        section=f"{prefix}.{key}" if prefix else key
+        if key in {"dependencies","dev-dependencies","build-dependencies"} and isinstance(value,dict):
+            yield section,value
+        elif isinstance(value,dict):yield from dependency_sections(value,section)
+
 def top_level_rust_items(body):
     start=0;depth=0
     for position,value in enumerate(body):
@@ -186,6 +216,7 @@ def audit(root):
             lines=content.splitlines();pending_test=False;current_requirements=requirements
             current_scope="module";brace_depth=0;scope_depth=None
             if suffix==".rs":
+                parsed_content=mask_rust_noncode(content)
                 for match in API.finditer(content):
                     number=content[:match.start()].count("\n")+1
                     identity=f"{relative}:{number}:{match.group(1)}"
@@ -215,8 +246,8 @@ def audit(root):
                 if scope_depth is not None and brace_depth<=scope_depth:
                     current_scope="module";current_requirements=requirements;scope_depth=None
             if suffix==".rs":
-                for enum,start,end in rust_blocks(content,r"\bpub\s+enum\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*"):
-                    name=enum.group(1);body=content[start:end]
+                for enum,start,end in rust_blocks(parsed_content,r"\bpub\s+enum\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*"):
+                    name=enum.group(1);body=parsed_content[start:end]
                     for offset,item in top_level_rust_items(body):
                         variant=re.match(r"\s*([A-Z][A-Za-z0-9_]*)",item)
                         if not variant:continue
@@ -224,8 +255,8 @@ def audit(root):
                         identity=f"{relative}:{line}:enum-variant:{name}.{variant.group(1)}"
                         bound=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
                         records.append(record("public_interface",identity,bound,relative.as_posix()))
-                for container,start,end in rust_blocks(content,r"\bpub\s+(struct|trait)\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*"):
-                    kind,name=container.groups();body=content[start:end];base=content[:start].count("\n")+1
+                for container,start,end in rust_blocks(parsed_content,r"\bpub\s+(struct|trait)\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*"):
+                    kind,name=container.groups();body=parsed_content[start:end];base=parsed_content[:start].count("\n")+1
                     pattern=r"pub\s+([a-z_][A-Za-z0-9_]*)\s*:" if kind=="struct" else r"(?:type|fn|const)\s+([A-Za-z_][A-Za-z0-9_]*)"
                     for member in re.finditer(pattern,body):
                         line=base+body[:member.start()].count("\n")
@@ -243,18 +274,10 @@ def audit(root):
                         definition=content[content.find(f"macro_rules! {macro}"):invocation.start()]
                         for method in re.findall(r"pub\s+fn\s+([A-Za-z_][A-Za-z0-9_]*)",definition):
                             records.append(record("public_interface",f"{relative}:{line}:macro-method:{name}.{method}",requirements,relative.as_posix()))
-                for definition,start,end in rust_blocks(content,r"macro_rules!\s*([A-Za-z_][A-Za-z0-9_]*)"):
-                    macro=definition.group(1);body=content[start:end]
-                    if ":vis" not in body:continue
-                    visibility=re.search(r"\$([A-Za-z_][A-Za-z0-9_]*):vis",body)
-                    name_parameter=re.search(r"\$([A-Za-z_][A-Za-z0-9_]*):ident",body)
-                    understood=(visibility and name_parameter and re.search(
-                        rf"\${re.escape(visibility.group(1))}\s+struct\s+\${re.escape(name_parameter.group(1))}\b",body))
-                    if not understood:
-                        unresolved.append(f"unparsed-public-macro:{relative}:{macro}");continue
-                    for invocation in re.finditer(rf"\b{re.escape(macro)}!\s*[\(\{{\[]\s*pub\s+([A-Z][A-Za-z0-9_]*)\b",content):
-                        name=invocation.group(1);line=content[:invocation.start()].count("\n")+1
-                        records.append(record("public_interface",f"{relative}:{line}:macro-public-type:{name}",requirements,relative.as_posix()))
+                for definition,start,end in rust_blocks(parsed_content,r"macro_rules!\s*([A-Za-z_][A-Za-z0-9_]*)"):
+                    macro=definition.group(1);body=parsed_content[start:end]
+                    if "pub struct $name" not in body:
+                        unresolved.append(f"unparsed-item-macro:{relative}:{macro}")
             if suffix==".py":
                 tree=ast.parse(content)
                 for node in ast.walk(tree):
@@ -300,8 +323,8 @@ def audit(root):
             unresolved.append(f"provider-transcript-authority-surface:{relative}")
         if path.name=="Cargo.toml":
             data=tomllib.loads(path.read_text())
-            for section in ("dependencies","dev-dependencies","build-dependencies"):
-                for dependency in sorted(data.get(section,{})):
+            for section,dependencies in dependency_sections(data):
+                for dependency in sorted(dependencies):
                     records.append(record("dependency",f"{relative}:{section}:{dependency}",requirements,relative.as_posix(),
                         DEPENDENCY_PURPOSES.get(dependency)))
                     allowed=next((values for prefix,values in CARGO_ALLOWED.items() if relative.as_posix().startswith(prefix)),set())
