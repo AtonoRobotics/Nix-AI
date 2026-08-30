@@ -422,11 +422,11 @@
   },
   "candidate_file_count": 227,
   "counts": {
-    "branch": 1893,
+    "branch": 1899,
     "dependency": 305,
     "fixture": 6,
-    "public_interface": 1072,
-    "test": 123
+    "public_interface": 1074,
+    "test": 125
   },
   "hardware_profile": {
     "capacity_declared": true,
@@ -44860,48 +44860,10 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:240:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed"
+        "semantic": "tests/test_v2_core_audit.py:240:test_provider_standard_library_alias_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:240:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed",
+      "identity": "tests/test_v2_core_audit.py:240:test_provider_standard_library_alias_fails_closed",
       "kind": "test",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:254:scope:module"
-      },
-      "identity": "tests/test_v2_core_audit.py:254:scope:module",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:255:scope:module"
-      },
-      "identity": "tests/test_v2_core_audit.py:255:scope:module",
-      "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
       ],
@@ -44917,48 +44879,10 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:257:test_nix_shell_and_workflow_branches_are_inventoried"
+        "semantic": "tests/test_v2_core_audit.py:248:test_undecodable_contract_authority_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:257:test_nix_shell_and_workflow_branches_are_inventoried",
+      "identity": "tests/test_v2_core_audit.py:248:test_undecodable_contract_authority_fails_closed",
       "kind": "test",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:261:scope:module"
-      },
-      "identity": "tests/test_v2_core_audit.py:261:scope:module",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:262:scope:module"
-      },
-      "identity": "tests/test_v2_core_audit.py:262:scope:module",
-      "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
       ],
@@ -44974,10 +44898,29 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:267:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried"
+        "semantic": "tests/test_v2_core_audit.py:256:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:267:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried",
+      "identity": "tests/test_v2_core_audit.py:256:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed",
       "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:270:scope:module"
+      },
+      "identity": "tests/test_v2_core_audit.py:270:scope:module",
+      "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
       ],
@@ -44996,6 +44939,44 @@
         "semantic": "tests/test_v2_core_audit.py:271:scope:module"
       },
       "identity": "tests/test_v2_core_audit.py:271:scope:module",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:273:test_nix_shell_and_workflow_branches_are_inventoried"
+      },
+      "identity": "tests/test_v2_core_audit.py:273:test_nix_shell_and_workflow_branches_are_inventoried",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:277:scope:module"
+      },
+      "identity": "tests/test_v2_core_audit.py:277:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -45026,14 +45007,33 @@
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
       ],
       "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:283:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried"
+      },
+      "identity": "tests/test_v2_core_audit.py:283:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
         "class": "branch",
         "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:279:scope:module"
+        "semantic": "tests/test_v2_core_audit.py:287:scope:module"
       },
-      "identity": "tests/test_v2_core_audit.py:279:scope:module",
+      "identity": "tests/test_v2_core_audit.py:287:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -45050,48 +45050,10 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:280:scope:module"
+        "semantic": "tests/test_v2_core_audit.py:294:scope:module"
       },
-      "identity": "tests/test_v2_core_audit.py:280:scope:module",
+      "identity": "tests/test_v2_core_audit.py:294:scope:module",
       "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "test",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:283:test_undeclared_dependency_fails_closed"
-      },
-      "identity": "tests/test_v2_core_audit.py:283:test_undeclared_dependency_fails_closed",
-      "kind": "test",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "test",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:292:test_retained_core_evidence_is_backed_by_executed_suites"
-      },
-      "identity": "tests/test_v2_core_audit.py:292:test_retained_core_evidence_is_backed_by_executed_suites",
-      "kind": "test",
       "requirement_ids": [
         "VERIFY-001"
       ],
@@ -45126,9 +45088,66 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:302:scope:module"
+        "semantic": "tests/test_v2_core_audit.py:296:scope:module"
       },
-      "identity": "tests/test_v2_core_audit.py:302:scope:module",
+      "identity": "tests/test_v2_core_audit.py:296:scope:module",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:299:test_undeclared_dependency_fails_closed"
+      },
+      "identity": "tests/test_v2_core_audit.py:299:test_undeclared_dependency_fails_closed",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:308:test_retained_core_evidence_is_backed_by_executed_suites"
+      },
+      "identity": "tests/test_v2_core_audit.py:308:test_retained_core_evidence_is_backed_by_executed_suites",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:311:scope:module"
+      },
+      "identity": "tests/test_v2_core_audit.py:311:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -45145,9 +45164,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:303:scope:module"
+        "semantic": "tests/test_v2_core_audit.py:318:scope:module"
       },
-      "identity": "tests/test_v2_core_audit.py:303:scope:module",
+      "identity": "tests/test_v2_core_audit.py:318:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -45164,9 +45183,28 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:306:scope:module"
+        "semantic": "tests/test_v2_core_audit.py:319:scope:module"
       },
-      "identity": "tests/test_v2_core_audit.py:306:scope:module",
+      "identity": "tests/test_v2_core_audit.py:319:scope:module",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:322:scope:module"
+      },
+      "identity": "tests/test_v2_core_audit.py:322:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -45322,9 +45360,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:306:If"
+        "semantic": "tests/test_v2_core_audit.py:322:If"
       },
-      "identity": "tests/test_v2_core_audit.py:306:If",
+      "identity": "tests/test_v2_core_audit.py:322:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -45740,9 +45778,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:240:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed"
+        "semantic": "tests/test_v2_core_audit.py:240:test_provider_standard_library_alias_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:240:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed",
+      "identity": "tests/test_v2_core_audit.py:240:test_provider_standard_library_alias_fails_closed",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -45759,9 +45797,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:257:test_nix_shell_and_workflow_branches_are_inventoried"
+        "semantic": "tests/test_v2_core_audit.py:248:test_undecodable_contract_authority_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:257:test_nix_shell_and_workflow_branches_are_inventoried",
+      "identity": "tests/test_v2_core_audit.py:248:test_undecodable_contract_authority_fails_closed",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -45778,9 +45816,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:267:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried"
+        "semantic": "tests/test_v2_core_audit.py:256:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:267:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried",
+      "identity": "tests/test_v2_core_audit.py:256:test_symlink_undecodable_and_unknown_core_source_classes_fail_closed",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -45797,9 +45835,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:283:test_undeclared_dependency_fails_closed"
+        "semantic": "tests/test_v2_core_audit.py:273:test_nix_shell_and_workflow_branches_are_inventoried"
       },
-      "identity": "tests/test_v2_core_audit.py:283:test_undeclared_dependency_fails_closed",
+      "identity": "tests/test_v2_core_audit.py:273:test_nix_shell_and_workflow_branches_are_inventoried",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -45816,9 +45854,47 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:292:test_retained_core_evidence_is_backed_by_executed_suites"
+        "semantic": "tests/test_v2_core_audit.py:283:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried"
       },
-      "identity": "tests/test_v2_core_audit.py:292:test_retained_core_evidence_is_backed_by_executed_suites",
+      "identity": "tests/test_v2_core_audit.py:283:test_nested_enum_and_brace_macro_public_surfaces_are_inventoried",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:299:test_undeclared_dependency_fails_closed"
+      },
+      "identity": "tests/test_v2_core_audit.py:299:test_undeclared_dependency_fails_closed",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:308:test_retained_core_evidence_is_backed_by_executed_suites"
+      },
+      "identity": "tests/test_v2_core_audit.py:308:test_retained_core_evidence_is_backed_by_executed_suites",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -46177,9 +46253,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:244:Try"
+        "semantic": "tests/test_v2_core_audit.py:242:Try"
       },
-      "identity": "tests/test_v2_core_audit.py:244:Try",
+      "identity": "tests/test_v2_core_audit.py:242:Try",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46196,9 +46272,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:274:Try"
+        "semantic": "tests/test_v2_core_audit.py:250:Try"
       },
-      "identity": "tests/test_v2_core_audit.py:274:Try",
+      "identity": "tests/test_v2_core_audit.py:250:Try",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46215,9 +46291,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:285:Try"
+        "semantic": "tests/test_v2_core_audit.py:260:Try"
       },
-      "identity": "tests/test_v2_core_audit.py:285:Try",
+      "identity": "tests/test_v2_core_audit.py:260:Try",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46234,9 +46310,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:295:For"
+        "semantic": "tests/test_v2_core_audit.py:290:Try"
       },
-      "identity": "tests/test_v2_core_audit.py:295:For",
+      "identity": "tests/test_v2_core_audit.py:290:Try",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46253,9 +46329,47 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:302:For"
+        "semantic": "tests/test_v2_core_audit.py:301:Try"
       },
-      "identity": "tests/test_v2_core_audit.py:302:For",
+      "identity": "tests/test_v2_core_audit.py:301:Try",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:311:For"
+      },
+      "identity": "tests/test_v2_core_audit.py:311:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:318:For"
+      },
+      "identity": "tests/test_v2_core_audit.py:318:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46671,9 +46785,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:254:For"
+        "semantic": "tests/test_v2_core_audit.py:270:For"
       },
-      "identity": "tests/test_v2_core_audit.py:254:For",
+      "identity": "tests/test_v2_core_audit.py:270:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46690,9 +46804,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:303:For"
+        "semantic": "tests/test_v2_core_audit.py:319:For"
       },
-      "identity": "tests/test_v2_core_audit.py:303:For",
+      "identity": "tests/test_v2_core_audit.py:319:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -46861,9 +46975,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:255:If"
+        "semantic": "tests/test_v2_core_audit.py:271:If"
       },
-      "identity": "tests/test_v2_core_audit.py:255:If",
+      "identity": "tests/test_v2_core_audit.py:271:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53291,25 +53405,6 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:98:scope:module"
-      },
-      "identity": "tools/audit_v2_core.py:98:scope:module",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
         "semantic": "tools/audit_v2_core.py:99:scope:module"
       },
       "identity": "tools/audit_v2_core.py:99:scope:module",
@@ -53386,9 +53481,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:106:scope:module"
+        "semantic": "tools/audit_v2_core.py:103:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:106:scope:module",
+      "identity": "tools/audit_v2_core.py:103:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53443,9 +53538,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:113:scope:module"
+        "semantic": "tools/audit_v2_core.py:109:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:113:scope:module",
+      "identity": "tools/audit_v2_core.py:109:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53481,9 +53576,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:118:scope:module"
+        "semantic": "tools/audit_v2_core.py:115:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:118:scope:module",
+      "identity": "tools/audit_v2_core.py:115:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53500,9 +53595,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:122:scope:module"
+        "semantic": "tools/audit_v2_core.py:119:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:122:scope:module",
+      "identity": "tools/audit_v2_core.py:119:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53519,9 +53614,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:127:scope:module"
+        "semantic": "tools/audit_v2_core.py:123:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:127:scope:module",
+      "identity": "tools/audit_v2_core.py:123:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53576,9 +53671,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:131:scope:module"
+        "semantic": "tools/audit_v2_core.py:130:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:131:scope:module",
+      "identity": "tools/audit_v2_core.py:130:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53614,9 +53709,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:135:scope:module"
+        "semantic": "tools/audit_v2_core.py:133:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:135:scope:module",
+      "identity": "tools/audit_v2_core.py:133:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53652,9 +53747,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:141:scope:module"
+        "semantic": "tools/audit_v2_core.py:137:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:141:scope:module",
+      "identity": "tools/audit_v2_core.py:137:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53690,9 +53785,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:151:scope:module"
+        "semantic": "tools/audit_v2_core.py:143:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:151:scope:module",
+      "identity": "tools/audit_v2_core.py:143:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53709,9 +53804,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:155:scope:module"
+        "semantic": "tools/audit_v2_core.py:152:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:155:scope:module",
+      "identity": "tools/audit_v2_core.py:152:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53728,9 +53823,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:157:scope:module"
+        "semantic": "tools/audit_v2_core.py:156:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:157:scope:module",
+      "identity": "tools/audit_v2_core.py:156:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53766,9 +53861,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:160:scope:module"
+        "semantic": "tools/audit_v2_core.py:159:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:160:scope:module",
+      "identity": "tools/audit_v2_core.py:159:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53804,9 +53899,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:163:scope:module"
+        "semantic": "tools/audit_v2_core.py:162:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:163:scope:module",
+      "identity": "tools/audit_v2_core.py:162:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53823,9 +53918,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:166:scope:module"
+        "semantic": "tools/audit_v2_core.py:164:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:166:scope:module",
+      "identity": "tools/audit_v2_core.py:164:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53861,9 +53956,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:169:scope:module"
+        "semantic": "tools/audit_v2_core.py:168:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:169:scope:module",
+      "identity": "tools/audit_v2_core.py:168:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53880,9 +53975,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:171:scope:module"
+        "semantic": "tools/audit_v2_core.py:170:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:171:scope:module",
+      "identity": "tools/audit_v2_core.py:170:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53899,9 +53994,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:173:scope:module"
+        "semantic": "tools/audit_v2_core.py:172:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:173:scope:module",
+      "identity": "tools/audit_v2_core.py:172:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53918,9 +54013,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:175:scope:module"
+        "semantic": "tools/audit_v2_core.py:174:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:175:scope:module",
+      "identity": "tools/audit_v2_core.py:174:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53937,9 +54032,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:180:scope:module"
+        "semantic": "tools/audit_v2_core.py:176:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:180:scope:module",
+      "identity": "tools/audit_v2_core.py:176:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53956,9 +54051,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:182:scope:module"
+        "semantic": "tools/audit_v2_core.py:181:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:182:scope:module",
+      "identity": "tools/audit_v2_core.py:181:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -53975,9 +54070,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:185:scope:module"
+        "semantic": "tools/audit_v2_core.py:183:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:185:scope:module",
+      "identity": "tools/audit_v2_core.py:183:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54032,9 +54127,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:191:scope:module"
+        "semantic": "tools/audit_v2_core.py:188:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:191:scope:module",
+      "identity": "tools/audit_v2_core.py:188:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54051,9 +54146,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:193:scope:module"
+        "semantic": "tools/audit_v2_core.py:192:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:193:scope:module",
+      "identity": "tools/audit_v2_core.py:192:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54070,9 +54165,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:198:scope:module"
+        "semantic": "tools/audit_v2_core.py:194:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:198:scope:module",
+      "identity": "tools/audit_v2_core.py:194:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54089,9 +54184,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:200:scope:module"
+        "semantic": "tools/audit_v2_core.py:199:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:200:scope:module",
+      "identity": "tools/audit_v2_core.py:199:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54108,9 +54203,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:202:scope:module"
+        "semantic": "tools/audit_v2_core.py:201:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:202:scope:module",
+      "identity": "tools/audit_v2_core.py:201:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54127,9 +54222,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:205:scope:module"
+        "semantic": "tools/audit_v2_core.py:203:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:205:scope:module",
+      "identity": "tools/audit_v2_core.py:203:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54146,9 +54241,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:207:scope:module"
+        "semantic": "tools/audit_v2_core.py:206:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:207:scope:module",
+      "identity": "tools/audit_v2_core.py:206:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54184,9 +54279,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:212:scope:module"
+        "semantic": "tools/audit_v2_core.py:209:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:212:scope:module",
+      "identity": "tools/audit_v2_core.py:209:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54203,9 +54298,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:214:scope:module"
+        "semantic": "tools/audit_v2_core.py:213:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:214:scope:module",
+      "identity": "tools/audit_v2_core.py:213:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54241,9 +54336,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:217:scope:module"
+        "semantic": "tools/audit_v2_core.py:216:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:217:scope:module",
+      "identity": "tools/audit_v2_core.py:216:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54298,9 +54393,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:224:scope:module"
+        "semantic": "tools/audit_v2_core.py:220:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:224:scope:module",
+      "identity": "tools/audit_v2_core.py:220:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54317,9 +54412,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:226:scope:module"
+        "semantic": "tools/audit_v2_core.py:225:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:226:scope:module",
+      "identity": "tools/audit_v2_core.py:225:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54355,9 +54450,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:232:scope:module"
+        "semantic": "tools/audit_v2_core.py:228:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:232:scope:module",
+      "identity": "tools/audit_v2_core.py:228:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54374,9 +54469,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:235:scope:module"
+        "semantic": "tools/audit_v2_core.py:233:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:235:scope:module",
+      "identity": "tools/audit_v2_core.py:233:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54393,9 +54488,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:237:scope:module"
+        "semantic": "tools/audit_v2_core.py:236:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:237:scope:module",
+      "identity": "tools/audit_v2_core.py:236:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54412,9 +54507,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:241:scope:module"
+        "semantic": "tools/audit_v2_core.py:238:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:241:scope:module",
+      "identity": "tools/audit_v2_core.py:238:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54431,9 +54526,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:243:scope:module"
+        "semantic": "tools/audit_v2_core.py:242:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:243:scope:module",
+      "identity": "tools/audit_v2_core.py:242:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54450,9 +54545,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:245:scope:module"
+        "semantic": "tools/audit_v2_core.py:244:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:245:scope:module",
+      "identity": "tools/audit_v2_core.py:244:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54488,9 +54583,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:248:scope:module"
+        "semantic": "tools/audit_v2_core.py:247:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:248:scope:module",
+      "identity": "tools/audit_v2_core.py:247:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54507,9 +54602,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:251:scope:module"
+        "semantic": "tools/audit_v2_core.py:249:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:251:scope:module",
+      "identity": "tools/audit_v2_core.py:249:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54526,9 +54621,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:253:scope:module"
+        "semantic": "tools/audit_v2_core.py:252:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:253:scope:module",
+      "identity": "tools/audit_v2_core.py:252:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54545,9 +54640,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:257:scope:module"
+        "semantic": "tools/audit_v2_core.py:254:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:257:scope:module",
+      "identity": "tools/audit_v2_core.py:254:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54583,9 +54678,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:260:scope:module"
+        "semantic": "tools/audit_v2_core.py:259:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:260:scope:module",
+      "identity": "tools/audit_v2_core.py:259:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54602,9 +54697,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:263:scope:module"
+        "semantic": "tools/audit_v2_core.py:261:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:263:scope:module",
+      "identity": "tools/audit_v2_core.py:261:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54678,9 +54773,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:272:scope:module"
+        "semantic": "tools/audit_v2_core.py:267:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:272:scope:module",
+      "identity": "tools/audit_v2_core.py:267:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54735,9 +54830,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:276:scope:module"
+        "semantic": "tools/audit_v2_core.py:275:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:276:scope:module",
+      "identity": "tools/audit_v2_core.py:275:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54754,9 +54849,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:278:scope:module"
+        "semantic": "tools/audit_v2_core.py:277:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:278:scope:module",
+      "identity": "tools/audit_v2_core.py:277:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54773,9 +54868,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:280:scope:module"
+        "semantic": "tools/audit_v2_core.py:279:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:280:scope:module",
+      "identity": "tools/audit_v2_core.py:279:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54795,6 +54890,25 @@
         "semantic": "tools/audit_v2_core.py:281:scope:module"
       },
       "identity": "tools/audit_v2_core.py:281:scope:module",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:282:scope:module"
+      },
+      "identity": "tools/audit_v2_core.py:282:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54849,9 +54963,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:286:scope:module"
+        "semantic": "tools/audit_v2_core.py:287:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:286:scope:module",
+      "identity": "tools/audit_v2_core.py:287:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54906,9 +55020,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:292:scope:module"
+        "semantic": "tools/audit_v2_core.py:293:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:292:scope:module",
+      "identity": "tools/audit_v2_core.py:293:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54944,9 +55058,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:295:scope:module"
+        "semantic": "tools/audit_v2_core.py:296:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:295:scope:module",
+      "identity": "tools/audit_v2_core.py:296:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54963,9 +55077,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:302:scope:module"
+        "semantic": "tools/audit_v2_core.py:298:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:302:scope:module",
+      "identity": "tools/audit_v2_core.py:298:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -54982,9 +55096,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:304:scope:module"
+        "semantic": "tools/audit_v2_core.py:299:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:304:scope:module",
+      "identity": "tools/audit_v2_core.py:299:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55001,9 +55115,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:307:scope:module"
+        "semantic": "tools/audit_v2_core.py:306:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:307:scope:module",
+      "identity": "tools/audit_v2_core.py:306:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55020,9 +55134,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:309:scope:module"
+        "semantic": "tools/audit_v2_core.py:308:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:309:scope:module",
+      "identity": "tools/audit_v2_core.py:308:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55077,6 +55191,25 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
+        "semantic": "tools/audit_v2_core.py:315:scope:module"
+      },
+      "identity": "tools/audit_v2_core.py:315:scope:module",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
         "semantic": "tools/audit_v2_core.py:317:scope:module"
       },
       "identity": "tools/audit_v2_core.py:317:scope:module",
@@ -55096,9 +55229,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:325:scope:module"
+        "semantic": "tools/audit_v2_core.py:321:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:325:scope:module",
+      "identity": "tools/audit_v2_core.py:321:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55115,9 +55248,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:326:scope:module"
+        "semantic": "tools/audit_v2_core.py:329:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:326:scope:module",
+      "identity": "tools/audit_v2_core.py:329:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55134,9 +55267,28 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:327:scope:module"
+        "semantic": "tools/audit_v2_core.py:330:scope:module"
       },
-      "identity": "tools/audit_v2_core.py:327:scope:module",
+      "identity": "tools/audit_v2_core.py:330:scope:module",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:331:scope:module"
+      },
+      "identity": "tools/audit_v2_core.py:331:scope:module",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55293,9 +55445,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:96:mapping"
+        "semantic": "tools/audit_v2_core.py:97:mapping"
       },
-      "identity": "tools/audit_v2_core.py:96:mapping",
+      "identity": "tools/audit_v2_core.py:97:mapping",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55312,9 +55464,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:105:semantic_requirements"
+        "semantic": "tools/audit_v2_core.py:106:semantic_requirements"
       },
-      "identity": "tools/audit_v2_core.py:105:semantic_requirements",
+      "identity": "tools/audit_v2_core.py:106:semantic_requirements",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55331,9 +55483,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:111:repository_scope"
+        "semantic": "tools/audit_v2_core.py:112:repository_scope"
       },
-      "identity": "tools/audit_v2_core.py:111:repository_scope",
+      "identity": "tools/audit_v2_core.py:112:repository_scope",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55350,9 +55502,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:116:record"
+        "semantic": "tools/audit_v2_core.py:117:record"
       },
-      "identity": "tools/audit_v2_core.py:116:record",
+      "identity": "tools/audit_v2_core.py:117:record",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55369,9 +55521,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:125:rust_blocks"
+        "semantic": "tools/audit_v2_core.py:126:rust_blocks"
       },
-      "identity": "tools/audit_v2_core.py:125:rust_blocks",
+      "identity": "tools/audit_v2_core.py:126:rust_blocks",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55388,9 +55540,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:139:top_level_rust_items"
+        "semantic": "tools/audit_v2_core.py:140:top_level_rust_items"
       },
-      "identity": "tools/audit_v2_core.py:139:top_level_rust_items",
+      "identity": "tools/audit_v2_core.py:140:top_level_rust_items",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55407,9 +55559,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:148:audit"
+        "semantic": "tools/audit_v2_core.py:149:audit"
       },
-      "identity": "tools/audit_v2_core.py:148:audit",
+      "identity": "tools/audit_v2_core.py:149:audit",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55426,9 +55578,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:321:main"
+        "semantic": "tools/audit_v2_core.py:325:main"
       },
-      "identity": "tools/audit_v2_core.py:321:main",
+      "identity": "tools/audit_v2_core.py:325:main",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -55445,9 +55597,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:327:If"
+        "semantic": "tools/audit_v2_core.py:331:If"
       },
-      "identity": "tools/audit_v2_core.py:327:If",
+      "identity": "tools/audit_v2_core.py:331:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55464,9 +55616,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:98:For"
+        "semantic": "tools/audit_v2_core.py:99:For"
       },
-      "identity": "tools/audit_v2_core.py:98:For",
+      "identity": "tools/audit_v2_core.py:99:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55483,9 +55635,237 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:100:For"
+        "semantic": "tools/audit_v2_core.py:101:For"
       },
-      "identity": "tools/audit_v2_core.py:100:For",
+      "identity": "tools/audit_v2_core.py:101:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:103:If"
+      },
+      "identity": "tools/audit_v2_core.py:103:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:107:If"
+      },
+      "identity": "tools/audit_v2_core.py:107:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:114:If"
+      },
+      "identity": "tools/audit_v2_core.py:114:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:123:If"
+      },
+      "identity": "tools/audit_v2_core.py:123:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:128:For"
+      },
+      "identity": "tools/audit_v2_core.py:128:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:142:For"
+      },
+      "identity": "tools/audit_v2_core.py:142:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:156:For"
+      },
+      "identity": "tools/audit_v2_core.py:156:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:168:For"
+      },
+      "identity": "tools/audit_v2_core.py:168:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:306:If"
+      },
+      "identity": "tools/audit_v2_core.py:306:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:308:For"
+      },
+      "identity": "tools/audit_v2_core.py:308:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:311:For"
+      },
+      "identity": "tools/audit_v2_core.py:311:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:100:If"
+      },
+      "identity": "tools/audit_v2_core.py:100:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55521,9 +55901,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:106:If"
+        "semantic": "tools/audit_v2_core.py:108:For"
       },
-      "identity": "tools/audit_v2_core.py:106:If",
+      "identity": "tools/audit_v2_core.py:108:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55540,9 +55920,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:113:If"
+        "semantic": "tools/audit_v2_core.py:130:If"
       },
-      "identity": "tools/audit_v2_core.py:113:If",
+      "identity": "tools/audit_v2_core.py:130:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -55559,636 +55939,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:122:If"
+        "semantic": "tools/audit_v2_core.py:132:For"
       },
-      "identity": "tools/audit_v2_core.py:122:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:127:For"
-      },
-      "identity": "tools/audit_v2_core.py:127:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:141:For"
-      },
-      "identity": "tools/audit_v2_core.py:141:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:155:For"
-      },
-      "identity": "tools/audit_v2_core.py:155:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:167:For"
-      },
-      "identity": "tools/audit_v2_core.py:167:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:302:If"
-      },
-      "identity": "tools/audit_v2_core.py:302:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:304:For"
-      },
-      "identity": "tools/audit_v2_core.py:304:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:307:For"
-      },
-      "identity": "tools/audit_v2_core.py:307:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:99:If"
-      },
-      "identity": "tools/audit_v2_core.py:99:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:101:If"
-      },
-      "identity": "tools/audit_v2_core.py:101:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:107:For"
-      },
-      "identity": "tools/audit_v2_core.py:107:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:129:If"
-      },
-      "identity": "tools/audit_v2_core.py:129:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:131:For"
-      },
-      "identity": "tools/audit_v2_core.py:131:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:142:If"
-      },
-      "identity": "tools/audit_v2_core.py:142:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:157:If"
-      },
-      "identity": "tools/audit_v2_core.py:157:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:158:If"
-      },
-      "identity": "tools/audit_v2_core.py:158:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:160:If"
-      },
-      "identity": "tools/audit_v2_core.py:160:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:161:If"
-      },
-      "identity": "tools/audit_v2_core.py:161:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:163:If"
-      },
-      "identity": "tools/audit_v2_core.py:163:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:169:If"
-      },
-      "identity": "tools/audit_v2_core.py:169:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:171:If"
-      },
-      "identity": "tools/audit_v2_core.py:171:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:173:If"
-      },
-      "identity": "tools/audit_v2_core.py:173:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:175:If"
-      },
-      "identity": "tools/audit_v2_core.py:175:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:177:Try"
-      },
-      "identity": "tools/audit_v2_core.py:177:Try",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:182:If"
-      },
-      "identity": "tools/audit_v2_core.py:182:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:264:If"
-      },
-      "identity": "tools/audit_v2_core.py:264:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:274:If"
-      },
-      "identity": "tools/audit_v2_core.py:274:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:276:If"
-      },
-      "identity": "tools/audit_v2_core.py:276:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:278:If"
-      },
-      "identity": "tools/audit_v2_core.py:278:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:281:If"
-      },
-      "identity": "tools/audit_v2_core.py:281:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:283:If"
-      },
-      "identity": "tools/audit_v2_core.py:283:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:292:If"
-      },
-      "identity": "tools/audit_v2_core.py:292:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:108:If"
-      },
-      "identity": "tools/audit_v2_core.py:108:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:132:If"
-      },
-      "identity": "tools/audit_v2_core.py:132:If",
+      "identity": "tools/audit_v2_core.py:132:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56224,9 +55977,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:185:If"
+        "semantic": "tools/audit_v2_core.py:158:If"
       },
-      "identity": "tools/audit_v2_core.py:185:If",
+      "identity": "tools/audit_v2_core.py:158:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56243,9 +55996,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:191:For"
+        "semantic": "tools/audit_v2_core.py:159:If"
       },
-      "identity": "tools/audit_v2_core.py:191:For",
+      "identity": "tools/audit_v2_core.py:159:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56262,9 +56015,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:214:If"
+        "semantic": "tools/audit_v2_core.py:161:If"
       },
-      "identity": "tools/audit_v2_core.py:214:If",
+      "identity": "tools/audit_v2_core.py:161:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56281,9 +56034,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:243:If"
+        "semantic": "tools/audit_v2_core.py:162:If"
       },
-      "identity": "tools/audit_v2_core.py:243:If",
+      "identity": "tools/audit_v2_core.py:162:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56300,9 +56053,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:258:If"
+        "semantic": "tools/audit_v2_core.py:164:If"
       },
-      "identity": "tools/audit_v2_core.py:258:If",
+      "identity": "tools/audit_v2_core.py:164:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56319,9 +56072,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:261:If"
+        "semantic": "tools/audit_v2_core.py:170:If"
       },
-      "identity": "tools/audit_v2_core.py:261:If",
+      "identity": "tools/audit_v2_core.py:170:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56338,9 +56091,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:265:For"
+        "semantic": "tools/audit_v2_core.py:172:If"
       },
-      "identity": "tools/audit_v2_core.py:265:For",
+      "identity": "tools/audit_v2_core.py:172:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56357,9 +56110,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:280:If"
+        "semantic": "tools/audit_v2_core.py:174:If"
       },
-      "identity": "tools/audit_v2_core.py:280:If",
+      "identity": "tools/audit_v2_core.py:174:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56376,9 +56129,199 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:285:For"
+        "semantic": "tools/audit_v2_core.py:176:If"
       },
-      "identity": "tools/audit_v2_core.py:285:For",
+      "identity": "tools/audit_v2_core.py:176:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:178:Try"
+      },
+      "identity": "tools/audit_v2_core.py:178:Try",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:183:If"
+      },
+      "identity": "tools/audit_v2_core.py:183:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:265:If"
+      },
+      "identity": "tools/audit_v2_core.py:265:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:275:If"
+      },
+      "identity": "tools/audit_v2_core.py:275:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:277:If"
+      },
+      "identity": "tools/audit_v2_core.py:277:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:279:If"
+      },
+      "identity": "tools/audit_v2_core.py:279:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:285:If"
+      },
+      "identity": "tools/audit_v2_core.py:285:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:287:If"
+      },
+      "identity": "tools/audit_v2_core.py:287:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:296:If"
+      },
+      "identity": "tools/audit_v2_core.py:296:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:109:If"
+      },
+      "identity": "tools/audit_v2_core.py:109:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56433,9 +56376,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:180:If"
+        "semantic": "tools/audit_v2_core.py:186:If"
       },
-      "identity": "tools/audit_v2_core.py:180:If",
+      "identity": "tools/audit_v2_core.py:186:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56452,9 +56395,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:186:For"
+        "semantic": "tools/audit_v2_core.py:192:For"
       },
-      "identity": "tools/audit_v2_core.py:186:For",
+      "identity": "tools/audit_v2_core.py:192:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56471,9 +56414,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:193:If"
+        "semantic": "tools/audit_v2_core.py:215:If"
       },
-      "identity": "tools/audit_v2_core.py:193:If",
+      "identity": "tools/audit_v2_core.py:215:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56490,9 +56433,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:198:If"
+        "semantic": "tools/audit_v2_core.py:244:If"
       },
-      "identity": "tools/audit_v2_core.py:198:If",
+      "identity": "tools/audit_v2_core.py:244:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56509,9 +56452,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:200:If"
+        "semantic": "tools/audit_v2_core.py:259:If"
       },
-      "identity": "tools/audit_v2_core.py:200:If",
+      "identity": "tools/audit_v2_core.py:259:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56528,9 +56471,503 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:205:If"
+        "semantic": "tools/audit_v2_core.py:262:If"
       },
-      "identity": "tools/audit_v2_core.py:205:If",
+      "identity": "tools/audit_v2_core.py:262:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:266:For"
+      },
+      "identity": "tools/audit_v2_core.py:266:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:281:If"
+      },
+      "identity": "tools/audit_v2_core.py:281:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:282:For"
+      },
+      "identity": "tools/audit_v2_core.py:282:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:289:For"
+      },
+      "identity": "tools/audit_v2_core.py:289:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:134:If"
+      },
+      "identity": "tools/audit_v2_core.py:134:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:145:If"
+      },
+      "identity": "tools/audit_v2_core.py:145:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:181:If"
+      },
+      "identity": "tools/audit_v2_core.py:181:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:187:For"
+      },
+      "identity": "tools/audit_v2_core.py:187:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:194:If"
+      },
+      "identity": "tools/audit_v2_core.py:194:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:199:If"
+      },
+      "identity": "tools/audit_v2_core.py:199:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:201:If"
+      },
+      "identity": "tools/audit_v2_core.py:201:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:206:If"
+      },
+      "identity": "tools/audit_v2_core.py:206:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:209:If"
+      },
+      "identity": "tools/audit_v2_core.py:209:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:213:If"
+      },
+      "identity": "tools/audit_v2_core.py:213:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:216:For"
+      },
+      "identity": "tools/audit_v2_core.py:216:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:225:For"
+      },
+      "identity": "tools/audit_v2_core.py:225:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:233:For"
+      },
+      "identity": "tools/audit_v2_core.py:233:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:236:For"
+      },
+      "identity": "tools/audit_v2_core.py:236:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:246:For"
+      },
+      "identity": "tools/audit_v2_core.py:246:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:261:If"
+      },
+      "identity": "tools/audit_v2_core.py:261:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:264:If"
+      },
+      "identity": "tools/audit_v2_core.py:264:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:267:If"
+      },
+      "identity": "tools/audit_v2_core.py:267:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:283:If"
+      },
+      "identity": "tools/audit_v2_core.py:283:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:290:For"
+      },
+      "identity": "tools/audit_v2_core.py:290:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:136:If"
+      },
+      "identity": "tools/audit_v2_core.py:136:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:203:If"
+      },
+      "identity": "tools/audit_v2_core.py:203:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56566,9 +57003,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:212:If"
+        "semantic": "tools/audit_v2_core.py:218:For"
       },
-      "identity": "tools/audit_v2_core.py:212:If",
+      "identity": "tools/audit_v2_core.py:218:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56585,9 +57022,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:215:For"
+        "semantic": "tools/audit_v2_core.py:228:For"
       },
-      "identity": "tools/audit_v2_core.py:215:For",
+      "identity": "tools/audit_v2_core.py:228:For",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56604,9 +57041,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:224:For"
+        "semantic": "tools/audit_v2_core.py:238:If"
       },
-      "identity": "tools/audit_v2_core.py:224:For",
+      "identity": "tools/audit_v2_core.py:238:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56623,9 +57060,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:232:For"
+        "semantic": "tools/audit_v2_core.py:247:If"
       },
-      "identity": "tools/audit_v2_core.py:232:For",
+      "identity": "tools/audit_v2_core.py:247:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -56642,351 +57079,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:235:For"
+        "semantic": "tools/audit_v2_core.py:249:If"
       },
-      "identity": "tools/audit_v2_core.py:235:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:245:For"
-      },
-      "identity": "tools/audit_v2_core.py:245:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:260:If"
-      },
-      "identity": "tools/audit_v2_core.py:260:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:263:If"
-      },
-      "identity": "tools/audit_v2_core.py:263:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:266:If"
-      },
-      "identity": "tools/audit_v2_core.py:266:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:286:For"
-      },
-      "identity": "tools/audit_v2_core.py:286:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:135:If"
-      },
-      "identity": "tools/audit_v2_core.py:135:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:202:If"
-      },
-      "identity": "tools/audit_v2_core.py:202:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:207:If"
-      },
-      "identity": "tools/audit_v2_core.py:207:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:217:For"
-      },
-      "identity": "tools/audit_v2_core.py:217:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:227:For"
-      },
-      "identity": "tools/audit_v2_core.py:227:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:237:If"
-      },
-      "identity": "tools/audit_v2_core.py:237:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:246:If"
-      },
-      "identity": "tools/audit_v2_core.py:246:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:248:If"
-      },
-      "identity": "tools/audit_v2_core.py:248:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:251:If"
-      },
-      "identity": "tools/audit_v2_core.py:251:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:253:For"
-      },
-      "identity": "tools/audit_v2_core.py:253:For",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:290:If"
-      },
-      "identity": "tools/audit_v2_core.py:290:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:219:If"
-      },
-      "identity": "tools/audit_v2_core.py:219:If",
-      "kind": "branch",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tools/audit_v2_core.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tools/audit_v2_core.py:241:For"
-      },
-      "identity": "tools/audit_v2_core.py:241:For",
+      "identity": "tools/audit_v2_core.py:249:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -57022,9 +57117,104 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tools/audit_v2_core.py:257:If"
+        "semantic": "tools/audit_v2_core.py:254:For"
       },
-      "identity": "tools/audit_v2_core.py:257:If",
+      "identity": "tools/audit_v2_core.py:254:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:294:If"
+      },
+      "identity": "tools/audit_v2_core.py:294:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:220:If"
+      },
+      "identity": "tools/audit_v2_core.py:220:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:242:For"
+      },
+      "identity": "tools/audit_v2_core.py:242:For",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:253:If"
+      },
+      "identity": "tools/audit_v2_core.py:253:If",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tools/audit_v2_core.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tools/audit_v2_core.py:258:If"
+      },
+      "identity": "tools/audit_v2_core.py:258:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -79633,7 +79823,7 @@
     }
   ],
   "repository_coverage": {
-    "digest": "366a8ed921cce8fb36f14bfe2ecc20f5b38d196a6f08e3a902e529374ca37579",
+    "digest": "23130aa08e4880f90c6d12257fe870c5d3dd63d7087300c8d231bc2c610bef48",
     "file_count": 227,
     "self_excluded_artifact": "evidence/v2-rebuild/core-retention-audit.json"
   },
@@ -79642,7 +79832,7 @@
     "version": 1
   },
   "schema_version": 1,
-  "scope_digest": "3a1f431742d7b6e683d036be12ede46a9fb4f80a9d552bb53eddeb8fa355e633",
+  "scope_digest": "309fc729a40d0d9a0a95fa1940126c5a377d7004b68edc1925a7493ae82aef60",
   "unresolved_candidates": [],
   "untrusted_candidates": [],
   "valid": true

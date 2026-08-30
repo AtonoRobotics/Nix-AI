@@ -237,6 +237,22 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertNotEqual(result.returncode,0);self.assertIn("provider-direct-effect-path",result.stdout)
         finally:provider.write_text(original)
 
+    def test_provider_standard_library_alias_fails_closed(self):
+        provider=ROOT/"crates/habitat-provider-transport/src/lib.rs";original=provider.read_text()
+        try:
+            provider.write_text(original+'\nuse std as platform;\npub fn bypass(){ let _=platform::fs::read("/run/secrets/provider"); }\n')
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("provider-untrusted-import",result.stdout)
+        finally:provider.write_text(original)
+
+    def test_undecodable_contract_authority_fails_closed(self):
+        source=ROOT/"contracts/v2.0.1/validate_contract.py";original=source.read_bytes()
+        try:
+            source.write_bytes(b"\xff\xfe\x00")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("undecodable-semantic-source",result.stdout)
+        finally:source.write_bytes(original)
+
     def test_symlink_undecodable_and_unknown_core_source_classes_fail_closed(self):
         symlink=ROOT/"crates/habitat-models/src/linked.rs"
         binary=ROOT/"crates/habitat-models/src/opaque.py"

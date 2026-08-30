@@ -53,6 +53,7 @@ SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?|secre
 EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|urllib|requests?\.|python\s+(?:-[A-Za-z]*c\b|-c\b)|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
 COMBINED_EXEMPT={"tools/qualify_w02.py","tools/qualify_w06.py"}
 PROVIDER_FORBIDDEN=re.compile(r"\bstd::|\bcore::|\bunsafe\b|\bextern\b|\basm!|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|Authorization|Bearer",re.I)
+PROVIDER_IMPORTS={"serde_json","sha2","habitat_provider_transport"}
 RUST_QUALIFIERS=r"(?:(?:async|const|unsafe)\s+|extern\s+\"[^\"]+\"\s+)*"
 API=re.compile(rf"\bpub(?:\([^)]*\))?\s+{RUST_QUALIFIERS}(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match|for|while|loop)\b|=>")
@@ -177,7 +178,7 @@ def audit(root):
         try: content=path.read_text()
         except UnicodeDecodeError:
             content=""
-            if relative.as_posix().startswith(("crates/","src/","tools/","tests/","nix/")):
+            if suffix!=".bin":
                 unresolved.append(f"undecodable-semantic-source:{relative}")
         if suffix in {".rs",".py"}:
             lines=content.splitlines();pending_test=False;current_requirements=requirements
@@ -278,6 +279,9 @@ def audit(root):
         if relative.as_posix().startswith("crates/habitat-provider-transport/"):
             forbidden=PROVIDER_FORBIDDEN.search(content)
             if forbidden:unresolved.append(f"provider-direct-effect-path:{relative}:{forbidden.group(0)}")
+            for imported in re.finditer(r"\buse\s+(?:::)?([A-Za-z_][A-Za-z0-9_]*)",content):
+                if imported.group(1) not in PROVIDER_IMPORTS:
+                    unresolved.append(f"provider-untrusted-import:{relative}:{imported.group(1)}")
         if production_source and re.search(rb"transcript",path.read_bytes(),re.I):
             unresolved.append(f"provider-transcript-authority-surface:{relative}")
         if path.name=="Cargo.toml":
