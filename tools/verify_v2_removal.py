@@ -32,10 +32,13 @@ POLICY_PATHS = {
     "tools/classify_v2_scope.py",
     "tools/inventory_v2.py",
     "tools/verify_v2_removal.py",
+    "tools/qualify_v2_artifacts.py",
+    "tools/verify_v2_build_closure.py",
     "tests/test_v2_rebuild_frontier.py",
     "tests/test_v2_scope_classification.py",
     "tests/test_v2_scope_removal.py",
     "tests/test_v2_contract_derivation.py",
+    "tests/test_v2_artifact_closure.py",
 }
 POLICY_PREFIXES = ("contracts/v2/", "contracts/v2.0.1/", "evidence/v2-rebuild/")
 

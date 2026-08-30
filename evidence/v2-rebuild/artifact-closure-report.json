@@ -1,0 +1,250 @@
+{
+  "artifact_classes": [
+    "requirements_registry",
+    "work_graph",
+    "architecture_projections",
+    "json_schemas",
+    "protobuf_descriptors",
+    "language_bindings",
+    "lockfiles",
+    "sbom",
+    "provenance",
+    "evidence_indexes",
+    "sha256_manifests"
+  ],
+  "contaminated_generated": [],
+  "deleted_closure_members": [],
+  "dependency_owner_count": 373,
+  "records": [
+    {
+      "class": "requirements_registry",
+      "path": "contracts/requirements.yaml",
+      "sha256": "5bdf2f8ae12d09c5425631bf678e793cae42f89498194fa5d13dcc312f90d258"
+    },
+    {
+      "class": "work_graph",
+      "path": "contracts/work-packets.yaml",
+      "sha256": "518544ba2ad9c7a0db26b00cec959a654f1874de5549308c1616da775c53a2cd"
+    },
+    {
+      "class": "work_graph",
+      "path": "contracts/architecture/13-IMPLEMENTATION-WORK-GRAPH.md",
+      "sha256": "ab91fc35cbf718f797ded1e5f8652cc33064fd4b3e6aeff8dc3906e665b9b3bc"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/00-GOVERNANCE.md",
+      "sha256": "24f4c3d66ffeab8825c3bec2c4646d3a73ba09308d22f4170a7f010cb58f6149"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/01-ARCHITECTURE.md",
+      "sha256": "5e4fa7468b208c5791526dadec7fec3740685a3d3f041bab813a53d1ece57b36"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/02-AGENT-ABI.md",
+      "sha256": "67d21dc86c855511263daefcf7dfe0fdbc818a569e2b6f9ba77538a03a69d701"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/03-STATE-AND-LIFECYCLE.md",
+      "sha256": "662b58ddff685047fd792e7dc791fe6d38ddffaa77c7dd0c6cbe917f0169f6be"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/04-AUTHORITY-CAPABILITIES.md",
+      "sha256": "3077e089b8078660eaaf5da0d0eb95586f560f12ccbfc317e552eba6a327ed49"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/05-EFFECTS.md",
+      "sha256": "d9bf16b575fe7c3939b69ea5b9af7fa234dc18f69a986622c6ec579674c2382d"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/06-CONTEXT.md",
+      "sha256": "58d2220c0dc1d33dfd8251f763797ffa5605ed08ae3d396015c7141c4ac76cdb"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/07-CAPABILITY-PACKAGES.md",
+      "sha256": "1529400323d9f1961270fd1bdd003f91f5c56d4e9a236996cb74656a75bc6064"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/08-SYSTEM-GENERATIONS.md",
+      "sha256": "28239fc0311fe896c6dbaf1a449310b1c2454906ad1d8d96fc35d75820664783"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/09-THREAT-SAFETY.md",
+      "sha256": "85df74c211d47342f6f3fa2df8edaaf9930db0892948535e6e2a38bc602f5ac9"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/10-HARDWARE-PROFILES.md",
+      "sha256": "03c9920858eede08f630843071f822cfc55dac6099f3db137b5bdd9292daeff3"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/11-OBSERVABILITY-SLOS.md",
+      "sha256": "dca2c25e6728db6efad64bac77b50157248fea9f1b99121a252bd3561ad36c77"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/12-VERIFICATION-MATRIX.md",
+      "sha256": "8f782c227fe6e6f20445974011a8efd4987e87edbc3943476948b9911b675eaa"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/13-IMPLEMENTATION-WORK-GRAPH.md",
+      "sha256": "ab91fc35cbf718f797ded1e5f8652cc33064fd4b3e6aeff8dc3906e665b9b3bc"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/14-DECISION-REGISTER.md",
+      "sha256": "f7273e2434ace696c6caafbe87c74eada7279cd7ad001c1d7ddcda4b82170b84"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/15-TRACEABILITY.md",
+      "sha256": "d53db4ce9e70f53a8e76f88964d1c56f3b1d1b133776146b744e85b270fa361e"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/17-REMEDIATION-RECORD.md",
+      "sha256": "67ca4fed472d8c05d5752857f862bde1ea13fd3c97e12cda814b4a23eb64128c"
+    },
+    {
+      "class": "architecture_projections",
+      "path": "contracts/architecture/README.md",
+      "sha256": "3aa6805e54d7f8535a5a1e08347f782ec7a836c3d28496d9e693038e9575a097"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/requirements.schema.json",
+      "sha256": "ea3eb12ac03b5a34a4b1e1e9e2a473fd0202d7d1d44216c2cfbfedc61c3abe03"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/agent-activation.schema.json",
+      "sha256": "e25aff0b5742087901b7fef5270265c049853ca18929607d1f9dc83c660af4be"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/agent-disposition.schema.json",
+      "sha256": "4239a7e5d0ea6095afffb9e8e48190c6f39e9c16cb41d488e30f14264eb5f010"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/capability-package.schema.json",
+      "sha256": "b334f1d3078d112352e0a0c55d4bac07ceaf803226549bfe42f542e0c1838285"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/context-request.schema.json",
+      "sha256": "de5b11937dd5ebe0277a6fa0c321656e01c599ae9201d077e00667719caf97b1"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/effect.schema.json",
+      "sha256": "b572638567901afba932bbce0f3e0cd42f014872f4eb7ab3f208e4b27b384916"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/hardware-profile.schema.json",
+      "sha256": "59926523e5bb3b090fde7822157510a689ac8aa8084d35618b09936e2cd35238"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/system-generation.schema.json",
+      "sha256": "625345de19a156a847fd8d3903be8189d5a4ff005b8bdd271223678cadd08f8d"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/schemas/v2-canonical.schema.json",
+      "sha256": "80e90a908e17786d50a3c60d454cf63f37576f91667ffdaf2d678ab6b2bcc759"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/v2.0.1/contract.schema.json",
+      "sha256": "a43e6c7c2dc74ed805c3bb20d5155ff45185f3f56f61697c6f8512f706b4ea2d"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/v2/contract.schema.json",
+      "sha256": "66f4fa11725ee45f288cd5134cce1b7b11ec11ddddc421fb5680d396ae9de795"
+    },
+    {
+      "class": "json_schemas",
+      "path": "contracts/work-packets.schema.json",
+      "sha256": "0a2f684957b93fa443511294971c76e1cf9ecfa71a60b736b5b07d58ebc1a9b5"
+    },
+    {
+      "class": "protobuf_descriptors",
+      "path": "generated/proto/descriptor.bin",
+      "sha256": "e2987c2e695142a7d5a5746a016c9a850eb30b955edae41f38f42f88c0c86394"
+    },
+    {
+      "class": "language_bindings",
+      "path": "generated/proto/rust/nix_ai/agent/v2/nix_ai.agent.v2.rs",
+      "sha256": "0b15921bf56f410080dab5a5f169e5b0c2fe57e3ab781b982dc778921cf2b1f9"
+    },
+    {
+      "class": "language_bindings",
+      "path": "generated/proto/rust/nix_ai/authority/v2/nix_ai.authority.v2.rs",
+      "sha256": "cc96e6de9f9b86c497cf45a10e9619cc2d37f2b05e4e197197e2f00dd40ddeee"
+    },
+    {
+      "class": "lockfiles",
+      "path": "Cargo.lock",
+      "sha256": "d1c4bb4d083ad734107c44e60e63fc33f288bde9f1ed80c75d2fc815bf73b6b9"
+    },
+    {
+      "class": "lockfiles",
+      "path": "flake.lock",
+      "sha256": "00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+    },
+    {
+      "class": "sbom",
+      "path": "generated/v2/sbom.json",
+      "sha256": "bc0b2684d2db8a3296210a537248bf9dc5f5855e9cc77bbb2be0469c8739bde1"
+    },
+    {
+      "class": "provenance",
+      "path": "generated/v2/provenance.json",
+      "sha256": "0b8aba9c1c27364770c4383ba750114f4c82beeb735e7f2d14250c56990bfd6b"
+    },
+    {
+      "class": "evidence_indexes",
+      "path": "generated/v2/evidence-index.json",
+      "sha256": "2b96dcdf6b1ca412adece1aee906a1ff9e8b9e5e1aafd3d789a36d36805bf90b"
+    },
+    {
+      "class": "sha256_manifests",
+      "path": "contracts/architecture/MANIFEST.sha256",
+      "sha256": "891f960cf96df6b651523b4754bfe20e50238101b32770bafb4495a0e0fd30e4"
+    },
+    {
+      "class": "sha256_manifests",
+      "path": "contracts/v2.0.1/MANIFEST.sha256",
+      "sha256": "5ccdd43bd2489b3f202ffa1620a11ff8593e8ffc26161c2c3f2a8e2d55aacb8c"
+    },
+    {
+      "class": "sha256_manifests",
+      "path": "contracts/v2/MANIFEST.sha256",
+      "sha256": "63621cccd011aca6704bba1e2d5ef78bdd5967e6576da012f28430657d422ce5"
+    },
+    {
+      "class": "sha256_manifests",
+      "path": "generated/v2/MANIFEST.sha256",
+      "sha256": "e8d0974d2fc1fc562c5ecbe68c0bead3808cb76ba964a8f10c422800a67c6f8a"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "issue-29-generated-artifacts-and-declared-build-graph",
+  "stale_generated": [],
+  "unowned_dependencies": [],
+  "valid": true
+}

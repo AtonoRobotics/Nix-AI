@@ -262,6 +262,22 @@
           recoverySystem.config.system.build.toplevel
         ];
       };
+      v2BuildClosure = pkgs.closureInfo {
+        rootPaths = [
+          habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects
+          habitatModels habitatPackages habitatHarnesses habitatQemu
+        ];
+      };
+      artifactQualification = pkgs.runCommand "nix-ai-v2-artifact-qualification" {
+        nativeBuildInputs = [ python pkgs.diffutils ];
+      } ''
+        ${python}/bin/python ${self}/tools/qualify_v2_artifacts.py --root ${self} --output artifact-report.json
+        cmp artifact-report.json ${./evidence/v2-rebuild/artifact-closure-report.json}
+        ${python}/bin/python ${self}/tools/verify_v2_build_closure.py \
+          --closure-paths ${v2BuildClosure}/store-paths --output closure-report.json
+        cmp closure-report.json ${./evidence/v2-rebuild/build-closure-report.json}
+        touch "$out"
+      '';
       habitatRaw = pkgs.runCommand "habitat-raw" {
         nativeBuildInputs = with pkgs; [ coreutils dosfstools e2fsprogs gptfdisk gnused mtools ];
       } ''
@@ -460,9 +476,11 @@
         habitat-models = habitatModels;
         habitat-packages = habitatPackages;
         habitat-harnesses = habitatHarnesses;
+        v2-build-closure = v2BuildClosure;
       };
 
       checks.${system} = {
+        artifact-qualification = artifactQualification;
         w11-qualification = pkgs.runCommand "habitat-w11-qualification" {
           nativeBuildInputs = [ qualifyW11 ];
         } ''

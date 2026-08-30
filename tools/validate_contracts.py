@@ -35,6 +35,12 @@ def main() -> int:
         checked = ROOT / "evidence" / "v2-rebuild" / "core-retention-audit.json"
         if generated.read_bytes() != checked.read_bytes():
             raise SystemExit("checked v2 core retention audit is stale")
+        artifacts = Path(temporary) / "artifact-closure-report.json"
+        run([sys.executable, "tools/qualify_v2_artifacts.py", "--root", str(ROOT),
+             "--output", str(artifacts)], ROOT)
+        checked_artifacts = ROOT / "evidence" / "v2-rebuild" / "artifact-closure-report.json"
+        if artifacts.read_bytes() != checked_artifacts.read_bytes():
+            raise SystemExit("checked v2 artifact qualification is stale")
     scope = json.loads(
         (ROOT / "evidence" / "v2-rebuild" / "removal-report.json").read_text()
     )

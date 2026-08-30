@@ -1,0 +1,89 @@
+{
+  "format": "nix-ai-v2-artifact-provenance-1",
+  "sources": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "d1c4bb4d083ad734107c44e60e63fc33f288bde9f1ed80c75d2fc815bf73b6b9"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "9f4e60c2cf5a2b6b56985df85bb88ad1f4f8ba15d49dd2053106e54941883faa"
+    },
+    {
+      "path": "buf.gen.yaml",
+      "sha256": "12ab4cb0b6562fe1a9d111b38b19b9ce297daffc0b67ead9060c327fde45d9c0"
+    },
+    {
+      "path": "buf.yaml",
+      "sha256": "7c06f5320337578a4f7be8a7ff18f2abc1bccb56dff5584fcd0db12191c35b8f"
+    },
+    {
+      "path": "contracts/proto/nix_ai_agent_v2.proto",
+      "sha256": "da215a9d709054942d7e898b9cfe9eb2627e461a00c8bbc1f4d31c5915d2cccc"
+    },
+    {
+      "path": "contracts/proto/nix_ai_authority_effect_v2.proto",
+      "sha256": "e689e38f38ba1099dd64b58274aa48aa8869369d41c98015d6d01c505d7f550a"
+    },
+    {
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+      "sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a"
+    },
+    {
+      "path": "crates/habitat-abi/Cargo.toml",
+      "sha256": "322870b05ba843556ec55b76d5d1096a10277dd44cb36072d0b63d099f029ab0"
+    },
+    {
+      "path": "crates/habitat-authority/Cargo.toml",
+      "sha256": "8042080116b662bd10374cb51a304f3bff98672f783be1ba8320e6d3a6587e65"
+    },
+    {
+      "path": "crates/habitat-context/Cargo.toml",
+      "sha256": "701b7e080d2055f2294c6055bde2ee8acc047b91e27343b37155ac704544b51f"
+    },
+    {
+      "path": "crates/habitat-effects/Cargo.toml",
+      "sha256": "740d0494187b86d7e2e90bd67ee82babecc857bc6ea5af1ea106573dedc8ffbc"
+    },
+    {
+      "path": "crates/habitat-execution/Cargo.toml",
+      "sha256": "e5c735b0b0885b5baa7a8dbb37022e259ba6885e8f034799bfcdac0bc983a222"
+    },
+    {
+      "path": "crates/habitat-harnesses/Cargo.toml",
+      "sha256": "82ad8e5391cd116929f1bdbdc6db7a366738e4831bebc2c2bbdea841465bed1a"
+    },
+    {
+      "path": "crates/habitat-models/Cargo.toml",
+      "sha256": "5bab8f1e34d949f236be33a22102e0ba566a327f3767be3ce05363c1122f86ef"
+    },
+    {
+      "path": "crates/habitat-packages/Cargo.toml",
+      "sha256": "8e105330ddc88fda42e6e8b547b601162dda11893ab02a9d7c8a2576d0df6d7b"
+    },
+    {
+      "path": "flake.lock",
+      "sha256": "00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+    },
+    {
+      "path": "flake.nix",
+      "sha256": "d547ad8dad4121c9cffda2e743d403f382fe85a6bf013c706a3f77b948f25c7a"
+    },
+    {
+      "path": "tools/derive_v2_contract.py",
+      "sha256": "60f21790ea796af1b931139dc0310374f0bd02cf3ceb6ddbb9f885dfd3d8aa9d"
+    },
+    {
+      "path": "tools/proto_contracts.py",
+      "sha256": "8e9d6b86f6d9bae91d794edeade1f60189ec13b6d760aefb140f66eb0a7ce3d6"
+    },
+    {
+      "path": "tools/qualify_v2_artifacts.py",
+      "sha256": "9e154eb5f69e72a7d8bda9f897f103bdc444393088758d87b052c6f493903cb8"
+    },
+    {
+      "path": "tools/verify_v2_build_closure.py",
+      "sha256": "b4dca225d6fdd11a9b4802dbb42e18fe4828082281d06abd2a6c4de9a5f66bb7"
+    }
+  ]
+}
