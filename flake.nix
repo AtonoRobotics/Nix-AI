@@ -110,6 +110,14 @@
         cargoBuildFlags = [ "-p" "habitat-authority" ];
         cargoTestFlags = [ "-p" "habitat-authority" ];
       };
+      habitatExecution = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-execution";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-execution" ];
+        cargoTestFlags = [ "-p" "habitat-execution" ];
+      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
@@ -132,6 +140,13 @@
         text = ''
           export PYTHONPATH=${./src}
           exec ${python}/bin/python ${./tools/qualify_w05.py} "$@"
+        '';
+      };
+      qualifyW06 = pkgs.writeShellApplication {
+        name = "qualify-w06";
+        runtimeInputs = [ python ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --dd ${pkgs.coreutils}/bin/dd --execution ${habitatExecution}/bin/habitat-execution "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -293,6 +308,11 @@
           program = "${qualifyW05}/bin/qualify-w05";
           meta.description = "Run W05 wake and lease crash qualification";
         };
+        test-w06 = {
+          type = "app";
+          program = "${qualifyW06}/bin/qualify-w06";
+          meta.description = "Run W06 native isolation adversarial qualification";
+        };
       };
 
       packages.${system} = {
@@ -303,6 +323,7 @@
         habitat-state = habitatState;
         habitat-abi = habitatAbi;
         habitat-authority = habitatAuthority;
+        habitat-execution = habitatExecution;
       };
 
       checks.${system} = {
@@ -334,7 +355,7 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
-          habitatState habitatAbi habitatAuthority ];
+          qualifyW06 habitatState habitatAbi habitatAuthority habitatExecution ];
       };
     };
 }
