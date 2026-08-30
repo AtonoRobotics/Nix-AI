@@ -1,11 +1,11 @@
-//! Credential-bearing provider transport adapter, isolated from cognition and harness modules.
+//! Secret-free provider request metadata.
+//!
+//! This module deliberately has no credential, network, or dispatch capability. A caller may
+//! construct evidence only after the authority/effect boundary has admitted the operation.
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 
-pub struct CredentialBroker {
-    provider: String,
-    credential: String,
-}
+pub struct ProviderEndpoint(String);
 pub struct RequestEvidence {
     provider: String,
     endpoint_digest: String,
@@ -17,66 +17,39 @@ pub enum TransportError {
     UnsafeProvider,
     UnsafeActivation,
     UnsafeEndpoint,
-    MissingCredential,
 }
-pub trait ProviderTransport {
-    type Output;
-    fn send(
-        &mut self,
-        endpoint: &str,
-        authorization: &str,
-        activation: &str,
-        body: &Value,
-    ) -> Self::Output;
-}
-impl CredentialBroker {
-    pub fn new(provider: &str, credential: &str) -> Result<Self, TransportError> {
-        if !safe_identifier(provider) {
-            return Err(TransportError::UnsafeProvider);
-        }
-        if credential.is_empty() {
-            return Err(TransportError::MissingCredential);
-        }
-        Ok(Self {
-            provider: provider.into(),
-            credential: credential.into(),
-        })
-    }
-    pub fn dispatch<T: ProviderTransport>(
-        &self,
-        transport: &mut T,
-        endpoint: &str,
-        activation: &str,
-        body: &Value,
-    ) -> Result<(T::Output, RequestEvidence), TransportError> {
-        if !safe_identifier(activation) {
-            return Err(TransportError::UnsafeActivation);
-        }
-        if !safe_endpoint(endpoint) {
+impl ProviderEndpoint {
+    pub fn admit(value: &str) -> Result<Self, TransportError> {
+        if !safe_endpoint(value) {
             return Err(TransportError::UnsafeEndpoint);
         }
-        let bytes = serde_json::to_vec(body).expect("JSON provider request");
-        let output = transport.send(
-            endpoint,
-            &format!("Bearer {}", self.credential),
-            activation,
-            body,
-        );
-        Ok((
-            output,
-            RequestEvidence {
-                provider: self.provider.clone(),
-                endpoint_digest: format!("sha256:{:x}", Sha256::digest(endpoint.as_bytes())),
-                activation: activation.into(),
-                body_digest: format!("sha256:{:x}", Sha256::digest(bytes)),
-            },
-        ))
+        Ok(Self(value.into()))
     }
-    pub fn provider(&self) -> &str {
-        &self.provider
+    pub fn as_str(&self) -> &str {
+        &self.0
     }
 }
 impl RequestEvidence {
+    pub fn record(
+        provider: &str,
+        endpoint: &ProviderEndpoint,
+        activation: &str,
+        body: &Value,
+    ) -> Result<Self, TransportError> {
+        if !safe_identifier(provider) {
+            return Err(TransportError::UnsafeProvider);
+        }
+        if !safe_identifier(activation) {
+            return Err(TransportError::UnsafeActivation);
+        }
+        let bytes = serde_json::to_vec(body).expect("JSON provider request");
+        Ok(Self {
+            provider: provider.into(),
+            endpoint_digest: format!("sha256:{:x}", Sha256::digest(endpoint.as_str().as_bytes())),
+            activation: activation.into(),
+            body_digest: format!("sha256:{:x}", Sha256::digest(bytes)),
+        })
+    }
     pub fn provider(&self) -> &str {
         &self.provider
     }

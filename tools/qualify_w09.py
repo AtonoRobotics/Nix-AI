@@ -23,8 +23,8 @@ def main():
       "provider_stop_does_not_complete_but_validated_completion_claim_does","cancellation_and_deadline_are_classified_without_implicit_completion",
       "cognition_evidence_is_digest_only_and_contains_no_transport_secret_or_prompt",
       "openai_and_anthropic_translate_to_identical_semantic_disposition",
-      "credential_is_consumed_inside_transport_and_never_returned_as_evidence",
-      "secret_bearing_evidence_identifiers_are_rejected_and_endpoint_is_digest_only"})
+      "provider_metadata_is_secret_free_and_has_no_dispatch_authority",
+      "secret_bearing_provider_metadata_and_endpoints_are_rejected"})
     reports={
       "structured-disposition-test":{"outcome":"passed","artifact_sha256":digest,"behavioral_test_proof":proof,
         "cases":["schema-valid ABI only","missing command rejected","invisible capability rejected",
@@ -32,7 +32,7 @@ def main():
       "provider-replacement-report":{"outcome":"passed","artifact_sha256":digest,"abi":declaration,
         "providers":["OpenAI Responses","Anthropic Messages"],"semantic_disposition_equal":True},
       "credential-isolation-test":{"outcome":"passed","artifact_sha256":digest,
-        "properties":["credential injected only at transport","activation envelope credential-free",
+        "properties":["core transport has no credential or dispatch capability","activation envelope credential-free",
         "evidence excludes credentials and prompt"]},
       "telemetry-evidence-correlation-report":{"outcome":"passed","artifact_sha256":digest,
         "fields":["activation_id","trace_id","correlation_id","provider","model","provider_request_id",

@@ -1,86 +1,51 @@
-use habitat_provider_transport::{CredentialBroker, ProviderTransport, TransportError};
-
-#[derive(Default)]
-struct RecordingTransport {
-    received_secret: bool,
-}
-impl ProviderTransport for RecordingTransport {
-    type Output = ();
-    fn send(
-        &mut self,
-        _endpoint: &str,
-        authorization: &str,
-        _activation: &str,
-        _body: &serde_json::Value,
-    ) {
-        self.received_secret = authorization == "Bearer opaque-secret-value";
-    }
-}
+use habitat_provider_transport::{ProviderEndpoint, RequestEvidence, TransportError};
 
 #[test]
-fn credential_is_consumed_inside_transport_and_never_returned_as_evidence() {
-    let broker = CredentialBroker::new("provider-a", "opaque-secret-value").unwrap();
-    let mut transport = RecordingTransport::default();
-    let (_, evidence) = broker
-        .dispatch(
-            &mut transport,
-            "https://provider.invalid/v1",
-            "activation:9",
-            &serde_json::json!({"input":"private prompt"}),
-        )
-        .unwrap();
-    assert!(transport.received_secret);
+fn provider_metadata_is_secret_free_and_has_no_dispatch_authority() {
+    let endpoint = ProviderEndpoint::admit("https://provider.invalid/v1").unwrap();
+    let evidence = RequestEvidence::record(
+        "provider-a",
+        &endpoint,
+        "activation:9",
+        &serde_json::json!({"input":"private prompt"}),
+    )
+    .unwrap();
     assert_eq!(evidence.activation(), "activation:9");
     assert_eq!(evidence.provider(), "provider-a");
-    assert!(!evidence.activation().contains("opaque-secret-value"));
-    assert!(!evidence.endpoint_digest().contains("opaque-secret-value"));
-    assert!(!evidence.body_digest().contains("opaque-secret-value"));
+    assert!(!evidence.endpoint_digest().contains("provider.invalid"));
     assert!(!evidence.body_digest().contains("private prompt"));
-    assert_eq!(broker.provider(), "provider-a");
 }
 
 #[test]
-fn secret_bearing_evidence_identifiers_are_rejected_and_endpoint_is_digest_only() {
+fn secret_bearing_provider_metadata_and_endpoints_are_rejected() {
+    let endpoint = ProviderEndpoint::admit("https://provider.invalid/v1").unwrap();
     assert!(matches!(
-        CredentialBroker::new("provider?key=secret", "credential"),
+        RequestEvidence::record(
+            "provider?key=secret",
+            &endpoint,
+            "activation:9",
+            &serde_json::json!({})
+        ),
         Err(TransportError::UnsafeProvider)
     ));
-    let broker = CredentialBroker::new("provider-a", "credential").unwrap();
-    let mut transport = RecordingTransport::default();
     assert!(matches!(
-        broker.dispatch(
-            &mut transport,
-            "https://user:secret@provider.invalid",
+        RequestEvidence::record(
+            "provider-a",
+            &endpoint,
             "activation?secret",
             &serde_json::json!({})
         ),
         Err(TransportError::UnsafeActivation)
     ));
-    assert!(matches!(
-        broker.dispatch(
-            &mut transport,
-            "https://user:secret@provider.invalid",
-            "activation:9",
-            &serde_json::json!({}),
-        ),
-        Err(TransportError::UnsafeEndpoint)
-    ));
-    assert!(matches!(
-        broker.dispatch(
-            &mut transport,
-            "https://provider.invalid/path?key=secret",
-            "activation:9",
-            &serde_json::json!({})
-        ),
-        Err(TransportError::UnsafeEndpoint)
-    ));
-    assert!(matches!(
-        broker.dispatch(
-            &mut transport,
-            "https://provider.invalid/v1/sk-secret",
-            "activation:9",
-            &serde_json::json!({})
-        ),
-        Err(TransportError::UnsafeEndpoint)
-    ));
+    for unsafe_endpoint in [
+        "https://user:secret@provider.invalid/v1",
+        "https://provider.invalid/v1?key=secret",
+        "https://provider.invalid/v1#secret",
+        "https://provider.invalid/v1/sk-secret",
+    ] {
+        assert!(matches!(
+            ProviderEndpoint::admit(unsafe_endpoint),
+            Err(TransportError::UnsafeEndpoint)
+        ));
+    }
 }
