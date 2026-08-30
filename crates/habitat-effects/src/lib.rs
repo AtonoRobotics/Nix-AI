@@ -407,6 +407,9 @@ impl EffectLedger {
     pub fn len(&self) -> usize {
         self.effects.len()
     }
+    pub fn is_empty(&self) -> bool {
+        self.effects.is_empty()
+    }
     pub fn get(&self, id: &str) -> Option<&EffectRecord> {
         self.effects.get(id)
     }
@@ -564,6 +567,7 @@ impl EffectLedger {
         };
         self.persist()
     }
+    #[allow(clippy::too_many_arguments, reason = "stable effect compensation ABI")]
     pub fn compensate(
         &mut self,
         original_id: &str,
