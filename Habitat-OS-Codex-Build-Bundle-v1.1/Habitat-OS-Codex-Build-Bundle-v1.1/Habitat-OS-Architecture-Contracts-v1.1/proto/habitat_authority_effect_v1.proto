@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+package habitat.authority.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+service CapabilityAuthority {
+  rpc Evaluate(EvaluateRequest) returns (AuthorityDecision);
+  rpc Revoke(RevokeRequest) returns (RevocationResult);
+  rpc Delegate(DelegateRequest) returns (GrantResult);
+}
+
+service EffectRuntime {
+  rpc ProposeEffect(EffectProposal) returns (EffectRecord);
+  rpc GetEffect(GetEffectRequest) returns (EffectRecord);
+  rpc RequestReconciliation(ReconciliationRequest) returns (EffectRecord);
+  rpc RequestCompensation(CompensationRequest) returns (EffectRecord);
+}
+
+message EvaluateRequest {
+  string command_id = 1;
+  string activation_id = 2;
+  string subject_principal_id = 3;
+  string capability = 4;
+  string operation = 5;
+  google.protobuf.Struct target = 6;
+  string state_version = 7;
+}
+
+message AuthorityDecision {
+  string decision_id = 1;
+  bool allowed = 2;
+  string grant_id = 3;
+  string policy_version = 4;
+  string revocation_epoch = 5;
+  string evaluated_state_version = 6;
+  repeated string evidence_refs = 7;
+  string denial_code = 8;
+}
+
+message DelegateRequest {
+  string command_id = 1;
+  string parent_grant_id = 2;
+  string subject_principal_id = 3;
+  repeated string operations = 4;
+  google.protobuf.Struct target_scope = 5;
+  google.protobuf.Timestamp expires_at = 6;
+  uint32 remaining_delegation_depth = 7;
+}
+
+message GrantResult {
+  string grant_id = 1;
+  bool committed = 2;
+  string error_code = 3;
+}
+
+message RevokeRequest {
+  string command_id = 1;
+  string grant_id = 2;
+  string reason_code = 3;
+}
+
+message RevocationResult {
+  string grant_id = 1;
+  string revocation_epoch = 2;
+  bool committed = 3;
+}
+
+enum ConsequenceClass {
+  CONSEQUENCE_CLASS_UNSPECIFIED = 0;
+  E0 = 1;
+  E1 = 2;
+  E2 = 3;
+  E3 = 4;
+  E4 = 5;
+}
+
+enum EffectState {
+  EFFECT_STATE_UNSPECIFIED = 0;
+  PROPOSED = 1;
+  REJECTED = 2;
+  RESERVED = 3;
+  EXECUTING = 4;
+  OBSERVED_SUCCEEDED = 5;
+  OBSERVED_FAILED = 6;
+  OUTCOME_UNKNOWN = 7;
+  RECONCILING = 8;
+  RESOLVED_SUCCEEDED = 9;
+  RESOLVED_FAILED = 10;
+  MANUAL_AUTHORITY_REQUIRED = 11;
+}
+
+message EffectProposal {
+  string effect_id = 1;
+  string command_id = 2;
+  string activation_id = 3;
+  string agent_id = 4;
+  string objective_id = 5;
+  string capability = 6;
+  string operation = 7;
+  google.protobuf.Struct target = 8;
+  string parameters_digest = 9;
+  google.protobuf.Struct expected_precondition = 10;
+  google.protobuf.Struct expected_result = 11;
+  string idempotency_key = 12;
+  ConsequenceClass consequence_class = 13;
+  google.protobuf.Timestamp expires_at = 14;
+  uint64 timeout_ms = 15;
+  repeated string evidence_requirements = 16;
+  string compensates_effect_id = 17;
+}
+
+message GetEffectRequest {
+  string effect_id = 1;
+}
+
+message ReconciliationRequest {
+  string command_id = 1;
+  string effect_id = 2;
+  string reason_code = 3;
+}
+
+message CompensationRequest {
+  string command_id = 1;
+  string original_effect_id = 2;
+  string compensation_capability = 3;
+  string idempotency_key = 4;
+}
+
+message EffectRecord {
+  string effect_id = 1;
+  EffectState state = 2;
+  string authority_decision_id = 3;
+  string provider_external_id = 4;
+  repeated string evidence_refs = 5;
+  string uncertainty_id = 6;
+  string error_code = 7;
+}
+

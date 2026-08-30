@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://habitat.invalid/schemas/context-request/v1",
+  "title": "Habitat Context Request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_id", "activation_id", "deficiency", "materiality", "requested_kind", "resolution_condition"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "request_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "activation_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "deficiency": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "materiality": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "requested_kind": {
+      "type": "string",
+      "enum": ["FACT", "EVIDENCE", "PROCEDURE", "CAPABILITY_DOCUMENTATION", "PRECEDENT", "FRESH_OBSERVATION"]
+    },
+    "resolution_condition": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "source_constraints": {"type": "array", "maxItems": 32, "items": {"type": "string", "maxLength": 512}},
+    "freshness_deadline": {"type": "string", "format": "date-time"},
+    "command_id": {"type": "string", "minLength": 1, "maxLength": 160}
+  }
+}
+

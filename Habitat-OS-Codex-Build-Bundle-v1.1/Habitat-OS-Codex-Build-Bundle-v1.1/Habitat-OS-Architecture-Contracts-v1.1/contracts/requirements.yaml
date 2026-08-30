@@ -1,0 +1,1358 @@
+schema_version: 1
+registry_id: habitat-requirements-v1.1
+expected_requirement_count: 135
+criticality_definitions:
+  critical: "Failure violates a system invariant or authority, safety, recovery, integrity or truth boundary and blocks every release."
+  release: "Required for the complete Habitat release; it may not be omitted from W15 qualification."
+  profile: "Required when a hardware profile declares the governed feature supported; declared absence remains governed by HWP-002."
+requirements:
+  - id: ABI-001
+    title: "Backend neutrality"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:62"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-002
+    title: "No implicit success"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:64"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-003
+    title: "Structured disposition"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:66"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-004
+    title: "Idempotent commands"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:68"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-005
+    title: "Deadline enforcement"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:70"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-006
+    title: "Cancellation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:72"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-007
+    title: "Context immutability"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:74"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-008
+    title: "Capability visibility"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:76"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-009
+    title: "Error semantics"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:78"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ABI-010
+    title: "No chain-of-thought dependency"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/02-AGENT-ABI.md:80"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "versioned protobuf service and command ledger"
+    gates: [V-BACKEND]
+    evidence: ["abi-conformance-report", "duplicate-command-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-001
+    title: "Boot autonomy"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:66"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-BOOT]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-002
+    title: "Agent-native ownership"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:68"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-DISASTER]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-003
+    title: "Backend replaceability"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:70"
+    criticality: critical
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-BACKEND]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-004
+    title: "Isolation selection"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:72"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-ISOLATION]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-005
+    title: "No bypass"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:74"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-ISOLATION, V-CAPABILITY]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-006
+    title: "Pinned generation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:76"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-PACKAGE]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-007
+    title: "Failure containment"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:78"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-ISOLATION, V-DISASTER]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-008
+    title: "Compatibility capsules"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:80"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-PACKAGE]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-009
+    title: "Single operational truth"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:82"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-DISASTER]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: ARC-010
+    title: "Domain neutrality"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/01-ARCHITECTURE.md:84"
+    criticality: release
+    owner_packet: W03
+    implementation: "crates/habitat-abi"
+    enforcement: "Habitat service ownership and system conformance tests"
+    gates: [V-BACKEND]
+    evidence: ["system-conformance-report", "architecture-boundary-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-001
+    title: "Authentication"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:42"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-002
+    title: "Complete mediation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:44"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-003
+    title: "Attenuation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:46"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-004
+    title: "No ambient credentials"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:48"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-005
+    title: "Revocation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:50"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-006
+    title: "Generation binding"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:52"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-007
+    title: "Fail closed"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:54"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-008
+    title: "Physical enforcement"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:56"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-009
+    title: "Self-authority prohibition"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:58"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: AUT-010
+    title: "Attribution"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:60"
+    criticality: critical
+    owner_packet: W04
+    implementation: "crates/habitat-authority"
+    enforcement: "complete mediation and attenuating grant evaluator"
+    gates: [V-CAPABILITY]
+    evidence: ["authorization-negative-suite", "attenuation-property-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-001
+    title: "Faithful implementation"
+    source: "CODEX-BUILD-SPEC.md:513"
+    criticality: critical
+    owner_packet: W00
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-CONTRACT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-002
+    title: "Reproducible public interface"
+    source: "CODEX-BUILD-SPEC.md:515"
+    criticality: critical
+    owner_packet: W01
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-BOOT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-003
+    title: "Honest readiness"
+    source: "CODEX-BUILD-SPEC.md:517"
+    criticality: critical
+    owner_packet: W01
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-BOOT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-004
+    title: "Packet evidence"
+    source: "CODEX-BUILD-SPEC.md:519"
+    criticality: critical
+    owner_packet: W00
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-CONTRACT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-005
+    title: "No authority bypass"
+    source: "CODEX-BUILD-SPEC.md:521"
+    criticality: critical
+    owner_packet: W06
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-ISOLATION]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-006
+    title: "Durable recovery"
+    source: "CODEX-BUILD-SPEC.md:523"
+    criticality: critical
+    owner_packet: W02
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-DISASTER]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-007
+    title: "Independent qualification"
+    source: "CODEX-BUILD-SPEC.md:525"
+    criticality: critical
+    owner_packet: W15
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-SELF-CHANGE]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-008
+    title: "Profile truthfulness"
+    source: "CODEX-BUILD-SPEC.md:527"
+    criticality: critical
+    owner_packet: W01
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-BOOT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-009
+    title: "No implicit policy"
+    source: "CODEX-BUILD-SPEC.md:529"
+    criticality: critical
+    owner_packet: W00
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-CONTRACT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: BLD-010
+    title: "Production continuity"
+    source: "CODEX-BUILD-SPEC.md:531"
+    criticality: critical
+    owner_packet: W00
+    implementation: "flake.nix"
+    enforcement: "locked build and packet evidence gates"
+    gates: [V-CONTRACT]
+    evidence: ["build-conformance-report", "packet-evidence-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-001
+    title: "Provenance"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:38"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-002
+    title: "Truth separation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:40"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-003
+    title: "Freshness"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:42"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-004
+    title: "Immutable bundles"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:44"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-005
+    title: "Descriptor-first skills"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:46"
+    criticality: release
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-006
+    title: "Applicability"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:48"
+    criticality: release
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-007
+    title: "Agent-recognized need"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:50"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-008
+    title: "Trigger hints"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:52"
+    criticality: release
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-009
+    title: "Bounded recursion"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:54"
+    criticality: release
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-010
+    title: "Source access"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:56"
+    criticality: release
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-011
+    title: "Injection defense"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:58"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: CTX-012
+    title: "No silent omission"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/06-CONTEXT.md:60"
+    criticality: critical
+    owner_packet: W07
+    implementation: "crates/habitat-context"
+    enforcement: "immutable context compiler and semantic request broker"
+    gates: [V-CONTEXT, V-CONTEXT-FAULT]
+    evidence: ["context-conformance-suite", "context-fault-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-001
+    title: "Admission transaction"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:38"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-002
+    title: "Stable idempotency"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:40"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-003
+    title: "No blind retry"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:42"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-004
+    title: "Attempt evidence"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:44"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-005
+    title: "Independent observation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:46"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-006
+    title: "Reconciliation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:48"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-007
+    title: "Cancellation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:50"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-008
+    title: "Compensation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:52"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-009
+    title: "Ordering"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:54"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-010
+    title: "Recovery"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:56"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-011
+    title: "Physical effect"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:58"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: EFF-012
+    title: "Completion coupling"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:60"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-effects"
+    enforcement: "transactional reservation and durable effect ledger"
+    gates: [V-EFFECT]
+    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-001
+    title: "Reproducible closure"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:17"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-002
+    title: "Signature separation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:19"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-003
+    title: "Boot independence"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:21"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-004
+    title: "Confirmation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:23"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-005
+    title: "Watchdog rollback"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:25"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-006
+    title: "Migration gate"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:27"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-007
+    title: "Driver matrix"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:29"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-008
+    title: "Measured boot"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:31"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-009
+    title: "Recovery protection"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:33"
+    criticality: critical
+    owner_packet: W01
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GEN-010
+    title: "Self-change"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/08-SYSTEM-GENERATIONS.md:35"
+    criticality: critical
+    owner_packet: W14
+    implementation: "crates/habitat-generations"
+    enforcement: "signed Nix generations and boot-counted activation"
+    gates: [V-SELF-CHANGE]
+    evidence: ["generation-boot-report", "defective-rollback-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GOV-001
+    title: "Stable identifiers"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/00-GOVERNANCE.md:63"
+    criticality: critical
+    owner_packet: W00
+    implementation: "contracts/requirements.yaml"
+    enforcement: "contract validator and governed change gate"
+    gates: [V-CONTRACT]
+    evidence: ["contract-validation-report", "traceability-registry-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GOV-002
+    title: "Complete requirement semantics"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/00-GOVERNANCE.md:65"
+    criticality: critical
+    owner_packet: W00
+    implementation: "contracts/requirements.yaml"
+    enforcement: "contract validator and governed change gate"
+    gates: [V-CONTRACT]
+    evidence: ["contract-validation-report", "traceability-registry-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GOV-003
+    title: "No hidden policy"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/00-GOVERNANCE.md:67"
+    criticality: critical
+    owner_packet: W00
+    implementation: "contracts/requirements.yaml"
+    enforcement: "contract validator and governed change gate"
+    gates: [V-CONTRACT]
+    evidence: ["contract-validation-report", "traceability-registry-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GOV-004
+    title: "Change propagation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/00-GOVERNANCE.md:69"
+    criticality: critical
+    owner_packet: W00
+    implementation: "contracts/requirements.yaml"
+    enforcement: "contract validator and governed change gate"
+    gates: [V-CONTRACT]
+    evidence: ["contract-validation-report", "traceability-registry-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GOV-005
+    title: "Evidence before completion"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/00-GOVERNANCE.md:71"
+    criticality: critical
+    owner_packet: W00
+    implementation: "contracts/requirements.yaml"
+    enforcement: "contract validator and governed change gate"
+    gates: [V-CONTRACT]
+    evidence: ["contract-validation-report", "traceability-registry-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: GOV-006
+    title: "Unknowns"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/00-GOVERNANCE.md:73"
+    criticality: critical
+    owner_packet: W00
+    implementation: "contracts/requirements.yaml"
+    enforcement: "contract validator and governed change gate"
+    gates: [V-CONTRACT]
+    evidence: ["contract-validation-report", "traceability-registry-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-001
+    title: "ABI invariance"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:33"
+    criticality: critical
+    owner_packet: W01
+    implementation: "nix/profiles"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-002
+    title: "Declared absence"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:35"
+    criticality: critical
+    owner_packet: W01
+    implementation: "nix/profiles"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-003
+    title: "Qualification matrix"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:37"
+    criticality: profile
+    owner_packet: W01
+    implementation: "nix/profiles"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-004
+    title: "Capacity admission"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:39"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-ISOLATION]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-005
+    title: "Device mediation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:41"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-ISOLATION]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-006
+    title: "Thermal and power state"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:43"
+    criticality: profile
+    owner_packet: W01
+    implementation: "nix/profiles"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-007
+    title: "Recovery proof"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:45"
+    criticality: critical
+    owner_packet: W01
+    implementation: "nix/profiles"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: HWP-008
+    title: "Vendor capsule"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/10-HARDWARE-PROFILES.md:47"
+    criticality: profile
+    owner_packet: W01
+    implementation: "nix/profiles"
+    enforcement: "profile feature declarations and live qualification"
+    gates: [V-BOOT, V-ROLLBACK]
+    evidence: ["hardware-profile-qualification", "profile-feature-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: OBS-001
+    title: "Correlation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/11-OBSERVABILITY-SLOS.md:25"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "protected correlated evidence and durable-state SLOs"
+    gates: [V-DISASTER]
+    evidence: ["telemetry-evidence-correlation-report", "protected-audit-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: OBS-002
+    title: "Cause visibility"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/11-OBSERVABILITY-SLOS.md:27"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "protected correlated evidence and durable-state SLOs"
+    gates: [V-DISASTER]
+    evidence: ["telemetry-evidence-correlation-report", "protected-audit-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: OBS-003
+    title: "No success by silence"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/11-OBSERVABILITY-SLOS.md:29"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "protected correlated evidence and durable-state SLOs"
+    gates: [V-DISASTER]
+    evidence: ["telemetry-evidence-correlation-report", "protected-audit-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: OBS-004
+    title: "Protected audit"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/11-OBSERVABILITY-SLOS.md:31"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "protected correlated evidence and durable-state SLOs"
+    gates: [V-DISASTER]
+    evidence: ["telemetry-evidence-correlation-report", "protected-audit-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: OBS-005
+    title: "Model observability"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/11-OBSERVABILITY-SLOS.md:33"
+    criticality: release
+    owner_packet: W09
+    implementation: "crates/habitat-models"
+    enforcement: "protected correlated evidence and durable-state SLOs"
+    gates: [V-BACKEND]
+    evidence: ["telemetry-evidence-correlation-report", "protected-audit-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: OBS-006
+    title: "SLO evidence"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/11-OBSERVABILITY-SLOS.md:35"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "protected correlated evidence and durable-state SLOs"
+    gates: [V-DISASTER]
+    evidence: ["telemetry-evidence-correlation-report", "protected-audit-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-001
+    title: "Signed admission"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:44"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-002
+    title: "Exact artifact"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:46"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-003
+    title: "Dependency closure"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:48"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-004
+    title: "No implicit privilege"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:50"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-005
+    title: "Live verification"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:52"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-006
+    title: "Drain"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:54"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-007
+    title: "Revocation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:56"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-008
+    title: "State migration"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:58"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-009
+    title: "Cordis boundary"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:60"
+    criticality: release
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: PKG-010
+    title: "Supply chain"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:62"
+    criticality: critical
+    owner_packet: W10
+    implementation: "crates/habitat-packages"
+    enforcement: "signed package admission and immutable activation sets"
+    gates: [V-PACKAGE]
+    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SAF-001
+    title: "Independent stop"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:53"
+    criticality: critical
+    owner_packet: W13
+    implementation: "crates/habitat-physical"
+    enforcement: "independent controller safety and expiring physical effects"
+    gates: [V-PHYSICAL]
+    evidence: ["physical-safety-suite", "independent-stop-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SAF-002
+    title: "Bounded commands"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:55"
+    criticality: critical
+    owner_packet: W13
+    implementation: "crates/habitat-physical"
+    enforcement: "independent controller safety and expiring physical effects"
+    gates: [V-PHYSICAL]
+    evidence: ["physical-safety-suite", "independent-stop-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SAF-003
+    title: "No stale replay"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:57"
+    criticality: critical
+    owner_packet: W13
+    implementation: "crates/habitat-physical"
+    enforcement: "independent controller safety and expiring physical effects"
+    gates: [V-PHYSICAL]
+    evidence: ["physical-safety-suite", "independent-stop-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SAF-004
+    title: "State uncertainty"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:59"
+    criticality: critical
+    owner_packet: W13
+    implementation: "crates/habitat-physical"
+    enforcement: "independent controller safety and expiring physical effects"
+    gates: [V-PHYSICAL]
+    evidence: ["physical-safety-suite", "independent-stop-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SAF-005
+    title: "Authority separation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:61"
+    criticality: critical
+    owner_packet: W13
+    implementation: "crates/habitat-physical"
+    enforcement: "independent controller safety and expiring physical effects"
+    gates: [V-PHYSICAL]
+    evidence: ["physical-safety-suite", "independent-stop-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-001
+    title: "Least authority"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:31"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-002
+    title: "Context cannot authorize"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:33"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-003
+    title: "Secret non-disclosure"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:35"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-004
+    title: "Workspace isolation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:37"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-005
+    title: "Network default deny"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:39"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-006
+    title: "Control-plane isolation"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:41"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-007
+    title: "Evidence protection"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:43"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-008
+    title: "Prompt injection handling"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:45"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-009
+    title: "Tamper evidence"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:47"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-evidence"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: SEC-010
+    title: "Break glass"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:49"
+    criticality: critical
+    owner_packet: W06
+    implementation: "crates/habitat-execution"
+    enforcement: "default-deny Linux and runtime isolation"
+    gates: [V-ISOLATION]
+    evidence: ["isolation-adversarial-suite", "secret-exposure-negative-test"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-001
+    title: "Transactional transition"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:54"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-002
+    title: "No mutable history"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:56"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-003
+    title: "Lease recovery"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:58"
+    criticality: critical
+    owner_packet: W08
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-EFFECT, V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-004
+    title: "Wake durability"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:60"
+    criticality: critical
+    owner_packet: W05
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-WAKE]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-005
+    title: "Projection status"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:62"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-006
+    title: "Concurrency"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:64"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-007
+    title: "Time"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:66"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-008
+    title: "Retention"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:68"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-009
+    title: "Backup consistency"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:70"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: STA-010
+    title: "Schema migration"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/03-STATE-AND-LIFECYCLE.md:72"
+    criticality: critical
+    owner_packet: W02
+    implementation: "crates/habitat-state"
+    enforcement: "transactional state machine and append-only history"
+    gates: [V-DISASTER]
+    evidence: ["state-crash-matrix", "backup-restore-report"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: VER-001
+    title: "Contract coverage"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/12-VERIFICATION-MATRIX.md:44"
+    criticality: critical
+    owner_packet: W15
+    implementation: "tests/system"
+    enforcement: "independent qualification runner"
+    gates: [V-CONTRACT]
+    evidence: ["complete-verification-matrix", "qualification-summary"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: VER-002
+    title: "Negative proof"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/12-VERIFICATION-MATRIX.md:46"
+    criticality: critical
+    owner_packet: W15
+    implementation: "tests/system"
+    enforcement: "independent qualification runner"
+    gates: [V-ISOLATION]
+    evidence: ["complete-verification-matrix", "qualification-summary"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: VER-003
+    title: "Live behavior"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/12-VERIFICATION-MATRIX.md:48"
+    criticality: critical
+    owner_packet: W15
+    implementation: "tests/system"
+    enforcement: "independent qualification runner"
+    gates: [V-PACKAGE]
+    evidence: ["complete-verification-matrix", "qualification-summary"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: VER-004
+    title: "Reproducibility"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/12-VERIFICATION-MATRIX.md:50"
+    criticality: critical
+    owner_packet: W15
+    implementation: "tests/system"
+    enforcement: "independent qualification runner"
+    gates: [V-CONTRACT]
+    evidence: ["complete-verification-matrix", "qualification-summary"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: VER-005
+    title: "Independent evaluator"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/12-VERIFICATION-MATRIX.md:52"
+    criticality: critical
+    owner_packet: W15
+    implementation: "tests/system"
+    enforcement: "independent qualification runner"
+    gates: [V-SELF-CHANGE]
+    evidence: ["complete-verification-matrix", "qualification-summary"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
+  - id: VER-006
+    title: "No open blockers"
+    source: "Habitat-OS-Architecture-Contracts-v1.1/12-VERIFICATION-MATRIX.md:54"
+    criticality: critical
+    owner_packet: W15
+    implementation: "tests/system"
+    enforcement: "independent qualification runner"
+    gates: [V-CONTRACT]
+    evidence: ["complete-verification-matrix", "qualification-summary"]
+    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."

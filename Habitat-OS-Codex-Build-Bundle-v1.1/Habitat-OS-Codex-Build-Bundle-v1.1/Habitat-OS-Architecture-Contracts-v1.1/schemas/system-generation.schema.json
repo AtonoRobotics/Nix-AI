@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://habitat.invalid/schemas/system-generation/v1",
+  "title": "Habitat System Generation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generation_id", "closure_digest", "source_lock_digest", "hardware_profile_id", "kernel_digest", "habitat_abi_version", "state_schema_compatibility", "recovery_generation_id", "evidence_refs", "signature_ref"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generation_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    "closure_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source_lock_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "hardware_profile_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "kernel_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "habitat_abi_version": {"const": "habitat.agent.v1"},
+    "state_schema_compatibility": {"type": "string", "enum": ["UNCHANGED", "BACKWARD_COMPATIBLE", "RESTORE_REQUIRED"]},
+    "migration_ref": {"type": "string", "maxLength": 512},
+    "recovery_generation_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    "confirmation_deadline_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "maxLength": 512}},
+    "signature_ref": {"type": "string", "minLength": 1, "maxLength": 512}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"state_schema_compatibility": {"const": "RESTORE_REQUIRED"}}},
+      "then": {"required": ["migration_ref"]}
+    }
+  ]
+}
+

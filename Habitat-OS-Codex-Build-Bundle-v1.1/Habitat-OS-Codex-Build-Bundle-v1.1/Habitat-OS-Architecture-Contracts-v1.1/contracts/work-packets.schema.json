@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://habitat.invalid/contracts/work-packets.schema.json",
+  "title": "Habitat Work Packet Graph",
+  "type": "object",
+  "required": ["schema_version", "graph_id", "source_of_truth", "dependency_semantics", "packets"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "graph_id": {"type": "string", "minLength": 1},
+    "source_of_truth": {"const": true},
+    "dependency_semantics": {
+      "type": "object",
+      "required": ["cannot_begin", "cannot_integrate", "cannot_pass"],
+      "additionalProperties": false,
+      "properties": {
+        "cannot_begin": {"type": "string", "minLength": 1},
+        "cannot_integrate": {"type": "string", "minLength": 1},
+        "cannot_pass": {"type": "string", "minLength": 1}
+      }
+    },
+    "packets": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "owner", "deliverable", "cannot_begin", "cannot_integrate", "cannot_pass", "exit_evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"},
+          "title": {"type": "string", "minLength": 1},
+          "owner": {"type": "string", "minLength": 1},
+          "deliverable": {"type": "string", "minLength": 1},
+          "cannot_begin": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"}},
+          "cannot_integrate": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"}},
+          "cannot_pass": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^W(?:0[0-9]|1[0-5])$"}},
+          "exit_evidence": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    }
+  }
+}

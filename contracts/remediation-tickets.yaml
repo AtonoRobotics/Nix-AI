@@ -1,0 +1,31 @@
+schema_version: 1
+baseline: habitat-contracts-v1.1
+tickets:
+  - id: RMD-001
+    title: Resolve reference decision status
+    class: blocker
+    status: closed
+    blocks: [RMD-003, RMD-004]
+    correction: "DEC-016 through DEC-021 approve the reference choices and OPEN-001 through OPEN-005 are closed or narrowed by profile scope."
+    closure_evidence: [14-DECISION-REGISTER.md, CODEX-BUILD-SPEC.md]
+  - id: RMD-002
+    title: Establish canonical typed work graph
+    class: blocker
+    status: closed
+    blocks: [RMD-003, RMD-004]
+    correction: "contracts/work-packets.yaml defines begin, integrate and pass dependencies; both Markdown views are generated."
+    closure_evidence: [contracts/work-packets.yaml, tests/generate_work_graph.py]
+  - id: RMD-003
+    title: Make requirement traceability executable
+    class: verification-gap
+    status: closed
+    depends_on: [RMD-001, RMD-002]
+    correction: "All 135 normative requirements have criticality, ownership, implementation, enforcement, gates, evidence and acceptance mappings."
+    closure_evidence: [contracts/requirements.yaml, contracts/requirements.schema.json, tests/validate_contracts.py]
+  - id: RMD-004
+    title: Protect complete bundle integrity
+    class: material-risk
+    status: closed
+    depends_on: [RMD-001, RMD-002]
+    correction: "The regenerated architecture manifest and bundle-level manifest cover the complete two-level package and are verified before contract validation."
+    closure_evidence: [MANIFEST.sha256, BUNDLE-MANIFEST.sha256, tests/validate_bundle.py]
