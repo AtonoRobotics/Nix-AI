@@ -24,6 +24,8 @@ from inventory_v2 import (
 RUNNER = {"name": "classify-v2-scope", "version": 1}
 BINDING_CONTRACT_SHA256 = "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a"
 BINDING_MANIFEST_SHA256 = "5ccdd43bd2489b3f202ffa1620a11ff8593e8ffc26161c2c3f2a8e2d55aacb8c"
+ARCHIVED_V2_CONTRACT_SHA256 = "49b1638fb71cbe8e6664d7463132d33b3fd121e88468608699e613685af83dd6"
+ARCHIVED_V2_MANIFEST_SHA256 = "63621cccd011aca6704bba1e2d5ef78bdd5967e6576da012f28430657d422ce5"
 INVENTORY_CLASSES = (
     "tracked_paths",
     "public_semantics",
@@ -290,6 +292,16 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
     )
     if hashlib.sha256(binding_manifest_bytes).hexdigest() != BINDING_MANIFEST_SHA256:
         raise ValueError("binding manifest digest does not match trusted v2.0.1 authority")
+    archived_contract_bytes = inventory_tree_bytes(
+        root, tree, "contracts/v2/nix-ai-v2.0.0.contract.json"
+    )
+    if hashlib.sha256(archived_contract_bytes).hexdigest() != ARCHIVED_V2_CONTRACT_SHA256:
+        raise ValueError("archived v2.0.0 contract digest does not match trusted authority")
+    archived_manifest_bytes = inventory_tree_bytes(
+        root, tree, "contracts/v2/MANIFEST.sha256"
+    )
+    if hashlib.sha256(archived_manifest_bytes).hexdigest() != ARCHIVED_V2_MANIFEST_SHA256:
+        raise ValueError("archived v2.0.0 manifest digest does not match trusted authority")
     if contract != binding_contract:
         raise ValueError("contract input does not match inventory tree binding contract")
     tree_paths = sorted(

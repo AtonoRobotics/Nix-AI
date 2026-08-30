@@ -446,6 +446,72 @@ class V2ScopeClassificationTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("binding contract digest does not match", result.stderr)
 
+    def test_archived_v2_package_cannot_be_self_resigned_after_mutation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_path = Path(temporary)
+            clone = temporary_path / "clone"
+            subprocess.run(
+                ["git", "clone", "--quiet", str(ROOT), str(clone)],
+                check=True,
+                text=True,
+                capture_output=True,
+            )
+            contract_path = clone / "contracts" / "v2" / "nix-ai-v2.0.0.contract.json"
+            contract_path.write_bytes(contract_path.read_bytes() + b" \n")
+            import hashlib
+
+            digest = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+            manifest_path = clone / "contracts" / "v2" / "MANIFEST.sha256"
+            lines = [
+                f"{digest}  nix-ai-v2.0.0.contract.json"
+                if line.endswith("  nix-ai-v2.0.0.contract.json")
+                else line
+                for line in manifest_path.read_text().splitlines()
+            ]
+            manifest_path.write_text("\n".join(lines) + "\n")
+            subprocess.run(
+                ["git", "add", str(contract_path), str(manifest_path)],
+                cwd=clone,
+                check=True,
+            )
+            subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=V2 Test",
+                    "-c",
+                    "user.email=v2-test@example.invalid",
+                    "commit",
+                    "--quiet",
+                    "-m",
+                    "mutated archived contract fixture",
+                ],
+                cwd=clone,
+                check=True,
+            )
+            inventory_path = temporary_path / "inventory.json"
+            inventory_result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "inventory_v2.py"),
+                    "--root",
+                    str(clone),
+                    "--baseline",
+                    "HEAD",
+                    "--output",
+                    str(inventory_path),
+                ],
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(inventory_result.returncode, 0, inventory_result.stderr)
+            result = self.run_classifier(
+                temporary_path / "ledger.json", inventory_path, clone
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("archived v2.0.0 contract digest does not match", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

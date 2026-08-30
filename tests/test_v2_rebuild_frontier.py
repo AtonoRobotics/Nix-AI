@@ -130,6 +130,16 @@ class V2RebuildFrontierTests(unittest.TestCase):
                 "enum_value",
                 "EffectState::OUTCOME_UNKNOWN",
             ),
+            (
+                "src/habitat_state/domain.py",
+                "enum_value",
+                "State::RUNNING",
+            ),
+            (
+                "src/habitat_state/domain.py",
+                "transition",
+                "EntityKind.ACTIVATION:State.RUNNING->State.COMPLETED",
+            ),
         ):
             self.assertIn(expected, semantics)
         dependencies = {
@@ -155,6 +165,26 @@ class V2RebuildFrontierTests(unittest.TestCase):
         )
         for dependency in ("docker-client", "qemu", "protobuf", "coreutils", "mtools"):
             self.assertIn(("flake.nix", "nix-package", dependency), dependencies)
+        self.assertIn(
+            (
+                "contracts/proto/habitat_agent_v1.proto",
+                "proto-import",
+                "google/protobuf/struct.proto",
+            ),
+            dependencies,
+        )
+        self.assertIn(
+            ("nix/modules/habitat-image.nix", "nix-package", "findutils"),
+            dependencies,
+        )
+        self.assertIn(
+            (
+                "nix/profiles/qemu-x86_64-conformance.nix",
+                "nix-module",
+                "../modules/habitat-image.nix",
+            ),
+            dependencies,
+        )
         self.assertEqual(
             report["counts"],
             {

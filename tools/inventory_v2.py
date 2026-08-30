@@ -81,7 +81,8 @@ def public_semantics_from_contents(paths, read_text) -> list[dict[str, str | int
             found.extend(rust_enum_values(relative, content))
             found.extend(rust_macro_generated_types(relative, content))
         elif suffix == ".py":
-            for node in ast.walk(ast.parse(content, filename=relative)):
+            python_tree = ast.parse(content, filename=relative)
+            for node in ast.walk(python_tree):
                 if not isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
                     continue
                 if node.name.startswith("_"):
@@ -92,11 +93,12 @@ def public_semantics_from_contents(paths, read_text) -> list[dict[str, str | int
                 found.append(
                     {"path": relative, "line": node.lineno, "kind": kind, "name": node.name}
                 )
+            found.extend(python_enum_values(relative, python_tree))
+            found.extend(python_state_transitions(relative, python_tree))
         elif suffix == ".proto":
             pattern = re.compile(
-                r"^\s*(?P<kind>message|enum|service|rpc)\s+"
-                r"(?P<name>[A-Za-z_][A-Za-z0-9_]*)",
-                re.MULTILINE,
+                r"\b(?P<kind>message|enum|service|rpc)\s+"
+                r"(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
             )
             for match in pattern.finditer(content):
                 found.append(semantic_record(relative, content, match))
@@ -113,6 +115,54 @@ def semantic_record(relative, content, match, kind=None) -> dict[str, str | int]
         "kind": kind or match.group("kind"),
         "name": match.group("name"),
     }
+
+
+def python_enum_values(relative: str, tree: ast.AST) -> list[dict[str, str | int]]:
+    found: list[dict[str, str | int]] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ClassDef):
+            continue
+        bases = {ast.unparse(base).rsplit(".", 1)[-1] for base in node.bases}
+        if not bases.intersection({"Enum", "IntEnum", "StrEnum", "Flag", "IntFlag"}):
+            continue
+        for statement in node.body:
+            if not isinstance(statement, (ast.Assign, ast.AnnAssign)):
+                continue
+            targets = statement.targets if isinstance(statement, ast.Assign) else [statement.target]
+            for target in targets:
+                if isinstance(target, ast.Name) and not target.id.startswith("_"):
+                    found.append(
+                        {
+                            "path": relative,
+                            "line": statement.lineno,
+                            "kind": "enum_value",
+                            "name": f"{node.name}::{target.id}",
+                        }
+                    )
+    return found
+
+
+def python_state_transitions(relative: str, tree: ast.AST) -> list[dict[str, str | int]]:
+    found: list[dict[str, str | int]] = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign) or not isinstance(node.value, ast.Dict):
+            continue
+        for key, value in zip(node.value.keys, node.value.values):
+            if not isinstance(key, ast.Tuple) or len(key.elts) != 2:
+                continue
+            if not isinstance(value, (ast.Set, ast.List, ast.Tuple)):
+                continue
+            source = f"{ast.unparse(key.elts[0])}:{ast.unparse(key.elts[1])}"
+            for target in value.elts:
+                found.append(
+                    {
+                        "path": relative,
+                        "line": getattr(target, "lineno", node.lineno),
+                        "kind": "transition",
+                        "name": f"{source}->{ast.unparse(target)}",
+                    }
+                )
+    return found
 
 
 def rust_macro_generated_types(relative: str, content: str) -> list[dict[str, str | int]]:
@@ -148,7 +198,7 @@ def proto_enum_values(relative: str, content: str) -> list[dict[str, str | int]]
             cursor += 1
         body = content[declaration.end() : cursor - 1]
         for value in re.finditer(
-            r"^\s*(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*=", body, re.MULTILINE
+            r"\b(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*=", body
         ):
             absolute = declaration.end() + value.start()
             found.append(
@@ -312,28 +362,23 @@ def dependencies_from_contents(paths, read_text) -> list[dict[str, str]]:
                 elif node.module:
                     found.add((relative, "python-import", node.module.split(".")[0]))
 
+    for relative in paths:
+        if relative.endswith(".proto"):
+            content = read_text(relative) or ""
+            for match in re.finditer(
+                r"\bimport\s+(?:public\s+|weak\s+)?\"(?P<name>[^\"]+)\"",
+                content,
+            ):
+                found.add((relative, "proto-import", match.group("name")))
+        elif relative.endswith(".nix"):
+            found.update(nix_dependencies(relative, read_text(relative) or ""))
+
     if "buf.gen.yaml" in paths:
         content = read_text("buf.gen.yaml") or ""
         for match in re.finditer(
             r"^\s*-\s+(?:local|remote):\s*(?P<name>\S+)", content, re.MULTILINE
         ):
             found.add(("buf.gen.yaml", "buf-plugin", match.group("name")))
-
-    if "flake.nix" in paths:
-        content = read_text("flake.nix") or ""
-        for match in re.finditer(r"\bpkgs\.(?:python3Packages\.)?(?P<name>[A-Za-z0-9_-]+)", content):
-            found.add(("flake.nix", "nix-package", match.group("name")))
-        for match in re.finditer(r"\b(?:ps|pkgs\.python3Packages)\.(?P<name>[A-Za-z0-9_-]+)", content):
-            found.add(("flake.nix", "nix-package", match.group("name")))
-        for block in re.finditer(
-            r"with\s+pkgs(?:\.python3Packages)?\s*;\s*\[(?P<body>.*?)\]",
-            content,
-            re.DOTALL,
-        ):
-            for name in re.findall(r"\b[A-Za-z][A-Za-z0-9_-]*\b", block.group("body")):
-                found.add(("flake.nix", "nix-package", name))
-        for match in re.finditer(r"(?P<path>\./[A-Za-z0-9_./-]+\.nix)\b", content):
-            found.add(("flake.nix", "nix-module", match.group("path")))
 
     if "flake.lock" in paths:
         lock = json.loads(read_text("flake.lock") or "{}")
@@ -345,6 +390,32 @@ def dependencies_from_contents(paths, read_text) -> list[dict[str, str]]:
         {"path": path, "class": dependency_class, "name": name}
         for path, dependency_class, name in sorted(found)
     ]
+
+
+def nix_dependencies(relative: str, content: str) -> set[tuple[str, str, str]]:
+    found: set[tuple[str, str, str]] = set()
+    for match in re.finditer(
+        r"\bpkgs\.(?:python3Packages\.)?(?P<name>[A-Za-z0-9_-]+)", content
+    ):
+        found.add((relative, "nix-package", match.group("name")))
+    for match in re.finditer(
+        r"\b(?:ps|pkgs\.python3Packages)\.(?P<name>[A-Za-z0-9_-]+)", content
+    ):
+        found.add((relative, "nix-package", match.group("name")))
+    for block in re.finditer(
+        r"with\s+pkgs(?:\.python3Packages)?\s*;\s*\[(?P<body>.*?)\]",
+        content,
+        re.DOTALL,
+    ):
+        for name in re.findall(r"\b[A-Za-z][A-Za-z0-9_-]*\b", block.group("body")):
+            found.add((relative, "nix-package", name))
+    for match in re.finditer(r"(?P<path>(?:\.\.?/)+[A-Za-z0-9_./-]+\.nix)\b", content):
+        found.add((relative, "nix-module", match.group("path")))
+    for match in re.finditer(
+        r"modulesPath\s*\+\s*\"(?P<path>[^\"]+\.nix)\"", content
+    ):
+        found.add((relative, "nix-module", "modulesPath:" + match.group("path")))
+    return found
 
 
 def dependencies(root: Path, paths: list[str]) -> list[dict[str, str]]:

@@ -707,6 +707,46 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:proto-import:google/protobuf/struct.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:proto-import:google/protobuf/timestamp.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:proto-import:google/protobuf/struct.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:proto-import:google/protobuf/timestamp.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-001"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
         "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py:python-import:__future__",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py",
@@ -923,6 +963,46 @@
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/proto/habitat_agent_v1.proto:proto-import:google/protobuf/struct.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/proto/habitat_agent_v1.proto:proto-import:google/protobuf/timestamp.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:proto-import:google/protobuf/struct.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-022"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:proto-import:google/protobuf/timestamp.proto",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-022"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -1827,6 +1907,116 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "nix/images/habitat-raw.nix:nix-module:modulesPath:/image/repart.nix",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/images/habitat-raw.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/images/habitat-raw.nix:nix-package:systemd",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/images/habitat-raw.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/images/habitat-raw.nix:nix-package:writeText",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/images/habitat-raw.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/modules/habitat-image.nix:nix-package:coreutils",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/modules/habitat-image.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/modules/habitat-image.nix:nix-package:findutils",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/modules/habitat-image.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/modules/habitat-image.nix:nix-package:jq",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/modules/habitat-image.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/modules/habitat-image.nix:nix-package:linuxPackages_6_12",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/modules/habitat-image.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/modules/habitat-image.nix:nix-package:systemd",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/modules/habitat-image.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/modules/habitat-image.nix:nix-package:writeShellApplication",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/modules/habitat-image.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/profiles/qemu-x86_64-conformance.nix:nix-module:../modules/habitat-image.nix",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/profiles/qemu-x86_64-conformance.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix/profiles/qemu-x86_64-conformance.nix:nix-module:modulesPath:/profiles/qemu-guest.nix",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: nix/profiles/qemu-x86_64-conformance.nix",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "pyproject.toml:python-declared:boto3",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: pyproject.toml",
@@ -2380,6 +2570,16 @@
         "identity": "tests/test_v2_rebuild_frontier.py:python-import:unittest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-028"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tests/test_v2_scope_classification.py:python-import:hashlib",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-028"
@@ -4170,7 +4370,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -4206,13 +4406,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -4236,7 +4436,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -4271,7 +4471,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
             ],
             "result": "satisfied"
           },
@@ -4351,7 +4551,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:7:service:AgentRuntime",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:8:service:AgentRuntime",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4401,7 +4601,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:14:message:GetActivationRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:15:message:GetActivationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4411,7 +4611,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:19:message:ActivationEnvelope",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:20:message:ActivationEnvelope",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4421,7 +4621,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:36:enum:DispositionKind",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:37:enum:DispositionKind",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4431,7 +4631,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:49:message:SubmitDispositionRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:50:message:SubmitDispositionRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4441,7 +4641,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:57:message:DecisionRecord",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:58:message:DecisionRecord",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4451,7 +4651,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:62:message:GetCommandResultRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:63:message:GetCommandResultRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4461,7 +4661,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:67:message:CancelActivationRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:68:message:CancelActivationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4471,7 +4671,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:73:enum:RetryDisposition",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:74:enum:RetryDisposition",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4481,7 +4681,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:82:message:CommandResult",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:83:message:CommandResult",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4491,7 +4691,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:91:message:ErrorStatus",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:92:message:ErrorStatus",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4501,7 +4701,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:37:enum_value:DispositionKind::DISPOSITION_KIND_UNSPECIFIED",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:38:enum_value:DispositionKind::DISPOSITION_KIND_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4601,7 +4801,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:74:enum_value:RetryDisposition::RETRY_DISPOSITION_UNSPECIFIED",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto:75:enum_value:RetryDisposition::RETRY_DISPOSITION_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -4661,7 +4861,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:7:service:CapabilityAuthority",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:8:service:CapabilityAuthority",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4701,7 +4901,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:13:service:EffectRuntime",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:14:service:EffectRuntime",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4751,7 +4951,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:20:message:EvaluateRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:21:message:EvaluateRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4761,7 +4961,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:30:message:AuthorityDecision",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:31:message:AuthorityDecision",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4771,7 +4971,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:41:message:DelegateRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:42:message:DelegateRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4781,7 +4981,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:51:message:GrantResult",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:52:message:GrantResult",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4791,7 +4991,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:57:message:RevokeRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:58:message:RevokeRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4801,7 +5001,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:63:message:RevocationResult",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:64:message:RevocationResult",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4811,7 +5011,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:69:enum:ConsequenceClass",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:70:enum:ConsequenceClass",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4821,7 +5021,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:78:enum:EffectState",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:79:enum:EffectState",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4831,7 +5031,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:93:message:EffectProposal",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:94:message:EffectProposal",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4841,7 +5041,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:113:message:GetEffectRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:114:message:GetEffectRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4851,7 +5051,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:117:message:ReconciliationRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:118:message:ReconciliationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4861,7 +5061,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:123:message:CompensationRequest",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:124:message:CompensationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4871,7 +5071,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:130:message:EffectRecord",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:131:message:EffectRecord",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4881,7 +5081,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:70:enum_value:ConsequenceClass::CONSEQUENCE_CLASS_UNSPECIFIED",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:71:enum_value:ConsequenceClass::CONSEQUENCE_CLASS_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -4941,7 +5141,7 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:79:enum_value:EffectState::EFFECT_STATE_UNSPECIFIED",
+        "identity": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto:80:enum_value:EffectState::EFFECT_STATE_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5311,7 +5511,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:7:service:AgentRuntime",
+        "identity": "contracts/proto/habitat_agent_v1.proto:8:service:AgentRuntime",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5361,7 +5561,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:14:message:GetActivationRequest",
+        "identity": "contracts/proto/habitat_agent_v1.proto:15:message:GetActivationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5371,7 +5571,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:19:message:ActivationEnvelope",
+        "identity": "contracts/proto/habitat_agent_v1.proto:20:message:ActivationEnvelope",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5381,7 +5581,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:36:enum:DispositionKind",
+        "identity": "contracts/proto/habitat_agent_v1.proto:37:enum:DispositionKind",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5391,7 +5591,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:49:message:SubmitDispositionRequest",
+        "identity": "contracts/proto/habitat_agent_v1.proto:50:message:SubmitDispositionRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5401,7 +5601,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:57:message:DecisionRecord",
+        "identity": "contracts/proto/habitat_agent_v1.proto:58:message:DecisionRecord",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5411,7 +5611,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:62:message:GetCommandResultRequest",
+        "identity": "contracts/proto/habitat_agent_v1.proto:63:message:GetCommandResultRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5421,7 +5621,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:67:message:CancelActivationRequest",
+        "identity": "contracts/proto/habitat_agent_v1.proto:68:message:CancelActivationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5431,7 +5631,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:73:enum:RetryDisposition",
+        "identity": "contracts/proto/habitat_agent_v1.proto:74:enum:RetryDisposition",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5441,7 +5641,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:82:message:CommandResult",
+        "identity": "contracts/proto/habitat_agent_v1.proto:83:message:CommandResult",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5451,7 +5651,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:91:message:ErrorStatus",
+        "identity": "contracts/proto/habitat_agent_v1.proto:92:message:ErrorStatus",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5461,7 +5661,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:37:enum_value:DispositionKind::DISPOSITION_KIND_UNSPECIFIED",
+        "identity": "contracts/proto/habitat_agent_v1.proto:38:enum_value:DispositionKind::DISPOSITION_KIND_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5561,7 +5761,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_agent_v1.proto:74:enum_value:RetryDisposition::RETRY_DISPOSITION_UNSPECIFIED",
+        "identity": "contracts/proto/habitat_agent_v1.proto:75:enum_value:RetryDisposition::RETRY_DISPOSITION_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_agent_v1.proto",
         "requirement_ids": [],
@@ -5621,7 +5821,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:7:service:CapabilityAuthority",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:8:service:CapabilityAuthority",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5661,7 +5861,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:13:service:EffectRuntime",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:14:service:EffectRuntime",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5711,7 +5911,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:20:message:EvaluateRequest",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:21:message:EvaluateRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5721,7 +5921,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:30:message:AuthorityDecision",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:31:message:AuthorityDecision",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5731,7 +5931,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:41:message:DelegateRequest",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:42:message:DelegateRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5741,7 +5941,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:51:message:GrantResult",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:52:message:GrantResult",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5751,7 +5951,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:57:message:RevokeRequest",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:58:message:RevokeRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5761,7 +5961,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:63:message:RevocationResult",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:64:message:RevocationResult",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5771,7 +5971,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:69:enum:ConsequenceClass",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:70:enum:ConsequenceClass",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5781,7 +5981,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:78:enum:EffectState",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:79:enum:EffectState",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5791,7 +5991,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:93:message:EffectProposal",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:94:message:EffectProposal",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5801,7 +6001,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:113:message:GetEffectRequest",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:114:message:GetEffectRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5811,7 +6011,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:117:message:ReconciliationRequest",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:118:message:ReconciliationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5821,7 +6021,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:123:message:CompensationRequest",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:124:message:CompensationRequest",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5831,7 +6031,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:130:message:EffectRecord",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:131:message:EffectRecord",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5841,7 +6041,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:70:enum_value:ConsequenceClass::CONSEQUENCE_CLASS_UNSPECIFIED",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:71:enum_value:ConsequenceClass::CONSEQUENCE_CLASS_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -5901,7 +6101,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "contracts/proto/habitat_authority_effect_v1.proto:79:enum_value:EffectState::EFFECT_STATE_UNSPECIFIED",
+        "identity": "contracts/proto/habitat_authority_effect_v1.proto:80:enum_value:EffectState::EFFECT_STATE_UNSPECIFIED",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: contracts/proto/habitat_authority_effect_v1.proto",
         "requirement_ids": [],
@@ -12981,6 +13181,586 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:13:enum_value:EntityKind::AGENT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:14:enum_value:EntityKind::OBJECTIVE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:15:enum_value:EntityKind::ACTIVATION",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:16:enum_value:EntityKind::WAKE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:20:enum_value:State::REGISTERED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:21:enum_value:State::AVAILABLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:22:enum_value:State::SUSPENDED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:23:enum_value:State::RETIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:24:enum_value:State::PROPOSED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:25:enum_value:State::ACTIVE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:26:enum_value:State::WAITING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:27:enum_value:State::SATISFIED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:28:enum_value:State::FAILED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:29:enum_value:State::CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:30:enum_value:State::REQUESTED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:31:enum_value:State::LEASED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:32:enum_value:State::PREPARING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:33:enum_value:State::RUNNING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:34:enum_value:State::WAITING_CONTEXT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:35:enum_value:State::WAITING_EFFECT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:36:enum_value:State::SLEEPING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:37:enum_value:State::COMPLETED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:38:enum_value:State::PENDING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:39:enum_value:State::ACKNOWLEDGED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:40:enum_value:State::RELEASED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:41:enum_value:State::EXPIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:51:transition:EntityKind.AGENT:State.REGISTERED->State.AVAILABLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:52:transition:EntityKind.AGENT:State.AVAILABLE->State.SUSPENDED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:52:transition:EntityKind.AGENT:State.AVAILABLE->State.RETIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:53:transition:EntityKind.AGENT:State.SUSPENDED->State.AVAILABLE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:53:transition:EntityKind.AGENT:State.SUSPENDED->State.RETIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:54:transition:EntityKind.OBJECTIVE:State.PROPOSED->State.ACTIVE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:54:transition:EntityKind.OBJECTIVE:State.PROPOSED->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:55:transition:EntityKind.OBJECTIVE:State.ACTIVE->State.WAITING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:55:transition:EntityKind.OBJECTIVE:State.ACTIVE->State.SATISFIED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:55:transition:EntityKind.OBJECTIVE:State.ACTIVE->State.FAILED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:55:transition:EntityKind.OBJECTIVE:State.ACTIVE->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:56:transition:EntityKind.OBJECTIVE:State.WAITING->State.ACTIVE",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:56:transition:EntityKind.OBJECTIVE:State.WAITING->State.FAILED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:56:transition:EntityKind.OBJECTIVE:State.WAITING->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:57:transition:EntityKind.ACTIVATION:State.REQUESTED->State.LEASED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:57:transition:EntityKind.ACTIVATION:State.REQUESTED->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:58:transition:EntityKind.ACTIVATION:State.LEASED->State.PREPARING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:58:transition:EntityKind.ACTIVATION:State.LEASED->State.FAILED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:58:transition:EntityKind.ACTIVATION:State.LEASED->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:59:transition:EntityKind.ACTIVATION:State.PREPARING->State.RUNNING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:59:transition:EntityKind.ACTIVATION:State.PREPARING->State.FAILED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:59:transition:EntityKind.ACTIVATION:State.PREPARING->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:60:transition:EntityKind.ACTIVATION:State.RUNNING->State.WAITING_CONTEXT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:60:transition:EntityKind.ACTIVATION:State.RUNNING->State.WAITING_EFFECT",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:60:transition:EntityKind.ACTIVATION:State.RUNNING->State.SLEEPING",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:61:transition:EntityKind.ACTIVATION:State.RUNNING->State.COMPLETED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:61:transition:EntityKind.ACTIVATION:State.RUNNING->State.FAILED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:61:transition:EntityKind.ACTIVATION:State.RUNNING->State.CANCELLED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:62:transition:EntityKind.WAKE:State.PENDING->State.LEASED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:63:transition:EntityKind.WAKE:State.LEASED->State.ACKNOWLEDGED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:63:transition:EntityKind.WAKE:State.LEASED->State.RELEASED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "src/habitat_state/domain.py:63:transition:EntityKind.WAKE:State.LEASED->State.EXPIRED",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: src/habitat_state/domain.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-030"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
         "identity": "src/habitat_state/lifecycle.py:7:class:ClockUntrusted",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: src/habitat_state/lifecycle.py",
@@ -13601,7 +14381,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:162:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
+        "identity": "tests/test_v2_rebuild_frontier.py:172:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -13611,7 +14391,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:191:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
+        "identity": "tests/test_v2_rebuild_frontier.py:201:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -13621,7 +14401,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:225:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
+        "identity": "tests/test_v2_rebuild_frontier.py:235:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -13681,7 +14461,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:182:test_fixture:test_checked_in_disposition_ledger_is_complete_and_attributed",
+        "identity": "tests/test_v2_scope_classification.py:183:test_fixture:test_checked_in_disposition_ledger_is_complete_and_attributed",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -13691,7 +14471,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:205:test_fixture:test_prior_project_and_domain_fixtures_fail_retention",
+        "identity": "tests/test_v2_scope_classification.py:206:test_fixture:test_prior_project_and_domain_fixtures_fail_retention",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -13701,7 +14481,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:237:test_fixture:test_every_inventory_class_is_reconstructed_from_the_exact_tree",
+        "identity": "tests/test_v2_scope_classification.py:238:test_fixture:test_every_inventory_class_is_reconstructed_from_the_exact_tree",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -13711,7 +14491,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:266:test_fixture:test_inventory_commit_is_reachable_from_a_fresh_clone",
+        "identity": "tests/test_v2_scope_classification.py:267:test_fixture:test_inventory_commit_is_reachable_from_a_fresh_clone",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -13721,7 +14501,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:288:test_fixture:test_noncanonical_manifest_bytes_fail_classification",
+        "identity": "tests/test_v2_scope_classification.py:289:test_fixture:test_noncanonical_manifest_bytes_fail_classification",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -13731,7 +14511,17 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:345:test_fixture:test_external_contract_cannot_weaken_binding_predicates",
+        "identity": "tests/test_v2_scope_classification.py:347:test_fixture:test_external_contract_cannot_weaken_binding_predicates",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-028"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tests/test_v2_scope_classification.py:378:test_fixture:test_same_tree_contract_mutation_cannot_replace_binding_authority",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -13981,7 +14771,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:68:def:requirement_ids_for",
+        "identity": "tools/classify_v2_scope.py:70:def:requirement_ids_for",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -13991,7 +14781,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:83:def:git",
+        "identity": "tools/classify_v2_scope.py:85:def:git",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14001,7 +14791,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:92:def:inventory_tree_contents",
+        "identity": "tools/classify_v2_scope.py:94:def:inventory_tree_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14011,7 +14801,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:101:def:inventory_tree_bytes",
+        "identity": "tools/classify_v2_scope.py:103:def:inventory_tree_bytes",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14021,7 +14811,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:110:def:explicit_path_disposition",
+        "identity": "tools/classify_v2_scope.py:112:def:explicit_path_disposition",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14031,7 +14821,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:122:def:classify_path",
+        "identity": "tools/classify_v2_scope.py:124:def:classify_path",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14041,7 +14831,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:219:def:record",
+        "identity": "tools/classify_v2_scope.py:221:def:record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14051,7 +14841,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:238:def:inherited_record",
+        "identity": "tools/classify_v2_scope.py:241:def:inherited_record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14061,7 +14851,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:249:def:semantic_identity",
+        "identity": "tools/classify_v2_scope.py:252:def:semantic_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14071,7 +14861,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:253:def:dependency_identity",
+        "identity": "tools/classify_v2_scope.py:256:def:dependency_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14081,7 +14871,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:257:def:generic_identity",
+        "identity": "tools/classify_v2_scope.py:260:def:generic_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14091,7 +14881,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:261:def:classify",
+        "identity": "tools/classify_v2_scope.py:264:def:classify",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14101,7 +14891,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:390:def:relegacy_packet",
+        "identity": "tools/classify_v2_scope.py:409:def:relegacy_packet",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14111,7 +14901,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:394:def:contract_package",
+        "identity": "tools/classify_v2_scope.py:413:def:contract_package",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14121,7 +14911,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:401:def:validate_contract_packages",
+        "identity": "tools/classify_v2_scope.py:420:def:validate_contract_packages",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14131,7 +14921,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:454:def:retention_evidence",
+        "identity": "tools/classify_v2_scope.py:473:def:retention_evidence",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14141,7 +14931,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:497:def:main",
+        "identity": "tools/classify_v2_scope.py:514:def:main",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -14191,7 +14981,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:108:def:semantic_record",
+        "identity": "tools/inventory_v2.py:109:def:semantic_record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14201,7 +14991,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:117:def:rust_macro_generated_types",
+        "identity": "tools/inventory_v2.py:118:def:rust_macro_generated_types",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14211,7 +15001,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:135:def:contract_json_semantics",
+        "identity": "tools/inventory_v2.py:136:def:proto_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14221,7 +15011,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:172:def:rust_enum_values",
+        "identity": "tools/inventory_v2.py:165:def:contract_json_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14231,7 +15021,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:217:def:public_semantics",
+        "identity": "tools/inventory_v2.py:202:def:rust_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14241,7 +15031,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:222:def:dependencies_from_contents",
+        "identity": "tools/inventory_v2.py:247:def:public_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14251,7 +15041,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:290:def:dependencies",
+        "identity": "tools/inventory_v2.py:252:def:dependencies_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14261,7 +15051,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:295:def:generated_artifacts",
+        "identity": "tools/inventory_v2.py:350:def:dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14271,7 +15061,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:308:def:build_closure_members_from_contents",
+        "identity": "tools/inventory_v2.py:355:def:generated_artifacts",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14281,7 +15071,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:330:def:build_closure_members",
+        "identity": "tools/inventory_v2.py:368:def:build_closure_members_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14291,7 +15081,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:337:def:inventory",
+        "identity": "tools/inventory_v2.py:390:def:build_closure_members",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -14301,7 +15091,17 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:365:def:main",
+        "identity": "tools/inventory_v2.py:397:def:inventory",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:425:def:main",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -15624,7 +16424,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -15660,13 +16460,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -15690,7 +16490,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -15732,7 +16532,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -15756,7 +16556,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -15798,7 +16598,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -15822,7 +16622,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -15864,7 +16664,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -15888,7 +16688,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -15923,7 +16723,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc"
             ],
             "result": "satisfied"
           },
@@ -15952,7 +16752,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -16016,7 +16816,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -16080,7 +16880,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 56c6352efae25b1b92c7fc6dd380b1825890a007",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -17872,7 +18672,7 @@
       }
     ]
   },
-  "inventory_tree": "56c6352efae25b1b92c7fc6dd380b1825890a007",
+  "inventory_tree": "cc12445073ea228c89be4d7f8ed62c2f70fe7bfc",
   "runner": {
     "name": "classify-v2-scope",
     "version": 1
@@ -17880,12 +18680,12 @@
   "schema_version": 1,
   "summary": {
     "counts_by_action": {
-      "DELETE": 224,
-      "DELETE_AND_REBUILD": 1360,
+      "DELETE": 228,
+      "DELETE_AND_REBUILD": 1436,
       "REGENERATE": 137,
       "RETAIN": 10
     },
-    "total_disposition_count": 1731,
+    "total_disposition_count": 1811,
     "unclassified_count": 0,
     "unmapped_retained_count": 0
   }
