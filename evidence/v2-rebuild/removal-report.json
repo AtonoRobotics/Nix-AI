@@ -29,8 +29,8 @@
     "name": "verify-v2-removal",
     "version": 2
   },
-  "scanned_tracked_path_count": 211,
+  "scanned_tracked_path_count": 209,
   "schema_version": 1,
   "valid": true,
-  "verified_commit": "fe5763ba6a57c179c1b303586f13c269bc2ea8a6"
+  "verified_commit": "e56cb99497df8efefaea988b0b6e49e6c582b143"
 }
