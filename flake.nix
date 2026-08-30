@@ -92,6 +92,24 @@
         dependencies = with pkgs.python3Packages; [ boto3 psycopg ];
         doCheck = false;
       };
+      habitatAbi = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-abi";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        nativeBuildInputs = [ pkgs.protobuf ];
+        cargoBuildFlags = [ "-p" "habitat-abi" ];
+        cargoTestFlags = [ "-p" "habitat-abi" ];
+        PROTOC = "${pkgs.protobuf}/bin/protoc";
+      };
+      qualifyW03 = pkgs.writeShellApplication {
+        name = "qualify-w03";
+        runtimeInputs = [ habitatAbi validateContracts python ];
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w03.py} \
+            --root ${self} --server ${habitatAbi}/bin/habitat-abi-server "$@"
+        '';
+      };
       habitatClosure = pkgs.closureInfo {
         rootPaths = [
           habitatSystem.config.system.build.toplevel
@@ -236,6 +254,11 @@
           program = "${qualifyW02}/bin/qualify-w02";
           meta.description = "Run live PostgreSQL/MinIO W02 disaster qualification";
         };
+        test-w03 = {
+          type = "app";
+          program = "${qualifyW03}/bin/qualify-w03";
+          meta.description = "Verify W03 Agent ABI bindings and Unix transport";
+        };
       };
 
       packages.${system} = {
@@ -244,9 +267,15 @@
         habitat-installer = habitatInstaller;
         habitat-recovery = habitatRecovery;
         habitat-state = habitatState;
+        habitat-abi = habitatAbi;
       };
 
       checks.${system} = {
+        w03-qualification = pkgs.runCommand "habitat-w03-qualification" {
+          nativeBuildInputs = [ qualifyW03 ];
+        } ''
+          qualify-w03 --evidence-dir "$out"
+        '';
         contracts = pkgs.runCommand "habitat-contract-validation" {
           nativeBuildInputs = [ validateContracts ];
         } ''
@@ -264,7 +293,7 @@
       formatter.${system} = pkgs.nixfmt;
 
       devShells.${system}.default = pkgs.mkShell {
-        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 habitatState ];
+        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 habitatState habitatAbi ];
       };
     };
 }
