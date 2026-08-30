@@ -1,0 +1,1 @@
+{"packet":"W11","implementation_commit":"028321fb14d9d4205e66b6e322fbb8d630c7860a","outcome":"passed","governing_requirements":["ARC-002","ARC-003","ABI-001","ABI-002","ABI-003","ABI-008","BLD-005"],"dependencies":{"W05":"passed","W09":"passed","W10":"passed"},"qualification":"nix run .#test-w11","flake_check":"passed"}
