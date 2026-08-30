@@ -63,6 +63,18 @@ class V2CoreAuditTests(unittest.TestCase):
                 self.assertTrue(any(item["kind"]=="test" and "hidden_inline_test" in item["identity"] for item in report["records"]))
         finally: source.write_text(original)
 
+    def test_public_fields_and_trait_members_are_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        try:
+            source.write_text(original+"\npub struct AuditSurface { pub visible_field: String }\npub trait AuditTrait { type Output; fn execute(&self); }\n")
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+            self.assertEqual(result.returncode,0,result.stdout);identities={item["identity"] for item in report["records"]}
+            self.assertTrue(any("AuditSurface.visible_field" in value for value in identities))
+            self.assertTrue(any("AuditTrait.Output" in value for value in identities))
+            self.assertTrue(any("AuditTrait.execute" in value for value in identities))
+        finally:source.write_text(original)
+
     def test_any_model_or_harness_transcript_state_surface_fails_closed(self):
         source=ROOT/"crates/habitat-models/src/transcript_state.rs"
         try:

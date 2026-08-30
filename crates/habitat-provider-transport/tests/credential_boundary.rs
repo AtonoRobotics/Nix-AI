@@ -56,13 +56,22 @@ fn secret_bearing_evidence_identifiers_are_rejected_and_endpoint_is_digest_only(
         ),
         Err(TransportError::UnsafeActivation)
     ));
-    let (_, evidence) = broker
-        .dispatch(
+    assert!(matches!(
+        broker.dispatch(
             &mut transport,
             "https://user:secret@provider.invalid",
             "activation:9",
             &serde_json::json!({}),
-        )
-        .unwrap();
-    assert!(!evidence.endpoint_digest().contains("secret"));
+        ),
+        Err(TransportError::UnsafeEndpoint)
+    ));
+    assert!(matches!(
+        broker.dispatch(
+            &mut transport,
+            "https://provider.invalid/path?key=secret",
+            "activation:9",
+            &serde_json::json!({})
+        ),
+        Err(TransportError::UnsafeEndpoint)
+    ));
 }

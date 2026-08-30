@@ -20,6 +20,8 @@ class W01ProfileTests(unittest.TestCase):
         self.assertRegex(profile["drivers"]["digest"],r"^sha256:[0-9a-f]{64}$")
         self.assertEqual(profile["isolation"]["default"],"DENY")
         self.assertTrue(profile["isolation"]["enforcement"])
+        invalid=dict(profile);invalid.pop("gpu");invalid.pop("devices");invalid["capacity"]={"banana":True}
+        self.assertTrue(list(Draft202012Validator(schema).iter_errors(invalid)))
         self.assertEqual(profile["trust_root"], "SOFTWARE_DEGRADED")
         self.assertEqual(profile["gpu"]["status"], "absent")
         self.assertEqual(profile["devices"], [])

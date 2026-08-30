@@ -178,6 +178,15 @@ def audit(root):
                 brace_depth+=line.count("{")-line.count("}")
                 if scope_depth is not None and brace_depth<=scope_depth:
                     current_scope="module";current_requirements=requirements;scope_depth=None
+            if suffix==".rs":
+                for container in re.finditer(r"pub\s+(struct|trait)\s+([A-Za-z_][A-Za-z0-9_]*)[^\{;]*\{(.*?)\n?\}",content,re.S):
+                    kind,name,body=container.groups();base=content[:container.start(3)].count("\n")+1
+                    pattern=r"pub\s+([a-z_][A-Za-z0-9_]*)\s*:" if kind=="struct" else r"(?:type|fn)\s+([A-Za-z_][A-Za-z0-9_]*)"
+                    for member in re.finditer(pattern,body):
+                        line=base+body[:member.start()].count("\n")
+                        identity=f"{relative}:{line}:{kind}-member:{name}.{member.group(1)}"
+                        bound=semantic_requirements("public_interface",identity,relative.as_posix(),requirements)
+                        records.append(record("public_interface",identity,bound,relative.as_posix()))
             if suffix==".py":
                 tree=ast.parse(content)
                 for node in ast.walk(tree):

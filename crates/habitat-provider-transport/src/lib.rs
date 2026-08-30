@@ -16,6 +16,7 @@ pub struct RequestEvidence {
 pub enum TransportError {
     UnsafeProvider,
     UnsafeActivation,
+    UnsafeEndpoint,
     MissingCredential,
 }
 pub trait ProviderTransport {
@@ -50,6 +51,9 @@ impl CredentialBroker {
     ) -> Result<(T::Output, RequestEvidence), TransportError> {
         if !safe_identifier(activation) {
             return Err(TransportError::UnsafeActivation);
+        }
+        if !safe_endpoint(endpoint) {
+            return Err(TransportError::UnsafeEndpoint);
         }
         let bytes = serde_json::to_vec(body).expect("JSON provider request");
         let output = transport.send(
@@ -91,4 +95,14 @@ fn safe_identifier(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-' | b':'))
+}
+fn safe_endpoint(value: &str) -> bool {
+    let Some(rest) = value.strip_prefix("https://") else {
+        return false;
+    };
+    let authority = rest.split('/').next().unwrap_or("");
+    !authority.is_empty()
+        && !authority.contains('@')
+        && !value.contains('?')
+        && !value.contains('#')
 }
