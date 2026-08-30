@@ -49,11 +49,16 @@ AMBIENT_EXEMPT={
  "tools/qualify_w06.py":re.compile(r"AWS_SECRET_ACCESS_KEY"),
  "tools/test_w01.py":re.compile(r"socket\.",re.I),
 }
-API=re.compile(r"\bpub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
+SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?)[^\n]{0,120}(?:key|token|secret)|(?:key|token|secret)[^\n]{0,120}(?:std::env::var|os\.environ(?:\.get)?)",re.I)
+EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
+COMBINED_EXEMPT={"tools/qualify_w02.py","tools/qualify_w06.py"}
+PROVIDER_FORBIDDEN=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|TcpStream|Authorization|Bearer",re.I)
+RUST_QUALIFIERS=r"(?:(?:async|const|unsafe)\s+|extern\s+\"[^\"]+\"\s+)*"
+API=re.compile(rf"\bpub(?:\([^)]*\))?\s+{RUST_QUALIFIERS}(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match)\b|=>")
-SCRIPT_BRANCH=re.compile(r"(?:^|\s)(?:if|elif|case|assert)\b|\bthen\b|&&|\|\||\bif\s*:",re.I)
+SCRIPT_BRANCH=re.compile(r"(?:^|\s)(?:if|elif|while|for|case|assert)(?=\s)|\bthen\b|&&|\|\||^\s*if\s*:",re.I)
 TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
-FUNCTION=re.compile(r"(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
+FUNCTION=re.compile(rf"(?:pub(?:\([^)]*\))?\s+)?{RUST_QUALIFIERS}fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 REQUIREMENT_DETAILS={}
 SEMANTIC_RULES=(
  ("crates/habitat-harnesses/",r"CapabilityProxy",("AUTH-004","EXEC-003")),
@@ -256,6 +261,11 @@ def audit(root):
             if not (relative.as_posix() in AMBIENT_EXEMPT and AMBIENT_EXEMPT[relative.as_posix()].fullmatch(match.group(0)))),None)
         if production_source and found:
             unresolved.append(f"ambient-core-path:{relative}:{found.group(0)}")
+        if production_source and relative.as_posix() not in COMBINED_EXEMPT and SECRET_REFERENCE.search(content) and EXTERNAL_EFFECT.search(content):
+            unresolved.append(f"secret-external-effect-path:{relative}")
+        if relative.as_posix().startswith("crates/habitat-provider-transport/"):
+            forbidden=PROVIDER_FORBIDDEN.search(content)
+            if forbidden:unresolved.append(f"provider-direct-effect-path:{relative}:{forbidden.group(0)}")
         if production_source and re.search(rb"transcript",path.read_bytes(),re.I):
             unresolved.append(f"provider-transcript-authority-surface:{relative}")
         if path.name=="Cargo.toml":
