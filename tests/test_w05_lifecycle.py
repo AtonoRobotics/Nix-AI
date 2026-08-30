@@ -58,5 +58,25 @@ class LifecycleTests(unittest.TestCase):
                                      "classification": "RECONCILIATION_REQUIRED",
                                      "state": "FAILED"}])
 
+    def test_effect_recovery_package_and_change_records_are_durable(self):
+        effect, activation = f"effect:{uuid.uuid4()}", f"activation:{uuid.uuid4()}"
+        self.store.record_effect(effect, activation, f"command:{uuid.uuid4()}", "a" * 64,
+                                 "sha256:" + "1" * 64)
+        self.store.transition_effect(effect, f"command:{uuid.uuid4()}", "AUTHORIZED",
+                                     "sha256:" + "2" * 64)
+        self.store.transition_effect(effect, f"command:{uuid.uuid4()}", "DISPATCHED",
+                                     "sha256:" + "3" * 64, external_ref="provider:42")
+        self.assertEqual(self.store.recover_nonterminal_effects(), [
+            {"effect_id": effect, "classification": "RECONCILIATION_REQUIRED"}])
+        package = f"package:{uuid.uuid4()}"
+        admitted = self.store.admit_package(package, "sha256:" + "a" * 64,
+                                            {"abi": "2.0"}, "sha256:" + "4" * 64)
+        self.assertEqual(admitted["state"], "VERIFIED")
+        candidate = self.store.propose_change(
+            f"candidate:{uuid.uuid4()}", "sha256:" + "b" * 64, "generation:evaluator",
+            "generation:next", "generation:current", {"minimum_score": 1.0},
+            "sha256:" + "5" * 64)
+        self.assertEqual(candidate["state"], "PROPOSED")
+
 if __name__ == "__main__":
     unittest.main()

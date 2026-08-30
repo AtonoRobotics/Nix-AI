@@ -9,18 +9,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut args = env::args_os().skip(1);
     let socket = PathBuf::from(
         args.next()
-            .ok_or("usage: habitat-abi-server SOCKET LEDGER")?,
+            .ok_or("usage: habitat-abi-server SOCKET STATE_SERVICE_SOCKET")?,
     );
-    let ledger = PathBuf::from(
+    let state_service_socket = PathBuf::from(
         args.next()
-            .ok_or("usage: habitat-abi-server SOCKET LEDGER")?,
+            .ok_or("usage: habitat-abi-server SOCKET STATE_SERVICE_SOCKET")?,
     );
     if socket.exists() {
         fs::remove_file(&socket)?;
     }
     let listener = UnixListener::bind(&socket)?;
     fs::set_permissions(&socket, fs::Permissions::from_mode(0o660))?;
-    let service = AgentAbi::open(ledger)?;
+    let service = AgentAbi::open(state_service_socket)?;
     Server::builder()
         .add_service(
             AgentRuntimeServer::new(service)

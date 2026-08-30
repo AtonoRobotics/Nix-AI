@@ -3,12 +3,16 @@ use habitat_abi::{
         agent_runtime_client::AgentRuntimeClient, agent_runtime_server::AgentRuntimeServer,
         DispositionKind, GetActivationRequest, RequestBinding, SubmitDispositionRequest,
     },
-    AgentAbi, SecurityPolicy, CONTRACT_VERSION,
+    AgentAbi, CommandLedger, LedgerError, SecurityPolicy, StateServiceLedger, CONTRACT_VERSION,
 };
 use hyper_util::rt::TokioIo;
 use std::{
+    collections::HashMap,
+    io::{BufRead, BufReader, Write},
     os::unix::fs::MetadataExt,
+    os::unix::net::UnixListener as StdUnixListener,
     path::{Path, PathBuf},
+    sync::{Arc, Mutex},
     time::Duration,
 };
 use tempfile::TempDir;
@@ -23,6 +27,49 @@ use tonic::{
 };
 use tower::service_fn;
 
+#[test]
+fn state_service_repository_uses_authoritative_response_and_rejects_malformed_data() {
+    let temp = TempDir::new().unwrap();
+    let socket = temp.path().join("state.sock");
+    let listener = StdUnixListener::bind(&socket).unwrap();
+    let responder = std::thread::spawn(move || {
+        for response in [
+            serde_json::json!({"status":"ok","result":{"command_id":"command:01",
+                "committed":true,"durable_record_id":"record:01","state":"COMMITTED",
+                "error":null,"evidence_refs":[]}})
+            .to_string()
+                + "\n",
+            "not-json\n".into(),
+        ] {
+            let (mut stream, _) = listener.accept().unwrap();
+            let mut request = String::new();
+            BufReader::new(stream.try_clone().unwrap())
+                .read_line(&mut request)
+                .unwrap();
+            assert!(request.contains("commit_command"));
+            stream.write_all(response.as_bytes()).unwrap();
+        }
+    });
+    let ledger = StateServiceLedger::new(&socket);
+    let proposed = habitat_abi::proto::CommandResult {
+        command_id: "command:01".into(),
+        committed: true,
+        durable_record_id: "proposed:01".into(),
+        state: "PROPOSED".into(),
+        error: None,
+        evidence_refs: vec![],
+    };
+    let committed = ledger
+        .commit("activation:01", "command:01", &"a".repeat(64), &proposed)
+        .unwrap();
+    assert_eq!(committed.durable_record_id, "record:01");
+    assert!(matches!(
+        ledger.commit("activation:01", "command:02", &"b".repeat(64), &proposed),
+        Err(LedgerError::Corrupt(_))
+    ));
+    responder.join().unwrap();
+}
+
 fn policy(root: &Path) -> SecurityPolicy {
     SecurityPolicy {
         expected_peer_uid: std::fs::metadata(root).unwrap().uid(),
@@ -34,9 +81,54 @@ fn policy(root: &Path) -> SecurityPolicy {
     }
 }
 
-async fn start(socket: &Path, ledger: &Path, policy: SecurityPolicy) -> JoinHandle<()> {
+#[derive(Debug, Default)]
+struct TestLedger(Mutex<HashMap<(String, String), (String, habitat_abi::proto::CommandResult)>>);
+
+impl CommandLedger for TestLedger {
+    fn commit(
+        &self,
+        activation: &str,
+        command: &str,
+        digest: &str,
+        proposed: &habitat_abi::proto::CommandResult,
+    ) -> Result<habitat_abi::proto::CommandResult, LedgerError> {
+        let mut rows = self
+            .0
+            .lock()
+            .map_err(|_| LedgerError::Corrupt("poisoned".into()))?;
+        let key = (activation.into(), command.into());
+        if let Some((recorded, result)) = rows.get(&key) {
+            return if recorded == digest {
+                Ok(result.clone())
+            } else {
+                Err(LedgerError::DigestMismatch(Box::new(result.clone())))
+            };
+        }
+        rows.insert(key, (digest.into(), proposed.clone()));
+        Ok(proposed.clone())
+    }
+
+    fn get(
+        &self,
+        activation: &str,
+        command: &str,
+    ) -> Result<Option<habitat_abi::proto::CommandResult>, LedgerError> {
+        Ok(self
+            .0
+            .lock()
+            .map_err(|_| LedgerError::Corrupt("poisoned".into()))?
+            .get(&(activation.into(), command.into()))
+            .map(|(_, result)| result.clone()))
+    }
+}
+
+async fn start(
+    socket: &Path,
+    ledger: Arc<dyn CommandLedger>,
+    policy: SecurityPolicy,
+) -> JoinHandle<()> {
     let listener = UnixListener::bind(socket).unwrap();
-    let service = AgentAbi::open_with_security(ledger, policy).unwrap();
+    let service = AgentAbi::with_repository(ledger, policy).unwrap();
     tokio::spawn(async move {
         Server::builder()
             .add_service(
@@ -105,9 +197,9 @@ fn binding(command: &str) -> RequestBinding {
 async fn unix_peer_version_and_durable_duplicate_semantics() {
     let temp = TempDir::new().unwrap();
     let socket = temp.path().join("agent.sock");
-    let ledger = temp.path().join("commands.json");
+    let repository: Arc<dyn CommandLedger> = Arc::new(TestLedger::default());
     let security = policy(temp.path());
-    let server = start(&socket, &ledger, security.clone()).await;
+    let server = start(&socket, repository.clone(), security.clone()).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut client = connect(socket.clone()).await;
     let activation = client
@@ -164,7 +256,7 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
     drop(client);
     tokio::time::sleep(Duration::from_millis(20)).await;
     std::fs::remove_file(&socket).unwrap();
-    let restarted = start(&socket, &ledger, security).await;
+    let restarted = start(&socket, repository, security).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut restarted_client = connect(socket).await;
     assert_eq!(
@@ -181,26 +273,13 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
     restarted.abort();
 }
 
-#[test]
-fn corrupt_command_ledger_fails_closed() {
-    let temp = TempDir::new().unwrap();
-    let ledger = temp.path().join("commands.json");
-    std::fs::write(&ledger, b"{not-json").unwrap();
-
-    let error = AgentAbi::open_with_security(&ledger, policy(temp.path()))
-        .err()
-        .expect("corruption must be rejected");
-    assert_eq!(error.kind(), std::io::ErrorKind::InvalidData);
-    assert!(error.to_string().contains("command ledger is corrupt"));
-}
-
 #[tokio::test]
 async fn unknown_major_unstructured_and_oversized_commands_fail_closed() {
     let temp = TempDir::new().unwrap();
     let socket = temp.path().join("agent.sock");
     let server = start(
         &socket,
-        &temp.path().join("ledger.json"),
+        Arc::new(TestLedger::default()),
         policy(temp.path()),
     )
     .await;
@@ -248,7 +327,12 @@ async fn invalid_bindings_fail_before_ledger_mutation() {
     let temp = TempDir::new().unwrap();
     let socket = temp.path().join("agent.sock");
     let ledger = temp.path().join("ledger.json");
-    let server = start(&socket, &ledger, policy(temp.path())).await;
+    let server = start(
+        &socket,
+        Arc::new(TestLedger::default()),
+        policy(temp.path()),
+    )
+    .await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut client = connect(socket).await;
 
@@ -332,8 +416,8 @@ async fn invalid_bindings_fail_before_ledger_mutation() {
         assert!(error.message().contains(code), "{error:?}");
     }
     assert!(
-        !ledger.exists(),
-        "rejected requests must not mutate the ledger"
+        std::fs::metadata(&ledger).is_err(),
+        "rejected requests must not create local state"
     );
     server.abort();
 }
@@ -344,7 +428,7 @@ async fn peer_mismatch_and_unavailable_ledger_fail_closed() {
     let socket = temp.path().join("peer.sock");
     let mut wrong_peer = policy(temp.path());
     wrong_peer.expected_peer_uid = wrong_peer.expected_peer_uid.saturating_add(1);
-    let server = start(&socket, &temp.path().join("peer-ledger.json"), wrong_peer).await;
+    let server = start(&socket, Arc::new(TestLedger::default()), wrong_peer).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut client = connect(socket).await;
     let error = client
@@ -357,9 +441,33 @@ async fn peer_mismatch_and_unavailable_ledger_fail_closed() {
     assert!(error.message().contains("PEER_IDENTITY_MISMATCH"));
     server.abort();
 
+    #[derive(Debug)]
+    struct FailedLedger(LedgerError);
+    impl CommandLedger for FailedLedger {
+        fn commit(
+            &self,
+            _: &str,
+            _: &str,
+            _: &str,
+            _: &habitat_abi::proto::CommandResult,
+        ) -> Result<habitat_abi::proto::CommandResult, LedgerError> {
+            Err(self.0.clone())
+        }
+        fn get(
+            &self,
+            _: &str,
+            _: &str,
+        ) -> Result<Option<habitat_abi::proto::CommandResult>, LedgerError> {
+            Err(self.0.clone())
+        }
+    }
     let socket = temp.path().join("unavailable.sock");
-    let ledger = temp.path().join("missing-parent/ledger.json");
-    let server = start(&socket, &ledger, policy(temp.path())).await;
+    let server = start(
+        &socket,
+        Arc::new(FailedLedger(LedgerError::Unavailable("down".into()))),
+        policy(temp.path()),
+    )
+    .await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut client = connect(socket).await;
     let error = client
@@ -369,6 +477,27 @@ async fn peer_mismatch_and_unavailable_ledger_fail_closed() {
         ))
         .await
         .unwrap_err();
-    assert_eq!(error.code(), tonic::Code::Unavailable);
+    assert_eq!(error.code(), tonic::Code::Internal);
+    assert!(error.message().contains("COMMAND_LEDGER_UNAVAILABLE"));
+    server.abort();
+
+    let socket = temp.path().join("corrupt.sock");
+    let server = start(
+        &socket,
+        Arc::new(FailedLedger(LedgerError::Corrupt("bad row".into()))),
+        policy(temp.path()),
+    )
+    .await;
+    tokio::time::sleep(Duration::from_millis(20)).await;
+    let mut client = connect(socket).await;
+    let error = client
+        .submit_disposition(request(
+            disposition("command:corrupt", DispositionKind::Checkpoint),
+            "2.0",
+        ))
+        .await
+        .unwrap_err();
+    assert_eq!(error.code(), tonic::Code::Internal);
+    assert!(error.message().contains("COMMAND_LEDGER_CORRUPT"));
     server.abort();
 }

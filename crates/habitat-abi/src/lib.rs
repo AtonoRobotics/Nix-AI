@@ -1,13 +1,11 @@
 //! Versioned Habitat Agent ABI transport and durable command ledger.
 
-use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{
-    collections::HashMap,
-    fs,
-    io::Write,
-    path::{Path, PathBuf},
-    sync::{Arc, Mutex},
+    io::{BufRead, BufReader, Write},
+    os::unix::net::UnixStream,
+    path::Path,
+    sync::Arc,
     time::{SystemTime, UNIX_EPOCH},
 };
 use tonic::transport::server::UdsConnectInfo;
@@ -47,16 +45,130 @@ pub fn negotiate_version(requested: &str) -> Result<&'static str, VersionError> 
     Ok(ABI_VERSION)
 }
 
-#[derive(Clone, Serialize, Deserialize)]
-struct LedgerEntry {
-    fingerprint: String,
-    result: proto::CommandResult,
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum LedgerError {
+    Unavailable(String),
+    Corrupt(String),
+    DigestMismatch(Box<proto::CommandResult>),
+}
+
+pub trait CommandLedger: Send + Sync + std::fmt::Debug {
+    fn commit(
+        &self,
+        activation_id: &str,
+        command_id: &str,
+        request_digest: &str,
+        proposed: &proto::CommandResult,
+    ) -> Result<proto::CommandResult, LedgerError>;
+
+    fn get(
+        &self,
+        activation_id: &str,
+        command_id: &str,
+    ) -> Result<Option<proto::CommandResult>, LedgerError>;
+}
+
+/// Fail-closed client for the PostgreSQL-owned habitat state service.
+///
+/// Each operation uses a fresh authenticated-by-filesystem Unix connection. The
+/// service performs the compare-and-insert in one PostgreSQL transaction; this
+/// process deliberately retains no replay cache that could survive a state
+/// service outage and permit semantic execution.
+#[derive(Clone, Debug)]
+pub struct StateServiceLedger {
+    socket: Arc<std::path::PathBuf>,
+}
+
+impl StateServiceLedger {
+    pub fn new(socket: impl AsRef<Path>) -> Self {
+        Self {
+            socket: Arc::new(socket.as_ref().to_owned()),
+        }
+    }
+
+    fn request(&self, request: serde_json::Value) -> Result<serde_json::Value, LedgerError> {
+        let mut stream = UnixStream::connect(self.socket.as_path())
+            .map_err(|error| LedgerError::Unavailable(error.to_string()))?;
+        stream
+            .write_all(format!("{}\n", request).as_bytes())
+            .and_then(|_| stream.flush())
+            .map_err(|error| LedgerError::Unavailable(error.to_string()))?;
+        let mut response = String::new();
+        BufReader::new(stream)
+            .read_line(&mut response)
+            .map_err(|error| LedgerError::Unavailable(error.to_string()))?;
+        let response: serde_json::Value = serde_json::from_str(&response)
+            .map_err(|error| LedgerError::Corrupt(error.to_string()))?;
+        match response.get("status").and_then(|value| value.as_str()) {
+            Some("ok") => Ok(response),
+            Some("digest_mismatch") => {
+                let result =
+                    serde_json::from_value(response.get("result").cloned().ok_or_else(|| {
+                        LedgerError::Corrupt("digest mismatch omitted committed result".into())
+                    })?)
+                    .map_err(|error| LedgerError::Corrupt(error.to_string()))?;
+                Err(LedgerError::DigestMismatch(Box::new(result)))
+            }
+            Some("corrupt") => Err(LedgerError::Corrupt(
+                response
+                    .get("message")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("ledger corrupt")
+                    .into(),
+            )),
+            Some("unavailable") => Err(LedgerError::Unavailable(
+                response
+                    .get("message")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("ledger unavailable")
+                    .into(),
+            )),
+            _ => Err(LedgerError::Corrupt(
+                "invalid state-service response".into(),
+            )),
+        }
+    }
+}
+
+impl CommandLedger for StateServiceLedger {
+    fn commit(
+        &self,
+        activation_id: &str,
+        command_id: &str,
+        request_digest: &str,
+        proposed: &proto::CommandResult,
+    ) -> Result<proto::CommandResult, LedgerError> {
+        let response = self.request(serde_json::json!({"operation":"commit_command",
+            "activation_id":activation_id,"command_id":command_id,
+            "request_digest":request_digest,"result":proposed}))?;
+        serde_json::from_value(
+            response
+                .get("result")
+                .cloned()
+                .ok_or_else(|| LedgerError::Corrupt("commit response omitted result".into()))?,
+        )
+        .map_err(|error| LedgerError::Corrupt(error.to_string()))
+    }
+
+    fn get(
+        &self,
+        activation_id: &str,
+        command_id: &str,
+    ) -> Result<Option<proto::CommandResult>, LedgerError> {
+        let response = self.request(serde_json::json!({"operation":"get_command",
+            "activation_id":activation_id,"command_id":command_id}))?;
+        match response.get("result") {
+            Some(value) if !value.is_null() => serde_json::from_value(value.clone())
+                .map(Some)
+                .map_err(|error| LedgerError::Corrupt(error.to_string())),
+            _ => Ok(None),
+        }
+    }
 }
 
 #[derive(Clone)]
 pub struct AgentAbi {
-    ledger_path: PathBuf,
-    entries: Arc<Mutex<HashMap<String, LedgerEntry>>>,
+    ledger: Arc<dyn CommandLedger>,
     policy: SecurityPolicy,
 }
 
@@ -116,22 +228,28 @@ impl AgentAbi {
                 "security policy identifiers, credential, and lease fence are required",
             ));
         }
-        let ledger_path = path.as_ref().to_owned();
-        let entries = if ledger_path.exists() {
-            serde_json::from_slice(&fs::read(&ledger_path)?).map_err(|error| {
-                std::io::Error::new(
-                    std::io::ErrorKind::InvalidData,
-                    format!("command ledger is corrupt: {error}"),
-                )
-            })?
-        } else {
-            HashMap::new()
-        };
         Ok(Self {
-            ledger_path,
-            entries: Arc::new(Mutex::new(entries)),
+            ledger: Arc::new(StateServiceLedger::new(path)),
             policy,
         })
+    }
+
+    pub fn with_repository(
+        ledger: Arc<dyn CommandLedger>,
+        policy: SecurityPolicy,
+    ) -> std::io::Result<Self> {
+        if policy.activation_id.is_empty()
+            || policy.activation_credential.is_empty()
+            || policy.system_generation_id.is_empty()
+            || policy.capability_activation_set_id.is_empty()
+            || policy.minimum_lease_fence == 0
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "security policy identifiers, credential, and lease fence are required",
+            ));
+        }
+        Ok(Self { ledger, policy })
     }
 
     fn version<T>(request: &Request<T>) -> Result<(), Status> {
@@ -289,22 +407,6 @@ impl AgentAbi {
                 "provide activation_id and command_id",
             ));
         }
-        let key = format!("{activation}:{command}");
-        let mut entries = self
-            .entries
-            .lock()
-            .map_err(|_| Status::internal("ledger lock poisoned"))?;
-        if let Some(entry) = entries.get(&key) {
-            if entry.fingerprint != fingerprint {
-                return Err(internal_status(
-                    "REPLAY_DIGEST_MISMATCH",
-                    "idempotency key reused for another command",
-                    &entry.result.state,
-                    "fetch the committed command result",
-                ));
-            }
-            return Ok(entry.result.clone());
-        }
         let result = proto::CommandResult {
             command_id: command.into(),
             committed: true,
@@ -313,31 +415,32 @@ impl AgentAbi {
             error: None,
             evidence_refs: vec![],
         };
-        let mut committed_entries = entries.clone();
-        committed_entries.insert(
-            key,
-            LedgerEntry {
-                fingerprint,
-                result: result.clone(),
-            },
-        );
-        let bytes = serde_json::to_vec(&committed_entries)
-            .map_err(|_| Status::internal("ledger serialization failed"))?;
-        let temporary = self.ledger_path.with_extension("tmp");
-        let mut file =
-            fs::File::create(&temporary).map_err(|_| Status::unavailable("ledger unavailable"))?;
-        file.write_all(&bytes)
-            .and_then(|_| file.sync_all())
-            .map_err(|_| Status::unavailable("ledger persistence failed"))?;
-        fs::rename(temporary, &self.ledger_path)
-            .map_err(|_| Status::unavailable("ledger commit failed"))?;
-        if let Some(parent) = self.ledger_path.parent() {
-            fs::File::open(parent)
-                .and_then(|directory| directory.sync_all())
-                .map_err(|_| Status::unavailable("ledger directory sync failed"))?;
-        }
-        *entries = committed_entries;
-        Ok(result)
+        self.ledger
+            .commit(activation, command, &fingerprint, &result)
+            .map_err(ledger_status)
+    }
+}
+
+fn ledger_status(error: LedgerError) -> Status {
+    match error {
+        LedgerError::Unavailable(_) => internal_status(
+            "COMMAND_LEDGER_UNAVAILABLE",
+            "authoritative command ledger is unavailable",
+            "UNKNOWN",
+            "restore the state service before retrying",
+        ),
+        LedgerError::Corrupt(_) => internal_status(
+            "COMMAND_LEDGER_CORRUPT",
+            "authoritative command ledger returned corrupt data",
+            "UNKNOWN",
+            "repair the ledger under recovery authority",
+        ),
+        LedgerError::DigestMismatch(result) => internal_status(
+            "REPLAY_DIGEST_MISMATCH",
+            "idempotency key reused for another command",
+            &result.state,
+            "fetch the committed command result",
+        ),
     }
 }
 
@@ -458,14 +561,10 @@ impl proto::agent_runtime_server::AgentRuntime for AgentAbi {
             Some(&body.command_id),
         )?;
         let query = request.into_inner();
-        let key = format!("{}:{}", query.activation_id, query.command_id);
-        let entries = self
-            .entries
-            .lock()
-            .map_err(|_| Status::internal("ledger lock poisoned"))?;
-        entries
-            .get(&key)
-            .map(|entry| Response::new(entry.result.clone()))
+        self.ledger
+            .get(&query.activation_id, &query.command_id)
+            .map_err(ledger_status)?
+            .map(Response::new)
             .ok_or_else(|| Status::not_found("command result not found"))
     }
 

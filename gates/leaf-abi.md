@@ -10,7 +10,12 @@ Scope: Bind every command to authenticated activation context and make replay fa
   CHECK: env PATH=/nix/store/gxyz15yg1gjm2bcf7g4svy50w2ahvbrp-cargo-1.95.0/bin:/nix/store/4838cpsffgmc4xw856y0zdpvgssjljm0-rustc-1.95.0/bin:/usr/bin:/bin cargo test -p habitat-abi
   EXPECT: /test result: ok/
   EVIDENCE: 2026-08-30 transport suite passed; `invalid_bindings_fail_before_ledger_mutation` covers every required field, forged credential, expiration, stale fence, command/activation/scope mismatch, and verifies no ledger file; peer mismatch is separately exercised.
-- [x] G3: Corrupt, unavailable, and digest-mismatched replay ledgers fail closed while exact duplicates return the original result.
+- [x] G3: PostgreSQL/state-service replay fails closed on corruption/unavailability and exact duplicates return the committed result.
   CHECK: env PATH=/nix/store/gxyz15yg1gjm2bcf7g4svy50w2ahvbrp-cargo-1.95.0/bin:/nix/store/4838cpsffgmc4xw856y0zdpvgssjljm0-rustc-1.95.0/bin:/usr/bin:/bin cargo test -p habitat-abi
   EXPECT: /test result: ok/
-  EVIDENCE: 2026-08-30 transport suite passed exact duplicate/restart replay, digest mismatch INTERNAL, corrupt-open rejection, and unavailable persistence rejection; in-memory state changes only after fsync+rename+directory fsync.
+  EVIDENCE: Escalated `cargo test -p habitat-abi` passed 6 tests, including exact duplicate/restart replay, digest mismatch INTERNAL, unavailable/corrupt repository INTERNAL, and direct UDS authoritative/malformed-response coverage; no local ledger remains.
+
+- [x] G4: State and lifecycle focused tests pass against provisioned PostgreSQL and MinIO with zero skips.
+  CHECK: .venv/bin/python tools/qualify_w02.py --evidence-dir /tmp/nixai-w02-evidence && .venv/bin/python tools/qualify_w05.py --evidence-dir /tmp/nixai-w05-evidence
+  EXPECT: /"outcome": "passed"/
+  EVIDENCE: W02 provisioned PostgreSQL+MinIO and passed 7 live state tests with skip_count=0; W05 provisioned PostgreSQL and passed 4 live lifecycle/effect tests with skip_count=0.

@@ -6,7 +6,8 @@ import boto3, psycopg
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from habitat_state import (CommandId, Conflict, Correlation, EntityId, EntityKind,
-    EvidenceMetadata, InjectedCrash, IntegrityError, PrincipalId, State, StateStore, Version)
+    EvidenceMetadata, InjectedCrash, IntegrityError, PrincipalId, State, StateStore, Version,
+    CommandLedgerStore)
 
 def correlation():
     return Correlation(uuid.uuid4(), uuid.uuid4(), uuid.uuid4(), uuid.uuid4().hex)
@@ -132,6 +133,25 @@ class TransactionalStateTests(unittest.TestCase):
         with self.assertRaises(PermissionError): ordinary.restore({})
         with self.assertRaises(ValueError):
             self.store.put_evidence(b"x" * (16 * 1024 * 1024 + 1), metadata(correlation()))
+
+    def test_command_ledger_exact_replay_and_digest_mismatch(self):
+        ledger = CommandLedgerStore(os.environ["HABITAT_TEST_DATABASE_URL"])
+        ledger.migrate()
+        activation, command = f"activation:{uuid.uuid4()}", f"command:{uuid.uuid4()}"
+        result = {"command_id": command, "committed": True,
+                  "durable_record_id": "command:sha256:" + "a" * 64,
+                  "state": "DISPOSITION_COMMITTED", "error": None, "evidence_refs": []}
+        first = ledger.commit(activation, command, "a" * 64, result)
+        duplicate = ledger.commit(activation, command, "a" * 64, result)
+        mismatch = ledger.commit(activation, command, "b" * 64, result)
+        self.assertFalse(first.duplicate)
+        self.assertTrue(duplicate.duplicate)
+        self.assertTrue(mismatch.digest_mismatch)
+        self.assertEqual(mismatch.result, first.result)
+        with psycopg.connect(os.environ["HABITAT_TEST_DATABASE_URL"]) as connection:
+            with self.assertRaises(psycopg.errors.InsufficientPrivilege):
+                connection.execute("UPDATE abi_command_ledger SET request_digest=%s WHERE activation_id=%s",
+                                   ("c" * 64, activation))
 
 if __name__ == "__main__":
     unittest.main()

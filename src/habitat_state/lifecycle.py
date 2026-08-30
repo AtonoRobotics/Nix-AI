@@ -32,6 +32,19 @@ class LifecycleStore:
               record_id bigserial PRIMARY KEY, entity_id text NOT NULL, previous_state text,
               new_state text NOT NULL, command_id text NOT NULL UNIQUE, actor text NOT NULL,
               occurred_at timestamptz NOT NULL DEFAULT now(), evidence_ref text NOT NULL);
+            CREATE TABLE IF NOT EXISTS durable_effects(
+              effect_id text PRIMARY KEY, activation_id text NOT NULL, request_digest text NOT NULL,
+              state text NOT NULL CHECK(state IN ('PROPOSED','AUTHORIZED','DISPATCHED','COMMITTED','FAILED','UNCERTAIN')),
+              external_ref text, evidence_ref text NOT NULL, version bigint NOT NULL);
+            CREATE TABLE IF NOT EXISTS admitted_packages(
+              package_id text PRIMARY KEY, content_digest text NOT NULL UNIQUE,
+              manifest jsonb NOT NULL, state text NOT NULL CHECK(state IN ('VERIFIED','STAGED','ACTIVE','QUARANTINED')),
+              evidence_ref text NOT NULL, version bigint NOT NULL);
+            CREATE TABLE IF NOT EXISTS change_candidates(
+              candidate_id text PRIMARY KEY, source_digest text NOT NULL, evaluator_generation text NOT NULL,
+              target_generation text NOT NULL, rollback_generation text NOT NULL,
+              threshold jsonb NOT NULL, state text NOT NULL, evidence_ref text NOT NULL,
+              version bigint NOT NULL);
             CREATE OR REPLACE FUNCTION lifecycle_immutable() RETURNS trigger LANGUAGE plpgsql AS $$
             BEGIN RAISE EXCEPTION 'lifecycle history is append-only' USING ERRCODE='42501'; END $$;
             DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='lifecycle_history_immutable')
@@ -41,7 +54,7 @@ class LifecycleStore:
 
     def reset_for_test(self):
         with self._connect() as c:
-            c.execute("TRUNCATE lifecycle_commands, objectives, wakes, activations")
+            c.execute("TRUNCATE lifecycle_commands, objectives, wakes, activations, durable_effects, admitted_packages, change_candidates")
             c.execute("ALTER TABLE lifecycle_history DISABLE TRIGGER lifecycle_history_immutable")
             c.execute("TRUNCATE lifecycle_history")
             c.execute("ALTER TABLE lifecycle_history ENABLE TRIGGER lifecycle_history_immutable")
@@ -174,3 +187,59 @@ class LifecycleStore:
                 result.append({"activation_id":row["activation_id"],"classification":classification,
                                "state":new_state})
             return result
+
+    def record_effect(self, effect_id, activation_id, command_id, request_digest, evidence_ref):
+        """Create an effect before dispatch; replay is digest-bound and transactional."""
+        fp=self._fingerprint("record_effect",[effect_id,activation_id,request_digest,evidence_ref])
+        with self._connect() as c:
+            replay=self._replay(c,command_id,fp)
+            if replay:return replay
+            result={"effect_id":effect_id,"state":"PROPOSED","version":1}
+            c.execute("INSERT INTO durable_effects VALUES(%s,%s,%s,'PROPOSED',NULL,%s,1)",
+                      (effect_id,activation_id,request_digest,evidence_ref))
+            self._record(c,command_id,fp,result)
+            return result
+
+    def transition_effect(self, effect_id, command_id, new_state, evidence_ref, *, external_ref=None):
+        legal={"PROPOSED":{"AUTHORIZED","FAILED"},"AUTHORIZED":{"DISPATCHED","FAILED"},
+               "DISPATCHED":{"COMMITTED","FAILED","UNCERTAIN"},
+               "UNCERTAIN":{"COMMITTED","FAILED"}}
+        fp=self._fingerprint("transition_effect",[effect_id,new_state,external_ref,evidence_ref])
+        with self._connect() as c:
+            replay=self._replay(c,command_id,fp)
+            if replay:return replay
+            row=c.execute("SELECT * FROM durable_effects WHERE effect_id=%s FOR UPDATE",(effect_id,)).fetchone()
+            if not row or new_state not in legal.get(row["state"],set()):
+                raise ValueError("illegal effect transition")
+            version=row["version"]+1
+            c.execute("UPDATE durable_effects SET state=%s,external_ref=%s,evidence_ref=%s,version=%s WHERE effect_id=%s",
+                      (new_state,external_ref,evidence_ref,version,effect_id))
+            result={"effect_id":effect_id,"state":new_state,"version":version,
+                    "external_ref":external_ref}
+            self._record(c,command_id,fp,result)
+            return result
+
+    def recover_nonterminal_effects(self):
+        with self._connect() as c:
+            rows=c.execute("SELECT effect_id,state FROM durable_effects WHERE state IN ('AUTHORIZED','DISPATCHED','UNCERTAIN') ORDER BY effect_id").fetchall()
+        return [{"effect_id":row["effect_id"],"classification":
+                 "RECONCILIATION_REQUIRED" if row["state"] in ("DISPATCHED","UNCERTAIN") else "RETRYABLE"}
+                for row in rows]
+
+    def admit_package(self, package_id, content_digest, manifest, evidence_ref):
+        if not content_digest.startswith("sha256:") or len(content_digest) != 71:
+            raise ValueError("content-bound sha256 digest required")
+        with self._connect() as c:
+            c.execute("INSERT INTO admitted_packages VALUES(%s,%s,%s,'VERIFIED',%s,1)",
+                      (package_id,content_digest,json.dumps(manifest),evidence_ref))
+        return {"package_id":package_id,"state":"VERIFIED","version":1}
+
+    def propose_change(self, candidate_id, source_digest, evaluator_generation,
+                       target_generation, rollback_generation, threshold, evidence_ref):
+        if target_generation == rollback_generation:
+            raise ValueError("rollback generation must precede candidate generation")
+        with self._connect() as c:
+            c.execute("INSERT INTO change_candidates VALUES(%s,%s,%s,%s,%s,%s,'PROPOSED',%s,1)",
+                      (candidate_id,source_digest,evaluator_generation,target_generation,
+                       rollback_generation,json.dumps(threshold),evidence_ref))
+        return {"candidate_id":candidate_id,"state":"PROPOSED","version":1}
