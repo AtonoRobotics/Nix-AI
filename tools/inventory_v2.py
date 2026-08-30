@@ -213,8 +213,23 @@ def rust_state_transitions(relative: str, content: str) -> list[dict[str, str | 
         r"(?P<type>[A-Za-z_][A-Za-z0-9_]*State)::(?P<name>[A-Za-z_][A-Za-z0-9_]*)"
     )
     for match in assignment.finditer(content):
+        expression = match.group("expression")
+        if expression.lstrip().startswith("match "):
+            continue
+        prefix = content[max(0, match.start() - 500) : match.start()]
+        guards = list(
+            re.finditer(
+                r"\.state\s*!=\s*(?P<type>[A-Za-z_][A-Za-z0-9_]*State)::"
+                r"(?P<name>[A-Za-z_][A-Za-z0-9_]*)",
+                prefix,
+            )
+        )
+        source = None
+        if guards:
+            source = f"{guards[-1].group('type')}::{guards[-1].group('name')}"
         for state in target.finditer(match.group("expression")):
-            name = f"state_assignment->{state.group('type')}::{state.group('name')}"
+            destination = f"{state.group('type')}::{state.group('name')}"
+            name = f"{source or '*'}->{destination}"
             if name in seen:
                 continue
             seen.add(name)
@@ -234,7 +249,7 @@ def nix_service_semantics(relative: str, content: str) -> list[dict[str, str | i
     found = []
     pattern = re.compile(
         r"\bsystemd\.(?:user\.)?services\."
-        r"(?:\"(?P<quoted>[^\"]+)\"|(?P<plain>[A-Za-z0-9_@.-]+))"
+        r"(?:\"(?P<quoted>[^\"]+)\"|(?P<plain>[A-Za-z0-9_@-]+))"
     )
     for match in pattern.finditer(content):
         name = match.group("quoted") or match.group("plain")
@@ -675,48 +690,114 @@ def build_closure_members_from_contents(paths, read_text) -> list[dict[str, str]
 
     if "flake.nix" in paths:
         text = read_text("flake.nix") or ""
-        bindings = list(
-            re.finditer(
-                r"^ {6}(?P<name>[A-Za-z][A-Za-z0-9_-]*)\s*=\s*",
-                text,
-                re.MULTILINE,
-            )
-        )
-        binding_names = {match.group("name") for match in bindings}
-        for index, match in enumerate(bindings):
-            name = match.group("name")
-            members.add(("nix-internal-derivation", name))
-            end = bindings[index + 1].start() if index + 1 < len(bindings) else len(text)
-            expression = text[match.end() : end]
-            for dependency in sorted(
-                set(re.findall(r"\b[A-Za-z][A-Za-z0-9_-]*\b", expression))
-                & binding_names
-                - {name}
-            ):
-                members.add(("nix-dependency-edge", f"{name}->{dependency}"))
-
-        lines = text.splitlines()
-        output_class = None
-        for line in lines:
-            container = re.match(
-                r"^ {6}(?P<class>apps|packages|checks)\.\$\{system\}\s*=\s*\{",
-                line,
-            )
-            if container:
-                output_class = container.group("class")
-                continue
-            if output_class and line == "      };":
-                output_class = None
-                continue
-            if output_class:
-                member = re.match(r"^ {8}(?P<name>[A-Za-z0-9_-]+)\s*=", line)
-                if member:
-                    members.add((f"nix-{output_class}-output", member.group("name")))
+        members.update(nix_build_closure(text))
 
     return [
         {"class": member_class, "name": name}
         for member_class, name in sorted(members)
     ]
+
+
+def nix_build_closure(text: str) -> set[tuple[str, str]]:
+    members: set[tuple[str, str]] = set()
+    let_end = text.find("\n    in {")
+    if let_end < 0:
+        return members
+    let_text = text[:let_end]
+    bindings = list(
+        re.finditer(
+            r"^ {6}(?P<name>[A-Za-z][A-Za-z0-9_]*)\s*=\s*",
+            let_text,
+            re.MULTILINE,
+        )
+    )
+    expressions = {}
+    for index, match in enumerate(bindings):
+        end = bindings[index + 1].start() if index + 1 < len(bindings) else len(let_text)
+        expressions[match.group("name")] = let_text[match.end() : end]
+
+    constructor = re.compile(
+        r"(?:nixosSystem|withPackages|writeShellApplication|buildPythonPackage|"
+        r"buildRustPackage|closureInfo|runCommand|mkShell)\b"
+    )
+    derivations = {name for name, expression in expressions.items() if constructor.search(expression)}
+    dependency_sets = {
+        name
+        for name, expression in expressions.items()
+        if re.search(r"\bwith\s+pkgs(?:\.[A-Za-z0-9_]+)?\s*;\s*\[", expression)
+    }
+    changed = True
+    while changed:
+        changed = False
+        for name, expression in expressions.items():
+            if name in derivations:
+                continue
+            first = re.match(r"\s*(?P<name>[A-Za-z][A-Za-z0-9_]*)", expression)
+            if first and first.group("name") in derivations:
+                derivations.add(name)
+                changed = True
+    for name in derivations:
+        members.add(("nix-internal-derivation", name))
+        dependencies = (
+            set(re.findall(r"\b[A-Za-z][A-Za-z0-9_]*\b", expressions[name]))
+            & (derivations | dependency_sets)
+            - {name}
+        )
+        for dependency in dependencies:
+            members.add(("nix-dependency-edge", f"{name}->{dependency}"))
+    for name in dependency_sets:
+        members.add(("nix-dependency-set", name))
+
+    output_text = text[let_end:]
+    containers = list(
+        re.finditer(
+            r"^ {6}(?P<class>apps|packages|checks)\.\$\{system\}\s*=\s*\{",
+            output_text,
+            re.MULTILINE,
+        )
+    )
+    for container in containers:
+        terminator = re.search(r"^ {6}\};", output_text[container.end() :], re.MULTILINE)
+        if terminator is None:
+            continue
+        block_end = container.end() + terminator.start()
+        block = output_text[container.end() : block_end]
+        outputs = list(
+            re.finditer(r"^ {8}(?P<name>[A-Za-z0-9_-]+)\s*=", block, re.MULTILINE)
+        )
+        for index, output in enumerate(outputs):
+            name = output.group("name")
+            output_class = container.group("class")
+            members.add((f"nix-{output_class}-output", name))
+            end = outputs[index + 1].start() if index + 1 < len(outputs) else len(block)
+            expression = block[output.end() : end]
+            for dependency in (
+                set(re.findall(r"\b[A-Za-z][A-Za-z0-9_]*\b", expression))
+                & (derivations | dependency_sets)
+            ):
+                members.add(
+                    ("nix-output-edge", f"{output_class}.{name}->{dependency}")
+                )
+
+    direct_outputs = (
+        ("formatter", r"^ {6}formatter\.\$\{system\}\s*="),
+        ("devShells.default", r"^ {6}devShells\.\$\{system\}\.default\s*="),
+    )
+    for name, pattern in direct_outputs:
+        match = re.search(pattern, output_text, re.MULTILINE)
+        if match:
+            members.add(("nix-direct-output", name))
+            if name == "formatter":
+                end = output_text.find("\n", match.end())
+            else:
+                end = output_text.find("\n      };", match.end())
+            expression = output_text[match.end() : end if end >= 0 else len(output_text)]
+            for dependency in (
+                set(re.findall(r"\b[A-Za-z][A-Za-z0-9_]*\b", expression))
+                & (derivations | dependency_sets)
+            ):
+                members.add(("nix-output-edge", f"{name}->{dependency}"))
+    return members
 
 
 def build_closure_members(root: Path, paths: list[str]) -> list[dict[str, str]]:

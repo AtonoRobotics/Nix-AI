@@ -365,36 +365,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:candidateSystem->system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:contractTools->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:contractTools->python",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:generateProto->contractTools",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -405,37 +375,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:generateProto->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:generateProto->python",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatAbi->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatAuthority->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -465,67 +405,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatClosure->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:habitatClosure->recoverySystem",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatClosure->system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatContext->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatEffects->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatExecution->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatHarnesses->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -545,47 +425,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatInstaller->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatModels->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatPackages->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:habitatQemu->habitatRaw",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatQemu->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -625,27 +465,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatRaw->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:habitatRaw->recoverySystem",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatRaw->system",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -665,66 +485,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatRecovery->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatSimulation->pkgs",
-        "predicate_evidence": {},
-        "reason": "Rejected domain or legacy work-packet closure member.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-006"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatState->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:habitatSystem->system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:pkgs->system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:python->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW00->contractTools",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -735,27 +495,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW00->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW00->python",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW02->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -776,16 +516,6 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW03->habitatAbi",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW03->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -825,16 +555,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW04->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW04->python",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -846,16 +566,6 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW04->validateContracts",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW05->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -885,16 +595,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW06->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW06->python",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -906,16 +606,6 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW07->habitatContext",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW07->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -955,16 +645,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW08->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW08->python",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -986,16 +666,6 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW09->habitatModels",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW09->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1035,16 +705,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW10->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW10->python",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -1066,16 +726,6 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW11->habitatHarnesses",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW11->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1115,16 +765,6 @@
       {
         "action": "DELETE",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:qualifyW12->pkgs",
-        "predicate_evidence": {},
-        "reason": "Rejected domain or legacy work-packet closure member.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-006"
-      },
-      {
-        "action": "DELETE",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:qualifyW12->python",
         "predicate_evidence": {},
         "reason": "Rejected domain or legacy work-packet closure member.",
@@ -1145,337 +785,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:recoverySystem->system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->contractTools",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->generateProto",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatAbi",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatAuthority",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatContext",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatEffects",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatExecution",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatHarnesses",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatInstaller",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatModels",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatPackages",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:runHabitatQemu->habitatQemu",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatRaw",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatRecovery",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatSimulation",
-        "predicate_evidence": {},
-        "reason": "Rejected domain or legacy work-packet closure member.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-006"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->habitatState",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW00",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW02",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW03",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW04",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW05",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW06",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW07",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW08",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW09",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW10",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW11",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->qualifyW12",
-        "predicate_evidence": {},
-        "reason": "Rejected domain or legacy work-packet closure member.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-006"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->testBoot",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->testRollback",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:runHabitatQemu->validateContracts",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1515,27 +825,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-dependency-edge:testW01->pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-dependency-edge:validateContracts->contractTools",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "nix-dependency-edge:validateContracts->pkgs",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1555,7 +845,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-internal-derivation:candidateSystem",
+        "identity": "nix-dependency-set:contractTools",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1565,7 +855,47 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-internal-derivation:contractTools",
+        "identity": "nix-dependency-set:habitatRaw",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-dependency-set:habitatState",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-direct-output:devShells.default",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-direct-output:formatter",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-internal-derivation:candidateSystem",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -1745,16 +1075,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-internal-derivation:pkgs",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-internal-derivation:python",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -1905,16 +1225,6 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "nix-internal-derivation:system",
-        "predicate_evidence": {},
-        "reason": "Build graph must be rebuilt from v2-only declarations.",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-025"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
         "identity": "nix-internal-derivation:testBoot",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
@@ -1946,6 +1256,646 @@
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-internal-derivation:validateContracts",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.generate-proto->generateProto",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.qualify->qualifyW00",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.run-habitat-qemu->runHabitatQemu",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-boot->testBoot",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-rollback->testRollback",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w02->qualifyW02",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w03->qualifyW03",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w04->qualifyW04",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w05->qualifyW05",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w06->qualifyW06",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w07->qualifyW07",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w08->qualifyW08",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w09->qualifyW09",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w10->qualifyW10",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w11->qualifyW11",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.test-w12->qualifyW12",
+        "predicate_evidence": {},
+        "reason": "Rejected domain or legacy work-packet closure member.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-006"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:apps.validate-contracts->validateContracts",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.contracts->validateContracts",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w00-qualification->qualifyW00",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w03-qualification->qualifyW03",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w04-qualification->qualifyW04",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w07-qualification->qualifyW07",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w08-qualification->qualifyW08",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w09-qualification->qualifyW09",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w10-qualification->qualifyW10",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w11-qualification->qualifyW11",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:checks.w12-qualification->qualifyW12",
+        "predicate_evidence": {},
+        "reason": "Rejected domain or legacy work-packet closure member.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-006"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->contractTools",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatAbi",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatAuthority",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatContext",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatEffects",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatExecution",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatHarnesses",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatModels",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatPackages",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatSimulation",
+        "predicate_evidence": {},
+        "reason": "Rejected domain or legacy work-packet closure member.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-006"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->habitatState",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW00",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW02",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW03",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW04",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW06",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW07",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW08",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW09",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW10",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW11",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->qualifyW12",
+        "predicate_evidence": {},
+        "reason": "Rejected domain or legacy work-packet closure member.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-006"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:devShells.default->validateContracts",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-abi->habitatAbi",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-authority->habitatAuthority",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-context->habitatContext",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-effects->habitatEffects",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-execution->habitatExecution",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-harnesses->habitatHarnesses",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-installer->habitatInstaller",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-models->habitatModels",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-packages->habitatPackages",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-qemu->habitatQemu",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-raw->habitatRaw",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-recovery->habitatRecovery",
+        "predicate_evidence": {},
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-025"
+      },
+      {
+        "action": "DELETE",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-simulation->habitatSimulation",
+        "predicate_evidence": {},
+        "reason": "Rejected domain or legacy work-packet closure member.",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-006"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "nix-output-edge:packages.habitat-state->habitatState",
         "predicate_evidence": {},
         "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
@@ -6190,7 +6140,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -6226,13 +6176,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -6276,7 +6226,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -6311,7 +6261,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
             ],
             "result": "satisfied"
           },
@@ -14081,7 +14031,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:131:transition:state_assignment->EffectState::Executing",
+        "identity": "crates/habitat-effects/src/lib.rs:131:transition:EffectState::Reserved->EffectState::Executing",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
         "requirement_ids": [],
@@ -14091,7 +14041,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:136:transition:state_assignment->EffectState::OutcomeUnknown",
+        "identity": "crates/habitat-effects/src/lib.rs:144:transition:EffectState::Executing->EffectState::ObservedSucceeded",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
         "requirement_ids": [],
@@ -14101,7 +14051,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:144:transition:state_assignment->EffectState::ObservedSucceeded",
+        "identity": "crates/habitat-effects/src/lib.rs:144:transition:EffectState::Executing->EffectState::ObservedFailed",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
         "requirement_ids": [],
@@ -14111,7 +14061,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:144:transition:state_assignment->EffectState::ObservedFailed",
+        "identity": "crates/habitat-effects/src/lib.rs:153:transition:EffectState::OutcomeUnknown->EffectState::Reconciling",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
         "requirement_ids": [],
@@ -14121,7 +14071,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:153:transition:state_assignment->EffectState::Reconciling",
+        "identity": "crates/habitat-effects/src/lib.rs:159:transition:EffectState::Reconciling->EffectState::ResolvedSucceeded",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
         "requirement_ids": [],
@@ -14131,37 +14081,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:159:transition:state_assignment->EffectState::ResolvedSucceeded",
-        "predicate_evidence": {},
-        "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-007"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:159:transition:state_assignment->EffectState::ResolvedFailed",
-        "predicate_evidence": {},
-        "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-007"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:163:transition:state_assignment->EffectState::Reserved",
-        "predicate_evidence": {},
-        "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
-        "requirement_ids": [],
-        "retention_predicates": [],
-        "rule_id": "D-007"
-      },
-      {
-        "action": "DELETE_AND_REBUILD",
-        "authority_evidence": [],
-        "identity": "crates/habitat-effects/src/lib.rs:163:transition:state_assignment->EffectState::Cancelled",
+        "identity": "crates/habitat-effects/src/lib.rs:159:transition:EffectState::Reconciling->EffectState::ResolvedFailed",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-effects/src/lib.rs",
         "requirement_ids": [],
@@ -16361,7 +16281,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-packages/src/lib.rs:121:transition:state_assignment->ProviderState::Staged",
+        "identity": "crates/habitat-packages/src/lib.rs:121:transition:*->ProviderState::Staged",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
@@ -16371,7 +16291,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-packages/src/lib.rs:124:transition:state_assignment->ProviderState::Verifying",
+        "identity": "crates/habitat-packages/src/lib.rs:124:transition:*->ProviderState::Verifying",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
@@ -16381,7 +16301,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-packages/src/lib.rs:136:transition:state_assignment->ProviderState::Active",
+        "identity": "crates/habitat-packages/src/lib.rs:136:transition:*->ProviderState::Active",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
@@ -16391,7 +16311,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-packages/src/lib.rs:146:transition:state_assignment->ProviderState::Draining",
+        "identity": "crates/habitat-packages/src/lib.rs:146:transition:*->ProviderState::Draining",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
@@ -16401,7 +16321,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "crates/habitat-packages/src/lib.rs:150:transition:state_assignment->ProviderState::Revoked",
+        "identity": "crates/habitat-packages/src/lib.rs:150:transition:*->ProviderState::Revoked",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
@@ -16861,7 +16781,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "flake.nix:26:service:systemd-bless-boot.enable",
+        "identity": "flake.nix:26:service:systemd-bless-boot",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: flake.nix",
         "requirement_ids": [],
@@ -18891,7 +18811,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:245:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
+        "identity": "tests/test_v2_rebuild_frontier.py:310:test_fixture:test_cross_relation_dependency_cycle_is_rejected",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -18901,7 +18821,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:274:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
+        "identity": "tests/test_v2_rebuild_frontier.py:339:test_fixture:test_requirement_derivation_references_are_resolved_and_acyclic",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -18911,7 +18831,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_rebuild_frontier.py:308:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
+        "identity": "tests/test_v2_rebuild_frontier.py:373:test_fixture:test_inventory_cli_records_the_baseline_and_every_inventory_class",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_rebuild_frontier.py",
         "requirement_ids": [],
@@ -19001,7 +18921,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:267:test_fixture:test_inventory_commit_is_reachable_from_a_fresh_clone",
+        "identity": "tests/test_v2_scope_classification.py:277:test_fixture:test_inventory_commit_is_reachable_from_a_fresh_clone",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -19011,7 +18931,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:289:test_fixture:test_noncanonical_manifest_bytes_fail_classification",
+        "identity": "tests/test_v2_scope_classification.py:299:test_fixture:test_noncanonical_manifest_bytes_fail_classification",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -19021,7 +18941,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:347:test_fixture:test_external_contract_cannot_weaken_binding_predicates",
+        "identity": "tests/test_v2_scope_classification.py:357:test_fixture:test_external_contract_cannot_weaken_binding_predicates",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -19031,7 +18951,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:378:test_fixture:test_same_tree_contract_mutation_cannot_replace_binding_authority",
+        "identity": "tests/test_v2_scope_classification.py:388:test_fixture:test_same_tree_contract_mutation_cannot_replace_binding_authority",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -19041,7 +18961,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tests/test_v2_scope_classification.py:449:test_fixture:test_archived_v2_package_cannot_be_self_resigned_after_mutation",
+        "identity": "tests/test_v2_scope_classification.py:459:test_fixture:test_archived_v2_package_cannot_be_self_resigned_after_mutation",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tests/test_v2_scope_classification.py",
         "requirement_ids": [],
@@ -19291,7 +19211,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:72:def:requirement_ids_for",
+        "identity": "tools/classify_v2_scope.py:81:def:requirement_ids_for",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19301,7 +19221,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:87:def:git",
+        "identity": "tools/classify_v2_scope.py:96:def:git",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19311,7 +19231,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:96:def:inventory_tree_contents",
+        "identity": "tools/classify_v2_scope.py:105:def:inventory_tree_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19321,7 +19241,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:105:def:inventory_tree_bytes",
+        "identity": "tools/classify_v2_scope.py:114:def:inventory_tree_bytes",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19331,7 +19251,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:114:def:explicit_path_disposition",
+        "identity": "tools/classify_v2_scope.py:123:def:explicit_path_disposition",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19341,7 +19261,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:126:def:classify_path",
+        "identity": "tools/classify_v2_scope.py:135:def:classify_path",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19351,7 +19271,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:223:def:record",
+        "identity": "tools/classify_v2_scope.py:232:def:record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19361,7 +19281,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:243:def:inherited_record",
+        "identity": "tools/classify_v2_scope.py:252:def:inherited_record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19371,7 +19291,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:254:def:semantic_identity",
+        "identity": "tools/classify_v2_scope.py:263:def:semantic_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19381,7 +19301,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:258:def:dependency_identity",
+        "identity": "tools/classify_v2_scope.py:267:def:dependency_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19391,7 +19311,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:262:def:generic_identity",
+        "identity": "tools/classify_v2_scope.py:271:def:generic_identity",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19401,7 +19321,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:270:def:classify",
+        "identity": "tools/classify_v2_scope.py:279:def:classify",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19411,7 +19331,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:443:def:relegacy_packet",
+        "identity": "tools/classify_v2_scope.py:460:def:relegacy_packet",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19421,7 +19341,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:447:def:contract_package",
+        "identity": "tools/classify_v2_scope.py:464:def:contract_package",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19431,7 +19351,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:454:def:validate_contract_packages",
+        "identity": "tools/classify_v2_scope.py:471:def:validate_contract_packages",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19441,7 +19361,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:507:def:retention_evidence",
+        "identity": "tools/classify_v2_scope.py:524:def:retention_evidence",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19451,7 +19371,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/classify_v2_scope.py:548:def:main",
+        "identity": "tools/classify_v2_scope.py:565:def:main",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/classify_v2_scope.py",
         "requirement_ids": [],
@@ -19501,7 +19421,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:111:def:semantic_record",
+        "identity": "tools/inventory_v2.py:114:def:semantic_record",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19511,7 +19431,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:120:def:python_enum_values",
+        "identity": "tools/inventory_v2.py:124:def:python_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19521,7 +19441,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:145:def:python_state_transitions",
+        "identity": "tools/inventory_v2.py:149:def:python_state_transitions",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19531,7 +19451,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:168:def:rust_macro_generated_types",
+        "identity": "tools/inventory_v2.py:172:def:rust_macro_generated_types",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19541,7 +19461,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:186:def:proto_enum_values",
+        "identity": "tools/inventory_v2.py:190:def:rust_state_transitions",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19551,7 +19471,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:215:def:contract_json_semantics",
+        "identity": "tools/inventory_v2.py:233:def:nix_service_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19561,7 +19481,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:254:def:json_schema_semantics",
+        "identity": "tools/inventory_v2.py:253:def:proto_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19571,7 +19491,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:290:def:schema_enum_values",
+        "identity": "tools/inventory_v2.py:282:def:contract_json_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19581,7 +19501,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:304:def:rust_enum_values",
+        "identity": "tools/inventory_v2.py:323:def:json_schema_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19591,7 +19511,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:349:def:public_semantics",
+        "identity": "tools/inventory_v2.py:356:def:schema_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19601,7 +19521,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:354:def:dependencies_from_contents",
+        "identity": "tools/inventory_v2.py:370:def:json_token_offsets",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19611,7 +19531,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:447:def:nix_dependencies",
+        "identity": "tools/inventory_v2.py:419:def:rust_enum_values",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19621,7 +19541,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:473:def:dependencies",
+        "identity": "tools/inventory_v2.py:471:def:public_semantics",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19631,7 +19551,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:478:def:generated_artifacts",
+        "identity": "tools/inventory_v2.py:476:def:dependencies_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19641,7 +19561,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:482:def:generated_artifacts_from_contents",
+        "identity": "tools/inventory_v2.py:569:def:nix_dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19651,7 +19571,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:518:def:generated_required_class",
+        "identity": "tools/inventory_v2.py:595:def:dependencies",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19661,7 +19581,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:545:def:build_closure_members_from_contents",
+        "identity": "tools/inventory_v2.py:600:def:generated_artifacts",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19671,7 +19591,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:567:def:build_closure_members",
+        "identity": "tools/inventory_v2.py:604:def:generated_artifacts_from_contents",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19681,7 +19601,7 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:574:def:inventory",
+        "identity": "tools/inventory_v2.py:640:def:generated_required_class",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -19691,7 +19611,57 @@
       {
         "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
-        "identity": "tools/inventory_v2.py:602:def:main",
+        "identity": "tools/inventory_v2.py:669:def:build_closure_members_from_contents",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:722:def:build_closure_members",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:729:def:inventory",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:757:def:main",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:375:def:whitespace",
+        "predicate_evidence": {},
+        "reason": "Inherited from containing unit: tools/inventory_v2.py",
+        "requirement_ids": [],
+        "retention_predicates": [],
+        "rule_id": "D-029"
+      },
+      {
+        "action": "DELETE_AND_REBUILD",
+        "authority_evidence": [],
+        "identity": "tools/inventory_v2.py:380:def:parse",
         "predicate_evidence": {},
         "reason": "Inherited from containing unit: tools/inventory_v2.py",
         "requirement_ids": [],
@@ -21014,7 +20984,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21050,13 +21020,13 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28"
+              "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
             ],
             "result": "satisfied"
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21080,7 +21050,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21122,7 +21092,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21146,7 +21116,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21188,7 +21158,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21212,7 +21182,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2.0.1/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "SCOPE-001",
@@ -21254,7 +21224,7 @@
           },
           "RET-006": {
             "evidence": [
-              "clean temporary extraction of exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28 executed contracts/v2.0.1/validate_contract.py successfully"
+              "clean temporary extraction of exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b executed contracts/v2.0.1/validate_contract.py successfully"
             ],
             "result": "satisfied"
           }
@@ -21278,7 +21248,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -21313,7 +21283,7 @@
           },
           "RET-005": {
             "evidence": [
-              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28"
+              "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b"
             ],
             "result": "satisfied"
           },
@@ -21342,7 +21312,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -21406,7 +21376,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -21470,7 +21440,7 @@
         "action": "RETAIN",
         "authority_evidence": [
           {
-            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree efa6e4aeb06ca318d757c4b8e533c37115464a28",
+            "evidence": "contracts/v2/MANIFEST.sha256 exactly equals canonical SHA-256 manifest bytes regenerated from exact inventory tree 6dd86bfd7d30722e6272a155d34a8c79ec46551b",
             "invariant": "released contract package bytes cannot be mutated in place",
             "requirement_ids": [
               "CHANGE-003"
@@ -23262,7 +23232,7 @@
       }
     ]
   },
-  "inventory_tree": "efa6e4aeb06ca318d757c4b8e533c37115464a28",
+  "inventory_tree": "6dd86bfd7d30722e6272a155d34a8c79ec46551b",
   "runner": {
     "name": "classify-v2-scope",
     "version": 1
@@ -23270,12 +23240,12 @@
   "schema_version": 1,
   "summary": {
     "counts_by_action": {
-      "DELETE": 293,
-      "DELETE_AND_REBUILD": 1700,
+      "DELETE": 294,
+      "DELETE_AND_REBUILD": 1696,
       "REGENERATE": 267,
       "RETAIN": 10
     },
-    "total_disposition_count": 2270,
+    "total_disposition_count": 2267,
     "unclassified_count": 0,
     "unmapped_retained_count": 0
   }

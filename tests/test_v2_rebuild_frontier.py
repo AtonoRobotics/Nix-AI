@@ -201,7 +201,23 @@ class V2RebuildFrontierTests(unittest.TestCase):
             (
                 "crates/habitat-effects/src/lib.rs",
                 "transition",
-                "state_assignment->EffectState::Executing",
+                "EffectState::Reserved->EffectState::Executing",
+            ),
+            semantics,
+        )
+        self.assertNotIn(
+            (
+                "crates/habitat-effects/src/lib.rs",
+                "transition",
+                "*->EffectState::Reserved",
+            ),
+            semantics,
+        )
+        self.assertIn(
+            (
+                "flake.nix",
+                "service",
+                "systemd-bless-boot",
             ),
             semantics,
         )
@@ -263,6 +279,15 @@ class V2RebuildFrontierTests(unittest.TestCase):
         }
         self.assertIn(("nix-internal-derivation", "habitatSimulation"), closure)
         self.assertIn(("nix-dependency-edge", "habitatQemu->habitatRaw"), closure)
+        self.assertIn(("nix-direct-output", "formatter"), closure)
+        self.assertIn(("nix-direct-output", "devShells.default"), closure)
+        self.assertIn(
+            ("nix-output-edge", "packages.habitat-qemu->habitatQemu"), closure
+        )
+        self.assertNotIn(("nix-internal-derivation", "system"), closure)
+        self.assertNotIn(("nix-internal-derivation", "pkgs"), closure)
+        self.assertNotIn(("nix-internal-derivation", "contractTools"), closure)
+        self.assertNotIn(("nix-dependency-edge", "runHabitatQemu->qualifyW12"), closure)
         self.assertNotIn(("nix-declared-closure-root", "version"), closure)
         self.assertIn(
             ("src/habitat_state/store.py", "python-relative-import", ".domain"),
