@@ -1,0 +1,1 @@
+{"implementation_commit":"7d63ce75fe8f9e75920ae6580ea21a3b1af4b2ce","outcome":"passed","artifact_sha256":"2bafd8e3e55d129d17aa037c71810d8557491acacbd0b273a4c468c6bf4972ca","cases":["immediate denial","revocation epoch attribution","denial survives restart"]}
