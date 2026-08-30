@@ -52,6 +52,16 @@ class V2CoreAuditTests(unittest.TestCase):
                 self.assertTrue(any(item["kind"]=="test" and "hidden_inline_test" in item["identity"] for item in report["records"]))
         finally: source.write_text(original)
 
+    def test_any_model_or_harness_transcript_state_surface_fails_closed(self):
+        source=ROOT/"crates/habitat-models/src/transcript_state.rs"
+        try:
+            source.write_text("pub struct AuthoritativeTranscript;\n")
+            with tempfile.TemporaryDirectory() as temporary:
+                result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("provider-transcript-authority-surface",result.stdout)
+        finally:
+            if source.exists():source.unlink()
+
     def test_unmapped_fixture_fails_closed(self):
         fixture=ROOT/"tests/fixtures/unmapped/new.fixture";fixture.parent.mkdir(parents=True,exist_ok=True);fixture.write_text("opaque")
         try:

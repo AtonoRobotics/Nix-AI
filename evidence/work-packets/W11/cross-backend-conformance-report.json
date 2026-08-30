@@ -21,7 +21,7 @@
       "cancellation_deadline_and_backend_comparison_preserve_committed_truth",
       "capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
       "codex_and_claude_emit_the_same_semantic_abi_and_identity",
-      "only_typed_checkpoint_is_durable_and_transcript_is_disposable",
+      "only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
       "process_success_prose_and_session_completion_do_not_complete_objective"
     ]
   },
@@ -31,7 +31,7 @@
     "process exit never implies completion",
     "typed checkpoints only",
     "capability-only provider access",
-    "cancellation preserves committed effects",
-    "private transcript is non-authoritative"
+    "cancellation cannot mutate committed effects",
+    "provider diagnostics are non-authoritative"
   ]
 }

@@ -136,8 +136,10 @@ def audit(root):
     profile=json.loads((root/"nix/profiles/qemu-x86_64-conformance.json").read_text())
     profile_ok=profile.get("gpu",{}).get("status")=="absent" and profile.get("devices")==[] and bool(profile.get("capacity"))
     if not profile_ok: unresolved.append("hardware-profile-missing-capacity-or-explicit-absence")
-    for path in (root/"crates/habitat-harnesses/src").rglob("*.rs"):
-        if re.search(r"transcript",path.read_text(),re.I): unresolved.append(f"provider-transcript-authority-surface:{path.relative_to(root)}")
+    for component in ("habitat-models","habitat-harnesses"):
+        for path in (root/f"crates/{component}/src").rglob("*"):
+            if path.is_file() and re.search(rb"transcript",path.read_bytes(),re.I):
+                unresolved.append(f"provider-transcript-authority-surface:{path.relative_to(root)}")
     digest=hashlib.sha256()
     for relative in files:
         content=(root/relative).read_bytes();digest.update(relative.encode()+b"\0"+content+b"\0")

@@ -7,7 +7,7 @@
     "test_names": [
       "cancellation_and_deadline_are_classified_without_implicit_completion",
       "cognition_evidence_is_digest_only_and_contains_no_transport_secret_or_prompt",
-      "credential_exists_only_in_transport_request_and_never_in_activation_or_digest",
+      "credential_is_consumed_inside_transport_and_never_returned_as_evidence",
       "openai_and_anthropic_translate_to_identical_semantic_disposition",
       "provider_stop_does_not_complete_but_validated_completion_claim_does",
       "validator_rejects_missing_identity_and_invisible_capability_without_heuristics"

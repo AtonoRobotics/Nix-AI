@@ -20,13 +20,13 @@ def main():
     proof=behavioral_proof(args.test_dir,{"codex_and_claude_emit_the_same_semantic_abi_and_identity",
       "process_success_prose_and_session_completion_do_not_complete_objective",
       "capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
-      "only_typed_checkpoint_is_durable_and_transcript_is_disposable",
+      "only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
       "cancellation_deadline_and_backend_comparison_preserve_committed_truth"})
     reports={
       "cross-backend-conformance-report":{"outcome":"passed","artifact_sha256":digest,"abi":declaration,"behavioral_test_proof":proof,
         "backends":["direct-model","Codex CLI","Claude Code"],"properties":["same semantic ABI disposition",
         "process exit never implies completion","typed checkpoints only","capability-only provider access",
-        "cancellation preserves committed effects","private transcript is non-authoritative"]},
+        "cancellation cannot mutate committed effects","provider diagnostics are non-authoritative"]},
       "same-agent-identity-test":{"outcome":"passed","artifact_sha256":digest,
         "preserved":["agent identity","objective identity","activation identity","grant set","context bundle",
         "effect history","completion contract","activation-set pin","adapter artifact and configuration digest"]}}

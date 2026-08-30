@@ -409,11 +409,11 @@
   },
   "candidate_file_count": 65,
   "counts": {
-    "branch": 288,
+    "branch": 291,
     "dependency": 147,
     "fixture": 6,
-    "public_interface": 383,
-    "test": 104
+    "public_interface": 416,
+    "test": 105
   },
   "hardware_profile": {
     "capacity_declared": true,
@@ -9082,9 +9082,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:8:DurableIdentity"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:10:DurableIdentity"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:8:DurableIdentity",
+      "identity": "crates/habitat-harnesses/src/lib.rs:10:DurableIdentity",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9104,9 +9104,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:11:PreparedActivation"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:19:PreparedActivation"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:11:PreparedActivation",
+      "identity": "crates/habitat-harnesses/src/lib.rs:19:PreparedActivation",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9126,9 +9126,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:13:HarnessAdapter"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:26:HarnessAdapter"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:13:HarnessAdapter",
+      "identity": "crates/habitat-harnesses/src/lib.rs:26:HarnessAdapter",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9148,97 +9148,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:30:CodexAdapter"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:28:prepare"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:30:CodexAdapter",
-      "kind": "public_interface",
-      "requirement_ids": [
-        "ABI-003",
-        "EXEC-003"
-      ],
-      "source": "crates/habitat-harnesses/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "ABI-003",
-          "EXEC-003"
-        ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:32"
-      },
-      "identity": "crates/habitat-harnesses/src/lib.rs:32",
-      "kind": "branch",
-      "requirement_ids": [
-        "ABI-003",
-        "EXEC-003"
-      ],
-      "source": "crates/habitat-harnesses/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
-      ],
-      "binding": {
-        "class": "public_interface",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "ABI-003",
-          "EXEC-003"
-        ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:36:ClaudeCodeAdapter"
-      },
-      "identity": "crates/habitat-harnesses/src/lib.rs:36:ClaudeCodeAdapter",
-      "kind": "public_interface",
-      "requirement_ids": [
-        "ABI-003",
-        "EXEC-003"
-      ],
-      "source": "crates/habitat-harnesses/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "ABI-003",
-          "EXEC-003"
-        ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:38"
-      },
-      "identity": "crates/habitat-harnesses/src/lib.rs:38",
-      "kind": "branch",
-      "requirement_ids": [
-        "ABI-003",
-        "EXEC-003"
-      ],
-      "source": "crates/habitat-harnesses/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
-      ],
-      "binding": {
-        "class": "public_interface",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "ABI-003",
-          "EXEC-003"
-        ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:53:CapabilityProxy"
-      },
-      "identity": "crates/habitat-harnesses/src/lib.rs:53:CapabilityProxy",
+      "identity": "crates/habitat-harnesses/src/lib.rs:28:prepare",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9258,9 +9170,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:55:from_prepared"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:44:HarnessOutput"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:55:from_prepared",
+      "identity": "crates/habitat-harnesses/src/lib.rs:44:HarnessOutput",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9280,53 +9192,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:58:invoke"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:50:HarnessError"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:58:invoke",
-      "kind": "public_interface",
-      "requirement_ids": [
-        "ABI-003",
-        "EXEC-003"
-      ],
-      "source": "crates/habitat-harnesses/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
-      ],
-      "binding": {
-        "class": "branch",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "ABI-003",
-          "EXEC-003"
-        ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:59"
-      },
-      "identity": "crates/habitat-harnesses/src/lib.rs:59",
-      "kind": "branch",
-      "requirement_ids": [
-        "ABI-003",
-        "EXEC-003"
-      ],
-      "source": "crates/habitat-harnesses/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
-      ],
-      "binding": {
-        "class": "public_interface",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "ABI-003",
-          "EXEC-003"
-        ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:62:environment"
-      },
-      "identity": "crates/habitat-harnesses/src/lib.rs:62:environment",
+      "identity": "crates/habitat-harnesses/src/lib.rs:50:HarnessError",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9346,9 +9214,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:67:HarnessRuntime"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:51:enum-variant:MissingStructuredDisposition"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:67:HarnessRuntime",
+      "identity": "crates/habitat-harnesses/src/lib.rs:51:enum-variant:MissingStructuredDisposition",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9368,9 +9236,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:69:new"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:52:enum-variant:MalformedDisposition"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:69:new",
+      "identity": "crates/habitat-harnesses/src/lib.rs:52:enum-variant:MalformedDisposition",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9390,9 +9258,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:70:process_exit"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:53:enum-variant:Model"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:70:process_exit",
+      "identity": "crates/habitat-harnesses/src/lib.rs:53:enum-variant:Model",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9412,9 +9280,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:71:status"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:54:enum-variant:CapabilityDenied"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:71:status",
+      "identity": "crates/habitat-harnesses/src/lib.rs:54:enum-variant:CapabilityDenied",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9434,9 +9302,119 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:72:check_deadline"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:55:enum-variant:TypedCheckpointRequired"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:72:check_deadline",
+      "identity": "crates/habitat-harnesses/src/lib.rs:55:enum-variant:TypedCheckpointRequired",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:56:enum-variant:LeaseExpired"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:56:enum-variant:LeaseExpired",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:57:enum-variant:InvalidCancellation"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:57:enum-variant:InvalidCancellation",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:58:enum-variant:BackendDivergence"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:58:enum-variant:BackendDivergence",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:66:CodexAdapter"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:66:CodexAdapter",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:68:translate"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:68:translate",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9478,9 +9456,31 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:74:cancel"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:83:ClaudeCodeAdapter"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:74:cancel",
+      "identity": "crates/habitat-harnesses/src/lib.rs:83:ClaudeCodeAdapter",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:85:translate"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:85:translate",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9500,9 +9500,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:74"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:89"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:74",
+      "identity": "crates/habitat-harnesses/src/lib.rs:89",
       "kind": "branch",
       "requirement_ids": [
         "ABI-003",
@@ -9522,9 +9522,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:80:new"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:125:enum-variant:Ok"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:80:new",
+      "identity": "crates/habitat-harnesses/src/lib.rs:125:enum-variant:Ok",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9544,9 +9544,75 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:81:commit"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:132:CapabilityProxy"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:81:commit",
+      "identity": "crates/habitat-harnesses/src/lib.rs:132:CapabilityProxy",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:136:from_prepared"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:136:from_prepared",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:137:enum-variant:Self"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:137:enum-variant:Self",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:145:invoke"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:145:invoke",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9566,9 +9632,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:82"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:146"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:82",
+      "identity": "crates/habitat-harnesses/src/lib.rs:146",
       "kind": "branch",
       "requirement_ids": [
         "ABI-003",
@@ -9588,9 +9654,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:86:records"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:149:enum-variant:Ok"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:86:records",
+      "identity": "crates/habitat-harnesses/src/lib.rs:149:enum-variant:Ok",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9610,9 +9676,273 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:91:BackendConformance"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:153:environment"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:91:BackendConformance",
+      "identity": "crates/habitat-harnesses/src/lib.rs:153:environment",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:159:RuntimeStatus"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:159:RuntimeStatus",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:160:enum-variant:Running"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:160:enum-variant:Running",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:161:enum-variant:Cancelled"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:161:enum-variant:Cancelled",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:164:RuntimeOutcome"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:164:RuntimeOutcome",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:165:enum-variant:AwaitingDisposition"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:165:enum-variant:AwaitingDisposition",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:166:enum-variant:DispositionAccepted"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:166:enum-variant:DispositionAccepted",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:168:HarnessRuntime"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:168:HarnessRuntime",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:173:new"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:173:new",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:174:enum-variant:Self"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:174:enum-variant:Self",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:179:process_exit"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:179:process_exit",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:182:status"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:182:status",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:185:check_deadline"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:185:check_deadline",
       "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
@@ -9632,10 +9962,384 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/src/lib.rs:93"
+        "semantic": "crates/habitat-harnesses/src/lib.rs:186"
       },
-      "identity": "crates/habitat-harnesses/src/lib.rs:93",
+      "identity": "crates/habitat-harnesses/src/lib.rs:186",
       "kind": "branch",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:187:enum-variant:Err"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:187:enum-variant:Err",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:189:enum-variant:Ok"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:189:enum-variant:Ok",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:192:cancel"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:192:cancel",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:193"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:193",
+      "kind": "branch",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:197:enum-variant:Ok"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:197:enum-variant:Ok",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:202:HarnessCheckpoint"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:202:HarnessCheckpoint",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:206:new"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:206:new",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:209:commit"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:209:commit",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:210"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:210",
+      "kind": "branch",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:214:enum-variant:Ok"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:214:enum-variant:Ok",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:216:records"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:216:records",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:222:BackendState"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:222:BackendState",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:227:BackendConformance"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:227:BackendConformance",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:229:compare"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:229:compare",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:234"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:234",
+      "kind": "branch",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:235:enum-variant:Ok"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:235:enum-variant:Ok",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "ABI-003",
+        "EXEC-003"
+      ],
+      "source": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/EXEC-003"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "ABI-003",
+          "EXEC-003"
+        ],
+        "semantic": "crates/habitat-harnesses/src/lib.rs:237:enum-variant:Err"
+      },
+      "identity": "crates/habitat-harnesses/src/lib.rs:237:enum-variant:Err",
+      "kind": "public_interface",
       "requirement_ids": [
         "ABI-003",
         "EXEC-003"
@@ -9676,9 +10380,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:12:process_success_prose_and_session_completion_do_not_complete_objective"
+        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:26:process_success_prose_and_session_completion_do_not_complete_objective"
       },
-      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:12:process_success_prose_and_session_completion_do_not_complete_objective",
+      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:26:process_success_prose_and_session_completion_do_not_complete_objective",
       "kind": "test",
       "requirement_ids": [
         "ABI-003",
@@ -9698,9 +10402,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:20:capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access"
+        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:40:capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access"
       },
-      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:20:capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
+      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:40:capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
       "kind": "test",
       "requirement_ids": [
         "ABI-003",
@@ -9720,9 +10424,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:29:only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state"
+        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:60:only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state"
       },
-      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:29:only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
+      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:60:only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
       "kind": "test",
       "requirement_ids": [
         "ABI-003",
@@ -9742,9 +10446,9 @@
           "ABI-003",
           "EXEC-003"
         ],
-        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:40:cancellation_deadline_and_backend_comparison_preserve_committed_truth"
+        "semantic": "crates/habitat-harnesses/tests/runtime_boundary.rs:75:cancellation_deadline_and_backend_comparison_preserve_committed_truth"
       },
-      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:40:cancellation_deadline_and_backend_comparison_preserve_committed_truth",
+      "identity": "crates/habitat-harnesses/tests/runtime_boundary.rs:75:cancellation_deadline_and_backend_comparison_preserve_committed_truth",
       "kind": "test",
       "requirement_ids": [
         "ABI-003",
@@ -12237,9 +12941,9 @@
         "requirement_ids": [
           "AUTH-004"
         ],
-        "semantic": "crates/habitat-provider-transport/src/lib.rs:7:RequestEvidence"
+        "semantic": "crates/habitat-provider-transport/src/lib.rs:10:RequestEvidence"
       },
-      "identity": "crates/habitat-provider-transport/src/lib.rs:7:RequestEvidence",
+      "identity": "crates/habitat-provider-transport/src/lib.rs:10:RequestEvidence",
       "kind": "public_interface",
       "requirement_ids": [
         "AUTH-004"
@@ -12256,9 +12960,9 @@
         "requirement_ids": [
           "AUTH-004"
         ],
-        "semantic": "crates/habitat-provider-transport/src/lib.rs:8:ProviderTransport"
+        "semantic": "crates/habitat-provider-transport/src/lib.rs:16:ProviderTransport"
       },
-      "identity": "crates/habitat-provider-transport/src/lib.rs:8:ProviderTransport",
+      "identity": "crates/habitat-provider-transport/src/lib.rs:16:ProviderTransport",
       "kind": "public_interface",
       "requirement_ids": [
         "AUTH-004"
@@ -12275,9 +12979,9 @@
         "requirement_ids": [
           "AUTH-004"
         ],
-        "semantic": "crates/habitat-provider-transport/src/lib.rs:13:new"
+        "semantic": "crates/habitat-provider-transport/src/lib.rs:27:new"
       },
-      "identity": "crates/habitat-provider-transport/src/lib.rs:13:new",
+      "identity": "crates/habitat-provider-transport/src/lib.rs:27:new",
       "kind": "public_interface",
       "requirement_ids": [
         "AUTH-004"
@@ -12294,9 +12998,9 @@
         "requirement_ids": [
           "AUTH-004"
         ],
-        "semantic": "crates/habitat-provider-transport/src/lib.rs:14:dispatch"
+        "semantic": "crates/habitat-provider-transport/src/lib.rs:33:dispatch"
       },
-      "identity": "crates/habitat-provider-transport/src/lib.rs:14:dispatch",
+      "identity": "crates/habitat-provider-transport/src/lib.rs:33:dispatch",
       "kind": "public_interface",
       "requirement_ids": [
         "AUTH-004"
@@ -12313,9 +13017,9 @@
         "requirement_ids": [
           "AUTH-004"
         ],
-        "semantic": "crates/habitat-provider-transport/src/lib.rs:21:provider"
+        "semantic": "crates/habitat-provider-transport/src/lib.rs:57:provider"
       },
-      "identity": "crates/habitat-provider-transport/src/lib.rs:21:provider",
+      "identity": "crates/habitat-provider-transport/src/lib.rs:57:provider",
       "kind": "public_interface",
       "requirement_ids": [
         "AUTH-004"
@@ -12332,9 +13036,9 @@
         "requirement_ids": [
           "AUTH-004"
         ],
-        "semantic": "crates/habitat-provider-transport/tests/credential_boundary.rs:12:credential_is_consumed_inside_transport_and_never_returned_as_evidence"
+        "semantic": "crates/habitat-provider-transport/tests/credential_boundary.rs:21:credential_is_consumed_inside_transport_and_never_returned_as_evidence"
       },
-      "identity": "crates/habitat-provider-transport/tests/credential_boundary.rs:12:credential_is_consumed_inside_transport_and_never_returned_as_evidence",
+      "identity": "crates/habitat-provider-transport/tests/credential_boundary.rs:21:credential_is_consumed_inside_transport_and_never_returned_as_evidence",
       "kind": "test",
       "requirement_ids": [
         "AUTH-004"
@@ -19677,47 +20381,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:55:test_unmapped_fixture_fails_closed"
+        "semantic": "tests/test_v2_core_audit.py:55:test_any_model_or_harness_transcript_state_surface_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:55:test_unmapped_fixture_fails_closed",
-      "kind": "test",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "test",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:64:test_undeclared_dependency_fails_closed"
-      },
-      "identity": "tests/test_v2_core_audit.py:64:test_undeclared_dependency_fails_closed",
-      "kind": "test",
-      "requirement_ids": [
-        "VERIFY-001"
-      ],
-      "source": "tests/test_v2_core_audit.py"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
-      ],
-      "binding": {
-        "class": "test",
-        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
-        "requirement_ids": [
-          "VERIFY-001"
-        ],
-        "semantic": "tests/test_v2_core_audit.py:73:test_retained_core_evidence_is_backed_by_executed_suites"
-      },
-      "identity": "tests/test_v2_core_audit.py:73:test_retained_core_evidence_is_backed_by_executed_suites",
+      "identity": "tests/test_v2_core_audit.py:55:test_any_model_or_harness_transcript_state_surface_fails_closed",
       "kind": "test",
       "requirement_ids": [
         "VERIFY-001"
@@ -19734,9 +20400,85 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:84"
+        "semantic": "tests/test_v2_core_audit.py:63"
       },
-      "identity": "tests/test_v2_core_audit.py:84",
+      "identity": "tests/test_v2_core_audit.py:63",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:65:test_unmapped_fixture_fails_closed"
+      },
+      "identity": "tests/test_v2_core_audit.py:65:test_unmapped_fixture_fails_closed",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:74:test_undeclared_dependency_fails_closed"
+      },
+      "identity": "tests/test_v2_core_audit.py:74:test_undeclared_dependency_fails_closed",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "test",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:83:test_retained_core_evidence_is_backed_by_executed_suites"
+      },
+      "identity": "tests/test_v2_core_audit.py:83:test_retained_core_evidence_is_backed_by_executed_suites",
+      "kind": "test",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:94"
+      },
+      "identity": "tests/test_v2_core_audit.py:94",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -19886,9 +20628,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:84:If"
+        "semantic": "tests/test_v2_core_audit.py:94:If"
       },
-      "identity": "tests/test_v2_core_audit.py:84:If",
+      "identity": "tests/test_v2_core_audit.py:94:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -20000,9 +20742,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:55:test_unmapped_fixture_fails_closed"
+        "semantic": "tests/test_v2_core_audit.py:55:test_any_model_or_harness_transcript_state_surface_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:55:test_unmapped_fixture_fails_closed",
+      "identity": "tests/test_v2_core_audit.py:55:test_any_model_or_harness_transcript_state_surface_fails_closed",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -20019,9 +20761,9 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:64:test_undeclared_dependency_fails_closed"
+        "semantic": "tests/test_v2_core_audit.py:65:test_unmapped_fixture_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:64:test_undeclared_dependency_fails_closed",
+      "identity": "tests/test_v2_core_audit.py:65:test_unmapped_fixture_fails_closed",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -20038,9 +20780,28 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:73:test_retained_core_evidence_is_backed_by_executed_suites"
+        "semantic": "tests/test_v2_core_audit.py:74:test_undeclared_dependency_fails_closed"
       },
-      "identity": "tests/test_v2_core_audit.py:73:test_retained_core_evidence_is_backed_by_executed_suites",
+      "identity": "tests/test_v2_core_audit.py:74:test_undeclared_dependency_fails_closed",
+      "kind": "public_interface",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "public_interface",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:83:test_retained_core_evidence_is_backed_by_executed_suites"
+      },
+      "identity": "tests/test_v2_core_audit.py:83:test_retained_core_evidence_is_backed_by_executed_suites",
       "kind": "public_interface",
       "requirement_ids": [
         "VERIFY-001"
@@ -20133,9 +20894,47 @@
         "requirement_ids": [
           "VERIFY-001"
         ],
-        "semantic": "tests/test_v2_core_audit.py:66:Try"
+        "semantic": "tests/test_v2_core_audit.py:67:Try"
       },
-      "identity": "tests/test_v2_core_audit.py:66:Try",
+      "identity": "tests/test_v2_core_audit.py:67:Try",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:76:Try"
+      },
+      "identity": "tests/test_v2_core_audit.py:76:Try",
+      "kind": "branch",
+      "requirement_ids": [
+        "VERIFY-001"
+      ],
+      "source": "tests/test_v2_core_audit.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/VERIFY-001"
+      ],
+      "binding": {
+        "class": "branch",
+        "decision": "retained only under the cited trigger, boundary, failure, and enforcement",
+        "requirement_ids": [
+          "VERIFY-001"
+        ],
+        "semantic": "tests/test_v2_core_audit.py:63:If"
+      },
+      "identity": "tests/test_v2_core_audit.py:63:If",
       "kind": "branch",
       "requirement_ids": [
         "VERIFY-001"
@@ -24559,7 +25358,7 @@
     "version": 1
   },
   "schema_version": 1,
-  "scope_digest": "b0ec16c03e3b9f94666eacd53eee6296c75f3c37a87859e55358c62c0fb3de61",
+  "scope_digest": "e625c512f21324b7a8ffdb181c6c9bc9d8a1ff114371a44fca9bc4f3b7bbd496",
   "unresolved_candidates": [],
   "untrusted_candidates": [],
   "valid": true
