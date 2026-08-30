@@ -1,0 +1,1 @@
+{"packet":"W09","implementation_commit":"30e5fdd107d685e4bdf39c3cfbd57932b0995629","outcome":"passed","requirements":["OBS-005"],"dependencies":{"W03":"passed","W05":"passed","W06":"passed","W07":"passed"},"qualification":"nix run .#test-w09","flake_check":"passed"}
