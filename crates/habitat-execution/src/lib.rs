@@ -16,7 +16,7 @@ pub enum AdmissionError {
     InvalidLimit,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub struct IsolationRequest {
     pub runtime: Runtime,
     pub cpu_cores: u32,
@@ -45,12 +45,15 @@ impl IsolationRequest {
     }
 }
 
+#[derive(Serialize)]
 pub struct HardwareProfile {
     pub id: &'static str,
     pub runtimes: Vec<Runtime>,
     pub cpu_cores: u32,
     pub memory_mib: u64,
     pub storage_mib: u64,
+    pub process_limit: u32,
+    pub timeout_seconds: u64,
 }
 impl HardwareProfile {
     pub fn qemu_conformance() -> Self {
@@ -60,6 +63,8 @@ impl HardwareProfile {
             cpu_cores: 2,
             memory_mib: 2048,
             storage_mib: 8192,
+            process_limit: 64,
+            timeout_seconds: 300,
         }
     }
     pub fn admit(&self, r: &IsolationRequest) -> Result<(), AdmissionError> {
@@ -77,6 +82,8 @@ impl HardwareProfile {
         if r.cpu_cores > self.cpu_cores
             || r.memory_mib > self.memory_mib
             || r.storage_mib > self.storage_mib
+            || r.process_limit > self.process_limit
+            || r.timeout_seconds > self.timeout_seconds
         {
             return Err(AdmissionError::CapacityExceeded);
         }
@@ -84,7 +91,7 @@ impl HardwareProfile {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
 pub struct SandboxSpec {
     pub executable: String,
     pub workspace: String,
@@ -94,6 +101,11 @@ pub struct SandboxSpec {
     pub unshare_network: bool,
     pub clear_environment: bool,
     pub read_only_nix_store: bool,
+    pub cpu_cores: u32,
+    pub memory_mib: u64,
+    pub storage_mib: u64,
+    pub process_limit: u32,
+    pub timeout_seconds: u64,
 }
 pub struct NativeSandbox {
     workspace: String,
@@ -104,7 +116,7 @@ impl NativeSandbox {
             workspace: workspace.into(),
         }
     }
-    pub fn command(&self, executable: &str) -> SandboxSpec {
+    pub fn command(&self, executable: &str, admitted: &IsolationRequest) -> SandboxSpec {
         SandboxSpec {
             executable: executable.into(),
             workspace: self.workspace.clone(),
@@ -114,6 +126,11 @@ impl NativeSandbox {
             unshare_network: true,
             clear_environment: true,
             read_only_nix_store: true,
+            cpu_cores: admitted.cpu_cores,
+            memory_mib: admitted.memory_mib,
+            storage_mib: admitted.storage_mib,
+            process_limit: admitted.process_limit,
+            timeout_seconds: admitted.timeout_seconds,
         }
     }
 }
@@ -167,4 +184,35 @@ pub fn qemu_feature_declarations() -> Vec<FeatureDeclaration> {
             reason: "KVM not declared by profile",
         },
     ]
+}
+
+#[derive(Serialize)]
+pub struct ExecutionDeclaration {
+    pub profile: HardwareProfile,
+    pub admitted_request: IsolationRequest,
+    pub sandbox: SandboxSpec,
+    pub features: Vec<FeatureDeclaration>,
+}
+
+pub fn qemu_execution_declaration() -> ExecutionDeclaration {
+    let profile = HardwareProfile::qemu_conformance();
+    let admitted_request = IsolationRequest::new(
+        Runtime::Native,
+        profile.cpu_cores,
+        profile.memory_mib,
+        profile.storage_mib,
+        profile.process_limit,
+        profile.timeout_seconds,
+    );
+    profile
+        .admit(&admitted_request)
+        .expect("declared profile capacity must admit itself");
+    let sandbox = NativeSandbox::new("/activation/work")
+        .command("/nix/store/tool/bin/worker", &admitted_request);
+    ExecutionDeclaration {
+        profile,
+        admitted_request,
+        sandbox,
+        features: qemu_feature_declarations(),
+    }
 }

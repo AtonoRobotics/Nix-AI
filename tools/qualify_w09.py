@@ -5,7 +5,7 @@ from pathlib import Path
 
 def behavioral_proof(directories,expected):
     binaries=sorted(path for directory in directories for path in directory.iterdir() if path.is_file());executed=set()
-    if len(binaries)!=3:raise SystemExit("cognition/transport behavioral binaries incomplete")
+    if len(binaries)!=2:raise SystemExit("cognition behavioral binaries incomplete")
     for binary in binaries:
         listed=subprocess.check_output([binary,"--list"],text=True);executed.update(
           line.removesuffix(": test") for line in listed.splitlines() if line.endswith(": test"))
@@ -16,15 +16,13 @@ def behavioral_proof(directories,expected):
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,required=True)
     p.add_argument("--artifact",type=Path,required=True);p.add_argument("--evidence-dir",type=Path)
-    p.add_argument("--test-dir",type=Path,required=True);p.add_argument("--transport-test-dir",type=Path,required=True)
+    p.add_argument("--test-dir",type=Path,required=True)
     args=p.parse_args();subprocess.run(["validate-contracts"],cwd=args.root,check=True,capture_output=True,text=True)
     declaration=json.loads(subprocess.check_output([args.artifact],text=True));digest=hashlib.sha256(args.artifact.read_bytes()).hexdigest()
-    proof=behavioral_proof([args.test_dir,args.transport_test_dir],{"validator_rejects_missing_identity_and_invisible_capability_without_heuristics",
+    proof=behavioral_proof([args.test_dir],{"validator_rejects_missing_identity_and_invisible_capability_without_heuristics",
       "provider_stop_does_not_complete_but_validated_completion_claim_does","cancellation_and_deadline_are_classified_without_implicit_completion",
       "cognition_evidence_is_digest_only_and_contains_no_transport_secret_or_prompt",
-      "openai_and_anthropic_translate_to_identical_semantic_disposition",
-      "provider_metadata_is_secret_free_and_has_no_dispatch_authority",
-      "secret_bearing_provider_metadata_and_endpoints_are_rejected"})
+      "openai_and_anthropic_translate_to_identical_semantic_disposition"})
     reports={
       "structured-disposition-test":{"outcome":"passed","artifact_sha256":digest,"behavioral_test_proof":proof,
         "cases":["schema-valid ABI only","missing command rejected","invisible capability rejected",
@@ -32,7 +30,7 @@ def main():
       "provider-replacement-report":{"outcome":"passed","artifact_sha256":digest,"abi":declaration,
         "providers":["OpenAI Responses","Anthropic Messages"],"semantic_disposition_equal":True},
       "credential-isolation-test":{"outcome":"passed","artifact_sha256":digest,
-        "properties":["core transport has no credential or dispatch capability","activation envelope credential-free",
+        "properties":["no provider transport is retained in the cognition core","activation envelope credential-free",
         "evidence excludes credentials and prompt"]},
       "telemetry-evidence-correlation-report":{"outcome":"passed","artifact_sha256":digest,
         "fields":["activation_id","trace_id","correlation_id","provider","model","provider_request_id",

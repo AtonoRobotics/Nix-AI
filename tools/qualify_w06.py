@@ -7,6 +7,7 @@ def main():
     p=argparse.ArgumentParser()
     for name in ("bwrap","bash","python","prlimit","dd","execution"):
         p.add_argument("--"+name,required=True)
+    p.add_argument("--profile",type=Path,required=True)
     p.add_argument("--evidence-dir",type=Path);args=p.parse_args()
     with tempfile.TemporaryDirectory(prefix="w06-work-") as work:
         base=[args.bwrap,"--unshare-all","--die-with-parent","--new-session",
@@ -31,7 +32,14 @@ def main():
         try:child.wait(timeout=2)
         except subprocess.TimeoutExpired:
             os.killpg(child.pid,signal.SIGKILL);child.wait();raise AssertionError("termination deadline missed")
-        declarations=json.loads(subprocess.check_output([args.execution],text=True))
+        declaration=json.loads(subprocess.check_output([args.execution],text=True))
+        profile=json.loads(args.profile.read_text())
+        capacity=profile["capacity"]
+        expected={key:capacity[key] for key in ("cpu_cores","memory_mib","storage_mib","process_limit","timeout_seconds")}
+        if declaration["admitted_request"] != {"runtime":"Native",**expected}:
+            raise AssertionError("execution request is not bound to declared profile capacity")
+        if any(declaration["sandbox"][key] != value for key,value in expected.items()):
+            raise AssertionError("sandbox does not carry admitted profile limits")
     digest=hashlib.sha256(Path(args.execution).read_bytes()).hexdigest()
     bwrap_digest=hashlib.sha256(Path(args.bwrap).read_bytes()).hexdigest()
     reports={
@@ -39,11 +47,11 @@ def main():
         "bubblewrap_sha256":bwrap_digest,
         "denied":["host secrets","provider socket","evaluator evidence","peer workspace","host network","ambient environment"]},
       "resource-enforcement-report":{"outcome":"passed","artifact_sha256":digest,
-        "enforced":["memory address-space limit","workspace file-size limit","activation timeout"],
+        "enforced":["profile-bound CPU limit","memory address-space limit","workspace storage limit","process-count limit","activation timeout"],
         "admission":["CPU","memory","storage","process count","timeout"]},
       "termination-test":{"outcome":"passed","artifact_sha256":digest,
         "cases":["process-group cooperative termination","forced-kill fallback"],"deadline_seconds":2},
-      "profile-feature-report":{"outcome":"passed","profile":"qemu-x86_64-conformance","declarations":declarations},
+      "profile-feature-report":{"outcome":"passed","profile":"qemu-x86_64-conformance","declarations":declaration["features"]},
       "hardware-profile-qualification":{"outcome":"passed","runtime":"NATIVE","others":"explicitly absent"},
       "architecture-boundary-test":{"outcome":"passed","control_plane_in_activation":False,"provider_bypass":False},
       "system-conformance-report":{"outcome":"passed","isolation_selected_before_execution":True},

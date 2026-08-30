@@ -13,6 +13,6 @@
   "execution_runtimes": ["NATIVE"],
   "isolation": {"default": "DENY", "enforcement": ["user-namespace", "resource-limits", "read-only-nix-store"]},
   "storage": {"recovery_partition": true, "state_volume": "/var/lib/habitat"},
-  "capacity": {"cpu_cores": 2, "memory_mib": 2048, "storage_mib": 8192},
+  "capacity": {"cpu_cores": 2, "memory_mib": 2048, "storage_mib": 8192, "process_limit": 64, "timeout_seconds": 300},
   "qualification_evidence_refs": ["qemu-boot-report", "defective-boot-rollback-report"]
 }

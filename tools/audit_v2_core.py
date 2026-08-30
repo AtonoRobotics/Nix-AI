@@ -20,7 +20,6 @@ COMPONENTS = {
     "crates/habitat-execution/": ("AUTH-004", "EXEC-001", "EXEC-002", "SYS-004"),
     "crates/habitat-effects/": ("EFFECT-001", "EFFECT-002", "EFFECT-003", "EFFECT-004", "EFFECT-005"),
     "crates/habitat-models/": ("ABI-003",),
-    "crates/habitat-provider-transport/": ("ABI-003",),
     "crates/habitat-packages/": ("PKG-001", "PKG-002", "PKG-003"),
     "crates/habitat-harnesses/": ("ABI-003", "EXEC-003"),
     "src/habitat_state/": ("STATE-001", "STATE-002", "STATE-003", "STATE-004"),
@@ -41,7 +40,6 @@ ALLOWED_CARGO = {
     "crates/habitat-execution/": {"serde", "serde_json"},
     "crates/habitat-effects/": {"habitat-authority", "serde", "serde_json", "sha2", "tempfile"},
     "crates/habitat-models/": {"serde", "serde_json"},
-    "crates/habitat-provider-transport/": {"serde_json", "sha2"},
     "crates/habitat-packages/": {"ed25519-dalek", "serde", "serde_json", "sha2"},
     "crates/habitat-harnesses/": {"habitat-models", "serde", "serde_json"},
 }
@@ -61,7 +59,7 @@ PYTHON_ALLOWED = {"__future__", "boto3", "botocore", "concurrent", "dataclasses"
     "base64", "domain", "enum", "habitat_state", "hashlib", "json", "lifecycle", "os", "pathlib", "re",
     "psycopg", "secrets", "store", "time", "typing", "unittest", "uuid"}
 ADAPTER_ROOTS = ("crates/habitat-models/", "crates/habitat-harnesses/")
-FORBIDDEN_ADAPTER_DEPENDENCIES = {"habitat-authority", "habitat-effects", "habitat-provider-transport",
+FORBIDDEN_ADAPTER_DEPENDENCIES = {"habitat-authority", "habitat-effects",
     "reqwest", "hyper", "libc", "tokio"}
 
 def authority(path):

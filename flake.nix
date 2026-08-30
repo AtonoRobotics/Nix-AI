@@ -158,18 +158,6 @@
           find target -type f -executable \( -name 'driver_boundary-*' -o -name 'provider_replacement-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
         '';
       };
-      habitatProviderTransport = pkgs.rustPlatform.buildRustPackage {
-        pname = "habitat-provider-transport";
-        version = "0.1.0";
-        src = ./.;
-        cargoLock.lockFile = ./Cargo.lock;
-        cargoBuildFlags = [ "-p" "habitat-provider-transport" ];
-        cargoTestFlags = [ "-p" "habitat-provider-transport" ];
-        postInstall = ''
-          mkdir -p "$out/libexec/nix-ai-tests"
-          find target -type f -executable -name 'credential_boundary-*' -exec cp {} "$out/libexec/nix-ai-tests/" \;
-        '';
-      };
       habitatPackages = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-packages";
         version = "0.1.0";
@@ -223,7 +211,7 @@
         name = "qualify-w06";
         runtimeInputs = [ python ];
         text = ''
-          exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --dd ${pkgs.coreutils}/bin/dd --execution ${habitatExecution}/bin/habitat-execution "$@"
+          exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --dd ${pkgs.coreutils}/bin/dd --execution ${habitatExecution}/bin/habitat-execution --profile ${./nix/profiles/qemu-x86_64-conformance.json} "$@"
         '';
       };
       qualifyW07 = pkgs.writeShellApplication {
@@ -248,7 +236,7 @@
         runtimeInputs = [ habitatModels python validateContracts ];
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w09.py} --root ${self} --artifact ${habitatModels}/bin/habitat-models \
-            --test-dir ${habitatModels}/libexec/nix-ai-tests --transport-test-dir ${habitatProviderTransport}/libexec/nix-ai-tests "$@"
+            --test-dir ${habitatModels}/libexec/nix-ai-tests "$@"
         '';
       };
       qualifyW10 = pkgs.writeShellApplication {
@@ -470,7 +458,6 @@
         habitat-context = habitatContext;
         habitat-effects = habitatEffects;
         habitat-models = habitatModels;
-        habitat-provider-transport = habitatProviderTransport;
         habitat-packages = habitatPackages;
         habitat-harnesses = habitatHarnesses;
       };

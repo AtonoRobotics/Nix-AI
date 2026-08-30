@@ -72,11 +72,14 @@ class V2CoreAuditTests(unittest.TestCase):
         report = json.loads((ROOT / "evidence/v2-rebuild/core-retention-audit.json").read_text())
         self.assertEqual(report["hardware_profile"]["profile_id"], "qemu-x86_64-conformance")
         self.assertTrue(report["hardware_profile"]["capacity_declared"])
+        profile = json.loads((ROOT / "nix/profiles/qemu-x86_64-conformance.json").read_text())
+        self.assertEqual(profile["capacity"]["process_limit"], 64)
+        self.assertEqual(profile["capacity"]["timeout_seconds"], 300)
         self.assertEqual(report["hardware_profile"]["gpu"], "absent")
         self.assertEqual(report["hardware_profile"]["devices"], [])
 
     def test_retained_core_evidence_is_live_test_backed(self):
-        expected = {"W07/context-conformance-suite.json": 6, "W09/structured-disposition-test.json": 7,
+        expected = {"W07/context-conformance-suite.json": 6, "W09/structured-disposition-test.json": 5,
             "W10/package-lifecycle-suite.json": 4, "W11/cross-backend-conformance-report.json": 5}
         for relative, count in expected.items():
             proof = json.loads((ROOT / "evidence/work-packets" / relative).read_text())["behavioral_test_proof"]

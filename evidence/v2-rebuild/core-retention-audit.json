@@ -3,12 +3,12 @@
     "direct_dependency_count": 0,
     "provider_transcripts": "diagnostic-only"
   },
-  "candidate_file_count": 58,
+  "candidate_file_count": 55,
   "counts": {
-    "dependency": 63,
+    "dependency": 61,
     "fixture": 6,
-    "source_unit": 33,
-    "test": 19
+    "source_unit": 31,
+    "test": 18
   },
   "hardware_profile": {
     "capacity_declared": true,
@@ -34,7 +34,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "contracts/schemas/hardware-profile.schema.json",
-      "sha256": "d5b9aac3d17e46c402b03b42476b560c993fe22cf80ba659c8d39ff8729cdcb9",
+      "sha256": "59926523e5bb3b090fde7822157510a689ac8aa8084d35618b09936e2cd35238",
       "source": "contracts/schemas/hardware-profile.schema.json"
     },
     {
@@ -1227,7 +1227,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
-      "sha256": "7d9ca35dfeba5c8b07bed1cf578f6b49350215a1ca17deb38fd6af3e04394a76",
+      "sha256": "21f30a19d19cf23100d8de3fba896ab07df04e0ebc5c5004d5ff4d3336855975",
       "source": "crates/habitat-execution/src/lib.rs"
     },
     {
@@ -1252,7 +1252,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
-      "sha256": "761605dad6ab940b8ebaf177383c8dc58e8e0ca59566ed35a63eb6bc8db9b554",
+      "sha256": "1dc3ee7c5fd6f2dfe3bf2cc1db1899dfb07d43fb498bc83f7a527149b09c1f94",
       "source": "crates/habitat-execution/src/main.rs"
     },
     {
@@ -1276,7 +1276,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-execution/",
-      "sha256": "7db3bc4e8bdb65d47d9706f869d6d5cfdac7e1296ef5a9cb56076dd1aae89e7f",
+      "sha256": "3ee5727e8e063a0589a4068f22fd5827706f321dc84a9056c7ec0e98bdac42d6",
       "source": "crates/habitat-execution/tests/admission.rs"
     },
     {
@@ -1765,96 +1765,6 @@
     },
     {
       "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
-      ],
-      "coverage": "all APIs and control flow in these exact reviewed bytes",
-      "identity": "crates/habitat-provider-transport/Cargo.toml",
-      "kind": "source_unit",
-      "predicates": [
-        "RET-001",
-        "RET-002"
-      ],
-      "requirement_ids": [
-        "ABI-003"
-      ],
-      "review_unit": "exact-file-bytes",
-      "selector": "crates/habitat-provider-transport/",
-      "sha256": "5d019acbbf4e45beb2ff9c42c80f54d92f0a6044c78d580d0712ca21bcf9a924",
-      "source": "crates/habitat-provider-transport/Cargo.toml"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
-      ],
-      "identity": "crates/habitat-provider-transport/Cargo.toml:dependencies:serde_json",
-      "kind": "dependency",
-      "necessity": "typed JSON boundary encoding",
-      "predicates": [
-        "RET-003"
-      ],
-      "requirement_ids": [
-        "ABI-003"
-      ],
-      "review_unit": "exact-file-bytes",
-      "sha256": "5d019acbbf4e45beb2ff9c42c80f54d92f0a6044c78d580d0712ca21bcf9a924",
-      "source": "crates/habitat-provider-transport/Cargo.toml"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
-      ],
-      "identity": "crates/habitat-provider-transport/Cargo.toml:dependencies:sha2",
-      "kind": "dependency",
-      "necessity": "content identity digests",
-      "predicates": [
-        "RET-003"
-      ],
-      "requirement_ids": [
-        "ABI-003"
-      ],
-      "review_unit": "exact-file-bytes",
-      "sha256": "5d019acbbf4e45beb2ff9c42c80f54d92f0a6044c78d580d0712ca21bcf9a924",
-      "source": "crates/habitat-provider-transport/Cargo.toml"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
-      ],
-      "coverage": "all APIs and control flow in these exact reviewed bytes",
-      "identity": "crates/habitat-provider-transport/src/lib.rs",
-      "kind": "source_unit",
-      "predicates": [
-        "RET-001",
-        "RET-002"
-      ],
-      "requirement_ids": [
-        "ABI-003"
-      ],
-      "review_unit": "exact-file-bytes",
-      "selector": "crates/habitat-provider-transport/",
-      "sha256": "8be02c08d71afca13eb2e539faf59d698fa28f119f01e722b3d1fe1071002311",
-      "source": "crates/habitat-provider-transport/src/lib.rs"
-    },
-    {
-      "authority": [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/ABI-003"
-      ],
-      "coverage": "canonical or opaque test material",
-      "identity": "crates/habitat-provider-transport/tests/credential_boundary.rs",
-      "kind": "test",
-      "predicates": [
-        "RET-004"
-      ],
-      "requirement_ids": [
-        "ABI-003"
-      ],
-      "review_unit": "exact-file-bytes",
-      "selector": "crates/habitat-provider-transport/",
-      "sha256": "7d021789bc2602522f0af9a872956ca40a1ef4495b7a0101062d08f305cd2a75",
-      "source": "crates/habitat-provider-transport/tests/credential_boundary.rs"
-    },
-    {
-      "authority": [
         "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/SYS-004"
       ],
       "coverage": "all APIs and control flow in these exact reviewed bytes",
@@ -1869,7 +1779,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "nix/profiles/qemu-x86_64-conformance.json",
-      "sha256": "d55119ff19a800df29b1de7d5a3264c9a964efad8928baaac6864567c7826619",
+      "sha256": "7a7daf7c09e3120d4089595ba8d61611a1c4b7719bd2e47b4b2373439d4facb2",
       "source": "nix/profiles/qemu-x86_64-conformance.json"
     },
     {
@@ -2710,7 +2620,6 @@
     "crates/habitat-harnesses/",
     "crates/habitat-models/",
     "crates/habitat-packages/",
-    "crates/habitat-provider-transport/",
     "src/habitat_state/",
     "contracts/schemas/hardware-profile.schema.json",
     "nix/profiles/qemu-x86_64-conformance.json",
@@ -2720,7 +2629,7 @@
     "tests/test_w02_state.py",
     "tests/test_w05_lifecycle.py"
   ],
-  "scope_digest": "0421f11afb0df9deb97601e7febbbb33f1e53f660f496dff79a4f3b6544d78c4",
+  "scope_digest": "776fc82b7dab21c02d3fa7bc01aef58f756e29094f42989f87095e43251b124b",
   "unresolved_candidates": [],
   "untrusted_candidates": [],
   "valid": true

@@ -20,7 +20,7 @@
     "devices": {"type": "array", "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["id", "status"], "properties": {"id": {"type": "string", "minLength": 1}, "status": {"enum": ["absent", "present"]}}}},
     "execution_runtimes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["NATIVE", "WASI", "OCI", "MICROVM", "REMOTE"]}},
     "isolation": {"type": "object", "additionalProperties": false, "required": ["default", "enforcement"], "properties": {"default": {"const": "DENY"}, "enforcement": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}},
-    "capacity": {"type": "object", "additionalProperties": false, "required": ["cpu_cores", "memory_mib", "storage_mib"], "properties": {"cpu_cores": {"type": "integer", "minimum": 1}, "memory_mib": {"type": "integer", "minimum": 1}, "storage_mib": {"type": "integer", "minimum": 1}}},
+    "capacity": {"type": "object", "additionalProperties": false, "required": ["cpu_cores", "memory_mib", "storage_mib", "process_limit", "timeout_seconds"], "properties": {"cpu_cores": {"type": "integer", "minimum": 1}, "memory_mib": {"type": "integer", "minimum": 1}, "storage_mib": {"type": "integer", "minimum": 1}, "process_limit": {"type": "integer", "minimum": 1}, "timeout_seconds": {"type": "integer", "minimum": 1}}},
     "qualification_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
   }
 }

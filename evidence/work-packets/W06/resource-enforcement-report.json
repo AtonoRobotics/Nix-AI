@@ -6,10 +6,12 @@
     "process count",
     "timeout"
   ],
-  "artifact_sha256": "bf6dc0dbc5e55999b55cea01d6e53cbc6960bb65a857fc0a660b70191eff5502",
+  "artifact_sha256": "66499f1194a6c8e2a3e7cb5410bd6cb19619646d482f1d3a4580de6c729aa3f7",
   "enforced": [
+    "profile-bound CPU limit",
     "memory address-space limit",
-    "workspace file-size limit",
+    "workspace storage limit",
+    "process-count limit",
     "activation timeout"
   ],
   "outcome": "passed"
