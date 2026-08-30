@@ -1,0 +1,16 @@
+{
+  "outcome": "passed",
+  "source_commit": "3e4a935b5b39e1f46eafeed08676bd431aecbd55",
+  "hardware_profile_id": "qemu-x86-64-conformance",
+  "baseline": {
+    "generation_id": "531d51817f20925871466862d9db9276",
+    "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44"
+  },
+  "candidate": {
+    "generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33",
+    "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
+    "decision": "ACTIVE_UNCONFIRMED"
+  },
+  "identity_persisted_across_power_cycle": true,
+  "distinct_closures": true
+}

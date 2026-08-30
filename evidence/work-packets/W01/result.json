@@ -1,0 +1,32 @@
+{
+  "packet_id": "W01",
+  "status": "passed",
+  "source_commit": "3e4a935b5b39e1f46eafeed08676bd431aecbd55",
+  "qualified_profiles": ["qemu-x86-64-conformance"],
+  "commands_executed": [
+    "nix develop --command python -m unittest discover -s tests -v",
+    "nix flake check --show-trace",
+    "nix build .#packages.x86_64-linux.habitat-installer .#packages.x86_64-linux.habitat-recovery --no-link",
+    "nix run .#apps.x86_64-linux.test-boot",
+    "nix run .#apps.x86_64-linux.test-rollback"
+  ],
+  "test_counts": {"unit_and_contract": 19, "live_boot_gates": 2, "failed": 0},
+  "requirement_coverage": [
+    "ARC-001", "BLD-002", "BLD-003", "BLD-008",
+    "GEN-001", "GEN-002", "GEN-003", "GEN-004", "GEN-005",
+    "GEN-006", "GEN-007", "GEN-008", "GEN-009",
+    "HWP-001", "HWP-002", "HWP-003", "HWP-006", "HWP-007", "HWP-008"
+  ],
+  "evidence_digests": {
+    "qemu-boot-report": "sha256:d82702d07ad02fd862a1a7d6133d87cd05d0daeb3207e9baba7ce48a4497e919",
+    "generation-identity-report": "sha256:39f9c1134d49983d07ff26b1725ecc243fded05d19838a34338b2d6700e437c2",
+    "defective-boot-rollback-report": "sha256:a120243ba185db3a29ef6b292e41fc3250d723c17814389d6ec82435162b53ae",
+    "provenance": "sha256:81c11670c02bb01c683189aa71b9aae1cca2a867db5d123cdf31263e83182a19"
+  },
+  "skipped_gates": [],
+  "blockers": [],
+  "residual_risks": [
+    "TCG qualified the reference profile because this host exposes no KVM device.",
+    "Hardware TPM, GPU, passthrough, thermal telemetry, and vendor capsules remain truthfully absent."
+  ]
+}

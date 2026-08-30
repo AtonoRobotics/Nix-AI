@@ -1,0 +1,21 @@
+{
+  "gate": "V-BOOT",
+  "outcome": "passed",
+  "source_commit": "3e4a935b5b39e1f46eafeed08676bd431aecbd55",
+  "command": "nix run .#apps.x86_64-linux.test-boot",
+  "firmware": "OVMF UEFI",
+  "accelerator": "qemu-tcg",
+  "boots": 2,
+  "machine_id": "a6c1a53ad8e046a1bc2bb10559a0afbe",
+  "attempt_ids": [
+    "7b992fe5-1789-4475-88ed-59b988ff0c9e",
+    "a4fc9dae-f5ef-4613-9a05-46f7d7fa727b"
+  ],
+  "history_counts": [0, 1],
+  "health_result": "PRE_OPERATIONAL",
+  "protections": {
+    "nix_store_read_only": true,
+    "recovery_read_only": true
+  },
+  "forbidden_output_observed": false
+}

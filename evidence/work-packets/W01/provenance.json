@@ -1,0 +1,8 @@
+{
+  "builder": "nixpkgs d57af924f160a5084293c71c2043f058bd1cdb60",
+  "source_commit": "3e4a935b5b39e1f46eafeed08676bd431aecbd55",
+  "source_lock_digest": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5",
+  "profile": "qemu-x86-64-conformance",
+  "kernel": "6.12.106",
+  "outputs": ["habitat-qemu", "habitat-raw", "habitat-installer", "habitat-recovery"]
+}

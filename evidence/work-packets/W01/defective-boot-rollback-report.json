@@ -1,0 +1,17 @@
+{
+  "gate": "V-ROLLBACK",
+  "outcome": "passed",
+  "source_commit": "3e4a935b5b39e1f46eafeed08676bd431aecbd55",
+  "command": "nix run .#apps.x86_64-linux.test-rollback",
+  "sequence": [
+    {"role": "baseline", "decision": "UNCONFIRMED", "generation_id": "531d51817f20925871466862d9db9276"},
+    {"role": "candidate", "decision": "ACTIVE_UNCONFIRMED", "generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33"},
+    {"role": "baseline", "decision": "ROLLED_BACK", "generation_id": "531d51817f20925871466862d9db9276"}
+  ],
+  "candidate_boot_count": 1,
+  "candidate_confirmation_withheld": true,
+  "automatic_exact_fallback": true,
+  "machine_identity_preserved": true,
+  "operational_state_after_rollback": "baseline-durable-state",
+  "history_count_after_rollback": 2
+}
