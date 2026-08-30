@@ -15,9 +15,9 @@ fn admit(controller:&mut PackageController,key:&SigningKey,manifest:PackageManif
 fn dependency_closure_and_behavioral_probe_gate_immutable_activation_set(){
     let (mut controller,key)=controller();let storage=package("package:storage","1.0.0",'a');
     let app=package("package:app","1.0.0",'b').requires("storage","1.0.0").requirements(
-        &["gpu:rtx"],&["isolation:oci"],"state:v1");
+        &["accelerator:generic"],&["isolation:oci"],"state:v1");
     admit(&mut controller,&key,storage);admit(&mut controller,&key,app);
-    let env=HostProfile::new(&["gpu:rtx"],&["isolation:oci"]);
+    let env=HostProfile::new(&["accelerator:generic"],&["isolation:oci"]);
     let resolved=controller.resolve(&["package:app"],&env).unwrap();
     controller.stage(&resolved).unwrap();
     assert_eq!(controller.activate(&resolved),Err(PackageError::LiveVerificationRequired));

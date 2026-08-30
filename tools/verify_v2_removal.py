@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the v2 deletion boundary established by issue #25."""
+"""Verify the exhaustive v2 deletion boundary established by issue #25."""
 
 from __future__ import annotations
 
@@ -7,31 +7,39 @@ import argparse
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 
-RUNNER = {"name": "verify-v2-removal", "version": 1}
+RUNNER = {"name": "verify-v2-removal", "version": 2}
+INVENTORY_CLASSES = (
+    "tracked_paths",
+    "public_semantics",
+    "dependencies",
+    "generated_artifacts",
+    "build_closure_members",
+)
 FORBIDDEN = re.compile(
-    r"(?i)(?:\bcordis\b|\bphysical(?:[-_ ]ai)?\b|\brobot(?:ics)?\b|\bros\b|"
-    r"\bisaac\b|\bomniverse\b|\bsimulation\b|\bembodiment\b|\bjetson\b)"
+    r"(?i)(?:\bcordis\b|\bphysical(?:[-_ ]?ai)?\b|\brobot(?:ics)?\b|\bros\b|"
+    r"\bisaac(?:[-_ ]sim)?\b|\bomniverse\b|\bsimulation\b|\bembodiment\b|"
+    r"\bjetson\b|\bnvidia\b|\brtx\b|\bcuda\b)"
 )
-SCAN_ROOTS = (
-    "CODEX-BUILD-SPEC.md",
-    "Cargo.toml",
-    "Cargo.lock",
-    "flake.nix",
-    "contracts/architecture",
-    "contracts/proto",
-    "contracts/requirements.yaml",
-    "contracts/schemas",
-    "contracts/work-packets.yaml",
-    "crates",
-    "docs/implementation",
-    "src",
-    "tools",
-)
-SCAN_SUFFIXES = {".json", ".md", ".nix", ".proto", ".py", ".rs", ".toml", ".yaml", ".yml"}
-POLICY_TOOLS = {"classify_v2_scope.py", "inventory_v2.py", "verify_v2_removal.py"}
+TEXT_SUFFIXES = {
+    "", ".json", ".md", ".nix", ".proto", ".py", ".rs", ".toml", ".yaml", ".yml"
+}
+POLICY_PATHS = {
+    "AGENTS.md",
+    "docs/agents/domain.md",
+    "docs/agents/issue-tracker.md",
+    "docs/agents/triage-labels.md",
+    "tools/classify_v2_scope.py",
+    "tools/inventory_v2.py",
+    "tools/verify_v2_removal.py",
+    "tests/test_v2_rebuild_frontier.py",
+    "tests/test_v2_scope_classification.py",
+    "tests/test_v2_scope_removal.py",
+}
+POLICY_PREFIXES = ("contracts/v2/", "contracts/v2.0.1/", "evidence/v2-rebuild/")
 
 
 def git(root: Path, *arguments: str) -> str:
@@ -43,51 +51,85 @@ def git(root: Path, *arguments: str) -> str:
     return result.stdout.strip()
 
 
-def scan_paths(root: Path):
-    for item in SCAN_ROOTS:
-        path = root / item
-        if path.is_file():
-            yield path
-        elif path.is_dir():
-            yield from (candidate for candidate in path.rglob("*") if candidate.is_file())
+def item_path(inventory_class: str, item) -> str | None:
+    if inventory_class == "tracked_paths":
+        return item
+    if isinstance(item, dict):
+        return item.get("path")
+    return None
+
+
+def closure_identity(item: dict) -> str:
+    return f"{item['class']}:{item['name']}"
 
 
 def verify(root: Path, ledger_path: Path) -> dict:
     ledger = json.loads(ledger_path.read_text())
-    delete_targets = sorted(
-        record["identity"]
-        for record in ledger["dispositions"]["tracked_paths"]
-        if record["action"] == "DELETE"
-    )
-    remaining_delete_targets = [path for path in delete_targets if (root / path).exists()]
-    contaminated = []
-    for path in sorted(set(scan_paths(root))):
-        if path.suffix not in SCAN_SUFFIXES or path.name in POLICY_TOOLS:
-            continue
-        text = path.read_text(errors="replace")
-        for line_number, line in enumerate(text.splitlines(), 1):
-            if FORBIDDEN.search(line):
-                contaminated.append(
-                    {"path": path.relative_to(root).as_posix(), "line": line_number}
+    inventory = json.loads((ledger_path.parent / "inventory.json").read_text())
+    tracked = sorted(filter(None, git(root, "ls-files").splitlines()))
+    tracked_set = set(tracked)
+
+    delete_counts = {}
+    remaining_delete_units = []
+    for inventory_class in INVENTORY_CLASSES:
+        source_items = inventory[inventory_class]
+        dispositions = ledger["dispositions"][inventory_class]
+        if len(source_items) != len(dispositions):
+            raise ValueError(f"inventory/ledger length mismatch for {inventory_class}")
+        deleted = [
+            (item, record)
+            for item, record in zip(source_items, dispositions)
+            if record["action"] == "DELETE"
+        ]
+        delete_counts[inventory_class] = len(deleted)
+        for item, record in deleted:
+            path = item_path(inventory_class, item)
+            if path is not None and path in tracked_set:
+                remaining_delete_units.append(
+                    {"inventory_class": inventory_class, "identity": record["identity"]}
                 )
-    tracked = set(git(root, "ls-files").splitlines())
-    rejected_build_members = sorted(
-        path
-        for path in tracked
-        if path.startswith("crates/habitat-simulation/")
-        or path == "tools/qualify_w12.py"
-        or path.startswith("evidence/work-packets/W12/")
-    )
-    valid = not remaining_delete_targets and not contaminated and not rejected_build_members
+
+    sys.path.insert(0, str(root / "tools"))
+    from inventory_v2 import build_closure_members_from_contents
+
+    current_closure = {
+        closure_identity(item)
+        for item in build_closure_members_from_contents(
+            tracked,
+            lambda path: (root / path).read_text(errors="replace")
+            if (root / path).is_file()
+            else None,
+        )
+    }
+    for record in ledger["dispositions"]["build_closure_members"]:
+        if record["action"] == "DELETE" and record["identity"] in current_closure:
+            remaining_delete_units.append(
+                {"inventory_class": "build_closure_members", "identity": record["identity"]}
+            )
+
+    contaminated = []
+    for relative in tracked:
+        if relative in POLICY_PATHS or relative.startswith(POLICY_PREFIXES):
+            continue
+        path = root / relative
+        if path.suffix.lower() not in TEXT_SUFFIXES or not path.is_file():
+            continue
+        for line_number, line in enumerate(path.read_text(errors="replace").splitlines(), 1):
+            if FORBIDDEN.search(line):
+                contaminated.append({"path": relative, "line": line_number})
+
+    valid = not remaining_delete_units and not contaminated
     return {
         "schema_version": 1,
         "runner": RUNNER,
         "verified_commit": git(root, "rev-parse", "HEAD^{commit}"),
         "valid": valid,
-        "delete_target_count": len(delete_targets),
-        "remaining_delete_targets": remaining_delete_targets,
+        "delete_counts_by_inventory_class": delete_counts,
+        "remaining_delete_units": remaining_delete_units,
         "contaminated_units": contaminated,
-        "rejected_build_members": rejected_build_members,
+        "scanned_tracked_path_count": len(tracked),
+        "policy_exclusions": sorted(POLICY_PATHS),
+        "policy_prefix_exclusions": list(POLICY_PREFIXES),
     }
 
 
@@ -97,7 +139,10 @@ def main() -> int:
     parser.add_argument("--ledger", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     arguments = parser.parse_args()
-    report = verify(arguments.root.resolve(), arguments.ledger.resolve())
+    try:
+        report = verify(arguments.root.resolve(), arguments.ledger.resolve())
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        parser.error(str(error))
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps(report, sort_keys=True))

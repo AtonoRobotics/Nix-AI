@@ -57,7 +57,8 @@ DOMAIN_TERMS = (
     "actuator",
 )
 DOMAIN_PATTERN = re.compile(
-    r"\b(?:" + "|".join(re.escape(term) for term in DOMAIN_TERMS) + r")\b",
+    r"(?:cordis|physical|robot|isaac|omniverse|simulation|jetson|embodiment|sensor|actuator)"
+    r"|(?<![a-z])ros(?![a-z])",
     re.IGNORECASE,
 )
 
@@ -431,7 +432,7 @@ def classify(root: Path, inventory: dict, contract: dict) -> dict:
     for item in inventory["build_closure_members"]:
         identity = generic_identity(item)
         lowered = identity.lower()
-        if any(term in lowered for term in DOMAIN_TERMS) or relegacy_packet(lowered):
+        if DOMAIN_PATTERN.search(lowered) or relegacy_packet(lowered):
             closure_records.append(
                 record(identity, "DELETE", "D-006", "Rejected domain or legacy work-packet closure member.", [], [])
             )

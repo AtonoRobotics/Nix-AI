@@ -443,14 +443,14 @@
         "rule_id": "D-025"
       },
       {
-        "action": "DELETE",
+        "action": "DELETE_AND_REBUILD",
         "authority_evidence": [],
         "identity": "nix-dependency-edge:contractTools->protoc-gen-prost",
         "predicate_evidence": {},
-        "reason": "Rejected domain or legacy work-packet closure member.",
+        "reason": "Build graph must be rebuilt from v2-only declarations.",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-006"
+        "rule_id": "D-025"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11272,7 +11272,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11282,7 +11282,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11292,7 +11292,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11302,7 +11302,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11312,7 +11312,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11322,7 +11322,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11332,7 +11332,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11342,7 +11342,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11352,7 +11352,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11362,7 +11362,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11372,7 +11372,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -11382,7 +11382,7 @@
         "reason": "Inherited from containing unit: contracts/schemas/hardware-profile.schema.json",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16892,7 +16892,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16902,7 +16902,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16912,7 +16912,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16922,7 +16922,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16932,7 +16932,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16942,7 +16942,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16952,7 +16952,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16962,7 +16962,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16972,7 +16972,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16982,7 +16982,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -16992,7 +16992,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17002,7 +17002,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17012,7 +17012,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17022,7 +17022,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17032,7 +17032,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17042,7 +17042,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17052,7 +17052,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17062,7 +17062,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17072,7 +17072,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17082,7 +17082,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17092,7 +17092,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17102,7 +17102,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17112,7 +17112,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17122,7 +17122,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17132,7 +17132,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17142,7 +17142,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17152,7 +17152,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17162,7 +17162,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17172,7 +17172,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17182,7 +17182,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17192,7 +17192,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17202,7 +17202,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17212,7 +17212,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17222,7 +17222,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17232,7 +17232,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17242,7 +17242,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17252,7 +17252,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17262,7 +17262,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17272,7 +17272,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17282,7 +17282,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17292,7 +17292,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17302,7 +17302,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17312,7 +17312,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17322,7 +17322,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17332,7 +17332,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17342,7 +17342,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17352,7 +17352,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17362,7 +17362,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17372,7 +17372,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17382,7 +17382,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17392,7 +17392,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17402,7 +17402,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17412,7 +17412,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17422,7 +17422,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17432,7 +17432,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17442,7 +17442,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17452,7 +17452,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17462,7 +17462,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17472,7 +17472,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17482,7 +17482,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17492,7 +17492,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17502,7 +17502,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17512,7 +17512,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17522,7 +17522,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17532,7 +17532,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17542,7 +17542,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17552,7 +17552,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17562,7 +17562,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17572,7 +17572,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17582,7 +17582,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17592,7 +17592,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17602,7 +17602,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17612,7 +17612,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17622,7 +17622,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17632,7 +17632,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17642,7 +17642,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17652,7 +17652,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17662,7 +17662,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17672,7 +17672,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17682,7 +17682,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17692,7 +17692,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17702,7 +17702,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17712,7 +17712,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17722,7 +17722,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17732,7 +17732,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17742,7 +17742,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17752,7 +17752,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17762,7 +17762,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/src/lib.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17782,7 +17782,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/tests/lifecycle.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17792,7 +17792,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/tests/lifecycle.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17802,7 +17802,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/tests/lifecycle.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -17812,7 +17812,7 @@
         "reason": "Inherited from containing unit: crates/habitat-packages/tests/lifecycle.rs",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE",
@@ -21651,10 +21651,10 @@
         "authority_evidence": [],
         "identity": "AGENTS.md",
         "predicate_evidence": {},
-        "reason": "No authoritative v2 retention mapping exists.",
+        "reason": "Unit content contains prior-project, domain, or vendor semantics and must be rebuilt from v2 requirements.",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -22431,10 +22431,10 @@
         "authority_evidence": [],
         "identity": "contracts/schemas/hardware-profile.schema.json",
         "predicate_evidence": {},
-        "reason": "Legacy contract material requires derivation from the binding v2 contract.",
+        "reason": "Unit content contains prior-project, domain, or vendor semantics and must be rebuilt from v2 requirements.",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -23351,10 +23351,10 @@
         "authority_evidence": [],
         "identity": "crates/habitat-packages/src/lib.rs",
         "predicate_evidence": {},
-        "reason": "Executable retention predicates require a per-unit audit; this legacy implementation is not trusted by module name.",
+        "reason": "Unit content contains prior-project, domain, or vendor semantics and must be rebuilt from v2 requirements.",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -23381,10 +23381,10 @@
         "authority_evidence": [],
         "identity": "crates/habitat-packages/tests/lifecycle.rs",
         "predicate_evidence": {},
-        "reason": "Executable retention predicates require a per-unit audit; this legacy implementation is not trusted by module name.",
+        "reason": "Unit content contains prior-project, domain, or vendor semantics and must be rebuilt from v2 requirements.",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-030"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE",
@@ -23441,10 +23441,10 @@
         "authority_evidence": [],
         "identity": "docs/agents/issue-tracker.md",
         "predicate_evidence": {},
-        "reason": "No authoritative v2 retention mapping exists.",
+        "reason": "Unit content contains prior-project, domain, or vendor semantics and must be rebuilt from v2 requirements.",
         "requirement_ids": [],
         "retention_predicates": [],
-        "rule_id": "D-029"
+        "rule_id": "D-028"
       },
       {
         "action": "DELETE_AND_REBUILD",
@@ -24451,7 +24451,7 @@
         "authority_evidence": [],
         "identity": "tests/test_v2_rebuild_frontier.py",
         "predicate_evidence": {},
-        "reason": "Legacy packet evidence or fixtures must be rebuilt from canonical v2 semantics.",
+        "reason": "Unit content contains prior-project, domain, or vendor semantics and must be rebuilt from v2 requirements.",
         "requirement_ids": [],
         "retention_predicates": [],
         "rule_id": "D-028"
@@ -24706,8 +24706,8 @@
   "schema_version": 1,
   "summary": {
     "counts_by_action": {
-      "DELETE": 297,
-      "DELETE_AND_REBUILD": 1756,
+      "DELETE": 296,
+      "DELETE_AND_REBUILD": 1757,
       "REGENERATE": 252,
       "RETAIN": 25
     },

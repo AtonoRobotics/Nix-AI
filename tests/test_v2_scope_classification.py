@@ -70,9 +70,18 @@ class V2ScopeClassificationTests(unittest.TestCase):
             output = Path(temporary) / "ledger.json"
             result = self.run_classifier(output)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            ledger = json.loads(output.read_text())
+            closure = {
+                record["identity"]: record["action"]
+                for record in ledger["dispositions"]["build_closure_members"]
+            }
+            self.assertEqual(
+                closure["nix-dependency-edge:contractTools->protoc-gen-prost"],
+                "DELETE_AND_REBUILD",
+            )
             paths = {
                 record["identity"]: record
-                for record in json.loads(output.read_text())["dispositions"]["tracked_paths"]
+                for record in ledger["dispositions"]["tracked_paths"]
             }
 
             for prefix in (
