@@ -17,6 +17,10 @@ nix run .#validate-contracts
 Use `nix develop` for the locked W00 developer environment. The same validation is
 also part of `nix flake check --show-trace`.
 
+The gate independently validates all 135 executable requirement mappings, all 16
+typed work packets, each dependency relation, verification-gate references, and
+both generated work-graph projections.
+
 The validation gate formats a temporary copy of the immutable Protobuf sources,
 lints and compiles both contracts, regenerates the descriptor and Prost bindings,
 checks them byte-for-byte, and proves that an incompatible fixture is rejected.

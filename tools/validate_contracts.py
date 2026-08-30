@@ -64,6 +64,7 @@ def main() -> int:
         ROOT,
     )
     run([sys.executable, "tools/proto_contracts.py", str(ROOT)], ROOT)
+    run([sys.executable, "tools/registry_contracts.py", str(ROOT)], ROOT)
     run(
         [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"],
         ROOT,
