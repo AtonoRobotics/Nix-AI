@@ -123,63 +123,43 @@
     },
     {
       "class": "json_schemas",
-      "path": "contracts/requirements.schema.json",
-      "sha256": "ea3eb12ac03b5a34a4b1e1e9e2a473fd0202d7d1d44216c2cfbfedc61c3abe03"
+      "path": "generated/schemas/agent-activation.schema.json",
+      "sha256": "c173c3dc51c267b66ef8f550af2797991e7a288177e5d64fe3bf59369e2f5400"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/agent-activation.schema.json",
-      "sha256": "e25aff0b5742087901b7fef5270265c049853ca18929607d1f9dc83c660af4be"
-    },
-    {
-      "class": "json_schemas",
-      "path": "contracts/schemas/agent-disposition.schema.json",
+      "path": "generated/schemas/agent-disposition.schema.json",
       "sha256": "4239a7e5d0ea6095afffb9e8e48190c6f39e9c16cb41d488e30f14264eb5f010"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/capability-package.schema.json",
+      "path": "generated/schemas/capability-package.schema.json",
       "sha256": "b334f1d3078d112352e0a0c55d4bac07ceaf803226549bfe42f542e0c1838285"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/context-request.schema.json",
-      "sha256": "de5b11937dd5ebe0277a6fa0c321656e01c599ae9201d077e00667719caf97b1"
+      "path": "generated/schemas/context-request.schema.json",
+      "sha256": "9f8fa6713e1e5f362b719a9cf0a06b9178e86a27323512e2258d11b5b3a90c49"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/effect.schema.json",
-      "sha256": "b572638567901afba932bbce0f3e0cd42f014872f4eb7ab3f208e4b27b384916"
+      "path": "generated/schemas/effect.schema.json",
+      "sha256": "6a087534f6758ce4a76a995e6dbe5534ffa8c2cae364f3afb299fc08bf9b307a"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/hardware-profile.schema.json",
+      "path": "generated/schemas/hardware-profile.schema.json",
       "sha256": "59926523e5bb3b090fde7822157510a689ac8aa8084d35618b09936e2cd35238"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/system-generation.schema.json",
-      "sha256": "625345de19a156a847fd8d3903be8189d5a4ff005b8bdd271223678cadd08f8d"
+      "path": "generated/schemas/system-generation.schema.json",
+      "sha256": "d8ee966f67de4e0018dd691dd16f299d23c297fc0f4116b3650f18b45fbb85ba"
     },
     {
       "class": "json_schemas",
-      "path": "contracts/schemas/v2-canonical.schema.json",
+      "path": "generated/schemas/v2-canonical.schema.json",
       "sha256": "80e90a908e17786d50a3c60d454cf63f37576f91667ffdaf2d678ab6b2bcc759"
-    },
-    {
-      "class": "json_schemas",
-      "path": "contracts/v2.0.1/contract.schema.json",
-      "sha256": "a43e6c7c2dc74ed805c3bb20d5155ff45185f3f56f61697c6f8512f706b4ea2d"
-    },
-    {
-      "class": "json_schemas",
-      "path": "contracts/v2/contract.schema.json",
-      "sha256": "66f4fa11725ee45f288cd5134cce1b7b11ec11ddddc421fb5680d396ae9de795"
-    },
-    {
-      "class": "json_schemas",
-      "path": "contracts/work-packets.schema.json",
-      "sha256": "0a2f684957b93fa443511294971c76e1cf9ecfa71a60b736b5b07d58ebc1a9b5"
     },
     {
       "class": "protobuf_descriptors",
@@ -209,12 +189,12 @@
     {
       "class": "sbom",
       "path": "generated/v2/sbom.json",
-      "sha256": "bc0b2684d2db8a3296210a537248bf9dc5f5855e9cc77bbb2be0469c8739bde1"
+      "sha256": "e85b9cd7fbaf9b42b2549698e0ac0dba1f01be73d68ebe7d6b658bc298fd05b7"
     },
     {
       "class": "provenance",
       "path": "generated/v2/provenance.json",
-      "sha256": "0b8aba9c1c27364770c4383ba750114f4c82beeb735e7f2d14250c56990bfd6b"
+      "sha256": "b94f7939fbac2665de43f971c371804b57da6758e47af3eff47259bb0d1fa219"
     },
     {
       "class": "evidence_indexes",
@@ -239,7 +219,7 @@
     {
       "class": "sha256_manifests",
       "path": "generated/v2/MANIFEST.sha256",
-      "sha256": "e8d0974d2fc1fc562c5ecbe68c0bead3808cb76ba964a8f10c422800a67c6f8a"
+      "sha256": "dc5fb72bd8fdf6fd21485bd0c291eecd4ce23ad4d7ef9b68b02d1c74a65724ac"
     }
   ],
   "schema_version": "1.0",

@@ -269,9 +269,10 @@
         ];
       };
       artifactQualification = pkgs.runCommand "nix-ai-v2-artifact-qualification" {
-        nativeBuildInputs = [ python pkgs.diffutils ];
+        nativeBuildInputs = contractTools ++ [ pkgs.diffutils ];
       } ''
-        ${python}/bin/python ${self}/tools/qualify_v2_artifacts.py --root ${self} --output artifact-report.json
+        ${python}/bin/python ${self}/tools/qualify_v2_artifacts.py --root ${self} \
+          --verify-proto --output artifact-report.json
         cmp artifact-report.json ${./evidence/v2-rebuild/artifact-closure-report.json}
         ${python}/bin/python ${self}/tools/verify_v2_build_closure.py \
           --closure-paths ${v2BuildClosure}/store-paths --output closure-report.json

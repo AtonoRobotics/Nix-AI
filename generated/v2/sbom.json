@@ -1,1868 +1,1868 @@
 {
   "dependency_ownership": [
     {
-      "dependency": "aho-corasick",
-      "owner": "regex-automata@0.4.18",
+      "dependency_identity": "aho-corasick@1.1.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex-automata@0.4.18#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "aho-corasick",
-      "owner": "regex@1.13.1",
+      "dependency_identity": "aho-corasick@1.1.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex@1.13.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "anyhow",
-      "owner": "prost-derive@0.14.4",
+      "dependency_identity": "anyhow@1.0.104#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-derive@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "async-trait",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "async-trait@0.1.92#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "atomic-waker",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "atomic-waker@1.1.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "atomic-waker",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "atomic-waker@1.1.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "axum",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "axum-core",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "base64",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "base64@0.22.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "base64ct",
-      "owner": "spki@0.7.3",
+      "dependency_identity": "base64ct@1.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "spki@0.7.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bitflags",
-      "owner": "pulldown-cmark@0.13.4",
+      "dependency_identity": "bitflags@2.13.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pulldown-cmark@0.13.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bitflags",
-      "owner": "rustix@1.1.4",
+      "dependency_identity": "bitflags@2.13.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rustix@1.1.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "block-buffer",
-      "owner": "digest@0.10.7",
+      "dependency_identity": "block-buffer@0.10.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "digest@0.10.7#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "http-body-util@0.1.5",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "http-body@1.1.0",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "http@1.5.0",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "prost@0.14.4",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "tokio-util@0.7.19",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "tonic-prost@0.14.6",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "bytes",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "bytes@1.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "cfg-if",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "cfg-if@1.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "cfg-if",
-      "owner": "getrandom@0.2.17",
+      "dependency_identity": "cfg-if@1.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "getrandom@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "cfg-if",
-      "owner": "getrandom@0.4.3",
+      "dependency_identity": "cfg-if@1.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "getrandom@0.4.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "cfg-if",
-      "owner": "sha2@0.10.9",
+      "dependency_identity": "cfg-if@1.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "const-oid",
-      "owner": "der@0.7.10",
+      "dependency_identity": "const-oid@0.9.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "der@0.7.10#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "cpufeatures",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "cpufeatures@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "cpufeatures",
-      "owner": "sha2@0.10.9",
+      "dependency_identity": "cpufeatures@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "crypto-common",
-      "owner": "digest@0.10.7",
+      "dependency_identity": "crypto-common@0.1.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "digest@0.10.7#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "curve25519-dalek",
-      "owner": "ed25519-dalek@2.2.0",
+      "dependency_identity": "curve25519-dalek-derive@0.1.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "curve25519-dalek-derive",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "der",
-      "owner": "pkcs8@0.10.2",
+      "dependency_identity": "der@0.7.10#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pkcs8@0.10.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "der",
-      "owner": "spki@0.7.3",
+      "dependency_identity": "der@0.7.10#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "spki@0.7.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "digest",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "digest@0.10.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "digest",
-      "owner": "sha2@0.10.9",
+      "dependency_identity": "digest@0.10.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "ed25519",
-      "owner": "ed25519-dalek@2.2.0",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "ed25519-dalek",
-      "owner": "habitat-packages",
+      "dependency_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages",
       "section": "dependencies"
     },
     {
-      "dependency": "ed25519-dalek",
-      "owner": "habitat-packages@0.1.0",
+      "dependency_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "either",
-      "owner": "itertools@0.14.0",
+      "dependency_identity": "ed25519@2.2.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "equivalent",
-      "owner": "indexmap@2.14.1",
+      "dependency_identity": "either@1.18.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "itertools@0.14.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "errno",
-      "owner": "rustix@1.1.4",
+      "dependency_identity": "equivalent@1.0.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "indexmap@2.14.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "errno",
-      "owner": "signal-hook-registry@1.4.8",
+      "dependency_identity": "errno@0.3.14#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rustix@1.1.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "fastrand",
-      "owner": "tempfile@3.27.0",
+      "dependency_identity": "errno@0.3.14#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "signal-hook-registry@1.4.8#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "fiat-crypto",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "fastrand@2.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "fixedbitset",
-      "owner": "petgraph@0.8.3",
+      "dependency_identity": "fiat-crypto@0.2.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "fnv",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "fixedbitset@0.5.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "petgraph@0.8.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "foldhash",
-      "owner": "hashbrown@0.15.5",
+      "dependency_identity": "fnv@1.0.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-channel",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "foldhash@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hashbrown@0.15.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-channel",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "futures-channel@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "futures-channel@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "futures-channel@0.3.34",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "futures-util@0.3.34",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "futures-channel@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "http-body-util@0.1.5",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "tokio-stream@0.1.19",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "tokio-util@0.7.19",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-stream@0.1.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-core",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-sink",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "futures-core@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-sink",
-      "owner": "tokio-util@0.7.19",
+      "dependency_identity": "futures-sink@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-task",
-      "owner": "futures-util@0.3.34",
+      "dependency_identity": "futures-sink@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-util",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "futures-task@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-util",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "futures-util",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "generic-array",
-      "owner": "block-buffer@0.10.4",
+      "dependency_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "generic-array",
-      "owner": "crypto-common@0.1.7",
+      "dependency_identity": "generic-array@0.14.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "block-buffer@0.10.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "getrandom",
-      "owner": "rand_core@0.6.4",
+      "dependency_identity": "generic-array@0.14.7#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "crypto-common@0.1.7#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "getrandom",
-      "owner": "tempfile@3.27.0",
+      "dependency_identity": "getrandom@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rand_core@0.6.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "h2",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "getrandom@0.4.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "h2",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "habitat-abi",
-      "owner": "workspace",
+      "dependency_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-abi@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-authority",
-      "owner": "habitat-effects",
+      "dependency_identity": "habitat-authority@0.1.0#workspace",
+      "owner_identity": "habitat-effects",
       "section": "dependencies"
     },
     {
-      "dependency": "habitat-authority",
-      "owner": "habitat-effects@0.1.0",
+      "dependency_identity": "habitat-authority@0.1.0#workspace",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "habitat-authority",
-      "owner": "workspace",
+      "dependency_identity": "habitat-authority@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-context",
-      "owner": "workspace",
+      "dependency_identity": "habitat-context@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-effects",
-      "owner": "workspace",
+      "dependency_identity": "habitat-effects@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-execution",
-      "owner": "workspace",
+      "dependency_identity": "habitat-execution@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-harnesses",
-      "owner": "workspace",
+      "dependency_identity": "habitat-harnesses@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-models",
-      "owner": "habitat-harnesses",
+      "dependency_identity": "habitat-models@0.1.0#workspace",
+      "owner_identity": "habitat-harnesses",
       "section": "dependencies"
     },
     {
-      "dependency": "habitat-models",
-      "owner": "habitat-harnesses@0.1.0",
+      "dependency_identity": "habitat-models@0.1.0#workspace",
+      "owner_identity": "habitat-harnesses@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "habitat-models",
-      "owner": "workspace",
+      "dependency_identity": "habitat-models@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "habitat-packages",
-      "owner": "workspace",
+      "dependency_identity": "habitat-packages@0.1.0#workspace",
+      "owner_identity": "workspace",
       "section": "members"
     },
     {
-      "dependency": "hashbrown",
-      "owner": "indexmap@2.14.1",
+      "dependency_identity": "hashbrown@0.15.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "petgraph@0.8.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "hashbrown",
-      "owner": "petgraph@0.8.3",
+      "dependency_identity": "hashbrown@0.17.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "indexmap@2.14.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "heck",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "heck@0.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "http-body-util@0.1.5",
+      "dependency_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "http-body@1.1.0",
+      "dependency_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body",
-      "owner": "http-body-util@0.1.5",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body@1.1.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body-util",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body-util",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "http-body-util",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "httparse",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "httparse@1.10.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "httpdate",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "httpdate@1.0.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "hyper",
-      "owner": "hyper-timeout@0.5.2",
+      "dependency_identity": "hyper-timeout@0.5.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "hyper",
-      "owner": "hyper-util@0.1.20",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "hyper",
-      "owner": "tonic@0.14.6",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "hyper-timeout",
-      "owner": "tonic@0.14.6",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "hyper-util",
-      "owner": "habitat-abi",
+      "dependency_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "hyper-util",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "hyper-util",
-      "owner": "hyper-timeout@0.5.2",
+      "dependency_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-timeout@0.5.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "hyper-util",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "indexmap",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-timeout@0.5.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "indexmap",
-      "owner": "petgraph@0.8.3",
+      "dependency_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "indexmap",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "itertools",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "indexmap@2.14.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "itertools",
-      "owner": "prost-derive@0.14.4",
+      "dependency_identity": "indexmap@2.14.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "petgraph@0.8.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "itoa",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "indexmap@2.14.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "itoa",
-      "owner": "http@1.5.0",
+      "dependency_identity": "itertools@0.14.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "itoa",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "itertools@0.14.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-derive@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "itoa",
-      "owner": "serde_json@1.0.151",
+      "dependency_identity": "itoa@1.0.18#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "cpufeatures@0.2.17",
+      "dependency_identity": "itoa@1.0.18#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http@1.5.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "errno@0.3.14",
+      "dependency_identity": "itoa@1.0.18#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "getrandom@0.2.17",
+      "dependency_identity": "itoa@1.0.18#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "getrandom@0.4.3",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "cpufeatures@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "habitat-authority",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "errno@0.3.14#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "getrandom@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "getrandom@0.4.3#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority",
       "section": "dependencies"
     },
     {
-      "dependency": "libc",
-      "owner": "habitat-authority@0.1.0",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "mio@1.2.2",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "mio@1.2.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "rustix@1.1.4",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rustix@1.1.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "signal-hook-registry@1.4.8",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "signal-hook-registry@1.4.8#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "socket2@0.6.5",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "socket2@0.6.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "tokio-util@0.7.19",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "libc",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "linux-raw-sys",
-      "owner": "rustix@1.1.4",
+      "dependency_identity": "linux-raw-sys@0.12.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rustix@1.1.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "log",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "log@0.4.34#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "matchit",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "matchit@0.8.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "memchr",
-      "owner": "aho-corasick@1.1.5",
+      "dependency_identity": "memchr@2.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "aho-corasick@1.1.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "memchr",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "memchr@2.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "memchr",
-      "owner": "pulldown-cmark@0.13.4",
+      "dependency_identity": "memchr@2.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pulldown-cmark@0.13.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "memchr",
-      "owner": "regex-automata@0.4.18",
+      "dependency_identity": "memchr@2.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex-automata@0.4.18#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "memchr",
-      "owner": "regex@1.13.1",
+      "dependency_identity": "memchr@2.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex@1.13.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "memchr",
-      "owner": "serde_json@1.0.151",
+      "dependency_identity": "memchr@2.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "mime",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "mime@0.3.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "mime",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "mime@0.3.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "mio",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "mio@1.2.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "multimap",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "multimap@0.10.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "once_cell",
-      "owner": "tempfile@3.27.0",
+      "dependency_identity": "once_cell@1.21.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "once_cell",
-      "owner": "tracing-core@0.1.36",
+      "dependency_identity": "once_cell@1.21.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing-core@0.1.36#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "percent-encoding",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "percent-encoding@2.3.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "percent-encoding",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "percent-encoding@2.3.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "petgraph",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "petgraph@0.8.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "pin-project-internal@1.1.13#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pin-project@1.1.13#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-internal",
-      "owner": "pin-project@1.1.13",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "futures-util@0.3.34",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "http-body-util@0.1.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "http-body-util@0.1.5",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-timeout@0.5.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "hyper-timeout@0.5.2",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-stream@0.1.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "tokio-stream@0.1.19",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "tokio-util@0.7.19",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "pin-project-lite@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pin-project-lite",
-      "owner": "tracing@0.1.44",
+      "dependency_identity": "pin-project@1.1.13#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pkcs8",
-      "owner": "ed25519@2.2.3",
+      "dependency_identity": "pkcs8@0.10.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519@2.2.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prettyplease",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "prettyplease@0.2.37#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prettyplease",
-      "owner": "tonic-build@0.14.6",
+      "dependency_identity": "prettyplease@0.2.37#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prettyplease",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "prettyplease@0.2.37#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "async-trait@0.1.92",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "async-trait@0.1.92#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "curve25519-dalek-derive@0.1.1",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek-derive@0.1.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "pin-project-internal@1.1.13",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pin-project-internal@1.1.13#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "prettyplease@0.2.37",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prettyplease@0.2.37#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "prost-derive@0.14.4",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-derive@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "quote@1.0.47",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "serde_derive@1.0.229",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_derive@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "syn@2.0.119",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "syn@3.0.4",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "syn@3.0.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "tokio-macros@2.7.2",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-macros@2.7.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "tonic-build@0.14.6",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "proc-macro2",
-      "owner": "tracing-attributes@0.1.31",
+      "dependency_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing-attributes@0.1.31#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prost",
-      "owner": "habitat-abi",
+      "dependency_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "prost-derive@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "prost-types@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "prost",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "prost-types@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prost",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "prost-types@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prost",
-      "owner": "prost-types@0.14.4",
+      "dependency_identity": "prost-types@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prost",
-      "owner": "tonic-prost@0.14.6",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "prost-build",
-      "owner": "tonic-prost-build@0.14.6",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "prost-derive",
-      "owner": "prost@0.14.4",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "prost-types",
-      "owner": "habitat-abi",
+      "dependency_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "prost-types",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prost-types",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "prost-types",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-types@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pulldown-cmark",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "prost@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pulldown-cmark",
-      "owner": "pulldown-cmark-to-cmark@22.0.1",
+      "dependency_identity": "pulldown-cmark-to-cmark@22.0.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "pulldown-cmark-to-cmark",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "pulldown-cmark@0.13.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "async-trait@0.1.92",
+      "dependency_identity": "pulldown-cmark@0.13.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pulldown-cmark-to-cmark@22.0.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "curve25519-dalek-derive@0.1.1",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "async-trait@0.1.92#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "pin-project-internal@1.1.13",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek-derive@0.1.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "prost-derive@0.14.4",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pin-project-internal@1.1.13#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "serde_derive@1.0.229",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-derive@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "syn@2.0.119",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_derive@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "syn@3.0.4",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "tokio-macros@2.7.2",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "syn@3.0.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "tonic-build@0.14.6",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-macros@2.7.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "quote",
-      "owner": "tracing-attributes@0.1.31",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "r-efi",
-      "owner": "getrandom@0.4.3",
+      "dependency_identity": "quote@1.0.47#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing-attributes@0.1.31#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "rand_core",
-      "owner": "signature@2.2.0",
+      "dependency_identity": "r-efi@6.0.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "getrandom@0.4.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "regex",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "rand_core@0.6.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "signature@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "regex-automata",
-      "owner": "regex@1.13.1",
+      "dependency_identity": "regex-automata@0.4.18#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex@1.13.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "regex-syntax",
-      "owner": "regex-automata@0.4.18",
+      "dependency_identity": "regex-syntax@0.8.11#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex-automata@0.4.18#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "regex-syntax",
-      "owner": "regex@1.13.1",
+      "dependency_identity": "regex-syntax@0.8.11#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "regex@1.13.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "rustc_version",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "regex@1.13.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "rustix",
-      "owner": "tempfile@3.27.0",
+      "dependency_identity": "rustc_version@0.4.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "semver",
-      "owner": "rustc_version@0.4.1",
+      "dependency_identity": "rustix@1.1.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "ed25519-dalek@2.2.0",
+      "dependency_identity": "semver@1.0.28#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rustc_version@0.4.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-abi",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-authority",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-authority@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-context",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-context",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-context@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-context@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-effects",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-effects@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-execution",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-execution@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-harnesses",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-harnesses",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-harnesses@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-harnesses@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-models",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-models",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-models@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-models@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-packages",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages",
       "section": "dependencies"
     },
     {
-      "dependency": "serde",
-      "owner": "habitat-packages@0.1.0",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde",
-      "owner": "serde_json@1.0.151",
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_core",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "serde_core@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_core",
-      "owner": "serde@1.0.229",
+      "dependency_identity": "serde_core@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_core",
-      "owner": "serde_json@1.0.151",
+      "dependency_identity": "serde_core@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_derive",
-      "owner": "serde@1.0.229",
+      "dependency_identity": "serde_derive@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_derive",
-      "owner": "serde_core@1.0.229",
+      "dependency_identity": "serde_derive@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_core@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-abi",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-authority",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-authority@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-context",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-context",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-context@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-context@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-effects",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-effects@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-execution",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-execution@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-harnesses",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-harnesses",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-harnesses@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-harnesses@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-models",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-models",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-models@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-models@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-packages",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages",
       "section": "dependencies"
     },
     {
-      "dependency": "serde_json",
-      "owner": "habitat-packages@0.1.0",
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sha2",
-      "owner": "ed25519-dalek@2.2.0",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-abi",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-authority",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority",
       "section": "dependencies"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-authority@0.1.0",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-context",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-context",
       "section": "dependencies"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-context@0.1.0",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-context@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-effects",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects",
       "section": "dependencies"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-effects@0.1.0",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-packages",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages",
       "section": "dependencies"
     },
     {
-      "dependency": "sha2",
-      "owner": "habitat-packages@0.1.0",
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-packages@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "signal-hook-registry",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "signal-hook-registry@1.4.8#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "signature",
-      "owner": "ed25519@2.2.3",
+      "dependency_identity": "signature@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519@2.2.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "slab",
-      "owner": "futures-util@0.3.34",
+      "dependency_identity": "slab@0.4.12#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "futures-util@0.3.34#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "slab",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "slab@0.4.12#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "slab",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "slab@0.4.12#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "smallvec",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "smallvec@1.15.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "socket2",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "socket2@0.6.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "socket2",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "socket2@0.6.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "socket2",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "socket2@0.6.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "spki",
-      "owner": "pkcs8@0.10.2",
+      "dependency_identity": "spki@0.7.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pkcs8@0.10.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "subtle",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "subtle@2.6.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "subtle",
-      "owner": "ed25519-dalek@2.2.0",
+      "dependency_identity": "subtle@2.6.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "async-trait@0.1.92",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek-derive@0.1.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "curve25519-dalek-derive@0.1.1",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pin-project-internal@1.1.13#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "pin-project-internal@1.1.13",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prettyplease@0.2.37#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "prettyplease@0.2.37",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-derive@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "prost-derive@0.14.4",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "serde_derive@1.0.229",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "tokio-macros@2.7.2",
+      "dependency_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing-attributes@0.1.31#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "tonic-build@0.14.6",
+      "dependency_identity": "syn@3.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "async-trait@0.1.92#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "syn@3.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_derive@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "syn",
-      "owner": "tracing-attributes@0.1.31",
+      "dependency_identity": "syn@3.0.4#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-macros@2.7.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sync_wrapper",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "sync_wrapper@1.0.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sync_wrapper",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "sync_wrapper@1.0.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sync_wrapper",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "sync_wrapper@1.0.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "sync_wrapper",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "sync_wrapper@1.0.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tempfile",
-      "owner": "habitat-abi",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dev-dependencies"
     },
     {
-      "dependency": "tempfile",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tempfile",
-      "owner": "habitat-authority",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority",
       "section": "dev-dependencies"
     },
     {
-      "dependency": "tempfile",
-      "owner": "habitat-authority@0.1.0",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-authority@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tempfile",
-      "owner": "habitat-effects",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects",
       "section": "dev-dependencies"
     },
     {
-      "dependency": "tempfile",
-      "owner": "habitat-effects@0.1.0",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tempfile",
-      "owner": "prost-build@0.14.4",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "prost-build@0.14.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tempfile",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "tokio-macros@2.7.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "habitat-abi",
+      "dependency_identity": "tokio-stream@0.1.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "tokio",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tokio-stream@0.1.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "hyper-timeout@0.5.2",
+      "dependency_identity": "tokio-stream@0.1.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "tokio-stream@0.1.19",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio",
-      "owner": "tokio-util@0.7.19",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "tokio",
-      "owner": "tonic@0.14.6",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "tokio",
-      "owner": "tower@0.5.3",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "tokio-macros",
-      "owner": "tokio@1.53.1",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "tokio-stream",
-      "owner": "habitat-abi",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "tokio-stream",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio-stream",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-timeout@0.5.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio-util",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tokio-util",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tonic",
-      "owner": "habitat-abi",
-      "section": "dependencies"
-    },
-    {
-      "dependency": "tonic",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-stream@0.1.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tonic",
-      "owner": "tonic-prost@0.14.6",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio-util@0.7.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tonic-build",
-      "owner": "tonic-prost-build@0.14.6",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tonic-prost",
-      "owner": "habitat-abi",
-      "section": "dependencies"
-    },
-    {
-      "dependency": "tonic-prost",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tonic-prost-build",
-      "owner": "habitat-abi",
+      "dependency_identity": "tonic-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "build-dependencies"
     },
     {
-      "dependency": "tonic-prost-build",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tonic-prost-build@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower",
-      "owner": "axum@0.8.9",
-      "section": "Cargo.lock"
-    },
-    {
-      "dependency": "tower",
-      "owner": "habitat-abi",
+      "dependency_identity": "tonic-prost@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
       "section": "dependencies"
     },
     {
-      "dependency": "tower",
-      "owner": "habitat-abi@0.1.0",
+      "dependency_identity": "tonic-prost@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-layer",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic-prost@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-layer",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "tower-layer@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-layer",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "tower-layer@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-layer",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "tower-layer@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-service",
-      "owner": "axum-core@0.5.6",
+      "dependency_identity": "tower-layer@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-service",
-      "owner": "axum@0.8.9",
+      "dependency_identity": "tower-service@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum-core@0.5.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-service",
-      "owner": "hyper-timeout@0.5.2",
+      "dependency_identity": "tower-service@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-service",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "tower-service@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-timeout@0.5.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-service",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "tower-service@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tower-service",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "tower-service@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tracing",
-      "owner": "h2@0.4.19",
+      "dependency_identity": "tower-service@0.3.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tracing",
-      "owner": "hyper-util@0.1.20",
+      "dependency_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "axum@0.8.9#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tracing",
-      "owner": "tonic@0.14.6",
+      "dependency_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tracing",
-      "owner": "tower@0.5.3",
+      "dependency_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tracing-attributes",
-      "owner": "tracing@0.1.44",
+      "dependency_identity": "tracing-attributes@0.1.31#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "tracing-core",
-      "owner": "tracing@0.1.44",
+      "dependency_identity": "tracing-core@0.1.36#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "try-lock",
-      "owner": "want@0.3.1",
+      "dependency_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "h2@0.4.19#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "typenum",
-      "owner": "crypto-common@0.1.7",
+      "dependency_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper-util@0.1.20#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "typenum",
-      "owner": "generic-array@0.14.7",
+      "dependency_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tonic@0.14.6#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "unicase",
-      "owner": "pulldown-cmark@0.13.4",
+      "dependency_identity": "tracing@0.1.44#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tower@0.5.3#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "unicode-ident",
-      "owner": "proc-macro2@1.0.107",
+      "dependency_identity": "try-lock@0.2.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "want@0.3.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "unicode-ident",
-      "owner": "syn@2.0.119",
+      "dependency_identity": "typenum@1.20.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "crypto-common@0.1.7#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "unicode-ident",
-      "owner": "syn@3.0.4",
+      "dependency_identity": "typenum@1.20.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "generic-array@0.14.7#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "version_check",
-      "owner": "generic-array@0.14.7",
+      "dependency_identity": "unicase@2.9.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "pulldown-cmark@0.13.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "want",
-      "owner": "hyper@1.11.1",
+      "dependency_identity": "unicode-ident@1.0.24#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "proc-macro2@1.0.107#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "wasi",
-      "owner": "getrandom@0.2.17",
+      "dependency_identity": "unicode-ident@1.0.24#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "syn@2.0.119#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "wasi",
-      "owner": "mio@1.2.2",
+      "dependency_identity": "unicode-ident@1.0.24#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "syn@3.0.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-link",
-      "owner": "windows-sys@0.61.2",
+      "dependency_identity": "version_check@0.9.5#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "generic-array@0.14.7#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-sys",
-      "owner": "errno@0.3.14",
+      "dependency_identity": "want@0.3.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "hyper@1.11.1#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-sys",
-      "owner": "mio@1.2.2",
+      "dependency_identity": "wasi@0.11.1+wasi-snapshot-preview1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "getrandom@0.2.17#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-sys",
-      "owner": "rustix@1.1.4",
+      "dependency_identity": "wasi@0.11.1+wasi-snapshot-preview1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "mio@1.2.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-sys",
-      "owner": "socket2@0.6.5",
+      "dependency_identity": "windows-link@0.2.1#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-sys",
-      "owner": "tempfile@3.27.0",
+      "dependency_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "errno@0.3.14#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "windows-sys",
-      "owner": "tokio@1.53.1",
+      "dependency_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "mio@1.2.2#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "zeroize",
-      "owner": "curve25519-dalek@4.1.3",
+      "dependency_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "rustix@1.1.4#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "zeroize",
-      "owner": "der@0.7.10",
+      "dependency_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "socket2@0.6.5#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "zeroize",
-      "owner": "ed25519-dalek@2.2.0",
+      "dependency_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
     {
-      "dependency": "zmij",
-      "owner": "serde_json@1.0.151",
+      "dependency_identity": "windows-sys@0.61.2#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "tokio@1.53.1#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "zeroize@1.9.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "curve25519-dalek@4.1.3#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "zeroize@1.9.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "der@0.7.10#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "zeroize@1.9.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "zmij@1.0.23#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     }
   ],

@@ -1,5 +1,6 @@
 {
   "deleted_closure_members": [],
+  "input_proof": "evaluated recursive pkgs.closureInfo store-paths",
   "member_count": 529,
   "member_names": [
     "50-coredump.conf",
@@ -532,9 +533,9 @@
     "zstd-1.5.7-bin",
     "zstd-1.5.7-dev"
   ],
+  "non_store_inputs": [],
   "normalized_closure_sha256": "7f4222a3516241393407fdad16f653766dae2d3206cbfb9b6a899d5881f801cb",
   "schema_version": "1.0",
   "scope": "issue-29-evaluated-nix-closure",
-  "undeclared_host_inputs": [],
   "valid": true
 }

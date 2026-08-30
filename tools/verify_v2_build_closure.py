@@ -20,15 +20,19 @@ def main():
     parser.add_argument("--closure-paths", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    members = sorted({name(line) for line in args.closure_paths.read_text().splitlines() if line.strip()})
+    raw_paths = sorted({line.strip() for line in args.closure_paths.read_text().splitlines() if line.strip()})
+    members = sorted({name(line) for line in raw_paths})
+    non_store_inputs = [path for path in raw_paths
+                        if not re.fullmatch(r"/nix/store/[0-9a-z]{32}-.+", path)]
     deleted = [item for item in members if FORBIDDEN.search(item)]
     encoded = "".join(f"{item}\n" for item in members).encode()
     report = {
         "schema_version": "1.0", "scope": "issue-29-evaluated-nix-closure",
         "member_count": len(members), "member_names": members,
         "normalized_closure_sha256": hashlib.sha256(encoded).hexdigest(),
-        "deleted_closure_members": deleted, "undeclared_host_inputs": [],
-        "valid": not deleted,
+        "deleted_closure_members": deleted, "non_store_inputs": non_store_inputs,
+        "input_proof": "evaluated recursive pkgs.closureInfo store-paths",
+        "valid": not deleted and not non_store_inputs,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")

@@ -1,0 +1,50 @@
+{
+  "$id": "https://nix-ai.invalid/contracts/schemas/v2-canonical.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "effect_class": {
+      "enum": [
+        "E0",
+        "E1",
+        "E2",
+        "E3"
+      ]
+    },
+    "execution_profile": {
+      "enum": [
+        "NATIVE_SERVICE",
+        "ISOLATED_PROCESS",
+        "WASI_COMPONENT",
+        "OCI_CONTAINER",
+        "MICROVM",
+        "REMOTE_PROVIDER"
+      ]
+    },
+    "hardware_profile": {
+      "enum": [
+        "qemu-x86_64-conformance",
+        "generic-x86_64",
+        "generic-aarch64"
+      ]
+    },
+    "principal": {
+      "enum": [
+        "MACHINE",
+        "AGENT",
+        "ACTIVATION",
+        "HUMAN",
+        "SERVICE",
+        "EXTERNAL"
+      ]
+    }
+  },
+  "required": [
+    "principal",
+    "effect_class",
+    "execution_profile",
+    "hardware_profile"
+  ],
+  "title": "Nix AI v2 canonical vocabulary",
+  "type": "object"
+}

@@ -31,14 +31,15 @@ class V2ArtifactClosureTests(unittest.TestCase):
         self.assertEqual(generated["unowned_dependencies"], [])
         self.assertEqual(generated["deleted_closure_members"], [])
         sbom = json.loads((ROOT / "generated/v2/sbom.json").read_text())
-        locked = {item["name"] for item in sbom["packages"]}
-        owned = {item["dependency"] for item in sbom["dependency_ownership"]}
+        locked = {f"{item['name']}@{item['version']}#{item.get('source', 'workspace')}"
+                  for item in sbom["packages"]}
+        owned = {item["dependency_identity"] for item in sbom["dependency_ownership"]}
         self.assertEqual(locked, owned)
 
     def test_mutating_any_generated_class_is_rejected(self):
         representatives = [
             "contracts/requirements.yaml", "contracts/work-packets.yaml",
-            "contracts/architecture/00-GOVERNANCE.md", "contracts/schemas/v2-canonical.schema.json",
+            "contracts/architecture/00-GOVERNANCE.md", "generated/schemas/v2-canonical.schema.json",
             "generated/proto/descriptor.bin", "generated/proto/rust/nix_ai/agent/v2/nix_ai.agent.v2.rs", "Cargo.lock",
             "generated/v2/sbom.json", "generated/v2/provenance.json",
             "generated/v2/evidence-index.json", "generated/v2/MANIFEST.sha256",
@@ -58,24 +59,48 @@ class V2ArtifactClosureTests(unittest.TestCase):
     def test_nix_closure_report_rejects_deleted_components(self):
         with tempfile.TemporaryDirectory() as temporary:
             closure = Path(temporary) / "store-paths"
-            closure.write_text("/nix/store/abc-habitat-models-0.1.0\n/nix/store/def-serde-1.0.0\n")
+            closure.write_text("/nix/store/00000000000000000000000000000000-habitat-models-0.1.0\n"
+                               "/nix/store/11111111111111111111111111111111-serde-1.0.0\n")
             output = Path(temporary) / "report.json"
             subprocess.run([sys.executable, "tools/verify_v2_build_closure.py", "--closure-paths", str(closure),
                             "--output", str(output)], cwd=ROOT, check=True)
             self.assertTrue(json.loads(output.read_text())["valid"])
-            closure.write_text(closure.read_text() + "/nix/store/ghi-habitat-physical-0.1.0\n")
+            closure.write_text(closure.read_text() + "/usr/bin/undeclared-tool\n")
+            result = subprocess.run([sys.executable, "tools/verify_v2_build_closure.py", "--closure-paths", str(closure),
+                                     "--output", str(output)], cwd=ROOT)
+            self.assertNotEqual(result.returncode, 0)
+            closure.write_text("/nix/store/00000000000000000000000000000000-habitat-models-0.1.0\n")
+            closure.write_text(closure.read_text() +
+                               "/nix/store/22222222222222222222222222222222-habitat-physical-0.1.0\n")
             result = subprocess.run([sys.executable, "tools/verify_v2_build_closure.py", "--closure-paths", str(closure),
                                      "--output", str(output)], cwd=ROOT)
             self.assertNotEqual(result.returncode, 0)
 
-    def test_removed_semantics_cannot_be_resigned_into_generated_bindings(self):
+    def test_write_regenerates_bindings_and_removed_semantics_cannot_be_resigned(self):
         with tempfile.TemporaryDirectory() as temporary:
             clone = Path(temporary) / "tree"
             shutil.copytree(ROOT, clone, ignore=shutil.ignore_patterns(".git", "target", "result"))
             binding = clone / "generated/proto/rust/nix_ai/agent/v2/nix_ai.agent.v2.rs"
             binding.write_text(binding.read_text() + "\npub const ROBOT_ARM: bool = true;\n")
+            if not all(shutil.which(tool) for tool in ("buf", "protoc", "protoc-gen-prost", "rustfmt")):
+                self.skipTest("pinned Nix suite supplies the protobuf generator toolchain")
             subprocess.run([sys.executable, "tools/qualify_v2_artifacts.py", "--root", str(clone), "--write"],
-                           cwd=clone, capture_output=True, text=True)
+                           cwd=clone, capture_output=True, text=True, check=True)
+            result = subprocess.run([sys.executable, "tools/qualify_v2_artifacts.py", "--root", str(clone)],
+                                    cwd=clone, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0)
+            self.assertNotIn("ROBOT_ARM", binding.read_text())
+
+    def test_generated_schemas_are_exact_canonical_copies(self):
+        for source in sorted((ROOT / "contracts/schemas").glob("*.schema.json")):
+            self.assertEqual(source.read_bytes(), (ROOT / "generated/schemas" / source.name).read_bytes())
+
+    def test_generated_schema_mutation_is_not_blessed_by_metadata(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            clone = Path(temporary) / "tree"
+            shutil.copytree(ROOT, clone, ignore=shutil.ignore_patterns(".git", "target", "result"))
+            generated = clone / "generated/schemas/effect.schema.json"
+            generated.write_bytes(generated.read_bytes() + b"\n")
             result = subprocess.run([sys.executable, "tools/qualify_v2_artifacts.py", "--root", str(clone)],
                                     cwd=clone, capture_output=True, text=True)
             self.assertNotEqual(result.returncode, 0)

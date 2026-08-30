@@ -15,7 +15,7 @@ import tomllib
 from pathlib import Path
 
 from derive_v2_contract import INTERFACE_SOURCE_SHA256, outputs as contract_outputs
-from proto_contracts import source_digest
+from proto_contracts import source_digest, validate as validate_proto
 
 REQUIRED_CLASSES = (
     "requirements_registry", "work_graph", "architecture_projections", "json_schemas",
@@ -49,30 +49,58 @@ def cargo_inventory(root: Path):
     workspace = tomllib.loads((root / "Cargo.toml").read_text())
     members = sorted(workspace["workspace"]["members"])
     owners = []
+    manifests = {}
     for member in members:
         manifest = tomllib.loads((root / member / "Cargo.toml").read_text())
         package = manifest["package"]["name"]
-        owners.append({"dependency": package, "owner": "workspace", "section": "members"})
+        manifests[package] = manifest
         for section, dependencies in cargo_sections(manifest):
             for name, declaration in dependencies.items():
                 actual = declaration.get("package", name) if isinstance(declaration, dict) else name
-                owners.append({"dependency": actual, "owner": package, "section": section})
+                owners.append({"dependency_name": actual, "owner": package, "section": section})
     lock = tomllib.loads((root / "Cargo.lock").read_text())
     packages = sorted(lock["package"], key=lambda item: (item["name"], item["version"], item.get("source", "")))
-    locked_names = {item["name"] for item in packages}
-    missing = set(item["dependency"] for item in owners) - locked_names
+    def identity(item):
+        return f"{item['name']}@{item['version']}#{item.get('source', 'workspace')}"
+
+    identities = {identity(item): item for item in packages}
+    by_name = {}
     for package in packages:
-        owner = f"{package['name']}@{package['version']}"
+        by_name.setdefault(package["name"], []).append(identity(package))
+    resolved = []
+    for member, manifest in manifests.items():
+        version = manifest["package"]["version"]
+        resolved.append({"dependency_identity": f"{member}@{version}#workspace",
+                         "owner_identity": "workspace", "section": "members"})
+    missing = set()
+    for owner in owners:
+        matches = by_name.get(owner["dependency_name"], [])
+        if not matches:
+            missing.add(owner["dependency_name"])
+        for match in matches:
+            resolved.append({"dependency_identity": match,
+                             "owner_identity": owner["owner"], "section": owner["section"]})
+    for package in packages:
+        owner = identity(package)
         for dependency in package.get("dependencies", []):
-            owners.append({"dependency": dependency.split()[0], "owner": owner, "section": "Cargo.lock"})
-    owned_names = {item["dependency"] for item in owners}
-    missing.update(locked_names - owned_names)
+            parts = dependency.split()
+            candidates = by_name.get(parts[0], [])
+            if len(parts) > 1 and re.fullmatch(r"\d+\.\d+\.\d+(?:[-+].*)?", parts[1]):
+                candidates = [item for item in candidates if item.startswith(f"{parts[0]}@{parts[1]}#")]
+            if len(candidates) != 1:
+                missing.add(dependency)
+            for candidate in candidates:
+                resolved.append({"dependency_identity": candidate, "owner_identity": owner,
+                                 "section": "Cargo.lock"})
+    owned = {item["dependency_identity"] for item in resolved}
+    missing.update(set(identities) - owned)
     sbom = {
         "format": "nix-ai-v2-cargo-sbom-1",
         "workspace_members": members,
         "packages": [{key: item[key] for key in ("name", "version", "source", "checksum") if key in item}
                      for item in packages],
-        "dependency_ownership": sorted(owners, key=lambda item: (item["dependency"], item["owner"], item["section"])),
+        "dependency_ownership": sorted(resolved, key=lambda item: (
+            item["dependency_identity"], item["owner_identity"], item["section"])),
     }
     return sbom, sorted(missing)
 
@@ -102,7 +130,7 @@ def provenance(root: Path):
 
 def metadata_outputs(root: Path):
     sbom, _ = cargo_inventory(root)
-    return {
+    outputs = {
         "generated/v2/sbom.json": canonical(sbom),
         "generated/v2/provenance.json": canonical(provenance(root)),
         "generated/v2/evidence-index.json": canonical(evidence_index(root)),
@@ -112,6 +140,9 @@ def metadata_outputs(root: Path):
             "cargo_lock_sha256": sha((root / "Cargo.lock").read_bytes()),
         }),
     }
+    for path in sorted((root / "contracts/schemas").glob("*.schema.json")):
+        outputs[f"generated/schemas/{path.name}"] = path.read_bytes()
+    return outputs
 
 
 def manifest_members(root: Path, generated: dict[str, bytes]):
@@ -138,7 +169,7 @@ def artifact_classes(root: Path):
         "requirements_registry": ["contracts/requirements.yaml"],
         "work_graph": ["contracts/work-packets.yaml", "contracts/architecture/13-IMPLEMENTATION-WORK-GRAPH.md"],
         "architecture_projections": sorted(path.relative_to(root).as_posix() for path in (root / "contracts/architecture").glob("*.md")),
-        "json_schemas": sorted(path.relative_to(root).as_posix() for path in (root / "contracts").rglob("*.schema.json")),
+        "json_schemas": sorted(path.relative_to(root).as_posix() for path in (root / "generated/schemas").glob("*.schema.json")),
         "protobuf_descriptors": ["generated/proto/descriptor.bin"],
         "language_bindings": sorted(path.relative_to(root).as_posix() for path in (root / "generated/proto/rust").rglob("*.rs")),
         "lockfiles": ["Cargo.lock", "flake.lock"],
@@ -161,11 +192,14 @@ def qualify(root: Path):
         interface_stale.append("generated/proto/SOURCE.sha256")
     stale = sorted(set(stale + interface_stale))
     contaminated = []
-    for path in classes["language_bindings"]:
-        if FORBIDDEN_GENERATED.search((root / path).read_text(errors="replace")):
+    generated_paths = sorted({path for paths in classes.values() for path in paths
+                              if path.startswith("generated/")})
+    for path in generated_paths:
+        content = (root / path).read_bytes().decode("latin1")
+        if FORBIDDEN_GENERATED.search(content):
             contaminated.append(path)
     sbom, unowned = cargo_inventory(root)
-    closure_identities = [item["dependency"] for item in sbom["dependency_ownership"]]
+    closure_identities = [item["dependency_identity"] for item in sbom["dependency_ownership"]]
     deleted = sorted(item for item in closure_identities if any(term in item.lower() for term in FORBIDDEN_CLOSURE_TERMS))
     records = []
     for name in REQUIRED_CLASSES:
@@ -188,10 +222,14 @@ def main():
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--verify-cargo", type=Path)
     parser.add_argument("--verify-nix", type=Path)
+    parser.add_argument("--verify-proto", action="store_true")
     args = parser.parse_args(); root = args.root.resolve()
     if args.write:
+        validate_proto(root, write=True)
         for relative, content in expected_outputs(root).items():
             path = root / relative; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(content)
+    elif args.verify_proto:
+        validate_proto(root, write=False)
     if args.verify_cargo:
         with tempfile.TemporaryDirectory() as temporary:
             clone = Path(temporary) / "workspace"

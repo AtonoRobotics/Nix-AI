@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://habitat.invalid/schemas/hardware-profile/v1",
+  "title": "Habitat Hardware Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "profile_id", "version", "architecture", "kernel", "firmware", "drivers", "boot", "storage", "trust_root", "gpu", "devices", "execution_runtimes", "isolation", "capacity", "qualification_evidence_refs"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "profile_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[-_][a-z0-9]+)*$", "maxLength": 160},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "architecture": {"type": "string", "enum": ["x86_64", "aarch64", "riscv64"]},
+    "kernel": {"type": "object", "required": ["version", "digest", "bsp_ref"], "properties": {"version": {"type": "string"}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "bsp_ref": {"type": "string"}}},
+    "firmware": {"type": "object", "additionalProperties": false, "required": ["source_ref", "digest"], "properties": {"source_ref": {"type": "string", "minLength": 1}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}},
+    "drivers": {"type": "object", "additionalProperties": false, "required": ["source_ref", "digest"], "properties": {"source_ref": {"type": "string", "minLength": 1}, "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}},
+    "boot": {"type": "object", "required": ["secure_boot", "automatic_rollback"], "properties": {"secure_boot": {"type": "boolean"}, "automatic_rollback": {"const": true}}},
+    "storage": {"type": "object", "required": ["recovery_partition", "state_volume"], "properties": {"recovery_partition": {"type": "boolean"}, "state_volume": {"type": "string"}}},
+    "trust_root": {"type": "string", "enum": ["TPM2", "TEE", "HSM", "SOFTWARE_DEGRADED"]},
+    "gpu": {"type": "object", "additionalProperties": false, "required": ["status"], "properties": {"status": {"enum": ["absent", "present"]}}},
+    "devices": {"type": "array", "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["id", "status"], "properties": {"id": {"type": "string", "minLength": 1}, "status": {"enum": ["absent", "present"]}}}},
+    "execution_runtimes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["NATIVE", "WASI", "OCI", "MICROVM", "REMOTE"]}},
+    "isolation": {"type": "object", "additionalProperties": false, "required": ["default", "enforcement"], "properties": {"default": {"const": "DENY"}, "enforcement": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}},
+    "capacity": {"type": "object", "additionalProperties": false, "required": ["cpu_cores", "memory_mib", "storage_mib", "process_limit", "timeout_seconds"], "properties": {"cpu_cores": {"type": "integer", "minimum": 1}, "memory_mib": {"type": "integer", "minimum": 1}, "storage_mib": {"type": "integer", "minimum": 1}, "process_limit": {"type": "integer", "minimum": 1}, "timeout_seconds": {"type": "integer", "minimum": 1}}},
+    "qualification_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+  }
+}
