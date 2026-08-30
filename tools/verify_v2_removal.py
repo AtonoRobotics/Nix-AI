@@ -20,9 +20,9 @@ INVENTORY_CLASSES = (
     "build_closure_members",
 )
 FORBIDDEN = re.compile(
-    r"(?i)(?:\bcordis\b|\bphysical(?:[-_ ]?ai)?\b|\brobot(?:ics)?\b|\bros\b|"
-    r"\bisaac(?:[-_ ]sim)?\b|\bomniverse\b|\bsimulation\b|\bembodiment\b|"
-    r"\bjetson\b|\bnvidia\b|\brtx\b|\bcuda\b)"
+    r"(?i)(?:(?:cordis|physical(?:[-_ ]?ai)?|robot(?:ics)?|isaac(?:[-_ ]sim)?|"
+    r"omniverse|simulation|embodiment|jetson|nvidia|rtx|cuda)(?![a-z0-9])|"
+    r"(?<![a-z0-9])ros(?![a-z0-9]))"
 )
 POLICY_PATHS = {
     "AGENTS.md",
