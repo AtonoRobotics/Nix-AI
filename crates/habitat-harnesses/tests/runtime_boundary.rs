@@ -41,32 +41,15 @@ fn process_success_prose_and_session_completion_do_not_complete_objective() {
 }
 
 #[test]
-fn capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access() {
-    let proxy = CapabilityProxy::from_prepared(&prepared());
-    assert!(proxy
-        .invoke(
-            "habitat://capability/weather.read",
-            json!({"operation":"read"})
-        )
-        .is_ok());
+fn capability_requests_remain_typed_dispositions_for_current_authority_mediation() {
+    let event = json!({"type":"habitat.disposition","session_id":"codex:capability","payload":{
+        "activation_id":"activation:11","command_id":"command:capability","kind":"CAPABILITY_INVOCATION",
+        "payload":{"capability":"weather.read","operation":"read"},
+        "decision":{"summary":"request","evidence_refs":[]}}});
+    let output = CodexAdapter::translate(&prepared(), &event).unwrap();
     assert_eq!(
-        proxy.invoke("https://api.provider.invalid", json!({})),
-        Err(HarnessError::CapabilityDenied)
-    );
-    assert_eq!(
-        proxy.invoke("unix:///run/habitat/authority.sock", json!({})),
-        Err(HarnessError::CapabilityDenied)
-    );
-    assert!(proxy.environment().is_empty());
-}
-
-#[test]
-fn model_visible_but_ungranted_capability_is_not_available_to_the_harness() {
-    let prepared = HarnessAdapter::prepare(&envelope(), "activation-set:sha256:pinned", &[]);
-    let proxy = CapabilityProxy::from_prepared(&prepared);
-    assert_eq!(
-        proxy.invoke("habitat://capability/weather.read", json!({})),
-        Err(HarnessError::CapabilityDenied)
+        output.candidate.disposition.kind,
+        DispositionKind::CapabilityInvocation
     );
 }
 

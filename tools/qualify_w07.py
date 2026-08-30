@@ -39,6 +39,8 @@ def main():
       "injection-defense-test":{"outcome":"passed","artifact_sha256":digest,
         "properties":["external content remains untrusted data","attempted directives are observed",
         "activation and objective identity remain unchanged"]}}
+    reports["result"]={"packet":"W07","outcome":"passed","artifact_sha256":digest}
+    for report in reports.values():report["behavioral_test_proof"]=proof
     if args.evidence_dir:
         args.evidence_dir.mkdir(parents=True,exist_ok=True)
         for name,report in reports.items():

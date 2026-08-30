@@ -32,6 +32,8 @@ def main():
         "properties":["prior verified set restored exactly","existing bindings unchanged","no silent rebind"]},
       "system-conformance-report":{"outcome":"passed","artifact_sha256":digest,"pinned_generation":True},
       "architecture-boundary-test":{"outcome":"passed","artifact_sha256":digest,"compatibility_capsules":"qualified"}}
+    reports["result"]={"packet":"W10","outcome":"passed","artifact_sha256":digest}
+    for report in reports.values():report["behavioral_test_proof"]=proof
     if args.evidence_dir:
         args.evidence_dir.mkdir(parents=True,exist_ok=True)
         for name,report in reports.items():(args.evidence_dir/f"{name}.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")

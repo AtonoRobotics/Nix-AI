@@ -1,5 +1,17 @@
 {
   "artifact_sha256": "0b256564c43eb531db3440de2cb840c77656eff8bad36fc7bed7cbaef2b35059",
+  "behavioral_test_proof": {
+    "outcome": "passed",
+    "runner": "rust-test-binaries",
+    "test_count": 5,
+    "test_names": [
+      "cancellation_deadline_and_backend_comparison_preserve_committed_truth",
+      "capability_requests_remain_typed_dispositions_for_current_authority_mediation",
+      "codex_and_claude_emit_the_same_semantic_abi_and_identity",
+      "only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
+      "process_success_prose_and_session_completion_do_not_complete_objective"
+    ]
+  },
   "outcome": "passed",
   "preserved": [
     "agent identity",

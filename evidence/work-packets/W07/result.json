@@ -1,1 +1,18 @@
-{"packet":"W07","implementation_commit":"76533b811d713064b55295a92ac9460a8d658924","outcome":"passed","requirements":["CTX-001","CTX-002","CTX-003","CTX-004","CTX-005","CTX-006","CTX-007","CTX-008","CTX-009","CTX-010","CTX-011","CTX-012"],"qualification":"nix run .#test-w07","flake_check":"passed"}
+{
+  "artifact_sha256": "c64d99e0253b90bc5ee560d3030581c829b248a8ee41fb6b2566ed9e2d5be74d",
+  "behavioral_test_proof": {
+    "outcome": "passed",
+    "runner": "rust-test-binaries",
+    "test_count": 6,
+    "test_names": [
+      "budget_and_contradictions_are_explicit",
+      "bundle_is_immutable_provenance_bearing_and_separates_truth_classes",
+      "descriptor_first_skill_selection_does_not_load_procedure",
+      "faults_reject_stale_forbidden_nonmaterial_and_recursive_requests",
+      "hostile_content_is_data_and_cannot_mutate_bundle_identity",
+      "semantic_request_creates_linked_successor_and_bounds_access"
+    ]
+  },
+  "outcome": "passed",
+  "packet": "W07"
+}

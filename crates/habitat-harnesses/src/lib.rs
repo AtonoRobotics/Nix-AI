@@ -4,7 +4,6 @@ use habitat_models::{
 };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::collections::{BTreeMap, BTreeSet};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DurableIdentity {
@@ -19,7 +18,6 @@ pub struct DurableIdentity {
 pub struct PreparedActivation {
     pub envelope: ActivationEnvelope,
     pub identity: DurableIdentity,
-    allowed_capability_endpoints: Vec<String>,
     pub adapter_artifact: String,
     pub adapter_configuration_digest: String,
 }
@@ -33,9 +31,7 @@ impl HarnessAdapter {
         PreparedActivation{envelope:envelope.clone(),identity:DurableIdentity{agent_id:envelope.agent_id.clone(),
         objective_ids:envelope.objective_ids.clone(),activation_id:envelope.activation_id.clone(),
         grant_ids:grants.iter().map(|v|(*v).into()).collect(),activation_set_id:activation_set.into(),
-        context_bundle_id:envelope.context_bundle_id.clone()},allowed_capability_endpoints:envelope.visible_capabilities
-            .iter().filter(|capability|grants.iter().any(|grant|*grant==format!("grant:{}",capability.id)))
-            .map(|capability|format!("habitat://capability/{}",capability.id)).collect(),
+        context_bundle_id:envelope.context_bundle_id.clone()},
         adapter_artifact:"harness-adapter@sha256:0000000000000000000000000000000000000000000000000000000000000011".into(),
         adapter_configuration_digest:"sha256:1111111111111111111111111111111111111111111111111111111111111111".into()}
     }
@@ -52,7 +48,6 @@ pub enum HarnessError {
     MissingStructuredDisposition,
     MalformedDisposition,
     Model(ModelError),
-    CapabilityDenied,
     TypedCheckpointRequired,
     LeaseExpired,
     InvalidCancellation,
@@ -128,32 +123,6 @@ fn translate(
         identity: prepared.identity.clone(),
         session_id: session_id.into(),
     })
-}
-
-pub struct CapabilityProxy {
-    allowed: BTreeSet<String>,
-}
-impl CapabilityProxy {
-    pub fn from_prepared(prepared: &PreparedActivation) -> Self {
-        Self {
-            allowed: prepared
-                .allowed_capability_endpoints
-                .iter()
-                .cloned()
-                .collect(),
-        }
-    }
-    pub fn invoke(&self, endpoint: &str, payload: Value) -> Result<Value, HarnessError> {
-        if !self.allowed.contains(endpoint) {
-            return Err(HarnessError::CapabilityDenied);
-        }
-        Ok(
-            serde_json::json!({"endpoint":endpoint,"accepted":true,"payload_digest_only":!payload.is_null()}),
-        )
-    }
-    pub fn environment(&self) -> BTreeMap<String, String> {
-        BTreeMap::new()
-    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

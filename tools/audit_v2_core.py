@@ -44,6 +44,7 @@ AMBIENT=re.compile(r"\bcurl\b|Authorization|reqwest|TcpStream|std::net",re.I)
 API=re.compile(r"^\s*pub(?:\([^)]*\))?\s+(?:(?:async|const|unsafe)\s+)*(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
 BRANCH=re.compile(r"\b(?:if|match)\b|=>")
 TEST=re.compile(r"(?:#\[test\]\s*)?(?:pub\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
+FUNCTION=re.compile(r"(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)")
 REQUIREMENT_DETAILS={}
 SEMANTIC_RULES=(
  ("crates/habitat-harnesses/",r"CapabilityProxy",("AUTH-004","EXEC-003")),
@@ -58,6 +59,25 @@ SEMANTIC_RULES=(
  ("crates/habitat-execution/",r"Profile|Capacity|Resource",("SYS-004","EXEC-002")),
  ("crates/habitat-execution/",r"Boundary|Isolation|admit",("AUTH-004","EXEC-001")),
 )
+REPOSITORY_SCOPES=(
+ ("crates/",("SCOPE-001",)),("src/",("SCOPE-001",)),("tests/",("VERIFY-001",)),
+ ("tools/",("VERIFY-001",)),("evidence/",("VERIFY-001",)),("contracts/",("SCOPE-003",)),
+ ("generated/",("ABI-001","SCOPE-003")),("nix/",("SYS-001","SYS-004")),
+ ("docs/",("SCOPE-001",)),(".github/",("VERIFY-001",)),
+)
+ROOT_SCOPES={".gitignore":("SCOPE-001",),"AGENTS.md":("SCOPE-001",),"README.md":("SCOPE-001",),
+ "CODEX-BUILD-SPEC.md":("SCOPE-003",),"Cargo.toml":("SCOPE-001",),"Cargo.lock":("SCOPE-003",),
+ "flake.nix":("SYS-001","SYS-004"),"flake.lock":("SCOPE-003",),"pyproject.toml":("SCOPE-001",),
+ "buf.yaml":("ABI-001",),"buf.gen.yaml":("ABI-001",)}
+DEPENDENCY_PURPOSES={
+ "serde":"canonical record encoding","serde_json":"typed JSON boundary encoding","sha2":"content identity digests",
+ "libc":"Linux peer credential and process identity checks","tempfile":"isolated persistence and boundary tests",
+ "prost":"protobuf message ABI","prost-types":"protobuf well-known ABI types","tonic":"gRPC transport boundary",
+ "tonic-prost":"gRPC protobuf codec","tonic-prost-build":"deterministic protobuf build","hyper-util":"gRPC connector runtime",
+ "tokio":"asynchronous transport runtime","tokio-stream":"Unix listener stream adaptation","tower":"transport service adaptation",
+ "ed25519-dalek":"package signature verification","habitat-authority":"current authority evaluation at effect boundaries",
+ "habitat-models":"normalized cognition ABI consumed by harness adapters",
+}
 
 def mapping(path):
     value=path.as_posix()
@@ -74,13 +94,18 @@ def semantic_requirements(kind,identity,source,defaults):
             if source.startswith(prefix) and re.search(pattern,identity,re.I):return requirements
     return defaults
 
-def record(kind,identity,requirements,source):
+def repository_scope(path):
+    value=path.as_posix()
+    if value in ROOT_SCOPES:return ROOT_SCOPES[value]
+    return next((requirements for prefix,requirements in REPOSITORY_SCOPES if value.startswith(prefix)),None)
+
+def record(kind,identity,requirements,source,necessity=None):
     result={"kind":kind,"identity":identity,"requirement_ids":list(requirements),
       "authority":[f"contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/{value}" for value in requirements],
       "binding":{"semantic":identity,"class":kind,"requirement_ids":list(requirements),
           "decision":"retained only under the cited trigger, boundary, failure, and enforcement"},
       "source":source}
-    if kind=="dependency":result["binding"]["necessity"]="declared source/build edge for this retained unit; any undeclared edge is rejected"
+    if kind=="dependency":result["binding"]["necessity"]=necessity or "missing dependency necessity proof"
     return result
 
 def audit(root):
@@ -88,6 +113,16 @@ def audit(root):
     contract=json.loads((root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_text())
     REQUIREMENT_DETAILS={item["id"]:item for item in contract["requirements"]}
     records=[];files=[];unresolved=[]
+    ignored={".git","target","__pycache__",".pytest_cache"};self_artifact="evidence/v2-rebuild/core-retention-audit.json"
+    repository_files=[]
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.is_symlink() or any(part in ignored for part in path.relative_to(root).parts):continue
+        relative=path.relative_to(root)
+        if relative.as_posix()==self_artifact:continue
+        requirements=repository_scope(relative)
+        if not requirements:unresolved.append(f"unmapped-repository-unit:{relative}");continue
+        repository_files.append(relative.as_posix())
+        records.append(record("repository_unit",relative.as_posix(),requirements,relative.as_posix()))
     candidates=[]
     for top in ("crates","src"):
         candidates.extend(path for path in (root/top).rglob("*") if path.is_file()
@@ -102,8 +137,14 @@ def audit(root):
         except UnicodeDecodeError: content=""
         if suffix in {".rs",".py"}:
             lines=content.splitlines();pending_test=False;enum_depth=0;current_requirements=requirements
+            current_scope="module";brace_depth=0;scope_depth=None
             for number,line in enumerate(lines,1):
                 opened_enum=False
+                function=FUNCTION.search(line)
+                if function:
+                    current_scope=function.group(1);scope_depth=brace_depth
+                    scope_identity=f"{relative}:{number}:{current_scope}"
+                    current_requirements=semantic_requirements("public_interface",scope_identity,relative.as_posix(),requirements)
                 match=API.search(line)
                 if match:
                     identity=f"{relative}:{number}:{match.group(1)}"
@@ -122,7 +163,7 @@ def audit(root):
                     enum_depth+=line.count("{")-line.count("}")
                     if enum_depth<=0: enum_depth=0
                 if BRANCH.search(line) and not line.lstrip().startswith("//"):
-                    records.append(record("branch",f"{relative}:{number}",current_requirements,relative.as_posix()))
+                    records.append(record("branch",f"{relative}:{number}:scope:{current_scope}",current_requirements,relative.as_posix()))
                 if "#[test]" in line:
                     inline=TEST.search(line)
                     if inline: records.append(record("test",f"{relative}:{number}:{inline.group(1)}",requirements,relative.as_posix()))
@@ -134,6 +175,9 @@ def audit(root):
                 if suffix==".py" and re.match(r"\s*def\s+test_[A-Za-z0-9_]+\s*\(",line):
                     name=line.split("def ",1)[1].split("(",1)[0]
                     records.append(record("test",f"{relative}:{number}:{name}",requirements,relative.as_posix()))
+                brace_depth+=line.count("{")-line.count("}")
+                if scope_depth is not None and brace_depth<=scope_depth:
+                    current_scope="module";current_requirements=requirements;scope_depth=None
             if suffix==".py":
                 tree=ast.parse(content)
                 for node in ast.walk(tree):
@@ -145,7 +189,9 @@ def audit(root):
                     if isinstance(node,ast.Import):names=[value.name.split('.')[0] for value in node.names]
                     elif isinstance(node,ast.ImportFrom) and node.module:names=[node.module.split('.')[0]]
                     for dependency in names:
-                        records.append(record("dependency",f"{relative}:{node.lineno}:python-import:{dependency}",requirements,relative.as_posix()))
+                        identity=f"{relative}:{node.lineno}:python-import:{dependency}"
+                        records.append(record("dependency",identity,requirements,relative.as_posix(),
+                            f"AST import edge {dependency} at line {node.lineno}; removal makes this source import unresolved"))
                         if dependency not in PYTHON_ALLOWED:unresolved.append(f"untrusted-dependency:{relative}:{dependency}")
             if relative.as_posix().startswith(("crates/habitat-models/","crates/habitat-harnesses/")):
                 found=FORBIDDEN.search(content)
@@ -163,9 +209,11 @@ def audit(root):
             data=tomllib.loads(path.read_text())
             for section in ("dependencies","dev-dependencies","build-dependencies"):
                 for dependency in sorted(data.get(section,{})):
-                    records.append(record("dependency",f"{relative}:{section}:{dependency}",requirements,relative.as_posix()))
+                    records.append(record("dependency",f"{relative}:{section}:{dependency}",requirements,relative.as_posix(),
+                        DEPENDENCY_PURPOSES.get(dependency)))
                     allowed=next((values for prefix,values in CARGO_ALLOWED.items() if relative.as_posix().startswith(prefix)),set())
-                    if dependency not in allowed:unresolved.append(f"untrusted-dependency:{relative}:{dependency}")
+                    if dependency not in allowed or dependency not in DEPENDENCY_PURPOSES:
+                        unresolved.append(f"untrusted-dependency:{relative}:{dependency}")
         if relative.as_posix().startswith("tests/fixtures/"):
             records.append(record("fixture",relative.as_posix(),requirements,relative.as_posix()))
     known={item["id"] for item in contract["requirements"]}
@@ -180,12 +228,17 @@ def audit(root):
     digest=hashlib.sha256()
     for relative in files:
         content=(root/relative).read_bytes();digest.update(relative.encode()+b"\0"+content+b"\0")
+    repository_digest=hashlib.sha256()
+    for relative in sorted(repository_files):
+        repository_digest.update(relative.encode()+b"\0"+(root/relative).read_bytes()+b"\0")
     counts={kind:sum(item["kind"]==kind for item in records) for kind in ("public_interface","branch","dependency","test","fixture")}
     return {"schema_version":1,"runner":{"name":"audit-v2-core","version":1},"scope_digest":digest.hexdigest(),
       "authority_catalog":{value:{key:REQUIREMENT_DETAILS[value][key] for key in
           ("source_authority","source_reference","trigger","shall","boundary","failure","enforcement")}
           for value in sorted({requirement for item in records for requirement in item["requirement_ids"]})},
       "counts":counts,"candidate_file_count":len(files),"unresolved_candidates":sorted(set(unresolved)),
+      "repository_coverage":{"file_count":len(repository_files),"digest":repository_digest.hexdigest(),
+          "self_excluded_artifact":self_artifact},
       "untrusted_candidates":sorted(set(unresolved)),"provider_transcripts":"diagnostic-only","adapter_direct_path_count":sum(value.startswith("forbidden-adapter-path:") for value in unresolved),
       "hardware_profile":{"profile_id":profile.get("profile_id"),"capacity_declared":bool(profile.get("capacity")),"gpu":profile.get("gpu",{}).get("status"),"devices":profile.get("devices")},
       "records":records,"valid":not unresolved}

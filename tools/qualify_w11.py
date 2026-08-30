@@ -19,8 +19,7 @@ def main():
     declaration=json.loads(subprocess.check_output([args.artifact],text=True));digest=hashlib.sha256(args.artifact.read_bytes()).hexdigest()
     proof=behavioral_proof(args.test_dir,{"codex_and_claude_emit_the_same_semantic_abi_and_identity",
       "process_success_prose_and_session_completion_do_not_complete_objective",
-      "capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
-      "model_visible_but_ungranted_capability_is_not_available_to_the_harness",
+      "capability_requests_remain_typed_dispositions_for_current_authority_mediation",
       "only_typed_checkpoint_is_durable_and_provider_diagnostics_are_not_state",
       "cancellation_deadline_and_backend_comparison_preserve_committed_truth"})
     reports={
@@ -31,6 +30,8 @@ def main():
       "same-agent-identity-test":{"outcome":"passed","artifact_sha256":digest,
         "preserved":["agent identity","objective identity","activation identity","grant set","context bundle",
         "effect history","completion contract","activation-set pin","adapter artifact and configuration digest"]}}
+    reports["result"]={"packet":"W11","outcome":"passed","artifact_sha256":digest}
+    for report in reports.values():report["behavioral_test_proof"]=proof
     if args.evidence_dir:
         args.evidence_dir.mkdir(parents=True,exist_ok=True)
         for name,report in reports.items():(args.evidence_dir/f"{name}.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")

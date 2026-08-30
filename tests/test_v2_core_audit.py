@@ -15,6 +15,8 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertEqual(generated,checked);self.assertTrue(generated["valid"])
             self.assertEqual(generated["unresolved_candidates"],[]);self.assertEqual(generated["untrusted_candidates"],[])
             self.assertEqual(generated["adapter_direct_path_count"],0)
+            self.assertGreater(generated["repository_coverage"]["file_count"],generated["candidate_file_count"])
+            self.assertTrue(any(item["kind"]=="repository_unit" and item["identity"]=="flake.nix" for item in generated["records"]))
             self.assertTrue(all(item["requirement_ids"] and item["authority"] for item in generated["records"]))
             for kind in ("public_interface","branch","dependency","test","fixture"): self.assertGreater(generated["counts"][kind],0)
 
@@ -89,6 +91,15 @@ class V2CoreAuditTests(unittest.TestCase):
         finally:
             fixture.unlink();fixture.parent.rmdir()
 
+    def test_unmapped_repository_file_outside_core_fails_closed(self):
+        source=ROOT/"ambient-unknown.unit"
+        try:
+            source.write_text("opaque\n")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("unmapped-repository-unit",result.stdout)
+        finally:
+            if source.exists():source.unlink()
+
     def test_undeclared_dependency_fails_closed(self):
         manifest=ROOT/"crates/habitat-models/Cargo.toml";original=manifest.read_text()
         try:
@@ -100,7 +111,7 @@ class V2CoreAuditTests(unittest.TestCase):
 
     def test_retained_core_evidence_is_backed_by_executed_suites(self):
         expected={"W07/context-conformance-suite.json":6,"W09/structured-disposition-test.json":7,
-            "W10/package-lifecycle-suite.json":4,"W11/cross-backend-conformance-report.json":6}
+            "W10/package-lifecycle-suite.json":4,"W11/cross-backend-conformance-report.json":5}
         for relative,count in expected.items():
             report=json.loads((ROOT/"evidence/work-packets"/relative).read_text())
             proof=report["behavioral_test_proof"]
@@ -108,5 +119,8 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertEqual(proof["outcome"],"passed")
             self.assertEqual(proof["test_count"],count)
             self.assertEqual(len(proof["test_names"]),count)
+        for packet in ("W07","W09","W10","W11"):
+            for report in (ROOT/"evidence/work-packets"/packet).glob("*.json"):
+                self.assertIn("behavioral_test_proof",json.loads(report.read_text()),report)
 
 if __name__=="__main__":unittest.main()

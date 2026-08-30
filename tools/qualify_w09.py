@@ -39,6 +39,8 @@ def main():
         "input_tokens","output_tokens","latency_ms","request_digest"]},
       "protected-audit-test":{"outcome":"passed","artifact_sha256":digest,
         "excluded":["provider credential","prompt content","hidden model reasoning"]}}
+    reports["result"]={"packet":"W09","outcome":"passed","artifact_sha256":digest}
+    for report in reports.values():report["behavioral_test_proof"]=proof
     if args.evidence_dir:
         args.evidence_dir.mkdir(parents=True,exist_ok=True)
         for name,report in reports.items():(args.evidence_dir/f"{name}.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")

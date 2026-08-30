@@ -1,5 +1,16 @@
 {
   "artifact_sha256": "8303d58e30c4de96d0af1b20e052b71d42a9f74db3b5a2394910afbf44db9059",
+  "behavioral_test_proof": {
+    "outcome": "passed",
+    "runner": "rust-test-binaries",
+    "test_count": 4,
+    "test_names": [
+      "dependency_closure_and_behavioral_probe_gate_immutable_activation_set",
+      "replacement_drains_new_binding_while_existing_work_stays_pinned_and_rollback_is_exact",
+      "revocation_and_migration_fail_closed_with_recovery_evidence",
+      "signed_digest_addressed_package_is_admitted_without_granting_authority"
+    ]
+  },
   "outcome": "passed",
   "pinned_generation": true
 }
