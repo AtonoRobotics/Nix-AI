@@ -123,6 +123,10 @@ fn reopening_uses_live_configuration_not_serialized_currentness(){
     authority.issue(parent(),IndependentApproval::verified("operator:1")).unwrap();
     drop(authority);
     let mut reopened=Authority::open(&ledger,"policy:new","generation:02","state:new",200).unwrap();
+    assert_eq!(reopened.advance_time(199),Err(AuthorityError::TimeRollback));
+    let (forged_channel,_forged_peer)=UnixStream::pair().unwrap();
+    assert_eq!(reopened.bind_peer(&forged_channel,&request.machine,
+        &ServiceId::new("service:attacker").unwrap(),&request.activation),Err(AuthorityError::PeerCredential));
     let (reopened_channel,_reopened_peer)=UnixStream::pair().unwrap();
     reopened.bind_peer(&reopened_channel,&request.machine,&request.service,&request.activation).unwrap();
     assert_eq!(reopened.evaluate_peer(&reopened_channel,&request).unwrap().denial_code.as_deref(),Some("STALE"));

@@ -86,7 +86,7 @@ fn recovery_bounded_validity_ordering_and_completion_fail_closed(){
     let (mut authority,invocation,channel,_peer)=authorization(&operation);
     let effect=ledger.propose_authorized_at(operation,&mut authority,&channel,&invocation,true,110).unwrap();
     assert_eq!(ledger.complete_objective("objective:change"),Err(EffectError::ObjectiveEffectsPending));
-    authority.set_current_time(121);
+    authority.advance_time(121).unwrap();
     assert_eq!(ledger.dispatch_authorized_at(&effect.effect_id,Attempt::new("sha256:m",121,"service","transport:m"),
         &mut authority,&channel,&invocation,121),Err(EffectError::ExpiredCommand));
     assert_eq!(ledger.recover(),vec![effect.effect_id]);

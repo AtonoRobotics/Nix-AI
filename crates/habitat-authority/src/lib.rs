@@ -2,7 +2,7 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{collections::{BTreeSet, HashMap, HashSet}, fs, mem, os::fd::AsRawFd,
-    os::unix::net::UnixStream, path::{Path, PathBuf}};
+    os::unix::{fs::MetadataExt,net::UnixStream}, path::{Path, PathBuf}};
 
 macro_rules! identity {
     ($name:ident, $prefix:literal) => {
@@ -25,7 +25,7 @@ identity!(ActivationId, "activation:");
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum AuthorityError {
     IdentityInvalid, InvalidGrant, SelfAuthority, ParentMissing, ParentInactive, AttenuationViolation,
-    BindingLocked, PeerCredential, Storage,
+    BindingLocked, PeerCredential, TimeRollback, Storage,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -125,21 +125,25 @@ impl Decision{
 #[derive(Serialize, Deserialize)]
 pub struct Authority {
     policy:String,generation:String,state_version:String,current_time:u64,
-    #[serde(skip)] peer_binding:Option<PeerBinding>,grants:HashMap<String,Grant>,revoked:HashSet<String>,
+    trusted_peer:Option<TrustedPeer>,#[serde(skip)] peer_binding:Option<PeerBinding>,
+    grants:HashMap<String,Grant>,revoked:HashSet<String>,
     epoch:u64, available:bool, decisions:Vec<Decision>, #[serde(skip)] path:Option<PathBuf>,
 }
+#[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)] struct TrustedPeer { uid:u32,gid:u32,
+    executable:(u64,u64),machine:String,service:String,activation:String }
 #[derive(Clone,Debug)] struct PeerBinding { channel:(u64,u64),pid:i32,uid:u32,gid:u32,
     machine:String,service:String,activation:String }
 impl Authority {
     pub fn new(policy:&str,generation:&str,state_version:&str,current_time:u64)->Self{Self{policy:policy.into(),generation:generation.into(),state_version:state_version.into(),current_time,
-        peer_binding:None,grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
+        trusted_peer:None,peer_binding:None,grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
     pub fn open(path:impl AsRef<Path>,policy:&str,generation:&str,state_version:&str,current_time:u64)->Result<Self,AuthorityError>{
         let path=path.as_ref().to_owned();
         if path.exists(){
             let mut value:Self=serde_json::from_slice(&fs::read(&path).map_err(|_|AuthorityError::Storage)?)
                 .map_err(|_|AuthorityError::Storage)?;
             value.path=Some(path);value.policy=policy.into();value.generation=generation.into();
-            value.state_version=state_version.into();value.current_time=current_time;value.available=true;Ok(value)
+            value.state_version=state_version.into();value.current_time=value.current_time.max(current_time);
+            value.available=true;Ok(value)
         }else{
             let mut value=Self::new(policy,generation,state_version,current_time);value.path=Some(path);Ok(value)
         }
@@ -175,10 +179,24 @@ impl Authority {
         activation:&ActivationId)->Result<(),AuthorityError>{
         if self.peer_binding.is_some(){return Err(AuthorityError::BindingLocked)}
         let (identity,credential)=Self::peer_credentials(channel)?;
+        let executable=fs::metadata(format!("/proc/{}/exe",credential.pid))
+            .map_err(|_|AuthorityError::PeerCredential)?;
+        let observed=TrustedPeer{uid:credential.uid,gid:credential.gid,
+            executable:(executable.dev(),executable.ino()),machine:machine.as_str().into(),
+            service:service.as_str().into(),activation:activation.as_str().into()};
+        match &self.trusted_peer{
+            Some(trusted) if trusted!=&observed=>return Err(AuthorityError::PeerCredential),
+            None if !self.grants.is_empty()=>return Err(AuthorityError::BindingLocked),
+            None=>{self.trusted_peer=Some(observed);self.persist()?},
+            Some(_)=>{}
+        }
         self.peer_binding=Some(PeerBinding{channel:identity,pid:credential.pid,uid:credential.uid,gid:credential.gid,
             machine:machine.as_str().into(),service:service.as_str().into(),activation:activation.as_str().into()});Ok(())
     }
-    pub fn set_current_time(&mut self,value:u64){self.current_time=value}
+    pub fn advance_time(&mut self,value:u64)->Result<(),AuthorityError>{
+        if value<self.current_time{return Err(AuthorityError::TimeRollback)}
+        self.current_time=value;self.persist()
+    }
     pub fn update_state_version(&mut self,value:&str)->Result<(),AuthorityError>{
         self.state_version=value.into();self.persist()
     }
