@@ -21,6 +21,10 @@ ARCHITECTURE_FILES = (
     "14-DECISION-REGISTER.md", "15-TRACEABILITY.md",
     "17-REMEDIATION-RECORD.md", "README.md",
 )
+INTERFACE_SOURCE_SHA256 = {
+    "contracts/proto/nix_ai_agent_v2.proto": "da215a9d709054942d7e898b9cfe9eb2627e461a00c8bbc1f4d31c5915d2cccc",
+    "contracts/proto/nix_ai_authority_effect_v2.proto": "e689e38f38ba1099dd64b58274aa48aa8869369d41c98015d6d01c505d7f550a",
+}
 
 
 def json_bytes(value: object) -> bytes:
@@ -238,6 +242,19 @@ def main() -> int:
         print("stale generated v2 artifacts: " + ", ".join(stale), file=sys.stderr)
         return 1
     if args.check:
+        stale_interfaces = [
+            relative
+            for relative, expected in INTERFACE_SOURCE_SHA256.items()
+            if not (root / relative).is_file()
+            or hashlib.sha256((root / relative).read_bytes()).hexdigest() != expected
+        ]
+        if stale_interfaces:
+            print(
+                "interface sources diverge from the v2 derivation: "
+                + ", ".join(stale_interfaces),
+                file=sys.stderr,
+            )
+            return 1
         from proto_contracts import validate as validate_proto_contracts
 
         validate_proto_contracts(root)

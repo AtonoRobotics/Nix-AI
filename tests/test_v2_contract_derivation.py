@@ -132,6 +132,38 @@ class V2ContractDerivationTests(unittest.TestCase):
                     finally:
                         artifact.write_bytes(original)
 
+    def test_coherent_interface_regeneration_cannot_change_v2_authority(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            clone = Path(temporary) / "repository"
+            shutil.copytree(
+                ROOT,
+                clone,
+                ignore=shutil.ignore_patterns(".git", "target", "__pycache__"),
+            )
+            source = clone / "contracts" / "proto" / "nix_ai_authority_effect_v2.proto"
+            content = source.read_text()
+            self.assertIn("E3 = 4;", content)
+            source.write_text(content.replace("E3 = 4;", "E4 = 4;"))
+            regenerated = subprocess.run(
+                [
+                    sys.executable, str(clone / "tools" / "proto_contracts.py"),
+                    str(clone), "--write",
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(regenerated.returncode, 0, regenerated.stdout + regenerated.stderr)
+            checked = subprocess.run(
+                [
+                    sys.executable, str(clone / "tools" / "derive_v2_contract.py"),
+                    "--root", str(clone), "--check",
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(checked.returncode, 0)
+            self.assertIn("diverge from the v2 derivation", checked.stderr)
+
     def test_v_scope_and_v_contract_pass(self):
         contract = subprocess.run(
             [sys.executable, str(ROOT / "tools" / "validate_contracts.py"), str(ROOT)],
