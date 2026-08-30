@@ -1,7 +1,6 @@
 //! Provider-neutral model activation and structured disposition validation.
 use serde::{Deserialize,Serialize};
 use serde_json::Value;
-use sha2::{Digest,Sha256};
 
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
 #[serde(rename_all="SCREAMING_SNAKE_CASE")]
@@ -74,29 +73,16 @@ impl ModelDriver {
         return Err(ModelError::InvalidEnvelope)}self.status=ActivationStatus::Cancelled;Ok(())}
 }
 
-pub struct CredentialBroker { provider:String,credential:String }
-pub struct TransportRequest { pub endpoint:String,pub authorization:String,pub activation:String,
-    body_digest:String }
-impl CredentialBroker {
-    pub fn new(provider:&str,credential:&str)->Self{Self{provider:provider.into(),credential:credential.into()}}
-    pub fn prepare(&self,endpoint:&str,envelope:&ActivationEnvelope,body:Value)->TransportRequest{
-        let bytes=serde_json::to_vec(&body).unwrap();TransportRequest{endpoint:endpoint.into(),
-            authorization:format!("Bearer {}",self.credential),activation:serde_json::to_string(envelope).unwrap(),
-            body_digest:format!("sha256:{:x}",Sha256::digest(bytes))}
-    }
-    pub fn provider(&self)->&str{&self.provider}
-}
-
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub struct ModelEvidence { pub activation_id:String,pub trace_id:String,pub correlation_id:String,
     pub provider:String,pub model:String,pub provider_request_id:String,pub input_tokens:u64,
     pub output_tokens:u64,pub latency_ms:u64,pub request_digest:String }
 impl ModelEvidence { #[allow(clippy::too_many_arguments)]
     pub fn record(envelope:&ActivationEnvelope,provider:&str,model:&str,request_id:&str,input:u64,
-        output:u64,latency:u64,request:&TransportRequest)->Self{Self{activation_id:envelope.activation_id.clone(),
+        output:u64,latency:u64,request_digest:&str)->Self{Self{activation_id:envelope.activation_id.clone(),
         trace_id:envelope.trace_id.clone(),correlation_id:envelope.correlation_id.clone(),provider:provider.into(),
         model:model.into(),provider_request_id:request_id.into(),input_tokens:input,output_tokens:output,
-        latency_ms:latency,request_digest:request.body_digest.clone()}}
+        latency_ms:latency,request_digest:request_digest.into()}}
 }
 
 pub struct OpenAiAdapter;

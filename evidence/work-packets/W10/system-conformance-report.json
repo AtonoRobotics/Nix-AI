@@ -1,1 +1,5 @@
-{"implementation_commit":"519102d5c50bdd57bcdcd6d8fce5ca05ef67c2cd","outcome":"passed","artifact_sha256":"8303d58e30c4de96d0af1b20e052b71d42a9f74db3b5a2394910afbf44db9059","pinned_generation":true}
+{
+  "artifact_sha256": "8303d58e30c4de96d0af1b20e052b71d42a9f74db3b5a2394910afbf44db9059",
+  "outcome": "passed",
+  "pinned_generation": true
+}

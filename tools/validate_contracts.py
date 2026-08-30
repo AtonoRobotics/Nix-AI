@@ -6,6 +6,7 @@ from __future__ import annotations
 import subprocess
 import sys
 import json
+import tempfile
 from pathlib import Path
 
 
@@ -28,6 +29,12 @@ def main() -> int:
         ROOT,
     )
     run([sys.executable, "tools/schema_contracts.py", "contracts"], ROOT)
+    with tempfile.TemporaryDirectory() as temporary:
+        generated = Path(temporary) / "core-retention-audit.json"
+        run([sys.executable, "tools/audit_v2_core.py", "--root", str(ROOT), "--output", str(generated)], ROOT)
+        checked = ROOT / "evidence" / "v2-rebuild" / "core-retention-audit.json"
+        if generated.read_bytes() != checked.read_bytes():
+            raise SystemExit("checked v2 core retention audit is stale")
     scope = json.loads(
         (ROOT / "evidence" / "v2-rebuild" / "removal-report.json").read_text()
     )
@@ -37,7 +44,7 @@ def main() -> int:
         or scope.get("contaminated_units")
     ):
         raise SystemExit("checked V-SCOPE removal evidence is not clean")
-    print("Immutable v2 contract packages and active projections are valid.")
+    print("Immutable v2 contract packages, active projections, and retained core are valid.")
     return 0
 
 

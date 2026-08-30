@@ -1,1 +1,37 @@
-{"implementation_commit":"028321fb14d9d4205e66b6e322fbb8d630c7860a","outcome":"passed","artifact_sha256":"99403f0774214aea43141c6234253e1fca7eac64eeea2d4f03426094fc139f9c","backends":["direct-model","Codex CLI","Claude Code"],"properties":["same semantic ABI disposition","process exit never implies completion","typed checkpoints only","capability-only provider access","cancellation preserves committed effects","private transcript is non-authoritative"]}
+{
+  "abi": {
+    "abi": "1.0",
+    "backends": [
+      "codex-cli",
+      "claude-code"
+    ],
+    "component": "habitat-harnesses"
+  },
+  "artifact_sha256": "0b256564c43eb531db3440de2cb840c77656eff8bad36fc7bed7cbaef2b35059",
+  "backends": [
+    "direct-model",
+    "Codex CLI",
+    "Claude Code"
+  ],
+  "behavioral_test_proof": {
+    "outcome": "passed",
+    "runner": "rust-test-binaries",
+    "test_count": 5,
+    "test_names": [
+      "cancellation_deadline_and_backend_comparison_preserve_committed_truth",
+      "capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
+      "codex_and_claude_emit_the_same_semantic_abi_and_identity",
+      "only_typed_checkpoint_is_durable_and_transcript_is_disposable",
+      "process_success_prose_and_session_completion_do_not_complete_objective"
+    ]
+  },
+  "outcome": "passed",
+  "properties": [
+    "same semantic ABI disposition",
+    "process exit never implies completion",
+    "typed checkpoints only",
+    "capability-only provider access",
+    "cancellation preserves committed effects",
+    "private transcript is non-authoritative"
+  ]
+}

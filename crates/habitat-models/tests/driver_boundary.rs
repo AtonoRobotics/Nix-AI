@@ -43,14 +43,11 @@ fn cancellation_and_deadline_are_classified_without_implicit_completion(){
 }
 
 #[test]
-fn credential_exists_only_at_transport_boundary_and_evidence_is_protected(){
-    let broker=CredentialBroker::new("openai","sk-secret-value");
-    let request=broker.prepare("https://api.openai.com/v1/responses",&envelope(),json!({"input":"private prompt"}));
-    assert_eq!(request.authorization,"Bearer sk-secret-value");
-    assert!(!request.activation.contains("sk-secret-value"));
-    let evidence=ModelEvidence::record(&envelope(),"openai","gpt-5","provider-request:9",10,4,37,&request);
+fn cognition_evidence_is_digest_only_and_contains_no_transport_secret_or_prompt(){
+    let evidence=ModelEvidence::record(&envelope(),"openai","gpt-5","provider-request:9",10,4,37,
+        "sha256:0000000000000000000000000000000000000000000000000000000000000009");
     let encoded=serde_json::to_string(&evidence).unwrap();
     assert!(encoded.contains("trace:9")&&encoded.contains("correlation:9"));
-    assert!(!encoded.contains("sk-secret-value")&&!encoded.contains("private prompt"));
+    assert!(!encoded.contains("secret")&&!encoded.contains("private prompt"));
     assert!(evidence.request_digest.starts_with("sha256:"));
 }

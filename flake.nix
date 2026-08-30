@@ -129,6 +129,10 @@
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-context" ];
         cargoTestFlags = [ "-p" "habitat-context" ];
+        postInstall = ''
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable \( -name 'compiler-*' -o -name 'faults-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
+        '';
       };
       habitatEffects = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-effects";
@@ -149,6 +153,22 @@
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-models" ];
         cargoTestFlags = [ "-p" "habitat-models" ];
+        postInstall = ''
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable \( -name 'driver_boundary-*' -o -name 'provider_replacement-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
+        '';
+      };
+      habitatProviderTransport = pkgs.rustPlatform.buildRustPackage {
+        pname = "habitat-provider-transport";
+        version = "0.1.0";
+        src = ./.;
+        cargoLock.lockFile = ./Cargo.lock;
+        cargoBuildFlags = [ "-p" "habitat-provider-transport" ];
+        cargoTestFlags = [ "-p" "habitat-provider-transport" ];
+        postInstall = ''
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable -name 'credential_boundary-*' -exec cp {} "$out/libexec/nix-ai-tests/" \;
+        '';
       };
       habitatPackages = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-packages";
@@ -157,6 +177,10 @@
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-packages" ];
         cargoTestFlags = [ "-p" "habitat-packages" ];
+        postInstall = ''
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable \( -name 'admission-*' -o -name 'lifecycle-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
+        '';
       };
       habitatHarnesses = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-harnesses";
@@ -165,6 +189,10 @@
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-harnesses" ];
         cargoTestFlags = [ "-p" "habitat-harnesses" ];
+        postInstall = ''
+          mkdir -p "$out/libexec/nix-ai-tests"
+          find target -type f -executable \( -name 'backend_conformance-*' -o -name 'runtime_boundary-*' \) -exec cp {} "$out/libexec/nix-ai-tests/" \;
+        '';
       };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
@@ -202,7 +230,8 @@
         name = "qualify-w07";
         runtimeInputs = [ habitatContext python validateContracts ];
         text = ''
-          exec ${python}/bin/python ${./tools/qualify_w07.py} --root ${self} --artifact ${habitatContext}/bin/habitat-context "$@"
+          exec ${python}/bin/python ${./tools/qualify_w07.py} --root ${self} --artifact ${habitatContext}/bin/habitat-context \
+            --test-dir ${habitatContext}/libexec/nix-ai-tests "$@"
         '';
       };
       qualifyW08 = pkgs.writeShellApplication {
@@ -218,21 +247,24 @@
         name = "qualify-w09";
         runtimeInputs = [ habitatModels python validateContracts ];
         text = ''
-          exec ${python}/bin/python ${./tools/qualify_w09.py} --root ${self} --artifact ${habitatModels}/bin/habitat-models "$@"
+          exec ${python}/bin/python ${./tools/qualify_w09.py} --root ${self} --artifact ${habitatModels}/bin/habitat-models \
+            --test-dir ${habitatModels}/libexec/nix-ai-tests --transport-test-dir ${habitatProviderTransport}/libexec/nix-ai-tests "$@"
         '';
       };
       qualifyW10 = pkgs.writeShellApplication {
         name = "qualify-w10";
         runtimeInputs = [ habitatPackages python validateContracts ];
         text = ''
-          exec ${python}/bin/python ${./tools/qualify_w10.py} --root ${self} --artifact ${habitatPackages}/bin/habitat-packages "$@"
+          exec ${python}/bin/python ${./tools/qualify_w10.py} --root ${self} --artifact ${habitatPackages}/bin/habitat-packages \
+            --test-dir ${habitatPackages}/libexec/nix-ai-tests "$@"
         '';
       };
       qualifyW11 = pkgs.writeShellApplication {
         name = "qualify-w11";
         runtimeInputs = [ habitatHarnesses python validateContracts ];
         text = ''
-          exec ${python}/bin/python ${./tools/qualify_w11.py} --root ${self} --artifact ${habitatHarnesses}/bin/habitat-harnesses "$@"
+          exec ${python}/bin/python ${./tools/qualify_w11.py} --root ${self} --artifact ${habitatHarnesses}/bin/habitat-harnesses \
+            --test-dir ${habitatHarnesses}/libexec/nix-ai-tests "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -438,6 +470,7 @@
         habitat-context = habitatContext;
         habitat-effects = habitatEffects;
         habitat-models = habitatModels;
+        habitat-provider-transport = habitatProviderTransport;
         habitat-packages = habitatPackages;
         habitat-harnesses = habitatHarnesses;
       };
