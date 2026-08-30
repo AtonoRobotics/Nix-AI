@@ -37,6 +37,13 @@
           exec ${python}/bin/python ${./tools/proto_contracts.py} ${self} --write
         '';
       };
+      qualifyW00 = pkgs.writeShellApplication {
+        name = "qualify-w00";
+        runtimeInputs = contractTools;
+        text = ''
+          exec ${python}/bin/python ${./tools/qualify_w00.py} ${self}
+        '';
+      };
     in {
       apps.${system} = {
         validate-contracts = {
@@ -49,19 +56,32 @@
           program = "${generateProto}/bin/generate-proto";
           meta.description = "Regenerate descriptor and Rust Protobuf bindings";
         };
+        qualify = {
+          type = "app";
+          program = "${qualifyW00}/bin/qualify-w00";
+          meta.description = "Run every qualification gate applicable to W00";
+        };
       };
 
-      checks.${system}.contracts = pkgs.runCommand "habitat-contract-validation" {
-        nativeBuildInputs = [ validateContracts ];
-      } ''
-        validate-contracts
-        touch "$out"
-      '';
+      checks.${system} = {
+        contracts = pkgs.runCommand "habitat-contract-validation" {
+          nativeBuildInputs = [ validateContracts ];
+        } ''
+          validate-contracts
+          touch "$out"
+        '';
+        w00-qualification = pkgs.runCommand "habitat-w00-qualification" {
+          nativeBuildInputs = [ qualifyW00 ];
+        } ''
+          qualify-w00
+          touch "$out"
+        '';
+      };
 
       formatter.${system} = pkgs.nixfmt;
 
       devShells.${system}.default = pkgs.mkShell {
-        packages = contractTools ++ [ validateContracts ];
+        packages = contractTools ++ [ validateContracts qualifyW00 ];
       };
     };
 }

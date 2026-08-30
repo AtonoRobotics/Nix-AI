@@ -1,0 +1,37 @@
+{
+  "blockers": [],
+  "commands_executed": [
+    "nix run .#apps.x86_64-linux.qualify",
+    "nix flake check --show-trace"
+  ],
+  "evidence_digests": {
+    "contract-validation-report": "sha256:67e7e0d9439691fe3fe018f8f82dfb33e87caaa5f7fabd8fcf6f58fd8de1a938",
+    "generation-no-diff-report": "sha256:7f1a2631b3b3e87681a56ddbe98fdf211cfa680cb56c7381c04f2cf10380d634",
+    "provenance": "sha256:c37034ecbe65fc475ea9babf8c3174fda9bc82653eae452d045d0a90115e4035",
+    "sbom": "sha256:3615f2b96adc08c2661484b4dab17e8d6eb8be8e24b9efd58e3bb293f097883f"
+  },
+  "packet_id": "W00",
+  "qualified_profiles": [],
+  "requirement_coverage": [
+    "BLD-001",
+    "BLD-002",
+    "BLD-004",
+    "BLD-009",
+    "BLD-010",
+    "GOV-001",
+    "GOV-002",
+    "GOV-003",
+    "GOV-004",
+    "GOV-005",
+    "GOV-006"
+  ],
+  "skipped_gates": [],
+  "source_commit": "5ce60199e6a33978596bbde364f61987f645ff29",
+  "source_lock_digest": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5",
+  "status": "passed",
+  "system_generation_id": null,
+  "test_counts": {
+    "automated": 18,
+    "failed": 0
+  }
+}

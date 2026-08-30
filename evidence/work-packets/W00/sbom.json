@@ -1,0 +1,23 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "comment": "Qualified source tree sha256:7b8b340fac60e44e85acca52dac861c899da499374fd83d4cdf9396d917d9ff1; tool closure is locked by flake.lock.",
+  "creationInfo": {
+    "created": "2026-08-29T00:00:00Z",
+    "creators": [
+      "Tool: apps.x86_64-linux.qualify"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://habitat.invalid/spdx/W00/5ce60199e6a33978596bbde364f61987f645ff29",
+  "name": "Habitat-W00-contract-toolchain",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-nixpkgs",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "name": "nixpkgs",
+      "versionInfo": "d57af924f160a5084293c71c2043f058bd1cdb60"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

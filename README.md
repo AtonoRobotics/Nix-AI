@@ -29,3 +29,13 @@ Regenerate the checked-in artifacts after an intentional ABI change with:
 ```console
 nix run .#generate-proto
 ```
+
+Run the complete W00 qualification, including from-source regeneration in a
+temporary workspace and checked packet-evidence validation, with:
+
+```console
+nix run .#apps.x86_64-linux.qualify
+```
+
+Qualification never rewrites the checkout. Digest-addressed reports and the
+packet result are retained under `evidence/work-packets/W00/`.

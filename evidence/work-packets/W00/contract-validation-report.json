@@ -1,0 +1,13 @@
+{
+  "command": "nix run .#apps.x86_64-linux.qualify",
+  "gate": "V-CONTRACT",
+  "outcome": "passed",
+  "source_commit": "5ce60199e6a33978596bbde364f61987f645ff29",
+  "validated": [
+    "bundle manifests",
+    "JSON Schemas",
+    "Protobuf ABI and bindings",
+    "requirement traceability",
+    "work-packet graph"
+  ]
+}

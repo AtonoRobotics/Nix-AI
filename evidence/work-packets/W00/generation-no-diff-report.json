@@ -1,0 +1,14 @@
+{
+  "command": "nix run .#apps.x86_64-linux.qualify",
+  "outcome": "passed",
+  "regenerated": [
+    "CODEX-BUILD-SPEC.md",
+    "contracts/architecture",
+    "contracts/proto",
+    "contracts/schemas",
+    "contracts canonical registries",
+    "generated/proto"
+  ],
+  "result": "byte-for-byte identical",
+  "source_commit": "5ce60199e6a33978596bbde364f61987f645ff29"
+}

@@ -1,0 +1,10 @@
+{
+  "builder": "apps.x86_64-linux.qualify",
+  "materials": [
+    "flake.lock",
+    "Habitat-OS-Codex-Build-Bundle-v1.1"
+  ],
+  "source_commit": "5ce60199e6a33978596bbde364f61987f645ff29",
+  "source_lock_digest": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5",
+  "source_tree_digest": "sha256:7b8b340fac60e44e85acca52dac861c899da499374fd83d4cdf9396d917d9ff1"
+}
