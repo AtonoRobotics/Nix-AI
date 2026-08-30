@@ -52,7 +52,7 @@ AMBIENT_EXEMPT={
 SECRET_REFERENCE=re.compile(r"(?:std::env::var|os\.environ(?:\.get)?|\$\{?|secrets\.)[^\n]{0,120}(?:key|token|secret|password)|(?:key|token|secret|password)[^\n]{0,120}(?:std::env::var|os\.environ(?:\.get)?|secrets\.)",re.I)
 EXTERNAL_EFFECT=re.compile(r"std::(?:net|process|env)|Command::new|/dev/tcp|os\.environ|os\.system|subprocess|socket\.|urllib|requests?\.|python\s+(?:-[A-Za-z]*c\b|-c\b)|\bcurl\b|\bwget\b|\bnc\b|\bnetcat\b|\bsocat\b|reqwest|TcpStream",re.I)
 COMBINED_EXEMPT={"tools/qualify_w02.py","tools/qualify_w06.py"}
-PROVIDER_FORBIDDEN=re.compile(r"\bstd::|\bcore::|\bunsafe\b|\bextern\b|\basm!|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|Authorization|Bearer",re.I)
+PROVIDER_FORBIDDEN=re.compile(r"\bstd::|\bcore::|\bunsafe\b|\bextern\b|\b(?:global_)?asm!|\b(?:option_env|env|include|include_bytes)!|Command::new|/dev/tcp|os\.environ|subprocess|socket\.|reqwest|Authorization|Bearer",re.I)
 PROVIDER_IMPORTS={"serde_json","sha2","habitat_provider_transport"}
 RUST_QUALIFIERS=r"(?:(?:async|const|unsafe)\s+|extern\s+\"[^\"]+\"\s+)*"
 API=re.compile(rf"\bpub(?:\([^)]*\))?\s+{RUST_QUALIFIERS}(?:struct|enum|trait|type|const|static|mod|fn)\s+([A-Za-z_][A-Za-z0-9_]*)")
@@ -175,6 +175,8 @@ def audit(root):
             unresolved.append(f"unsupported-core-source-class:{relative}")
         if relative.as_posix().startswith("src/") and suffix!=".py":
             unresolved.append(f"unsupported-core-source-class:{relative}")
+        if relative.as_posix().startswith("tools/") and suffix!=".py":
+            unresolved.append(f"unsupported-semantic-source-class:{relative}")
         try: content=path.read_text()
         except UnicodeDecodeError:
             content=""

