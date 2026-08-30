@@ -46,15 +46,15 @@ fn cancellation_and_compensation_preserve_truthful_distinct_histories(){
 }
 
 #[test]
-fn recovery_physical_validity_ordering_and_completion_fail_closed(){
+fn recovery_bounded_validity_ordering_and_completion_fail_closed(){
     let mut ledger=ledger(); ledger.register_provider(ProviderContract::reconcilable(
-        "robot",ReconciliationMode::TargetState,ConsequenceClass::E4));
-    let mut motion=EffectProposal::new("command:m","activation:1","objective:motion","robot.motion","move",
-        "robot:1","sha256:motion","intent:motion:0001",ConsequenceClass::E4,120);
-    motion=motion.physical("safety-envelope:7",100,120,true).ordered("robot:1",1);
-    let effect=ledger.propose_at(motion,Admission::allow("decision:m",true),110).unwrap();
-    assert_eq!(ledger.complete_objective("objective:motion"),Err(EffectError::ObjectiveEffectsPending));
-    assert_eq!(ledger.dispatch_at(&effect.effect_id,Attempt::new("sha256:m",121,"robot","transport:m"),121),Err(EffectError::ExpiredPhysicalCommand));
+        "service",ReconciliationMode::TargetState,ConsequenceClass::E4));
+    let mut operation=EffectProposal::new("command:m","activation:1","objective:change","service.change","apply",
+        "resource:1","sha256:change","intent:change:0001",ConsequenceClass::E4,120);
+    operation=operation.bounded("constraint:7",100,120,true).ordered("resource:1",1);
+    let effect=ledger.propose_at(operation,Admission::allow("decision:m",true),110).unwrap();
+    assert_eq!(ledger.complete_objective("objective:change"),Err(EffectError::ObjectiveEffectsPending));
+    assert_eq!(ledger.dispatch_at(&effect.effect_id,Attempt::new("sha256:m",121,"service","transport:m"),121),Err(EffectError::ExpiredCommand));
     assert_eq!(ledger.recover(),vec![effect.effect_id]);
 }
 

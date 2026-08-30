@@ -55,8 +55,6 @@ Compensation is a new EffectInstance linked by `compensates_effect_id`. It SHALL
 
 **EFF-010 — Recovery.** Bootstrap SHALL classify every nonterminal effect before dependent objectives resume.
 
-**EFF-011 — Physical effect.** Robot and device effects SHALL include safety-envelope identity, command validity interval and controller acknowledgement. Expired motion commands SHALL never be replayed.
-
 **EFF-012 — Completion coupling.** An objective SHALL NOT be marked satisfied while a required effect remains nonterminal or outcome-unknown.
 
 ## 5. Consequence classes
@@ -67,7 +65,6 @@ Compensation is a new EffectInstance linked by `compensates_effect_id`. It SHALL
 | E1 | Reversible local state | Transaction or verified rollback |
 | E2 | External communication or record mutation | Stable idempotency plus reconciliation |
 | E3 | Financial, legal, production activation | Independent outcome evidence and stronger authority |
-| E4 | Physical actuation | Independent safety enforcement, bounded validity and observed controller state |
+| E4 | Irreversible external consequence | Independent authorization, bounded validity and observed external state |
 
 Providers SHALL NOT advertise a consequence class they cannot reconcile and evidence.
-

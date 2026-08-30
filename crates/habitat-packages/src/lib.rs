@@ -51,8 +51,7 @@ pub struct PackageRecord { pub manifest:PackageManifest,pub state:ProviderState,
     pub provider_authority:bool,pub agent_authority:bool }
 #[derive(Debug,PartialEq,Eq)] pub enum PackageError { PublisherUntrusted,PublisherRevoked,SignatureInvalid,
     MutableArtifact,SupplyChainIncomplete,PackageMissing,DependencyUnresolved,HostRequirementMissing,
-    LiveVerificationRequired,BehavioralProbeFailed,NoActiveSet,NoRollback,DestructiveMigrationUnproven,
-    CordisBoundaryViolation }
+    LiveVerificationRequired,BehavioralProbeFailed,NoActiveSet,NoRollback,DestructiveMigrationUnproven }
 
 #[derive(Clone,Debug,PartialEq,Eq)] pub struct HostProfile { hardware:BTreeSet<String>,isolation:BTreeSet<String> }
 impl HostProfile { pub fn new(hardware:&[&str],isolation:&[&str])->Self{Self{
@@ -71,13 +70,6 @@ pub struct ActivationSet { pub id:String,pub entries:Vec<ActivationEntry>,pub ve
 #[derive(Clone,Debug,PartialEq,Eq)] pub struct MigrationContract { pub from:String,pub to:String,
     pub direction:MigrationDirection,pub interruption:String,pub rollback_limit:String,
     pub destructive:bool,pub evidence:Option<String> }
-#[derive(Clone,Copy,Debug,PartialEq,Eq)] pub enum CordisOperation { RegisterInProcess,CleanupInProcess,
-    ExternalEffect,DurablePackageAdmission,OsGenerationRollback }
-pub struct CordisBoundary;
-impl CordisBoundary { pub fn validate(operation:CordisOperation)->Result<(),PackageError>{match operation{
-    CordisOperation::RegisterInProcess|CordisOperation::CleanupInProcess=>Ok(()),
-    _=>Err(PackageError::CordisBoundaryViolation)}}}
-
 pub struct PackageController { trust:TrustStore,packages:BTreeMap<String,PackageRecord>,
     verified:HashMap<String,String>,current:Option<ActivationSet>,history:Vec<ActivationSet>,
     bindings:HashMap<String,WorkBinding> }

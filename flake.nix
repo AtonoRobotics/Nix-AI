@@ -158,14 +158,6 @@
         cargoBuildFlags = [ "-p" "habitat-harnesses" ];
         cargoTestFlags = [ "-p" "habitat-harnesses" ];
       };
-      habitatSimulation = pkgs.rustPlatform.buildRustPackage {
-        pname = "habitat-simulation";
-        version = "0.1.0";
-        src = ./.;
-        cargoLock.lockFile = ./Cargo.lock;
-        cargoBuildFlags = [ "-p" "habitat-simulation" ];
-        cargoTestFlags = [ "-p" "habitat-simulation" ];
-      };
       qualifyW03 = pkgs.writeShellApplication {
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
@@ -230,13 +222,6 @@
         runtimeInputs = [ habitatHarnesses python validateContracts ];
         text = ''
           exec ${python}/bin/python ${./tools/qualify_w11.py} --root ${self} --artifact ${habitatHarnesses}/bin/habitat-harnesses "$@"
-        '';
-      };
-      qualifyW12 = pkgs.writeShellApplication {
-        name = "qualify-w12";
-        runtimeInputs = [ habitatSimulation python validateContracts ];
-        text = ''
-          exec ${python}/bin/python ${./tools/qualify_w12.py} --root ${self} --artifact ${habitatSimulation}/bin/habitat-simulation "$@"
         '';
       };
       habitatClosure = pkgs.closureInfo {
@@ -428,11 +413,6 @@
           program = "${qualifyW11}/bin/qualify-w11";
           meta.description = "Run W11 Codex and Claude harness conformance";
         };
-        test-w12 = {
-          type = "app";
-          program = "${qualifyW12}/bin/qualify-w12";
-          meta.description = "Run W12 Omniverse and Isaac provider qualification";
-        };
       };
 
       packages.${system} = {
@@ -449,15 +429,9 @@
         habitat-models = habitatModels;
         habitat-packages = habitatPackages;
         habitat-harnesses = habitatHarnesses;
-        habitat-simulation = habitatSimulation;
       };
 
       checks.${system} = {
-        w12-qualification = pkgs.runCommand "habitat-w12-qualification" {
-          nativeBuildInputs = [ qualifyW12 ];
-        } ''
-          qualify-w12 --evidence-dir "$out"
-        '';
         w11-qualification = pkgs.runCommand "habitat-w11-qualification" {
           nativeBuildInputs = [ qualifyW11 ];
         } ''
@@ -511,7 +485,7 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
-          qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 qualifyW12 habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses habitatSimulation ];
+          qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses ];
       };
     };
 }

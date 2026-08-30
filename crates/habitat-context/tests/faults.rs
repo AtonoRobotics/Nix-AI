@@ -34,7 +34,7 @@ fn faults_reject_stale_forbidden_nonmaterial_and_recursive_requests(){
     let base=compiler.compile("activation:1","objective:1",None,vec![]).unwrap();
     let broker=Broker{max_depth:2};
     assert_eq!(broker.resolve(&compiler,&base,&request(),item("old","db",99)),Err(ContextError::StaleRequired));
-    let mut forbidden=request(); forbidden.allowed_sources=vec!["sensor".into()];
+    let mut forbidden=request(); forbidden.allowed_sources=vec!["source:forbidden".into()];
     assert_eq!(broker.resolve(&compiler,&base,&forbidden,item("fact","db",200)),Err(ContextError::SourceForbidden));
     let mut nonmaterial=request(); nonmaterial.materiality.clear();
     assert_eq!(nonmaterial.validate(2),Err(ContextError::NonMaterial));

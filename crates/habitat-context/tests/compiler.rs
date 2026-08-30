@@ -7,7 +7,7 @@ fn bundle_is_immutable_provenance_bearing_and_separates_truth_classes() {
         ContextItem::new("state:7", TruthClass::AuthoritativeState, "agent available",
             Provenance::new("postgres:agents", "7", 990, 1_100), true),
         ContextItem::new("obs:2", TruthClass::RawObservation, "temperature 42",
-            Provenance::new("sensor:thermal", "2", 995, 1_010), true),
+            Provenance::new("source:opaque", "2", 995, 1_010), true),
         ContextItem::new("claim:3", TruthClass::InterpretedClaim, "likely nominal",
             Provenance::new("model:summary", "3", 996, 1_005), false),
     ];

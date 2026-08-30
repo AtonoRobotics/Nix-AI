@@ -24,15 +24,15 @@ Schema and prose conflicts are release blockers. Neither silently overrides the 
 - Durable agents, objectives, activations, context, capabilities and effects.
 - Native and compatibility execution backends.
 - Governed self-change, system generations and rollback.
-- Server, workstation, edge, simulation and physical-AI hardware profiles.
+- Domain-neutral hardware profiles with explicit supported and absent features.
 - Autonomous operation without an active human session.
 
 ### Out of scope
 
 - Reimplementing the Linux kernel.
-- Reimplementing real-time motor control or hardware safety controllers.
+- Reimplementing device-specific control or external safety systems.
 - Embedding domain-specific business behavior in the Habitat core.
-- Requiring one model, harness, GPU brand, robot brand, cloud or connector.
+- Requiring one model, harness, hardware brand, cloud or connector.
 - Treating model chain-of-thought as authoritative state or required evidence.
 
 ## 3. Actors
@@ -44,7 +44,6 @@ Schema and prose conflicts are release blockers. Neither silently overrides the 
 | Activation principal | Short-lived identity derived for one bounded activation |
 | Human principal | Authenticated operator or authority holder |
 | Service principal | Deterministic service or capability provider identity |
-| Robot principal | Authenticated embodied system or controller identity |
 | External principal | Remote provider or system outside Habitat trust |
 
 ## 4. Change classification
@@ -56,7 +55,6 @@ Schema and prose conflicts are release blockers. Neither silently overrides the 
 | C2 capability | Tool provider, connector, model driver | Package build, evaluation, signing and activation separation |
 | C3 governor | Capability policy, effect admission, evidence protection | Independent governor-change authority |
 | C4 system | Kernel, driver, Habitat bootstrap, recovery generation | System-generation authority and boot rollback proof |
-| C5 physical safety | Safety limits, stop authority, drive firmware | External safety authority; never model-only approval |
 
 ## 5. Requirement governance
 

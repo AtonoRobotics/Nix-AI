@@ -172,7 +172,7 @@ impl Authority {
             else if !g.operations.contains(&request.operation){(Some(g),Some("OPERATION_DENIED"))}
             else if !request.target.starts_with(&g.target_prefix){(Some(g),Some("TARGET_DENIED"))}
             else if request.enforcement.as_ref().map(|p|p.verified).unwrap_or(false)==false
-                && request.operation!="read"{(Some(g),Some("PHYSICAL_ENFORCEMENT_UNVERIFIED"))}
+                && request.operation!="read"{(Some(g),Some("ENFORCEMENT_UNVERIFIED"))}
             else{(Some(g),None)}
         }else{(None,Some("NO_GRANT"))};
         let mut decision=Decision{decision_id:String::new(),allowed:code.is_none(),

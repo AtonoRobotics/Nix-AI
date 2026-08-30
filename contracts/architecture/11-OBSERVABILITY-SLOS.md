@@ -18,7 +18,7 @@ Telemetry assists diagnosis. Telemetry alone is not acceptance evidence unless t
 - provider health and activation-set availability;
 - evidence-store integrity and lag;
 - recovery and rollback actions;
-- security and physical-safety observations.
+- security observations.
 
 ## 3. Normative requirements
 
@@ -43,7 +43,7 @@ These are reference acceptance thresholds and may be tightened by a hardware pro
 | Durable wake loss | 0 under tested single-fault scenarios |
 | Duplicate committed effect from duplicate command | 0 |
 | Unauthorized capability success | 0 |
-| Stale physical command accepted | 0 |
+| Stale consequential request accepted | 0 |
 | Boot rollback after unconfirmed generation | 100% within profile deadline |
 | Agent continuity across supported backend replacement | 100% in conformance cases |
 | Authority decision attribution | 100% |
@@ -59,5 +59,4 @@ Health has four levels:
 - `COHERENT`: invariants satisfied and critical services available.
 - `DEGRADED`: operation continues within explicitly reduced capabilities.
 - `RECOVERY`: autonomous recovery is active; new consequential work may be restricted.
-- `UNSAFE_OR_UNKNOWN`: required authority, evidence or physical state is unavailable; relevant operations fail closed.
-
+- `UNSAFE_OR_UNKNOWN`: required authority, evidence or external state is unavailable; relevant operations fail closed.

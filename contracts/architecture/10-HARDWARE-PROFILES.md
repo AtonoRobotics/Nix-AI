@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-Brand and domain neutrality are provided by a stable Habitat ABI over qualified hardware profiles, not by assuming identical kernels, drivers or safety characteristics.
+Brand and domain neutrality are provided by a stable Habitat ABI over qualified generic hardware profiles, not by assuming identical kernels or drivers.
 
 ## 2. Required profile fields
 
@@ -17,16 +17,14 @@ Brand and domain neutrality are provided by a stable Habitat ABI over qualified 
 - network interfaces and time source;
 - power, thermal and watchdog capabilities;
 - supported execution runtimes;
-- physical safety boundary when applicable;
 - capacity limits and qualification evidence.
 
 ## 3. Reference profiles
 
 1. `qemu-x86_64-conformance`: deterministic boot, interruption and rollback tests.
-2. `generic-x86_64-nvidia`: GPU model execution, OCI, KVM and simulation workloads.
-3. `nvidia-agx-thor`: Jetson BSP, ROS, devices and physical-AI edge behavior.
+2. `generic-x86_64-accelerated`: optional accelerator model execution, OCI and KVM workloads.
 
-Additional profiles MAY include generic ARM64, AMD ROCm, cloud VM and dedicated robot-controller targets.
+Additional profiles MAY include generic ARM64, accelerated hosts and cloud VMs.
 
 ## 4. Normative requirements
 
@@ -45,16 +43,4 @@ Additional profiles MAY include generic ARM64, AMD ROCm, cloud VM and dedicated 
 **HWP-007 — Recovery proof.** Each profile SHALL prove boot into a known-good generation after a deliberately defective candidate.
 
 **HWP-008 — Vendor capsule.** Vendor applications MAY use compatibility containers, but the host retains Habitat identity, authority and generation control.
-
-## 5. Physical-AI profile requirements
-
-Physical profiles additionally declare:
-
-- controller and safety-plane identities;
-- command transport and timing bounds;
-- emergency-stop observation;
-- clock synchronization limits;
-- device reset and reconnection semantics;
-- safe degraded state;
-- evidence obtainable independently of the planning agent.
 

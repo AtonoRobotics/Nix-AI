@@ -21,7 +21,6 @@ The operating system is not a conventional Linux distribution with an agent appl
 7. **Pinned composition:** Work shall execute against an immutable activation graph and shall not silently rebind when a provider changes.
 8. **Independent evidence:** Completion and recovery claims shall be supported by evidence not solely produced or controlled by the actor making the claim.
 9. **Bounded self-change:** Agents may propose and, when pre-authorized, promote changes; they shall not combine change, evaluation, signing, activation, and evidence authority in one principal.
-10. **Physical safety independence:** Model cognition shall never be the final enforcement boundary for actuator safety.
 
 ## Package map
 
@@ -36,7 +35,7 @@ The operating system is not a conventional Linux distribution with an agent appl
 | `06-CONTEXT.md` | Context compilation, semantic context faults, skills and provenance |
 | `07-CAPABILITY-PACKAGES.md` | Signed extension packages, runtime kinds, dependency graphs and activation |
 | `08-SYSTEM-GENERATIONS.md` | Nix-built OS generations, boot confirmation, migration and rollback |
-| `09-THREAT-SAFETY.md` | Threat model, security boundaries, prompt injection and physical safety |
+| `09-THREAT-SAFETY.md` | Threat model, security boundaries and prompt injection |
 | `10-HARDWARE-PROFILES.md` | Hardware qualification and invariant Habitat ABI across platforms |
 | `11-OBSERVABILITY-SLOS.md` | Evidence, telemetry, health, SLOs and operational diagnosis |
 | `12-VERIFICATION-MATRIX.md` | Required nominal, failure, adversarial and recovery acceptance evidence |

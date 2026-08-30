@@ -276,16 +276,6 @@ requirements:
     gates: [V-CAPABILITY]
     evidence: ["authorization-negative-suite", "attenuation-property-test"]
     acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: AUT-008
-    title: "Physical enforcement"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:56"
-    criticality: critical
-    owner_packet: W04
-    implementation: "crates/habitat-authority"
-    enforcement: "complete mediation and attenuating grant evaluator"
-    gates: [V-CAPABILITY]
-    evidence: ["authorization-negative-suite", "attenuation-property-test"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
   - id: AUT-009
     title: "Self-authority prohibition"
     source: "Habitat-OS-Architecture-Contracts-v1.1/04-AUTHORITY-CAPABILITIES.md:58"
@@ -619,16 +609,6 @@ requirements:
   - id: EFF-010
     title: "Recovery"
     source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:56"
-    criticality: critical
-    owner_packet: W08
-    implementation: "crates/habitat-effects"
-    enforcement: "transactional reservation and durable effect ledger"
-    gates: [V-EFFECT]
-    evidence: ["effect-fault-matrix", "unknown-outcome-test"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: EFF-011
-    title: "Physical effect"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/05-EFFECTS.md:58"
     criticality: critical
     owner_packet: W08
     implementation: "crates/habitat-effects"
@@ -1026,16 +1006,6 @@ requirements:
     gates: [V-PACKAGE]
     evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
     acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: PKG-009
-    title: "Cordis boundary"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:60"
-    criticality: release
-    owner_packet: W10
-    implementation: "crates/habitat-packages"
-    enforcement: "signed package admission and immutable activation sets"
-    gates: [V-PACKAGE]
-    evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
   - id: PKG-010
     title: "Supply chain"
     source: "Habitat-OS-Architecture-Contracts-v1.1/07-CAPABILITY-PACKAGES.md:62"
@@ -1045,56 +1015,6 @@ requirements:
     enforcement: "signed package admission and immutable activation sets"
     gates: [V-PACKAGE]
     evidence: ["package-lifecycle-suite", "pin-and-drain-test"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: SAF-001
-    title: "Independent stop"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:53"
-    criticality: critical
-    owner_packet: W13
-    implementation: "crates/habitat-physical"
-    enforcement: "independent controller safety and expiring physical effects"
-    gates: [V-PHYSICAL]
-    evidence: ["physical-safety-suite", "independent-stop-report"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: SAF-002
-    title: "Bounded commands"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:55"
-    criticality: critical
-    owner_packet: W13
-    implementation: "crates/habitat-physical"
-    enforcement: "independent controller safety and expiring physical effects"
-    gates: [V-PHYSICAL]
-    evidence: ["physical-safety-suite", "independent-stop-report"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: SAF-003
-    title: "No stale replay"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:57"
-    criticality: critical
-    owner_packet: W13
-    implementation: "crates/habitat-physical"
-    enforcement: "independent controller safety and expiring physical effects"
-    gates: [V-PHYSICAL]
-    evidence: ["physical-safety-suite", "independent-stop-report"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: SAF-004
-    title: "State uncertainty"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:59"
-    criticality: critical
-    owner_packet: W13
-    implementation: "crates/habitat-physical"
-    enforcement: "independent controller safety and expiring physical effects"
-    gates: [V-PHYSICAL]
-    evidence: ["physical-safety-suite", "independent-stop-report"]
-    acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
-  - id: SAF-005
-    title: "Authority separation"
-    source: "Habitat-OS-Architecture-Contracts-v1.1/09-THREAT-SAFETY.md:61"
-    criticality: critical
-    owner_packet: W13
-    implementation: "crates/habitat-physical"
-    enforcement: "independent controller safety and expiring physical effects"
-    gates: [V-PHYSICAL]
-    evidence: ["physical-safety-suite", "independent-stop-report"]
     acceptance: "Every listed gate passes and every listed evidence artifact is present, digest-addressed and attributable."
   - id: SEC-001
     title: "Least authority"

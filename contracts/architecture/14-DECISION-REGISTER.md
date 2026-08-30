@@ -5,19 +5,17 @@
 | ID | Decision | Rationale |
 |---|---|---|
 | DEC-001 | Habitat is a bootable agent-centric OS | Agents require native continuity, context, authority and recovery |
-| DEC-002 | Linux is the hardware kernel | Required driver, GPU, robotics, storage, network and virtualization mechanisms |
+| DEC-002 | Linux is the hardware kernel | Required driver, accelerator, storage, network and virtualization mechanisms |
 | DEC-003 | Nix is the reference system-construction mechanism | Declarative closures, coexistence, atomic activation and rollback align with autonomous self-change |
 | DEC-004 | Habitat supplies the operational userspace | Prevents a human-oriented distro from remaining the true authority plane |
 | DEC-005 | Durable agent identity is independent of activation, model and harness | Preserves continuity and backend replaceability |
 | DEC-006 | Context is compiled and demand-loaded | Avoids transcript dependence and enables semantic context faults |
-| DEC-007 | Capabilities are the universal extension abstraction | Applies consistently across local, container, remote and physical providers |
+| DEC-007 | Capabilities are the universal extension abstraction | Applies consistently across local, container and remote providers |
 | DEC-008 | Consequential actions use durable effect instances | Required for idempotency, ambiguity, reconciliation and evidence |
 | DEC-009 | PostgreSQL implements operational truth | Provides transactional authority and recovery; projections remain derived |
 | DEC-010 | Capability activation sets are immutable and pinned | Prevents silent provider rebind during work |
-| DEC-011 | Cordis is first-class but not universal | Strong for harness-local composition; insufficient for OS-wide durable packages and isolation |
 | DEC-012 | Traditional harnesses are optional cognition backends | Preserves useful specialization without surrendering agent ownership |
 | DEC-013 | Ubuntu is a compatibility capsule or hardware profile, not the authority plane | Preserves proprietary/vendor ABI without weakening Habitat identity |
-| DEC-014 | Physical safety remains outside model authority | Models and general networks cannot be final actuator safety enforcement |
 | DEC-015 | Self-change uses separated build, evaluation, signing and activation authority | Prevents self-authorization and evaluator capture |
 
 ## Approved reference implementation decisions
@@ -39,10 +37,9 @@ These decisions select the first conforming implementation without making the pl
 |---|---|---|
 | REJ-001 | Habitat as an application on Ubuntu | Leaves agent identity, recovery and machine authority subordinate to human-oriented host operation |
 | REJ-002 | Arch as reference base | Mutable rolling model lacks native whole-system generation and autonomous rollback semantics |
-| REJ-003 | New custom kernel | Reimplements solved hardware mechanisms and loses essential NVIDIA/robotics compatibility |
+| REJ-003 | New custom kernel | Reimplements solved hardware mechanisms and loses essential compatibility |
 | REJ-004 | seL4 with Linux guest as primary hardware path | Linux guest would remain practical GPU/device authority and divide the control model |
 | REJ-005 | Traditional harness as Habitat kernel | Harnesses own sessions and loops but not machine-wide durable authority or recovery |
-| REJ-006 | Cordis for every component | In-process lifecycle cannot represent all containers, devices, state migrations and OS generations |
 | REJ-007 | Temporal as Habitat truth/lifecycle | Duplicates durable truth and imposes workflow structure on dynamic agent reasoning |
 | REJ-008 | Universal behavior tree | Encodes anticipated solutions rather than using frontier-model reasoning; trees remain useful for context routing |
 | REJ-009 | Mandatory planner/critic/verifier agents | Adds ceremonial cognition and cost without evidence that every task requires those roles |

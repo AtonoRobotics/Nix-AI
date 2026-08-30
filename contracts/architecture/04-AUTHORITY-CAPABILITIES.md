@@ -34,7 +34,6 @@ Every grant includes:
 - `PackageCap`
 - `SystemChangeCap`
 - `DeviceCap`
-- `RobotCap`
 - `RecoveryCap`
 
 ## 4. Normative requirements
@@ -53,8 +52,6 @@ Every grant includes:
 
 **AUT-007 — Fail closed.** Authority-service unavailability, stale revocation state or unverifiable identity SHALL deny new consequential operations.
 
-**AUT-008 — Physical enforcement.** Linux namespaces, cgroups, LSM rules, device policy, network policy or microVM isolation SHALL prevent an activation from bypassing the semantic capability interface.
-
 **AUT-009 — Self-authority prohibition.** An agent SHALL NOT issue, widen, approve or activate a grant that increases its own authority unless an independent pre-authorized delegation rule explicitly permits the exact attenuation-preserving operation.
 
 **AUT-010 — Attribution.** Every capability invocation SHALL record subject, issuer chain, activation, objective, target, operation, decision, policy version and result evidence.
@@ -68,4 +65,3 @@ Policies may inspect current authoritative state, but each decision records the 
 ## 6. Human authority
 
 Human approval is a capability issuance or effect-admission event, not a special side channel. Approvals are used only when explicit policy requires human authority. Routine safe actions SHALL use bounded standing grants rather than repeated approval.
-

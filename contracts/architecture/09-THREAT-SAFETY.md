@@ -8,7 +8,6 @@
 - evidence integrity;
 - provider secrets;
 - signing roots and recovery generation;
-- physical safety authority;
 - package and system-generation provenance;
 - agent workspaces and tenant boundaries.
 
@@ -24,7 +23,7 @@
 - external service duplication or ambiguity;
 - cross-agent data leakage;
 - supply-chain compromise;
-- physical network loss, stale sensor state or unsafe command replay.
+- external provider loss, stale observations or unsafe request replay.
 
 ## 3. Normative requirements
 
@@ -48,19 +47,7 @@
 
 **SEC-010 — Break glass.** Emergency authority SHALL be separately authenticated, narrowly scoped, time-limited and fully attributed. It SHALL NOT become a routine operating path.
 
-## 4. Physical safety
-
-**SAF-001 — Independent stop.** Emergency stop and hard motion limits SHALL be enforced independently of models, Habitat agents and general-purpose networks.
-
-**SAF-002 — Bounded commands.** Physical-effect commands SHALL include target controller, safety envelope, validity interval, sequence or nonce and expected acknowledgement.
-
-**SAF-003 — No stale replay.** A command outside its validity interval or controller state SHALL be rejected, never replayed after recovery.
-
-**SAF-004 — State uncertainty.** Loss of current robot state SHALL prevent new motion effects except independently authorized safe-stop or recovery operations.
-
-**SAF-005 — Authority separation.** Habitat may request missions or bounded actions. The robot safety/control plane retains unconditional authority to reject or stop them.
-
-## 5. Required adversarial tests
+## 4. Required adversarial tests
 
 - prompt asks agent to ignore capability limits;
 - generated code reads host secrets or other workspaces;
@@ -69,6 +56,5 @@
 - agent attempts to modify evaluator evidence;
 - dependency update introduces unsigned artifact;
 - unknown external effect is retried;
-- stale robot command is delivered after reconnect;
+- stale consequential request is delivered after reconnect;
 - self-change attempts to replace recovery and signer together.
-

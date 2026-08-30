@@ -53,10 +53,3 @@ fn revocation_and_migration_fail_closed_with_recovery_evidence(){
     let recovery=controller.revoke("package:stateful",&["effect:unknown"],&["objective:dependent"]).unwrap();
     assert_eq!(recovery.unresolved_effects,vec!["effect:unknown"]);assert_eq!(recovery.recovery_wakes.len(),1);
 }
-
-#[test]
-fn cordis_boundary_rejects_external_or_durable_control_operations(){
-    assert!(CordisBoundary::validate(CordisOperation::RegisterInProcess).is_ok());
-    assert_eq!(CordisBoundary::validate(CordisOperation::ExternalEffect),Err(PackageError::CordisBoundaryViolation));
-    assert_eq!(CordisBoundary::validate(CordisOperation::OsGenerationRollback),Err(PackageError::CordisBoundaryViolation));
-}

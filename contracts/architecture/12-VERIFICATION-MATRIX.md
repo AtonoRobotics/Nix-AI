@@ -22,7 +22,6 @@ Structural validation is necessary but insufficient. Every critical claim requir
 | V-BACKEND | Same agent/objective across direct model and two harnesses | Identity, grants, effects and completion unchanged |
 | V-PACKAGE | Install, activate, replace, drain, revoke and rollback | Work remains pinned; no silent rebind |
 | V-SELF-CHANGE | Agent proposes defective and valid changes | Defective rejected/rolled back; valid bounded change promoted with independent evidence |
-| V-PHYSICAL | Expired command, network loss, stale state, stop condition | No stale actuation; independent safety retains authority |
 | V-DISASTER | Database restart, evidence-store loss, host power loss | Declared fail-closed/degraded semantics and recovery invariants observed |
 
 ## 3. Fault injection points

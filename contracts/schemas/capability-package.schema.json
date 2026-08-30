@@ -25,7 +25,7 @@
       "additionalProperties": false,
       "required": ["kind", "entrypoint"],
       "properties": {
-        "kind": {"type": "string", "enum": ["NATIVE_SERVICE", "CORDIS", "WASI_COMPONENT", "OCI", "MICROVM", "REMOTE", "PHYSICAL_ADAPTER"]},
+        "kind": {"type": "string", "enum": ["NATIVE_SERVICE", "WASI_COMPONENT", "OCI", "MICROVM", "REMOTE"]},
         "entrypoint": {"type": "string", "minLength": 1, "maxLength": 1024}
       }
     },

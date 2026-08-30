@@ -102,22 +102,6 @@ packets:
     cannot_integrate: [W05, W10]
     cannot_pass: [W05, W09, W10]
     exit_evidence: [cross-backend-conformance-report, same-agent-identity-test]
-  - id: W12
-    title: Omniverse and Isaac provider
-    owner: simulation
-    deliverable: "GPU compatibility capsule and simulation capability"
-    cannot_begin: [W10]
-    cannot_integrate: [W01, W06, W08]
-    cannot_pass: [W01, W06, W08, W10]
-    exit_evidence: [rtx-isaac-live-report, simulation-effect-report, gpu-isolation-report]
-  - id: W13
-    title: ROS and physical provider
-    owner: physical-ai
-    deliverable: "ROS capability, physical effects and independent safety integration"
-    cannot_begin: [W10]
-    cannot_integrate: [W01, W06, W08]
-    cannot_pass: [W01, W06, W08, W10]
-    exit_evidence: [physical-safety-suite, stale-command-test, independent-stop-report]
   - id: W14
     title: Autonomous self-change
     owner: system-change
@@ -130,7 +114,7 @@ packets:
     title: Complete conformance and release qualification
     owner: release-qualification
     deliverable: "Qualified Habitat OS release across declared reference profiles"
-    cannot_begin: [W11, W12, W13, W14]
+    cannot_begin: [W11, W14]
     cannot_integrate: [W01, W02, W03, W04, W05, W06, W07, W08, W09, W10]
-    cannot_pass: [W00, W01, W02, W03, W04, W05, W06, W07, W08, W09, W10, W11, W12, W13, W14]
+    cannot_pass: [W00, W01, W02, W03, W04, W05, W06, W07, W08, W09, W10, W11, W14]
     exit_evidence: [complete-verification-matrix, integrated-autonomous-work-scenario, release-integrity-report]

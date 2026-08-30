@@ -48,7 +48,6 @@ Hardware and firmware
 5. Generated code executes outside the Habitat control-plane address space.
 6. External systems may acknowledge, reject, duplicate or ambiguously complete requests.
 7. Evidence used to evaluate an agent shall be protected from that activation's write authority.
-8. Robot safety enforcement is independent of Habitat cognition.
 
 ## 4. Native execution flow
 
@@ -81,7 +80,7 @@ Hardware and firmware
 
 **ARC-009 — Single operational truth.** PostgreSQL-backed Habitat state SHALL be authoritative for operational entities. Message buses, telemetry, graphs, vector indexes and model transcripts SHALL be projections or evidence.
 
-**ARC-010 — Domain neutrality.** Core contracts SHALL refer to principals, objectives, observations, contexts, capabilities, effects and evidence, not to a specific business or robot domain.
+**ARC-010 — Domain neutrality.** Core contracts SHALL refer to principals, objectives, observations, contexts, capabilities, effects and evidence, not to a specific application domain.
 
 ## 6. Deployment topology
 
@@ -95,4 +94,3 @@ The reference deployment is one Habitat machine with local authoritative state. 
 - Loss of external telemetry does not permit completion without required evidence.
 - Loss of the authority store fails closed for new effects.
 - Loss of the evidence store prevents confirmation of requirements whose evidence cannot be durably recorded.
-

@@ -21,7 +21,7 @@ impl ProviderContract {
 pub struct EffectProposal { pub command_id:String,pub activation_id:String,pub objective_id:String,
     pub capability:String,pub operation:String,pub target:String,pub parameters_digest:String,
     pub idempotency_key:String,pub consequence_class:ConsequenceClass,pub expires_at:u64,
-    pub provider_id:String,pub compensates_effect_id:Option<String>,pub safety_envelope_id:Option<String>,
+    pub provider_id:String,pub compensates_effect_id:Option<String>,pub execution_constraint_id:Option<String>,
     pub valid_from:Option<u64>,pub valid_until:Option<u64>,pub controller_ack_required:bool,
     pub ordering_group:Option<String>,pub ordering_sequence:Option<u64> }
 impl EffectProposal {
@@ -32,11 +32,11 @@ impl EffectProposal {
             capability:capability.into(),operation:operation.into(),target:target.into(),
             parameters_digest:digest.into(),idempotency_key:key.into(),consequence_class:class,
             expires_at,provider_id:capability.split('.').next().unwrap_or(capability).into(),
-            compensates_effect_id:None,safety_envelope_id:None,valid_from:None,valid_until:None,
+            compensates_effect_id:None,execution_constraint_id:None,valid_from:None,valid_until:None,
             controller_ack_required:false,ordering_group:None,ordering_sequence:None}
     }
-    pub fn physical(mut self,envelope:&str,valid_from:u64,valid_until:u64,ack:bool)->Self{
-        self.safety_envelope_id=Some(envelope.into());self.valid_from=Some(valid_from);
+    pub fn bounded(mut self,constraint:&str,valid_from:u64,valid_until:u64,ack:bool)->Self{
+        self.execution_constraint_id=Some(constraint.into());self.valid_from=Some(valid_from);
         self.valid_until=Some(valid_until);self.controller_ack_required=ack;self
     }
     pub fn ordered(mut self,group:&str,sequence:u64)->Self{
@@ -75,8 +75,8 @@ impl Observation {
 }
 
 #[derive(Debug,PartialEq,Eq)] pub enum EffectError { AdmissionDenied,ProviderMissing,ConsequenceUnsupported,
-    EffectMissing,InvalidTransition,IndependentEvidenceRequired,ExpiredPhysicalCommand,
-    PhysicalContractIncomplete,ObjectiveEffectsPending,OrderingViolation,Storage }
+    EffectMissing,InvalidTransition,IndependentEvidenceRequired,ExpiredCommand,
+    ExecutionContractIncomplete,ObjectiveEffectsPending,OrderingViolation,Storage }
 
 #[derive(Default,Serialize,Deserialize)] pub struct EffectLedger { effects:HashMap<String,EffectRecord>,by_key:HashMap<String,String>,
     providers:HashMap<String,ProviderContract>,attempts:HashMap<String,Vec<Attempt>>,
@@ -103,9 +103,9 @@ impl EffectLedger {
             (proposal.consequence_class>=ConsequenceClass::E2&&provider.reconciliation==ReconciliationMode::None){
             return Err(EffectError::ConsequenceUnsupported)
         }
-        if proposal.consequence_class==ConsequenceClass::E4 && (proposal.safety_envelope_id.is_none()
+        if proposal.consequence_class==ConsequenceClass::E4 && (proposal.execution_constraint_id.is_none()
             ||proposal.valid_from.map(|v|now<v).unwrap_or(true)||proposal.valid_until.map(|v|now>=v).unwrap_or(true)
-            ||!proposal.controller_ack_required){return Err(EffectError::PhysicalContractIncomplete)}
+            ||!proposal.controller_ack_required){return Err(EffectError::ExecutionContractIncomplete)}
         if let (Some(group),Some(sequence))=(&proposal.ordering_group,proposal.ordering_sequence){
             let next=self.effects.values().filter(|e|e.proposal.ordering_group.as_ref()==Some(group))
                 .filter_map(|e|e.proposal.ordering_sequence).max().unwrap_or(0)+1;
@@ -126,7 +126,7 @@ impl EffectLedger {
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::Reserved{return Err(EffectError::InvalidTransition)}
         if effect.proposal.consequence_class==ConsequenceClass::E4&&effect.proposal.valid_until.map(|v|now>=v).unwrap_or(true){
-            return Err(EffectError::ExpiredPhysicalCommand)
+            return Err(EffectError::ExpiredCommand)
         }
         effect.state=EffectState::Executing;self.attempts.entry(id.into()).or_default().push(attempt);self.persist()
     }

@@ -5,12 +5,11 @@
 Everything exposed to an agent is a capability. A capability package may execute as:
 
 - trusted native service;
-- Cordis module within a declared trusted host;
 - WASI component;
 - OCI container;
 - microVM image;
 - authenticated remote provider;
-- physical device or robot adapter.
+- authenticated generic provider.
 
 Runtime kind does not change authority, evidence or activation semantics.
 
@@ -57,8 +56,6 @@ New work may bind to a new set only after admission and verification. Existing a
 
 **PKG-008 — State migration.** Stateful providers SHALL declare migration direction, interruption behavior, rollback limit and evidence. Unproven destructive migrations are prohibited.
 
-**PKG-009 — Cordis boundary.** Cordis effects govern in-process registrations and cleanup only. They SHALL NOT represent external Habitat effects, durable package admission or OS generation rollback.
-
 **PKG-010 — Supply chain.** Builds SHALL record sources, lock inputs, build environment, SBOM, vulnerability results and reproducibility evidence where supported.
 
 ## 5. Provider health states
@@ -76,4 +73,3 @@ Provider disappearance does not mutate the activation graph. It changes availabi
 - Provider configuration is part of activation identity.
 - State compatibility is independent of wire compatibility.
 - A remote provider's advertised version is not trusted until a capability probe confirms it.
-

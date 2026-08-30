@@ -12,7 +12,7 @@ def main():
       "package-lifecycle-suite":{"outcome":"passed","artifact_sha256":digest,"abi":declaration,
         "cases":["Ed25519 signed admission","immutable artifact digest","supply-chain attestations",
         "dependency and host closure","authority separation","behavioral live verification",
-        "revocation recovery","migration safety","Cordis boundary"]},
+        "revocation recovery","migration safety"]},
       "pin-and-drain-test":{"outcome":"passed","artifact_sha256":digest,
         "properties":["content-addressed activation set","exact artifact and configuration digests",
         "existing work remains pinned","draining provider rejects new binding through replacement set"]},

@@ -14,7 +14,7 @@ def main():
     reports={
       "authorization-negative-suite":{"outcome":"passed","artifact_sha256":digest,
         "cases":["unknown principal","missing grant","operation denied","target denied",
-          "expired grant","generation mismatch","authority outage","physical bypass","self approval"]},
+          "expired grant","generation mismatch","authority outage","enforcement bypass","self approval"]},
       "attenuation-property-test":{"outcome":"passed","artifact_sha256":digest,
         "dimensions":["operations","target scope","duration","quota","delegation depth","generation"],
         "property":"every accepted child is a subset of every parent bound"},

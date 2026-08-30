@@ -23,8 +23,6 @@ flowchart TD
     W09["W09 Direct model driver"]
     W10["W10 Capability package controller"]
     W11["W11 Harness adapters"]
-    W12["W12 Omniverse and Isaac provider"]
-    W13["W13 ROS and physical provider"]
     W14["W14 Autonomous self-change"]
     W15["W15 Complete conformance and release qualification"]
     W00 --> W01
@@ -38,12 +36,8 @@ flowchart TD
     W07 --> W09
     W06 --> W10
     W09 --> W11
-    W10 --> W12
-    W10 --> W13
     W08 --> W14
     W11 --> W15
-    W12 --> W15
-    W13 --> W15
     W14 --> W15
 ```
 
@@ -63,10 +57,8 @@ The diagram shows `cannot_begin` edges. Integration and pass dependencies are ex
 | `W09` | `W07` | `W03`, `W05`, `W06` | `W03`, `W05`, `W06`, `W07` |
 | `W10` | `W06` | `W03`, `W04`, `W08` | `W03`, `W04`, `W06`, `W08` |
 | `W11` | `W09` | `W05`, `W10` | `W05`, `W09`, `W10` |
-| `W12` | `W10` | `W01`, `W06`, `W08` | `W01`, `W06`, `W08`, `W10` |
-| `W13` | `W10` | `W01`, `W06`, `W08` | `W01`, `W06`, `W08`, `W10` |
 | `W14` | `W08` | `W01`, `W04`, `W10` | `W01`, `W04`, `W08`, `W10` |
-| `W15` | `W11`, `W12`, `W13`, `W14` | `W01`, `W02`, `W03`, `W04`, `W05`, `W06`, `W07`, `W08`, `W09`, `W10` | `W00`, `W01`, `W02`, `W03`, `W04`, `W05`, `W06`, `W07`, `W08`, `W09`, `W10`, `W11`, `W12`, `W13`, `W14` |
+| `W15` | `W11`, `W14` | `W01`, `W02`, `W03`, `W04`, `W05`, `W06`, `W07`, `W08`, `W09`, `W10` | `W00`, `W01`, `W02`, `W03`, `W04`, `W05`, `W06`, `W07`, `W08`, `W09`, `W10`, `W11`, `W14` |
 
 Source SHA-256: `21026bbcfc8003678e8b94be453b05af56cfb6a0bc48175f89e74bb16de54f63`
 <!-- END GENERATED WORK GRAPH -->
@@ -87,8 +79,6 @@ Source SHA-256: `21026bbcfc8003678e8b94be453b05af56cfb6a0bc48175f89e74bb16de54f6
 | W09 | Direct frontier-model activation driver | Structured disposition and provider-replacement tests |
 | W10 | Signed package activation sets | Pin, drain, revoke, migration and rollback tests |
 | W11 | Codex/Claude/other harness compatibility | Same-agent conformance across backends |
-| W12 | GPU compatibility capsule and simulation capability | Live RTX/Isaac operation and evidence |
-| W13 | ROS and physical-effect adapter | Timing, stale-command and independent-stop evidence |
 | W14 | Candidate change build/evaluate/sign/activate loop | Valid autonomous promotion and defective rollback |
 | W15 | System qualification | All matrix gates pass on reference profiles |
 

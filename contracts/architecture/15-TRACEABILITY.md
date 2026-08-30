@@ -14,7 +14,6 @@
 | Autonomous self-healing | STA-003, EFF-010, OBS-002 | Bootstrap, recovery agents | V-DISASTER, integrated scenario |
 | Autonomous self-improvement | GEN-002, GEN-009–010, SEC-007 | Generation controller | V-SELF-CHANGE |
 | Brand/domain neutrality | ARC-010, HWP-001–008 | ABI and profile owners | Conformance on all reference profiles |
-| Physical-AI operation | EFF-011, SAF-001–005 | Robot provider and safety plane | V-PHYSICAL |
 | System rollback and recovery | GEN-003–009 | Generation controller | V-ROLLBACK |
 
 ## 2. Invariant mapping
@@ -30,7 +29,6 @@
 | Pinned composition | ActivationSet identity in envelope | Degrade without silent rebind | Activation-set evidence |
 | Independent evidence | Separate evidence authority | Completion remains unconfirmed | Evaluator and digest records |
 | Bounded self-change | Classed authority and separated roles | Reject/rollback/quarantine | Candidate and activation chain |
-| Physical safety independence | External safety controller | Reject/stop motion | Controller evidence |
 
 ## 3. Gate coverage
 
@@ -45,4 +43,3 @@ All critical requirements are covered by at least one gate in `12-VERIFICATION-M
 | External provider lacks reconciliation | Consequence-class restriction | Provider cannot advertise unsupported class |
 | Linux isolation bypass | Layered namespaces/LSM/microVM and negative tests | Applicable escape suite passes |
 | Self-change evaluator capture | Authority separation and protected evidence | V-SELF-CHANGE adversarial cases pass |
-| Physical state uncertainty | Fail closed for motion, independent stop | V-PHYSICAL passes on target hardware |

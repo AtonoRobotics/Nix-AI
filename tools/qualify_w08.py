@@ -13,7 +13,7 @@ def main():
       "effect-fault-matrix":{"outcome":"passed","artifact_sha256":digest,"abi":declaration,
         "cases":["atomic admission and reservation","semantic idempotency","attempt evidence",
         "independent observation","pre/post-dispatch cancellation","declared ordering","restart recovery",
-        "physical validity and safety envelope","objective completion coupling"]},
+        "bounded validity and execution constraint","objective completion coupling"]},
       "unknown-outcome-test":{"outcome":"passed","artifact_sha256":digest,
         "cases":["disconnect becomes OUTCOME_UNKNOWN","no blind redispatch","independent reconciliation",
         "provider reconciliation constrains consequence class"]},
