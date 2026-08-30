@@ -1,0 +1,1 @@
+{"packet":"W05","implementation_commit":"0cc83f1da363ef6636aff9278bb066e1f95eec28","outcome":"passed","requirements":["STA-004"],"qualification":"nix run .#apps.x86_64-linux.test-w05","flake_check":"passed"}

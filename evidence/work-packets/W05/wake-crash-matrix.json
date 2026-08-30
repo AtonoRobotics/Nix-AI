@@ -1,0 +1,1 @@
+{"implementation_commit":"0cc83f1da363ef6636aff9278bb066e1f95eec28","outcome":"passed","postgres_image":"postgres@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73","faults":["notification_loss","database_process_kill"],"invariants":["commit before notification","at-least-once delivery","idempotent acknowledgement"]}
