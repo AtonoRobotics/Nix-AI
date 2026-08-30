@@ -60,11 +60,91 @@ class V2RebuildFrontierTests(unittest.TestCase):
         )
 
         self.assertEqual(report["runner"], {"name": "inventory-v2", "version": 1})
+        inventory_commit = report["inventory_commit"]
+        resolved_tree = subprocess.run(
+            ["git", "rev-parse", f"{inventory_commit}^{{tree}}"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+        self.assertEqual(report["inventory_tree"], resolved_tree)
         self.assertEqual(
             report["rebuild_baseline_commit"],
             "c61d6be13cd9593284c32249c5b9a11691df0f67",
         )
         self.assertIn("evidence/v2-rebuild/inventory.json", report["tracked_paths"])
+        semantics = {
+            (item["path"], item["kind"], item["name"])
+            for item in report["public_semantics"]
+        }
+        self.assertIn(
+            ("crates/habitat-effects/src/lib.rs", "enum", "EffectError"),
+            semantics,
+        )
+        self.assertIn(
+            (
+                "crates/habitat-effects/src/lib.rs",
+                "enum_value",
+                "EffectError::AdmissionDenied",
+            ),
+            semantics,
+        )
+        self.assertIn(
+            (
+                "tests/test_v2_rebuild_frontier.py",
+                "test_fixture",
+                "test_binding_contract_validates_at_its_public_cli",
+            ),
+            semantics,
+        )
+        for expected in (
+            ("crates/habitat-harnesses/src/lib.rs", "fn", "compare"),
+            (
+                "crates/habitat-harnesses/tests/runtime_boundary.rs",
+                "test_fixture",
+                "process_success_prose_and_session_completion_do_not_complete_objective",
+            ),
+            (
+                "crates/habitat-authority/src/lib.rs",
+                "macro_generated_type",
+                "MachineId",
+            ),
+            (
+                "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+                "canonical_record",
+                "Effect",
+            ),
+            (
+                "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+                "canonical_service",
+                "effect",
+            ),
+            (
+                "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+                "effect_state",
+                "OUTCOME_UNKNOWN",
+            ),
+        ):
+            self.assertIn(expected, semantics)
+        dependencies = {
+            (item["path"], item["class"], item["name"])
+            for item in report["dependencies"]
+        }
+        for dependency in ("setuptools", "boto3", "psycopg"):
+            self.assertIn(("pyproject.toml", "python-declared", dependency), dependencies)
+        self.assertIn(
+            (
+                "contracts/v2.0.1/validate_contract.py",
+                "python-import",
+                "jsonschema",
+            ),
+            dependencies,
+        )
+        self.assertIn(
+            ("src/habitat_state/store.py", "python-relative-import", ".domain"),
+            dependencies,
+        )
         self.assertEqual(
             report["counts"],
             {
@@ -171,8 +251,9 @@ class V2RebuildFrontierTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             report = json.loads(output.read_text())
             self.assertEqual(report["rebuild_baseline_commit"], baseline)
+            self.assertEqual(report["inventory_commit"], baseline)
             self.assertRegex(report["inventory_tree"], r"^[0-9a-f]{40}$")
-            self.assertEqual(report["inventory_source"]["file_contents"], "git-index")
+            self.assertEqual(report["inventory_source"]["file_contents"], "git-tree")
             self.assertEqual(
                 report["inventory_source"]["snapshot_boundary"],
                 "before-report-publication",

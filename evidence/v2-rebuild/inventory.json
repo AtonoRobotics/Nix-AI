@@ -34,10 +34,6 @@
     },
     {
       "class": "cargo-workspace",
-      "name": "crates/habitat-physical"
-    },
-    {
-      "class": "cargo-workspace",
       "name": "crates/habitat-simulation"
     },
     {
@@ -107,10 +103,6 @@
     {
       "class": "nix-declared-closure-root",
       "name": "habitat-packages"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "habitat-physical"
     },
     {
       "class": "nix-declared-closure-root",
@@ -242,10 +234,6 @@
     },
     {
       "class": "nix-declared-closure-root",
-      "name": "test-w13"
-    },
-    {
-      "class": "nix-declared-closure-root",
       "name": "text"
     },
     {
@@ -291,20 +279,166 @@
     {
       "class": "nix-declared-closure-root",
       "name": "w12-qualification"
-    },
-    {
-      "class": "nix-declared-closure-root",
-      "name": "w13-qualification"
     }
   ],
   "counts": {
-    "build_closure_members": 74,
-    "dependencies": 45,
+    "build_closure_members": 70,
+    "dependencies": 284,
     "generated_artifacts": 11,
-    "public_semantics": 457,
-    "tracked_paths": 265
+    "public_semantics": 943,
+    "tracked_paths": 259
   },
   "dependencies": [
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "class": "python-import",
+      "name": "yaml",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "collections",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "yaml",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "jsonschema",
+      "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "contracts/v2/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "contracts/v2/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "contracts/v2/validate_contract.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "contracts/v2/validate_contract.py"
+    },
     {
       "class": "build-dependencies",
       "name": "tonic-prost-build",
@@ -492,21 +626,6 @@
     },
     {
       "class": "dependencies",
-      "name": "serde",
-      "path": "crates/habitat-physical/Cargo.toml"
-    },
-    {
-      "class": "dependencies",
-      "name": "serde_json",
-      "path": "crates/habitat-physical/Cargo.toml"
-    },
-    {
-      "class": "dependencies",
-      "name": "sha2",
-      "path": "crates/habitat-physical/Cargo.toml"
-    },
-    {
-      "class": "dependencies",
       "name": "habitat-effects",
       "path": "crates/habitat-simulation/Cargo.toml"
     },
@@ -529,6 +648,1066 @@
       "class": "flake-input",
       "name": "nixpkgs",
       "path": "flake.lock"
+    },
+    {
+      "class": "python-declared",
+      "name": "boto3",
+      "path": "pyproject.toml"
+    },
+    {
+      "class": "python-declared",
+      "name": "psycopg",
+      "path": "pyproject.toml"
+    },
+    {
+      "class": "python-declared",
+      "name": "setuptools",
+      "path": "pyproject.toml"
+    },
+    {
+      "class": "python-relative-import",
+      "name": ".domain",
+      "path": "src/habitat_state/__init__.py"
+    },
+    {
+      "class": "python-relative-import",
+      "name": ".lifecycle",
+      "path": "src/habitat_state/__init__.py"
+    },
+    {
+      "class": "python-relative-import",
+      "name": ".store",
+      "path": "src/habitat_state/__init__.py"
+    },
+    {
+      "class": "python-import",
+      "name": "dataclasses",
+      "path": "src/habitat_state/domain.py"
+    },
+    {
+      "class": "python-import",
+      "name": "enum",
+      "path": "src/habitat_state/domain.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "src/habitat_state/domain.py"
+    },
+    {
+      "class": "python-import",
+      "name": "uuid",
+      "path": "src/habitat_state/domain.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "psycopg",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "base64",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "boto3",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "botocore",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "dataclasses",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "datetime",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "psycopg",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "uuid",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-relative-import",
+      "name": ".domain",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tools",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "shutil",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "typing",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "yaml",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "shutil",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tools",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "jsonschema",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "shutil",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tests/test_w01_profile.py"
+    },
+    {
+      "class": "python-import",
+      "name": "jsonschema",
+      "path": "tests/test_w01_profile.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_w01_profile.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_w01_profile.py"
+    },
+    {
+      "class": "python-import",
+      "name": "boto3",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "concurrent",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "datetime",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "habitat_state",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "os",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "psycopg",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "uuid",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "class": "python-import",
+      "name": "habitat_state",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "os",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "unittest",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "uuid",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tomllib",
+      "path": "tools/inventory_v2.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "os",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "shutil",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tools/proto_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "shutil",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tools/qualify_w00.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "habitat_state",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "os",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "psycopg",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "secrets",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "socket",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "time",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "uuid",
+      "path": "tools/qualify_w02.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w03.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w03.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w03.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w03.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w03.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w04.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w04.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w04.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w04.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w04.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "habitat_state",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "os",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "psycopg",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "socket",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "time",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "uuid",
+      "path": "tools/qualify_w05.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "os",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "signal",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "time",
+      "path": "tools/qualify_w06.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w07.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w07.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w07.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w07.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w07.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w08.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w08.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w08.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w08.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w08.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w09.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w09.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w09.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w09.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w09.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w10.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w10.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w10.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w10.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w10.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w11.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w11.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w11.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w11.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w11.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/qualify_w12.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/qualify_w12.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/qualify_w12.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/qualify_w12.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/qualify_w12.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "collections",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "hashlib",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "schema_contracts",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "yaml",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "jsonschema",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "typing",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "yaml",
+      "path": "tools/schema_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "argparse",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "json",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "re",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "shutil",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "socket",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "tempfile",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "time",
+      "path": "tools/test_w01.py"
+    },
+    {
+      "class": "python-import",
+      "name": "__future__",
+      "path": "tools/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "filecmp",
+      "path": "tools/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "pathlib",
+      "path": "tools/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "subprocess",
+      "path": "tools/validate_contracts.py"
+    },
+    {
+      "class": "python-import",
+      "name": "sys",
+      "path": "tools/validate_contracts.py"
     }
   ],
   "generated_artifacts": [
@@ -577,17 +1756,18 @@
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     }
   ],
+  "inventory_commit": "649f7735580a6b2a562e70e7dd5e443571c17b46",
   "inventory_source": {
     "build_closure_members": "declared-source-graph",
-    "file_contents": "git-index",
+    "file_contents": "git-tree",
     "snapshot_boundary": "before-report-publication",
-    "tracked_paths": "git-index"
+    "tracked_paths": "git-tree"
   },
-  "inventory_tree": "6694f257642be40f623949521f32fea86cc4d244",
+  "inventory_tree": "a7e6287bbd9a6c1cba93b6eeca67f69776d84d4d",
   "public_semantics": [
     {
       "kind": "service",
-      "line": 8,
+      "line": 7,
       "name": "AgentRuntime",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
@@ -617,67 +1797,67 @@
     },
     {
       "kind": "message",
-      "line": 15,
+      "line": 14,
       "name": "GetActivationRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 20,
+      "line": 19,
       "name": "ActivationEnvelope",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 37,
+      "line": 36,
       "name": "DispositionKind",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 50,
+      "line": 49,
       "name": "SubmitDispositionRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 58,
+      "line": 57,
       "name": "DecisionRecord",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 63,
+      "line": 62,
       "name": "GetCommandResultRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 68,
+      "line": 67,
       "name": "CancelActivationRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 74,
+      "line": 73,
       "name": "RetryDisposition",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 83,
+      "line": 82,
       "name": "CommandResult",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 92,
+      "line": 91,
       "name": "ErrorStatus",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "service",
-      "line": 8,
+      "line": 7,
       "name": "CapabilityAuthority",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
@@ -701,7 +1881,7 @@
     },
     {
       "kind": "service",
-      "line": 14,
+      "line": 13,
       "name": "EffectRuntime",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
@@ -731,79 +1911,79 @@
     },
     {
       "kind": "message",
-      "line": 21,
+      "line": 20,
       "name": "EvaluateRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 31,
+      "line": 30,
       "name": "AuthorityDecision",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 42,
+      "line": 41,
       "name": "DelegateRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 52,
+      "line": 51,
       "name": "GrantResult",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 58,
+      "line": 57,
       "name": "RevokeRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 64,
+      "line": 63,
       "name": "RevocationResult",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 70,
+      "line": 69,
       "name": "ConsequenceClass",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 79,
+      "line": 78,
       "name": "EffectState",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 94,
+      "line": 93,
       "name": "EffectProposal",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 114,
+      "line": 113,
       "name": "GetEffectRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 118,
+      "line": 117,
       "name": "ReconciliationRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 124,
+      "line": 123,
       "name": "CompensationRequest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 131,
+      "line": 130,
       "name": "EffectRecord",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/proto/habitat_authority_effect_v1.proto"
     },
@@ -829,6 +2009,12 @@
       "kind": "def",
       "line": 83,
       "name": "main",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
+    },
+    {
+      "kind": "def",
+      "line": 54,
+      "name": "cell",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/generate_work_graph.py"
     },
     {
@@ -929,6 +2115,12 @@
     },
     {
       "kind": "def",
+      "line": 200,
+      "name": "visit",
+      "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Architecture-Contracts-v1.1/tests/validate_contracts.py"
+    },
+    {
+      "kind": "def",
       "line": 18,
       "name": "digest",
       "path": "Habitat-OS-Codex-Build-Bundle-v1.1/Habitat-OS-Codex-Build-Bundle-v1.1/tests/validate_bundle.py"
@@ -947,7 +2139,7 @@
     },
     {
       "kind": "service",
-      "line": 8,
+      "line": 7,
       "name": "AgentRuntime",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
@@ -977,67 +2169,67 @@
     },
     {
       "kind": "message",
-      "line": 15,
+      "line": 14,
       "name": "GetActivationRequest",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 20,
+      "line": 19,
       "name": "ActivationEnvelope",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 37,
+      "line": 36,
       "name": "DispositionKind",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 50,
+      "line": 49,
       "name": "SubmitDispositionRequest",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 58,
+      "line": 57,
       "name": "DecisionRecord",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 63,
+      "line": 62,
       "name": "GetCommandResultRequest",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 68,
+      "line": 67,
       "name": "CancelActivationRequest",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 74,
+      "line": 73,
       "name": "RetryDisposition",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 83,
+      "line": 82,
       "name": "CommandResult",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "message",
-      "line": 92,
+      "line": 91,
       "name": "ErrorStatus",
       "path": "contracts/proto/habitat_agent_v1.proto"
     },
     {
       "kind": "service",
-      "line": 8,
+      "line": 7,
       "name": "CapabilityAuthority",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
@@ -1061,7 +2253,7 @@
     },
     {
       "kind": "service",
-      "line": 14,
+      "line": 13,
       "name": "EffectRuntime",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
@@ -1091,81 +2283,591 @@
     },
     {
       "kind": "message",
-      "line": 21,
+      "line": 20,
       "name": "EvaluateRequest",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 31,
+      "line": 30,
       "name": "AuthorityDecision",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 42,
+      "line": 41,
       "name": "DelegateRequest",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 52,
+      "line": 51,
       "name": "GrantResult",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 58,
+      "line": 57,
       "name": "RevokeRequest",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 64,
+      "line": 63,
       "name": "RevocationResult",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 70,
+      "line": 69,
       "name": "ConsequenceClass",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "enum",
-      "line": 79,
+      "line": 78,
       "name": "EffectState",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 94,
+      "line": 93,
       "name": "EffectProposal",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 114,
+      "line": 113,
       "name": "GetEffectRequest",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 118,
+      "line": 117,
       "name": "ReconciliationRequest",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 124,
+      "line": 123,
       "name": "CompensationRequest",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
     },
     {
       "kind": "message",
-      "line": 131,
+      "line": 130,
       "name": "EffectRecord",
       "path": "contracts/proto/habitat_authority_effect_v1.proto"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 89,
+      "name": "MACHINE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 90,
+      "name": "AGENT",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 91,
+      "name": "ACTIVATION",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 92,
+      "name": "HUMAN",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 93,
+      "name": "SERVICE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 94,
+      "name": "EXTERNAL",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 97,
+      "name": "Machine",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 98,
+      "name": "SystemGeneration",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 99,
+      "name": "Agent",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 100,
+      "name": "Objective",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 101,
+      "name": "Wake",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 102,
+      "name": "Activation",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 103,
+      "name": "Lease",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 104,
+      "name": "ContextRequest",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 105,
+      "name": "ContextBundle",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 106,
+      "name": "CapabilityDefinition",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 107,
+      "name": "Grant",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 108,
+      "name": "Revocation",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 109,
+      "name": "AuthorityDecision",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 110,
+      "name": "Command",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 111,
+      "name": "Effect",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 112,
+      "name": "EffectAttempt",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 113,
+      "name": "Observation",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 114,
+      "name": "Reconciliation",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 115,
+      "name": "Package",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 116,
+      "name": "PackageEvaluation",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 117,
+      "name": "ActivationSet",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 118,
+      "name": "EvidenceObject",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 119,
+      "name": "ChangeProposal",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 120,
+      "name": "QualificationResult",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 123,
+      "name": "bootstrap",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 124,
+      "name": "identity",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 125,
+      "name": "state",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 126,
+      "name": "scheduler",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 127,
+      "name": "context",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 17,
+      "name": "authority",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 61,
+      "name": "effect",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 130,
+      "name": "execution",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 125,
+      "name": "cognition",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 132,
+      "name": "package",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 56,
+      "name": "evidence",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 134,
+      "name": "generation",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E0",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E1",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E2",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E3",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 138,
+      "name": "PROPOSED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 139,
+      "name": "REJECTED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 140,
+      "name": "RESERVED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 141,
+      "name": "EXECUTING",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 142,
+      "name": "OBSERVED_SUCCEEDED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 143,
+      "name": "OBSERVED_FAILED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 144,
+      "name": "OUTCOME_UNKNOWN",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 145,
+      "name": "RECONCILING",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 146,
+      "name": "RESOLVED_SUCCEEDED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 147,
+      "name": "RESOLVED_FAILED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 148,
+      "name": "AUTHORITY_REQUIRED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 151,
+      "name": "NATIVE_SERVICE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 152,
+      "name": "ISOLATED_PROCESS",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 153,
+      "name": "WASI_COMPONENT",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 154,
+      "name": "OCI_CONTAINER",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 155,
+      "name": "MICROVM",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 156,
+      "name": "REMOTE_PROVIDER",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "hardware_profile",
+      "line": 159,
+      "name": "qemu-x86_64-conformance",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "hardware_profile",
+      "line": 160,
+      "name": "generic-x86_64",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "hardware_profile",
+      "line": 161,
+      "name": "generic-aarch64",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 138,
+      "name": "PROPOSED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 165,
+      "name": "BUILT",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 166,
+      "name": "EVALUATED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 139,
+      "name": "REJECTED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 168,
+      "name": "QUALIFIED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 169,
+      "name": "SIGNED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 170,
+      "name": "STAGED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 171,
+      "name": "ACTIVATED_CANDIDATE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 172,
+      "name": "CONFIRMED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 173,
+      "name": "ROLLED_BACK",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 176,
+      "name": "INVALID",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 177,
+      "name": "UNAUTHORIZED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 178,
+      "name": "UNAVAILABLE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 179,
+      "name": "STALE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 180,
+      "name": "RESOURCE_EXHAUSTED",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 181,
+      "name": "INCOMPATIBLE",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 144,
+      "name": "OUTCOME_UNKNOWN",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 183,
+      "name": "INCOMPATIBLE_DOMAIN_SEMANTICS",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 184,
+      "name": "INTERNAL",
+      "path": "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"
     },
     {
       "kind": "def",
@@ -1202,6 +2904,516 @@
       "line": 112,
       "name": "main",
       "path": "contracts/v2.0.1/validate_contract.py"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 89,
+      "name": "MACHINE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 90,
+      "name": "AGENT",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 91,
+      "name": "ACTIVATION",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 92,
+      "name": "HUMAN",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 93,
+      "name": "SERVICE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_principal",
+      "line": 94,
+      "name": "EXTERNAL",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 97,
+      "name": "Machine",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 98,
+      "name": "SystemGeneration",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 99,
+      "name": "Agent",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 100,
+      "name": "Objective",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 101,
+      "name": "Wake",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 102,
+      "name": "Activation",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 103,
+      "name": "Lease",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 104,
+      "name": "ContextRequest",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 105,
+      "name": "ContextBundle",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 106,
+      "name": "CapabilityDefinition",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 107,
+      "name": "Grant",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 108,
+      "name": "Revocation",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 109,
+      "name": "AuthorityDecision",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 110,
+      "name": "Command",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 111,
+      "name": "Effect",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 112,
+      "name": "EffectAttempt",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 113,
+      "name": "Observation",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 114,
+      "name": "Reconciliation",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 115,
+      "name": "Package",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 116,
+      "name": "PackageEvaluation",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 117,
+      "name": "ActivationSet",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 118,
+      "name": "EvidenceObject",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 119,
+      "name": "ChangeProposal",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_record",
+      "line": 120,
+      "name": "QualificationResult",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 123,
+      "name": "bootstrap",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 124,
+      "name": "identity",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 125,
+      "name": "state",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 126,
+      "name": "scheduler",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 127,
+      "name": "context",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 17,
+      "name": "authority",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 61,
+      "name": "effect",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 130,
+      "name": "execution",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 125,
+      "name": "cognition",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 132,
+      "name": "package",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 56,
+      "name": "evidence",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "canonical_service",
+      "line": 134,
+      "name": "generation",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E0",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E1",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E2",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_class",
+      "line": 136,
+      "name": "E3",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 138,
+      "name": "PROPOSED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 139,
+      "name": "REJECTED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 140,
+      "name": "RESERVED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 141,
+      "name": "EXECUTING",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 142,
+      "name": "OBSERVED_SUCCEEDED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 143,
+      "name": "OBSERVED_FAILED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 144,
+      "name": "OUTCOME_UNKNOWN",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 145,
+      "name": "RECONCILING",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 146,
+      "name": "RESOLVED_SUCCEEDED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 147,
+      "name": "RESOLVED_FAILED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "effect_state",
+      "line": 148,
+      "name": "AUTHORITY_REQUIRED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 151,
+      "name": "NATIVE_SERVICE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 152,
+      "name": "ISOLATED_PROCESS",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 153,
+      "name": "WASI_COMPONENT",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 154,
+      "name": "OCI_CONTAINER",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 155,
+      "name": "MICROVM",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "execution_profile",
+      "line": 156,
+      "name": "REMOTE_PROVIDER",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "hardware_profile",
+      "line": 159,
+      "name": "qemu-x86_64-conformance",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "hardware_profile",
+      "line": 160,
+      "name": "generic-x86_64",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "hardware_profile",
+      "line": 161,
+      "name": "generic-aarch64",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 138,
+      "name": "PROPOSED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 165,
+      "name": "BUILT",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 166,
+      "name": "EVALUATED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 139,
+      "name": "REJECTED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 168,
+      "name": "QUALIFIED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 169,
+      "name": "SIGNED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 170,
+      "name": "STAGED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 171,
+      "name": "ACTIVATED_CANDIDATE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 172,
+      "name": "CONFIRMED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "change_state",
+      "line": 173,
+      "name": "ROLLED_BACK",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 176,
+      "name": "INVALID",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 177,
+      "name": "UNAUTHORIZED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 178,
+      "name": "UNAVAILABLE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 179,
+      "name": "STALE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 180,
+      "name": "RESOURCE_EXHAUSTED",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 181,
+      "name": "INCOMPATIBLE",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 144,
+      "name": "OUTCOME_UNKNOWN",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 183,
+      "name": "INCOMPATIBLE_DOMAIN_SEMANTICS",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
+    },
+    {
+      "kind": "error_code",
+      "line": 184,
+      "name": "INTERNAL",
+      "path": "contracts/v2/nix-ai-v2.0.0.contract.json"
     },
     {
       "kind": "def",
@@ -1259,7 +3471,7 @@
     },
     {
       "kind": "enum",
-      "line": 17,
+      "line": 16,
       "name": "VersionError",
       "path": "crates/habitat-abi/src/lib.rs"
     },
@@ -1271,7 +3483,7 @@
     },
     {
       "kind": "struct",
-      "line": 34,
+      "line": 33,
       "name": "AgentAbi",
       "path": "crates/habitat-abi/src/lib.rs"
     },
@@ -1280,6 +3492,36 @@
       "line": 40,
       "name": "open",
       "path": "crates/habitat-abi/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 17,
+      "name": "VersionError::Invalid",
+      "path": "crates/habitat-abi/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 17,
+      "name": "VersionError::UnsupportedMajor",
+      "path": "crates/habitat-abi/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 3,
+      "name": "compatible_minor_is_accepted_and_unknown_major_is_rejected",
+      "path": "crates/habitat-abi/tests/compatibility.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 43,
+      "name": "unix_peer_version_and_durable_duplicate_semantics",
+      "path": "crates/habitat-abi/tests/transport.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 79,
+      "name": "unknown_major_unstructured_and_oversized_commands_fail_closed",
+      "path": "crates/habitat-abi/tests/transport.rs"
     },
     {
       "kind": "fn",
@@ -1295,13 +3537,13 @@
     },
     {
       "kind": "enum",
-      "line": 25,
+      "line": 24,
       "name": "AuthorityError",
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 30,
+      "line": 29,
       "name": "Grant",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -1361,7 +3603,7 @@
     },
     {
       "kind": "struct",
-      "line": 73,
+      "line": 72,
       "name": "IndependentApproval",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -1373,7 +3615,7 @@
     },
     {
       "kind": "struct",
-      "line": 79,
+      "line": 78,
       "name": "EnforcementProof",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -1385,13 +3627,13 @@
     },
     {
       "kind": "struct",
-      "line": 85,
+      "line": 84,
       "name": "Invocation",
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 93,
+      "line": 92,
       "name": "new",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -1403,13 +3645,13 @@
     },
     {
       "kind": "struct",
-      "line": 103,
+      "line": 102,
       "name": "Decision",
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 113,
+      "line": 112,
       "name": "Authority",
       "path": "crates/habitat-authority/src/lib.rs"
     },
@@ -1462,14 +3704,86 @@
       "path": "crates/habitat-authority/src/lib.rs"
     },
     {
+      "kind": "enum_value",
+      "line": 25,
+      "name": "AuthorityError::IdentityInvalid",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "AuthorityError::InvalidGrant",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "AuthorityError::SelfAuthority",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "AuthorityError::ParentMissing",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "AuthorityError::AttenuationViolation",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "AuthorityError::Storage",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "macro_generated_type",
+      "line": 20,
+      "name": "MachineId",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "macro_generated_type",
+      "line": 21,
+      "name": "ServiceId",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "macro_generated_type",
+      "line": 22,
+      "name": "ActivationId",
+      "path": "crates/habitat-authority/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 10,
+      "name": "delegation_can_only_reduce_every_parent_bound",
+      "path": "crates/habitat-authority/tests/attenuation_revocation.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 35,
+      "name": "revocation_outage_self_authority_and_physical_bypass_fail_closed",
+      "path": "crates/habitat-authority/tests/attenuation_revocation.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 3,
+      "name": "every_request_is_authenticated_and_mediated_against_all_grant_bounds",
+      "path": "crates/habitat-authority/tests/authorization.rs"
+    },
+    {
       "kind": "enum",
-      "line": 6,
+      "line": 5,
       "name": "TruthClass",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 10,
+      "line": 9,
       "name": "Provenance",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -1481,7 +3795,7 @@
     },
     {
       "kind": "struct",
-      "line": 22,
+      "line": 21,
       "name": "ContextItem",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -1511,31 +3825,31 @@
     },
     {
       "kind": "struct",
-      "line": 45,
+      "line": 44,
       "name": "SourceAccess",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 48,
+      "line": 47,
       "name": "SecurityObservation",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 51,
+      "line": 50,
       "name": "Omission",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 54,
+      "line": 53,
       "name": "ContextBundle",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 61,
+      "line": 60,
       "name": "ContextError",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -1559,13 +3873,13 @@
     },
     {
       "kind": "enum",
-      "line": 90,
+      "line": 89,
       "name": "RequestedKind",
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 92,
+      "line": 91,
       "name": "ContextRequest",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -1577,7 +3891,7 @@
     },
     {
       "kind": "struct",
-      "line": 108,
+      "line": 107,
       "name": "SkillDescriptor",
       "path": "crates/habitat-context/src/lib.rs"
     },
@@ -1612,20 +3926,170 @@
       "path": "crates/habitat-context/src/lib.rs"
     },
     {
-      "kind": "enum",
+      "kind": "enum_value",
+      "line": 6,
+      "name": "TruthClass::AuthoritativeState",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 6,
+      "name": "TruthClass::RawObservation",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 6,
+      "name": "TruthClass::InterpretedClaim",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 6,
+      "name": "TruthClass::ModelSuggestion",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
       "line": 7,
+      "name": "TruthClass::UnresolvedUncertainty",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "TruthClass::UntrustedExternalData",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 61,
+      "name": "ContextError::InvalidIdentity",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 61,
+      "name": "ContextError::RequiredContextUnavailable",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 61,
+      "name": "ContextError::InvalidRequest",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 61,
+      "name": "ContextError::NonMaterial",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 62,
+      "name": "ContextError::RecursionBound",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 62,
+      "name": "ContextError::SourceForbidden",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 62,
+      "name": "ContextError::StaleRequired",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 90,
+      "name": "RequestedKind::Fact",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 90,
+      "name": "RequestedKind::Evidence",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 90,
+      "name": "RequestedKind::Procedure",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 90,
+      "name": "RequestedKind::CapabilityDocumentation",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 90,
+      "name": "RequestedKind::Precedent",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 90,
+      "name": "RequestedKind::FreshObservation",
+      "path": "crates/habitat-context/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 3,
+      "name": "bundle_is_immutable_provenance_bearing_and_separates_truth_classes",
+      "path": "crates/habitat-context/tests/compiler.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 12,
+      "name": "budget_and_contradictions_are_explicit",
+      "path": "crates/habitat-context/tests/faults.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 21,
+      "name": "semantic_request_creates_linked_successor_and_bounds_access",
+      "path": "crates/habitat-context/tests/faults.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 31,
+      "name": "faults_reject_stale_forbidden_nonmaterial_and_recursive_requests",
+      "path": "crates/habitat-context/tests/faults.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 45,
+      "name": "descriptor_first_skill_selection_does_not_load_procedure",
+      "path": "crates/habitat-context/tests/faults.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 54,
+      "name": "hostile_content_is_data_and_cannot_mutate_bundle_identity",
+      "path": "crates/habitat-context/tests/faults.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 6,
       "name": "ConsequenceClass",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 10,
+      "line": 9,
       "name": "ReconciliationMode",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 13,
+      "line": 12,
       "name": "ProviderContract",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -1637,13 +4101,13 @@
     },
     {
       "kind": "struct",
-      "line": 21,
+      "line": 20,
       "name": "EffectProposal",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 29,
+      "line": 28,
       "name": "new",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -1661,31 +4125,43 @@
     },
     {
       "kind": "struct",
-      "line": 48,
+      "line": 47,
       "name": "Admission",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
+      "kind": "fn",
+      "line": 49,
+      "name": "allow",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
       "kind": "enum",
-      "line": 54,
+      "line": 53,
       "name": "EffectState",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 58,
+      "line": 57,
       "name": "EffectRecord",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 62,
+      "line": 61,
       "name": "Attempt",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
+      "kind": "fn",
+      "line": 65,
+      "name": "new",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
       "kind": "struct",
-      "line": 71,
+      "line": 70,
       "name": "Observation",
       "path": "crates/habitat-effects/src/lib.rs"
     },
@@ -1699,6 +4175,18 @@
       "kind": "fn",
       "line": 74,
       "name": "provider_ack",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 77,
+      "name": "EffectError",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 81,
+      "name": "EffectLedger",
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
@@ -1810,20 +4298,248 @@
       "path": "crates/habitat-effects/src/lib.rs"
     },
     {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "ConsequenceClass::E0",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "ConsequenceClass::E1",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "ConsequenceClass::E2",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "ConsequenceClass::E3",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "ConsequenceClass::E4",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 10,
+      "name": "ReconciliationMode::IdempotencyKey",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 10,
+      "name": "ReconciliationMode::ExternalIdentifier",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 10,
+      "name": "ReconciliationMode::TargetState",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 10,
+      "name": "ReconciliationMode::None",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::Proposed",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::Rejected",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::Reserved",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::Executing",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::ObservedSucceeded",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::ObservedFailed",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "EffectState::OutcomeUnknown",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 55,
+      "name": "EffectState::Reconciling",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 55,
+      "name": "EffectState::ResolvedSucceeded",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 55,
+      "name": "EffectState::ResolvedFailed",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 55,
+      "name": "EffectState::ManualAuthorityRequired",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 55,
+      "name": "EffectState::Cancelled",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 77,
+      "name": "EffectError::AdmissionDenied",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 77,
+      "name": "EffectError::ProviderMissing",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 77,
+      "name": "EffectError::ConsequenceUnsupported",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 77,
+      "name": "EffectError::EffectMissing",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 78,
+      "name": "EffectError::InvalidTransition",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 78,
+      "name": "EffectError::IndependentEvidenceRequired",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 78,
+      "name": "EffectError::ExpiredPhysicalCommand",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 78,
+      "name": "EffectError::PhysicalContractIncomplete",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 79,
+      "name": "EffectError::ObjectiveEffectsPending",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 79,
+      "name": "EffectError::OrderingViolation",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 79,
+      "name": "EffectError::Storage",
+      "path": "crates/habitat-effects/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 8,
+      "name": "admission_atomically_reserves_semantic_intent_and_deduplicates",
+      "path": "crates/habitat-effects/tests/admission.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 9,
+      "name": "disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry",
+      "path": "crates/habitat-effects/tests/fault_matrix.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 22,
+      "name": "acknowledgement_is_not_success_without_the_declared_observation",
+      "path": "crates/habitat-effects/tests/fault_matrix.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 32,
+      "name": "cancellation_and_compensation_preserve_truthful_distinct_histories",
+      "path": "crates/habitat-effects/tests/fault_matrix.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 48,
+      "name": "recovery_physical_validity_ordering_and_completion_fail_closed",
+      "path": "crates/habitat-effects/tests/fault_matrix.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 61,
+      "name": "restart_recovers_nonterminal_effects_and_enforces_declared_order",
+      "path": "crates/habitat-effects/tests/fault_matrix.rs"
+    },
+    {
       "kind": "enum",
-      "line": 5,
+      "line": 4,
       "name": "Runtime",
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 8,
+      "line": 7,
       "name": "AdmissionError",
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 11,
+      "line": 10,
       "name": "IsolationRequest",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -1853,7 +4569,7 @@
     },
     {
       "kind": "struct",
-      "line": 41,
+      "line": 40,
       "name": "SandboxSpec",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -1877,13 +4593,13 @@
     },
     {
       "kind": "struct",
-      "line": 57,
+      "line": 56,
       "name": "OciImage",
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 59,
+      "line": 58,
       "name": "ImageError",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -1895,7 +4611,7 @@
     },
     {
       "kind": "struct",
-      "line": 69,
+      "line": 68,
       "name": "FeatureDeclaration",
       "path": "crates/habitat-execution/src/lib.rs"
     },
@@ -1906,14 +4622,74 @@
       "path": "crates/habitat-execution/src/lib.rs"
     },
     {
-      "kind": "struct",
+      "kind": "enum_value",
+      "line": 5,
+      "name": "Runtime::Native",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 5,
+      "name": "Runtime::Wasi",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 5,
+      "name": "Runtime::Oci",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 5,
+      "name": "Runtime::MicroVm",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
       "line": 8,
+      "name": "AdmissionError::RuntimeUnsupported",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "AdmissionError::CapacityExceeded",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "AdmissionError::InvalidLimit",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 59,
+      "name": "ImageError::DigestRequired",
+      "path": "crates/habitat-execution/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 3,
+      "name": "profile_must_admit_runtime_and_resources_before_execution",
+      "path": "crates/habitat-execution/tests/admission.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 14,
+      "name": "native_and_oci_boundaries_are_default_deny_by_construction",
+      "path": "crates/habitat-execution/tests/admission.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 7,
       "name": "DurableIdentity",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 11,
+      "line": 10,
       "name": "PreparedActivation",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
@@ -1924,15 +4700,45 @@
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
+      "kind": "fn",
+      "line": 14,
+      "name": "prepare",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 23,
+      "name": "HarnessOutput",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 25,
+      "name": "HarnessError",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
       "kind": "struct",
       "line": 29,
       "name": "CodexAdapter",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
+      "kind": "fn",
+      "line": 30,
+      "name": "translate",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
       "kind": "struct",
       "line": 35,
       "name": "ClaudeCodeAdapter",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "fn",
+      "line": 36,
+      "name": "translate",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
@@ -1957,6 +4763,18 @@
       "kind": "fn",
       "line": 59,
       "name": "environment",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 62,
+      "name": "RuntimeStatus",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 63,
+      "name": "RuntimeOutcome",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
@@ -2008,6 +4826,12 @@
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
+      "kind": "struct",
+      "line": 77,
+      "name": "HarnessCheckpoint",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
       "kind": "fn",
       "line": 79,
       "name": "new",
@@ -2033,43 +4857,163 @@
     },
     {
       "kind": "struct",
+      "line": 89,
+      "name": "BackendState",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "struct",
       "line": 91,
       "name": "BackendConformance",
       "path": "crates/habitat-harnesses/src/lib.rs"
     },
     {
+      "kind": "fn",
+      "line": 92,
+      "name": "compare",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 25,
+      "name": "HarnessError::MissingStructuredDisposition",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 25,
+      "name": "HarnessError::MalformedDisposition",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 25,
+      "name": "HarnessError::Model",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 25,
+      "name": "HarnessError::CapabilityDenied",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "HarnessError::TypedCheckpointRequired",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "HarnessError::LeaseExpired",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "HarnessError::InvalidCancellation",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 26,
+      "name": "HarnessError::BackendDivergence",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 62,
+      "name": "RuntimeStatus::Running",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 62,
+      "name": "RuntimeStatus::Cancelled",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 63,
+      "name": "RuntimeOutcome::AwaitingDisposition",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 63,
+      "name": "RuntimeOutcome::DispositionAccepted",
+      "path": "crates/habitat-harnesses/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 13,
+      "name": "codex_and_claude_emit_the_same_semantic_abi_and_identity",
+      "path": "crates/habitat-harnesses/tests/backend_conformance.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 11,
+      "name": "process_success_prose_and_session_completion_do_not_complete_objective",
+      "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 19,
+      "name": "capability_proxy_allows_only_granted_habitat_endpoints_and_no_ambient_access",
+      "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 28,
+      "name": "only_typed_checkpoint_is_durable_and_transcript_is_disposable",
+      "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 39,
+      "name": "cancellation_deadline_and_backend_comparison_preserve_committed_truth",
+      "path": "crates/habitat-harnesses/tests/runtime_boundary.rs"
+    },
+    {
       "kind": "enum",
-      "line": 8,
+      "line": 6,
       "name": "DispositionKind",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 12,
+      "line": 11,
       "name": "DecisionArtifact",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 15,
+      "line": 14,
       "name": "Disposition",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 19,
+      "line": 18,
       "name": "CandidateOutput",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
+      "kind": "enum",
+      "line": 22,
+      "name": "ModelError",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
       "kind": "struct",
-      "line": 26,
+      "line": 25,
       "name": "CapabilityDescriptor",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 29,
+      "line": 28,
       "name": "ActivationEnvelope",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -2093,8 +5037,14 @@
     },
     {
       "kind": "enum",
-      "line": 58,
+      "line": 57,
       "name": "ActivationStatus",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 59,
+      "name": "DriverResult",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
@@ -2165,13 +5115,13 @@
     },
     {
       "kind": "struct",
-      "line": 91,
+      "line": 90,
       "name": "ModelEvidence",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 95,
+      "line": 94,
       "name": "record",
       "path": "crates/habitat-models/src/lib.rs"
     },
@@ -2182,26 +5132,194 @@
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
+      "kind": "fn",
+      "line": 103,
+      "name": "translate",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
       "kind": "struct",
       "line": 112,
       "name": "AnthropicAdapter",
       "path": "crates/habitat-models/src/lib.rs"
     },
     {
-      "kind": "struct",
+      "kind": "fn",
+      "line": 113,
+      "name": "translate",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
       "line": 8,
+      "name": "DispositionKind::ContextRequest",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "DispositionKind::CapabilityInvocation",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "DispositionKind::EffectProposal",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "DispositionKind::Delegation",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "DispositionKind::Message",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "DispositionKind::Checkpoint",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 9,
+      "name": "DispositionKind::Sleep",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 9,
+      "name": "DispositionKind::CompletionClaim",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 9,
+      "name": "DispositionKind::ActivationFailure",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 22,
+      "name": "ModelError::InvalidEnvelope",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 22,
+      "name": "ModelError::MissingDisposition",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 22,
+      "name": "ModelError::MalformedDisposition",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 22,
+      "name": "ModelError::CommandIdRequired",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 23,
+      "name": "ModelError::ActivationMismatch",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 23,
+      "name": "ModelError::CapabilityInvisible",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 23,
+      "name": "ModelError::InvalidCompletion",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 23,
+      "name": "ModelError::LeaseExpired",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 23,
+      "name": "ModelError::Cancelled",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 58,
+      "name": "ActivationStatus::Running",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 58,
+      "name": "ActivationStatus::CompletionClaimed",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 58,
+      "name": "ActivationStatus::Cancelled",
+      "path": "crates/habitat-models/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 14,
+      "name": "validator_rejects_missing_identity_and_invisible_capability_without_heuristics",
+      "path": "crates/habitat-models/tests/driver_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 26,
+      "name": "provider_stop_does_not_complete_but_validated_completion_claim_does",
+      "path": "crates/habitat-models/tests/driver_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 37,
+      "name": "cancellation_and_deadline_are_classified_without_implicit_completion",
+      "path": "crates/habitat-models/tests/driver_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 45,
+      "name": "credential_exists_only_at_transport_boundary_and_evidence_is_protected",
+      "path": "crates/habitat-models/tests/driver_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 8,
+      "name": "openai_and_anthropic_translate_to_identical_semantic_disposition",
+      "path": "crates/habitat-models/tests/provider_replacement.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 7,
       "name": "CapabilityVersion",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 10,
+      "line": 9,
       "name": "SupplyChain",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 13,
+      "line": 12,
       "name": "PackageManifest",
       "path": "crates/habitat-packages/src/lib.rs"
     },
@@ -2266,6 +5384,18 @@
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
+      "kind": "struct",
+      "line": 40,
+      "name": "TrustStore",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "fn",
+      "line": 41,
+      "name": "new",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
       "kind": "fn",
       "line": 42,
       "name": "trust",
@@ -2279,32 +5409,104 @@
     },
     {
       "kind": "enum",
-      "line": 47,
+      "line": 46,
       "name": "ProviderState",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 50,
+      "line": 49,
       "name": "PackageRecord",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
+      "kind": "enum",
+      "line": 52,
+      "name": "PackageError",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
       "kind": "struct",
-      "line": 64,
+      "line": 57,
+      "name": "HostProfile",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "fn",
+      "line": 58,
+      "name": "new",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 60,
+      "name": "ResolvedSet",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 61,
+      "name": "BehavioralProbe",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "fn",
+      "line": 62,
+      "name": "passed",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 63,
       "name": "ActivationEntry",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 67,
+      "line": 66,
       "name": "ActivationSet",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 68,
+      "name": "WorkBinding",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 69,
+      "name": "RecoveryPlan",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 70,
+      "name": "MigrationDirection",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "struct",
+      "line": 71,
+      "name": "MigrationContract",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum",
+      "line": 74,
+      "name": "CordisOperation",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
       "kind": "struct",
       "line": 76,
       "name": "CordisBoundary",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "fn",
+      "line": 77,
+      "name": "validate",
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
@@ -2404,92 +5606,242 @@
       "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "struct",
-      "line": 7,
-      "name": "PhysicalCommand",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Discovered",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 12,
-      "name": "new",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Admitted",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "struct",
-      "line": 20,
-      "name": "PhysicalQualification",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Staged",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 22,
-      "name": "passed",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Starting",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 27,
-      "name": "evidence",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Verifying",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "struct",
-      "line": 35,
-      "name": "SafetyController",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Active",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 38,
-      "name": "new",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Degraded",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 39,
-      "name": "set_state_current",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Unavailable",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 40,
-      "name": "emergency_stop",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 47,
+      "name": "ProviderState::Quarantined",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "struct",
-      "line": 49,
-      "name": "RosPhysicalProvider",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 48,
+      "name": "ProviderState::Draining",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 51,
-      "name": "new",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 48,
+      "name": "ProviderState::Revoked",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
+      "kind": "enum_value",
+      "line": 48,
+      "name": "ProviderState::Retired",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
       "line": 52,
-      "name": "execute",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "name": "PackageError::PublisherUntrusted",
+      "path": "crates/habitat-packages/src/lib.rs"
     },
     {
-      "kind": "fn",
-      "line": 60,
-      "name": "recover",
-      "path": "crates/habitat-physical/src/lib.rs"
+      "kind": "enum_value",
+      "line": 52,
+      "name": "PackageError::PublisherRevoked",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 52,
+      "name": "PackageError::SignatureInvalid",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 52,
+      "name": "PackageError::MutableArtifact",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 53,
+      "name": "PackageError::SupplyChainIncomplete",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 53,
+      "name": "PackageError::PackageMissing",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 53,
+      "name": "PackageError::DependencyUnresolved",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 53,
+      "name": "PackageError::HostRequirementMissing",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 53,
+      "name": "PackageError::LiveVerificationRequired",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "PackageError::BehavioralProbeFailed",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "PackageError::NoActiveSet",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "PackageError::NoRollback",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "PackageError::DestructiveMigrationUnproven",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "PackageError::CordisBoundaryViolation",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 70,
+      "name": "MigrationDirection::ForwardOnly",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 70,
+      "name": "MigrationDirection::Bidirectional",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 74,
+      "name": "CordisOperation::RegisterInProcess",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 74,
+      "name": "CordisOperation::CleanupInProcess",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 74,
+      "name": "CordisOperation::ExternalEffect",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 75,
+      "name": "CordisOperation::DurablePackageAdmission",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 75,
+      "name": "CordisOperation::OsGenerationRollback",
+      "path": "crates/habitat-packages/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 10,
+      "name": "signed_digest_addressed_package_is_admitted_without_granting_authority",
+      "path": "crates/habitat-packages/tests/admission.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 14,
+      "name": "dependency_closure_and_behavioral_probe_gate_immutable_activation_set",
+      "path": "crates/habitat-packages/tests/lifecycle.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 30,
+      "name": "replacement_drains_new_binding_while_existing_work_stays_pinned_and_rollback_is_exact",
+      "path": "crates/habitat-packages/tests/lifecycle.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 45,
+      "name": "revocation_and_migration_fail_closed_with_recovery_evidence",
+      "path": "crates/habitat-packages/tests/lifecycle.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 57,
+      "name": "cordis_boundary_rejects_external_or_durable_control_operations",
+      "path": "crates/habitat-packages/tests/lifecycle.rs"
     },
     {
       "kind": "enum",
-      "line": 7,
+      "line": 6,
       "name": "GpuFeature",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 13,
+      "line": 12,
       "name": "CompatibilityCapsule",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -2501,13 +5853,13 @@
     },
     {
       "kind": "struct",
-      "line": 39,
+      "line": 38,
       "name": "CapsuleAdmission",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "enum",
-      "line": 46,
+      "line": 45,
       "name": "SimulationError",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -2531,7 +5883,7 @@
     },
     {
       "kind": "struct",
-      "line": 109,
+      "line": 108,
       "name": "SimulationCommand",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -2543,7 +5895,7 @@
     },
     {
       "kind": "struct",
-      "line": 138,
+      "line": 137,
       "name": "SimulationEffect",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -2567,7 +5919,7 @@
     },
     {
       "kind": "struct",
-      "line": 202,
+      "line": 201,
       "name": "GpuSandbox",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -2603,19 +5955,19 @@
     },
     {
       "kind": "struct",
-      "line": 261,
+      "line": 260,
       "name": "QualificationEvidence",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "struct",
-      "line": 268,
+      "line": 267,
       "name": "QualificationReport",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
       "kind": "fn",
-      "line": 273,
+      "line": 272,
       "name": "passed",
       "path": "crates/habitat-simulation/src/lib.rs"
     },
@@ -2626,56 +5978,152 @@
       "path": "crates/habitat-simulation/src/lib.rs"
     },
     {
+      "kind": "enum_value",
+      "line": 7,
+      "name": "GpuFeature::Rtx",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 8,
+      "name": "GpuFeature::IsaacSim",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 46,
+      "name": "SimulationError::DigestRequired",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 47,
+      "name": "SimulationError::GpuMismatch",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 48,
+      "name": "SimulationError::DriverMismatch",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 49,
+      "name": "SimulationError::CapacityExceeded",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 50,
+      "name": "SimulationError::FeatureAbsent",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 51,
+      "name": "SimulationError::CapabilityDenied",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 52,
+      "name": "SimulationError::AuthorityDenied",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 53,
+      "name": "SimulationError::LeaseExists",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 54,
+      "name": "SimulationError::LeaseMissing",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 55,
+      "name": "SimulationError::DeviceDenied",
+      "path": "crates/habitat-simulation/src/lib.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 6,
+      "name": "admits_only_digest_pinned_capsules_matching_the_gpu_profile",
+      "path": "crates/habitat-simulation/tests/provider_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 33,
+      "name": "qualification_report_exposes_all_required_digest_addressed_evidence",
+      "path": "crates/habitat-simulation/tests/provider_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 57,
+      "name": "gpu_nodes_are_lease_scoped_and_direct_host_access_is_denied",
+      "path": "crates/habitat-simulation/tests/provider_boundary.rs"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 84,
+      "name": "authorized_simulation_commands_return_idempotent_typed_effects",
+      "path": "crates/habitat-simulation/tests/provider_boundary.rs"
+    },
+    {
       "kind": "struct",
-      "line": 5,
+      "line": 4,
       "name": "GetActivationRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 22,
+      "line": 21,
       "name": "ActivationEnvelope",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 63,
+      "line": 62,
       "name": "SubmitDispositionRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 86,
+      "line": 85,
       "name": "DecisionRecord",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 103,
+      "line": 102,
       "name": "GetCommandResultRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 120,
+      "line": 119,
       "name": "CancelActivationRequest",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 139,
+      "line": 138,
       "name": "CommandResult",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 164,
+      "line": 163,
       "name": "ErrorStatus",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
       "kind": "enum",
-      "line": 188,
+      "line": 186,
       "name": "DispositionKind",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
@@ -2693,7 +6141,7 @@
     },
     {
       "kind": "enum",
-      "line": 238,
+      "line": 236,
       "name": "RetryDisposition",
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
@@ -2710,74 +6158,170 @@
       "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
     },
     {
+      "kind": "enum_value",
+      "line": 188,
+      "name": "DispositionKind::Unspecified",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 189,
+      "name": "DispositionKind::ContextRequest",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 190,
+      "name": "DispositionKind::CapabilityInvocation",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 191,
+      "name": "DispositionKind::EffectProposal",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 192,
+      "name": "DispositionKind::Delegation",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 193,
+      "name": "DispositionKind::Message",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 194,
+      "name": "DispositionKind::Checkpoint",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 195,
+      "name": "DispositionKind::Sleep",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 196,
+      "name": "DispositionKind::CompletionClaim",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 197,
+      "name": "DispositionKind::ActivationFailure",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 238,
+      "name": "RetryDisposition::Unspecified",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 239,
+      "name": "RetryDisposition::Never",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 240,
+      "name": "RetryDisposition::SameActivation",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 241,
+      "name": "RetryDisposition::NewActivation",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 242,
+      "name": "RetryDisposition::AfterDependency",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 243,
+      "name": "RetryDisposition::ReconcileOnly",
+      "path": "generated/proto/rust/habitat/agent/v1/habitat.agent.v1.rs"
+    },
+    {
       "kind": "struct",
-      "line": 5,
+      "line": 4,
       "name": "EvaluateRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 32,
+      "line": 31,
       "name": "AuthorityDecision",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 61,
+      "line": 60,
       "name": "DelegateRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 88,
+      "line": 87,
       "name": "GrantResult",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 107,
+      "line": 106,
       "name": "RevokeRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 126,
+      "line": 125,
       "name": "RevocationResult",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 145,
+      "line": 144,
       "name": "EffectProposal",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 193,
+      "line": 192,
       "name": "GetEffectRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 208,
+      "line": 207,
       "name": "ReconciliationRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 227,
+      "line": 226,
       "name": "CompensationRequest",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "struct",
-      "line": 248,
+      "line": 247,
       "name": "EffectRecord",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
       "kind": "enum",
-      "line": 276,
+      "line": 274,
       "name": "ConsequenceClass",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
@@ -2795,7 +6339,7 @@
     },
     {
       "kind": "enum",
-      "line": 314,
+      "line": 312,
       "name": "EffectState",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
@@ -2809,6 +6353,114 @@
       "kind": "fn",
       "line": 350,
       "name": "from_str_name",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 276,
+      "name": "ConsequenceClass::Unspecified",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 277,
+      "name": "ConsequenceClass::E0",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 278,
+      "name": "ConsequenceClass::E1",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 279,
+      "name": "ConsequenceClass::E2",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 280,
+      "name": "ConsequenceClass::E3",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 281,
+      "name": "ConsequenceClass::E4",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 314,
+      "name": "EffectState::Unspecified",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 315,
+      "name": "EffectState::Proposed",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 316,
+      "name": "EffectState::Rejected",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 317,
+      "name": "EffectState::Reserved",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 318,
+      "name": "EffectState::Executing",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 319,
+      "name": "EffectState::ObservedSucceeded",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 320,
+      "name": "EffectState::ObservedFailed",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 321,
+      "name": "EffectState::OutcomeUnknown",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 322,
+      "name": "EffectState::Reconciling",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 323,
+      "name": "EffectState::ResolvedSucceeded",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 324,
+      "name": "EffectState::ResolvedFailed",
+      "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
+    },
+    {
+      "kind": "enum_value",
+      "line": 325,
+      "name": "EffectState::ManualAuthorityRequired",
       "path": "generated/proto/rust/habitat/authority/v1/habitat.authority.v1.rs"
     },
     {
@@ -2872,6 +6524,18 @@
       "path": "src/habitat_state/domain.py"
     },
     {
+      "kind": "def",
+      "line": 73,
+      "name": "new",
+      "path": "src/habitat_state/domain.py"
+    },
+    {
+      "kind": "def",
+      "line": 82,
+      "name": "new",
+      "path": "src/habitat_state/domain.py"
+    },
+    {
       "kind": "class",
       "line": 7,
       "name": "ClockUntrusted",
@@ -2881,6 +6545,72 @@
       "kind": "class",
       "line": 9,
       "name": "LifecycleStore",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 16,
+      "name": "migrate",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 42,
+      "name": "reset_for_test",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 64,
+      "name": "create_wake",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 80,
+      "name": "lease_wake",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 91,
+      "name": "acknowledge_wake",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 108,
+      "name": "create_objective",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 111,
+      "name": "transition_objective",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 138,
+      "name": "create_activation",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 143,
+      "name": "lease_activation",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 153,
+      "name": "transition_activation",
+      "path": "src/habitat_state/lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 164,
+      "name": "recover_expired",
       "path": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2920,9 +6650,117 @@
       "path": "src/habitat_state/store.py"
     },
     {
+      "kind": "def",
+      "line": 136,
+      "name": "from_urls",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 149,
+      "name": "migrate",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 160,
+      "name": "reset_for_test",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 175,
+      "name": "put_evidence",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 201,
+      "name": "verify_evidence",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 221,
+      "name": "transition",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 283,
+      "name": "current",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 288,
+      "name": "history",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 296,
+      "name": "report_projection",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 309,
+      "name": "projection_status",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 320,
+      "name": "schema_status",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 328,
+      "name": "backup",
+      "path": "src/habitat_state/store.py"
+    },
+    {
+      "kind": "def",
+      "line": 376,
+      "name": "restore",
+      "path": "src/habitat_state/store.py"
+    },
+    {
       "kind": "class",
       "line": 16,
       "name": "ProtoContractTests",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 17,
+      "name": "test_source_digest_is_deterministic_and_inventory_sensitive",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 27,
+      "name": "test_stale_binding_is_rejected",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 39,
+      "name": "test_stale_inventory_is_rejected",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 50,
+      "name": "test_known_governing_eof_newline_is_the_only_format_exception",
+      "path": "tests/test_proto_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 65,
+      "name": "test_breaking_fixture_changes_only_the_named_field",
       "path": "tests/test_proto_contracts.py"
     },
     {
@@ -2932,9 +6770,117 @@
       "path": "tests/test_registry_contracts.py"
     },
     {
+      "kind": "def",
+      "line": 19,
+      "name": "setUp",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 27,
+      "name": "tearDown",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 30,
+      "name": "run_validator",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 38,
+      "name": "mutate_yaml",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 46,
+      "name": "mutate_yaml_and_validate",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 52,
+      "name": "assert_rejected",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 58,
+      "name": "test_missing_requirement_mapping_is_rejected",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 66,
+      "name": "test_definition_and_mapping_counts_are_independently_fixed_at_135",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 89,
+      "name": "test_unknown_verification_gate_is_rejected",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 98,
+      "name": "test_cycle_in_each_dependency_relation_is_rejected",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 114,
+      "name": "test_stale_generated_projection_is_rejected",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 133,
+      "name": "test_non_executable_requirement_mapping_is_rejected",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 154,
+      "name": "test_registry_metadata_must_satisfy_canonical_schemas",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 104,
+      "name": "add_cycle",
+      "path": "tests/test_registry_contracts.py"
+    },
+    {
       "kind": "class",
       "line": 15,
       "name": "SchemaContractTests",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 16,
+      "name": "test_valid_local_reference_resolves",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 20,
+      "name": "test_malformed_schema_fails_metaschema_validation",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 24,
+      "name": "test_missing_local_reference_is_rejected_without_network",
+      "path": "tests/test_schema_contracts.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 28,
+      "name": "test_stale_generated_schema_is_rejected",
       "path": "tests/test_schema_contracts.py"
     },
     {
@@ -2944,15 +6890,69 @@
       "path": "tests/test_v2_rebuild_frontier.py"
     },
     {
+      "kind": "test_fixture",
+      "line": 17,
+      "name": "test_binding_contract_validates_at_its_public_cli",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 40,
+      "name": "test_recorded_rebuild_baseline_matches_the_binding_contract",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 57,
+      "name": "test_checked_in_inventory_evidence_is_machine_readable_and_attributed",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 82,
+      "name": "test_cross_relation_dependency_cycle_is_rejected",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 111,
+      "name": "test_requirement_derivation_references_are_resolved_and_acyclic",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 145,
+      "name": "test_inventory_cli_records_the_baseline_and_every_inventory_class",
+      "path": "tests/test_v2_rebuild_frontier.py"
+    },
+    {
       "kind": "class",
       "line": 12,
       "name": "W00QualificationTests",
       "path": "tests/test_w00_qualification.py"
     },
     {
+      "kind": "test_fixture",
+      "line": 13,
+      "name": "test_checked_in_packet_evidence_is_complete_and_self_consistent",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 36,
+      "name": "test_contradictory_packet_evidence_is_rejected",
+      "path": "tests/test_w00_qualification.py"
+    },
+    {
       "kind": "class",
       "line": 11,
       "name": "W01ProfileTests",
+      "path": "tests/test_w01_profile.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 12,
+      "name": "test_qemu_profile_is_schema_valid_and_truthfully_declares_absent_features",
       "path": "tests/test_w01_profile.py"
     },
     {
@@ -2974,9 +6974,99 @@
       "path": "tests/test_w02_state.py"
     },
     {
+      "kind": "def",
+      "line": 21,
+      "name": "setUpClass",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "def",
+      "line": 28,
+      "name": "setUp",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "def",
+      "line": 31,
+      "name": "put",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 35,
+      "name": "test_transition_is_atomic_conflict_safe_and_replay_idempotent",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 54,
+      "name": "test_crash_before_commit_and_upload_leave_no_authoritative_record",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 66,
+      "name": "test_history_state_machine_and_evidence_tamper_detection",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 91,
+      "name": "test_consistent_backup_restores_state_and_rejects_corruption",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 107,
+      "name": "test_concurrent_writers_clock_projection_and_migration_boundaries",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 127,
+      "name": "test_maintenance_authority_and_evidence_bounds",
+      "path": "tests/test_w02_state.py"
+    },
+    {
+      "kind": "def",
+      "line": 110,
+      "name": "write",
+      "path": "tests/test_w02_state.py"
+    },
+    {
       "kind": "class",
       "line": 9,
       "name": "LifecycleTests",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 11,
+      "name": "setUpClass",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "kind": "def",
+      "line": 15,
+      "name": "setUp",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 18,
+      "name": "test_wake_is_committed_before_notification_and_redelivered_after_signal_loss",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 31,
+      "name": "test_lost_notification_does_not_lose_wake_and_objective_requires_claim",
+      "path": "tests/test_w05_lifecycle.py"
+    },
+    {
+      "kind": "test_fixture",
+      "line": 45,
+      "name": "test_expired_activation_is_classified_and_untrusted_clock_is_denied",
       "path": "tests/test_w05_lifecycle.py"
     },
     {
@@ -3238,12 +7328,6 @@
       "path": "tools/qualify_w12.py"
     },
     {
-      "kind": "def",
-      "line": 4,
-      "name": "main",
-      "path": "tools/qualify_w13.py"
-    },
-    {
       "kind": "class",
       "line": 24,
       "name": "RegistryContractError",
@@ -3259,6 +7343,18 @@
       "kind": "def",
       "line": 302,
       "name": "main",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 69,
+      "name": "visit",
+      "path": "tools/registry_contracts.py"
+    },
+    {
+      "kind": "def",
+      "line": 162,
+      "name": "cell",
       "path": "tools/registry_contracts.py"
     },
     {
@@ -3466,10 +7562,6 @@
     "crates/habitat-packages/src/main.rs",
     "crates/habitat-packages/tests/admission.rs",
     "crates/habitat-packages/tests/lifecycle.rs",
-    "crates/habitat-physical/Cargo.toml",
-    "crates/habitat-physical/src/lib.rs",
-    "crates/habitat-physical/src/main.rs",
-    "crates/habitat-physical/tests/physical_boundary.rs",
     "crates/habitat-simulation/Cargo.toml",
     "crates/habitat-simulation/src/lib.rs",
     "crates/habitat-simulation/src/main.rs",
@@ -3490,7 +7582,6 @@
     "docs/implementation/W10.md",
     "docs/implementation/W11.md",
     "docs/implementation/W12.md",
-    "docs/implementation/W13.md",
     "evidence/v2-rebuild/baseline.json",
     "evidence/v2-rebuild/inventory.json",
     "evidence/work-packets/W00/contract-validation-report.json",
@@ -3595,7 +7686,6 @@
     "tools/qualify_w10.py",
     "tools/qualify_w11.py",
     "tools/qualify_w12.py",
-    "tools/qualify_w13.py",
     "tools/registry_contracts.py",
     "tools/schema_contracts.py",
     "tools/test_w01.py",
