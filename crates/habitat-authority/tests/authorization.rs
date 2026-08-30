@@ -1,4 +1,5 @@
 use habitat_authority::*;
+use std::os::unix::net::UnixStream;
 
 #[test]
 fn every_request_is_authenticated_and_mediated_against_all_grant_bounds() {
@@ -10,23 +11,26 @@ fn every_request_is_authenticated_and_mediated_against_all_grant_bounds() {
     let request = Invocation::new("command:01", MachineId::new("machine:01").unwrap(),
         ServiceId::new("service:runtime").unwrap(), ActivationId::new("activation:01").unwrap(),
         "StoreCap", "read", "bucket/evidence/a", 150, "state:7", "objective:01");
-    authority.bind_local_peer(&request.machine,&request.service,&request.activation).unwrap();
+    let (channel,_peer)=UnixStream::pair().unwrap();
+    authority.bind_peer(&channel,&request.machine,&request.service,&request.activation).unwrap();
     authority.issue(grant, IndependentApproval::verified("operator:01")).unwrap();
-    assert_eq!(authority.bind_local_peer(&MachineId::new("machine:other").unwrap(),
+    assert_eq!(authority.bind_peer(&channel,&MachineId::new("machine:other").unwrap(),
         &ServiceId::new("service:other").unwrap(),&ActivationId::new("activation:other").unwrap()),
         Err(AuthorityError::BindingLocked));
-    assert!(authority.evaluate_local(&request).unwrap().allowed);
-    assert_eq!(authority.evaluate_local(&Invocation {
+    assert!(authority.evaluate_peer(&channel,&request).unwrap().allowed);
+    let (forged_channel,_forged_peer)=UnixStream::pair().unwrap();
+    assert_eq!(authority.evaluate_peer(&forged_channel,&request).unwrap().denial_code.as_deref(),Some("UNAUTHORIZED"));
+    assert_eq!(authority.evaluate_peer(&channel,&Invocation {
         machine:MachineId::new("machine:other").unwrap(),..request.clone()
     }).unwrap().denial_code.as_deref(),Some("UNAUTHORIZED"));
-    assert_eq!(authority.evaluate_local(&Invocation {
+    assert_eq!(authority.evaluate_peer(&channel,&Invocation {
         service:ServiceId::new("service:other").unwrap(),..request.clone()
     }).unwrap().denial_code.as_deref(),Some("UNAUTHORIZED"));
-    assert_eq!(authority.evaluate_local(&Invocation { operation: "write".into(), ..request.clone() }).unwrap()
+    assert_eq!(authority.evaluate_peer(&channel,&Invocation { operation: "write".into(), ..request.clone() }).unwrap()
         .denial_code.as_deref(), Some("UNAUTHORIZED"));
-    assert_eq!(authority.evaluate_local(&Invocation { generation: "generation:02".into(), ..request.clone() }).unwrap()
+    assert_eq!(authority.evaluate_peer(&channel,&Invocation { generation: "generation:02".into(), ..request.clone() }).unwrap()
         .denial_code.as_deref(), Some("STALE"));
-    assert_eq!(authority.evaluate_local(&Invocation { state_version: "state:stale".into(), ..request }).unwrap()
+    assert_eq!(authority.evaluate_peer(&channel,&Invocation { state_version: "state:stale".into(), ..request }).unwrap()
         .denial_code.as_deref(), Some("STALE"));
 }
 
@@ -39,7 +43,8 @@ fn caller_timestamp_cannot_replay_an_expired_grant(){
     let request=Invocation::new("command:1",MachineId::new("machine:1").unwrap(),
         ServiceId::new("service:runtime").unwrap(),ActivationId::new("activation:1").unwrap(),
         "ReadCap","read","resource/1",150,"state:1","objective:1");
-    authority.bind_local_peer(&request.machine,&request.service,&request.activation).unwrap();
+    let (channel,_peer)=UnixStream::pair().unwrap();
+    authority.bind_peer(&channel,&request.machine,&request.service,&request.activation).unwrap();
     authority.issue(grant,IndependentApproval::verified("operator:1")).unwrap();
-    assert_eq!(authority.evaluate_local(&request).unwrap().denial_code.as_deref(),Some("STALE"));
+    assert_eq!(authority.evaluate_peer(&channel,&request).unwrap().denial_code.as_deref(),Some("STALE"));
 }

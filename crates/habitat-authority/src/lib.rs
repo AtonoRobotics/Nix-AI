@@ -1,7 +1,8 @@
 //! Deterministic, default-deny capability authority.
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use std::{collections::{BTreeSet, HashMap, HashSet}, fs, path::{Path, PathBuf}};
+use std::{collections::{BTreeSet, HashMap, HashSet}, fs, mem, os::fd::AsRawFd,
+    os::unix::net::UnixStream, path::{Path, PathBuf}};
 
 macro_rules! identity {
     ($name:ident, $prefix:literal) => {
@@ -24,7 +25,7 @@ identity!(ActivationId, "activation:");
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum AuthorityError {
     IdentityInvalid, InvalidGrant, SelfAuthority, ParentMissing, ParentInactive, AttenuationViolation,
-    BindingLocked, Storage,
+    BindingLocked, PeerCredential, Storage,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -124,12 +125,14 @@ impl Decision{
 #[derive(Serialize, Deserialize)]
 pub struct Authority {
     policy:String,generation:String,state_version:String,current_time:u64,
-    peer_bindings:HashMap<u32,(String,String,String)>,grants:HashMap<String,Grant>,revoked:HashSet<String>,
+    #[serde(skip)] peer_binding:Option<PeerBinding>,grants:HashMap<String,Grant>,revoked:HashSet<String>,
     epoch:u64, available:bool, decisions:Vec<Decision>, #[serde(skip)] path:Option<PathBuf>,
 }
+#[derive(Clone,Debug)] struct PeerBinding { channel:(u64,u64),pid:i32,uid:u32,gid:u32,
+    machine:String,service:String,activation:String }
 impl Authority {
     pub fn new(policy:&str,generation:&str,state_version:&str,current_time:u64)->Self{Self{policy:policy.into(),generation:generation.into(),state_version:state_version.into(),current_time,
-        peer_bindings:HashMap::new(),grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
+        peer_binding:None,grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
     pub fn open(path:impl AsRef<Path>,policy:&str,generation:&str,state_version:&str,current_time:u64)->Result<Self,AuthorityError>{
         let path=path.as_ref().to_owned();
         if path.exists(){
@@ -155,10 +158,25 @@ impl Authority {
         self.grants.insert(grant.id.clone(),grant); self.persist()
     }
     pub fn set_available(&mut self,value:bool){self.available=value}
-    pub fn bind_local_peer(&mut self,machine:&MachineId,service:&ServiceId,activation:&ActivationId)->Result<(),AuthorityError>{
-        let uid=unsafe{libc::geteuid()};
-        if !self.grants.is_empty()||self.peer_bindings.contains_key(&uid){return Err(AuthorityError::BindingLocked)}
-        self.peer_bindings.insert(uid,(machine.as_str().into(),service.as_str().into(),activation.as_str().into()));self.persist()
+    fn peer_credentials(channel:&UnixStream)->Result<((u64,u64),libc::ucred),AuthorityError>{
+        let fd=channel.as_raw_fd();
+        let mut stat=mem::MaybeUninit::<libc::stat>::uninit();
+        if unsafe{libc::fstat(fd,stat.as_mut_ptr())}!=0{return Err(AuthorityError::PeerCredential)}
+        let stat=unsafe{stat.assume_init()};
+        let mut credential=mem::MaybeUninit::<libc::ucred>::uninit();
+        let mut length=mem::size_of::<libc::ucred>() as libc::socklen_t;
+        if unsafe{libc::getsockopt(fd,libc::SOL_SOCKET,libc::SO_PEERCRED,
+            credential.as_mut_ptr().cast(),&mut length)}!=0||length as usize!=mem::size_of::<libc::ucred>(){
+            return Err(AuthorityError::PeerCredential)
+        }
+        Ok(((stat.st_dev as u64,stat.st_ino as u64),unsafe{credential.assume_init()}))
+    }
+    pub fn bind_peer(&mut self,channel:&UnixStream,machine:&MachineId,service:&ServiceId,
+        activation:&ActivationId)->Result<(),AuthorityError>{
+        if self.peer_binding.is_some(){return Err(AuthorityError::BindingLocked)}
+        let (identity,credential)=Self::peer_credentials(channel)?;
+        self.peer_binding=Some(PeerBinding{channel:identity,pid:credential.pid,uid:credential.uid,gid:credential.gid,
+            machine:machine.as_str().into(),service:service.as_str().into(),activation:activation.as_str().into()});Ok(())
     }
     pub fn set_current_time(&mut self,value:u64){self.current_time=value}
     pub fn update_state_version(&mut self,value:&str)->Result<(),AuthorityError>{
@@ -196,10 +214,12 @@ impl Authority {
             }
         }
     }
-    pub fn evaluate_local(&mut self,request:&Invocation)->Result<Decision,AuthorityError>{
-        let uid=unsafe{libc::geteuid()};
-        let authenticated=self.peer_bindings.get(&uid).map(|value|value.0==request.machine.as_str()
-            &&value.1==request.service.as_str()&&value.2==request.activation.as_str()).unwrap_or(false);
+    pub fn evaluate_peer(&mut self,channel:&UnixStream,request:&Invocation)->Result<Decision,AuthorityError>{
+        let observed=Self::peer_credentials(channel)?;
+        let authenticated=self.peer_binding.as_ref().map(|value|value.channel==observed.0
+            &&value.pid==observed.1.pid&&value.uid==observed.1.uid&&value.gid==observed.1.gid
+            &&value.machine==request.machine.as_str()&&value.service==request.service.as_str()
+            &&value.activation==request.activation.as_str()).unwrap_or(false);
         let denial = if !self.available { Some(("UNAVAILABLE","authority state unavailable")) }
             else if !authenticated { Some(("UNAUTHORIZED","kernel peer identity is not bound to invocation")) }
             else if request.command_id.is_empty() || request.objective.is_empty() { Some(("INVALID","identity or objective missing")) }

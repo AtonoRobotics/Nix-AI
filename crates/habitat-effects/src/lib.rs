@@ -2,7 +2,7 @@
 use habitat_authority::{Authority,Invocation};
 use serde::{Deserialize,Serialize};
 use sha2::{Digest,Sha256};
-use std::{collections::HashMap,fs,path::{Path,PathBuf}};
+use std::{collections::HashMap,fs,os::unix::net::UnixStream,path::{Path,PathBuf}};
 
 #[derive(Clone,Copy,Debug,PartialEq,Eq,PartialOrd,Ord,Serialize,Deserialize)]
 pub enum ConsequenceClass { E0,E1,E2,E3 }
@@ -48,8 +48,8 @@ impl EffectProposal {
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub struct Admission { authority_decision:String,allowed:bool,precondition_valid:bool }
 impl Admission {
-    fn from_authority(authority:&mut Authority,invocation:&Invocation,precondition_valid:bool)->Self{
-        let decision=authority.evaluate_local(invocation);
+    fn from_authority(authority:&mut Authority,channel:&UnixStream,invocation:&Invocation,precondition_valid:bool)->Self{
+        let decision=authority.evaluate_peer(channel,invocation);
         match decision{Ok(value)=>Self{authority_decision:value.id().into(),allowed:value.is_allowed(),precondition_valid},
             Err(_)=>Self{authority_decision:String::new(),allowed:false,precondition_valid}}
     }
@@ -109,11 +109,11 @@ impl EffectLedger {
         let temp=path.with_extension("tmp");fs::write(&temp,serde_json::to_vec(self).map_err(|_|EffectError::Storage)?)
             .and_then(|_|fs::rename(temp,path)).map_err(|_|EffectError::Storage)?;}Ok(())}
     pub fn register_provider(&mut self,provider:ProviderContract){self.providers.insert(provider.id.clone(),provider);let _=self.persist();}
-    pub fn propose_authorized(&mut self,proposal:EffectProposal,authority:&mut Authority,
+    pub fn propose_authorized(&mut self,proposal:EffectProposal,authority:&mut Authority,channel:&UnixStream,
         invocation:&Invocation,precondition_valid:bool)->Result<EffectRecord,EffectError>{
-        self.propose_authorized_at(proposal,authority,invocation,precondition_valid,0)
+        self.propose_authorized_at(proposal,authority,channel,invocation,precondition_valid,0)
     }
-    pub fn propose_authorized_at(&mut self,proposal:EffectProposal,authority:&mut Authority,
+    pub fn propose_authorized_at(&mut self,proposal:EffectProposal,authority:&mut Authority,channel:&UnixStream,
         invocation:&Invocation,precondition_valid:bool,now:u64)->Result<EffectRecord,EffectError>{
         if proposal.command_id!=invocation.command_id
             ||proposal.activation_id!=invocation.activation.as_str()
@@ -121,7 +121,7 @@ impl EffectLedger {
             ||proposal.operation!=invocation.operation||proposal.target!=invocation.target{
             return Err(EffectError::AdmissionDenied)
         }
-        let admission=Admission::from_authority(authority,invocation,precondition_valid);
+        let admission=Admission::from_authority(authority,channel,invocation,precondition_valid);
         if !admission.allowed||!admission.precondition_valid||admission.authority_decision.is_empty(){return Err(EffectError::AdmissionDenied)}
         if let Some(id)=self.by_key.get(&proposal.idempotency_key){
             let existing=&self.effects[id];
@@ -152,11 +152,11 @@ impl EffectLedger {
     pub fn reconciliations(&self,id:&str)->&[ReconciliationAttempt]{
         self.reconciliations.get(id).map(Vec::as_slice).unwrap_or(&[])
     }
-    pub fn dispatch_authorized(&mut self,id:&str,attempt:Attempt,authority:&mut Authority,
+    pub fn dispatch_authorized(&mut self,id:&str,attempt:Attempt,authority:&mut Authority,channel:&UnixStream,
         invocation:&Invocation)->Result<(),EffectError>{
-        let at=attempt.dispatched_at;self.dispatch_authorized_at(id,attempt,authority,invocation,at)
+        let at=attempt.dispatched_at;self.dispatch_authorized_at(id,attempt,authority,channel,invocation,at)
     }
-    pub fn dispatch_authorized_at(&mut self,id:&str,attempt:Attempt,authority:&mut Authority,
+    pub fn dispatch_authorized_at(&mut self,id:&str,attempt:Attempt,authority:&mut Authority,channel:&UnixStream,
         invocation:&Invocation,now:u64)->Result<(),EffectError>{
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::Reserved{return Err(EffectError::InvalidTransition)}
@@ -166,7 +166,7 @@ impl EffectLedger {
             ||effect.proposal.operation!=invocation.operation||effect.proposal.target!=invocation.target{
             return Err(EffectError::AdmissionDenied)
         }
-        let decision=authority.evaluate_local(invocation).map_err(|_|EffectError::AdmissionDenied)?;
+        let decision=authority.evaluate_peer(channel,invocation).map_err(|_|EffectError::AdmissionDenied)?;
         if !decision.is_allowed(){return Err(EffectError::AdmissionDenied)}
         if attempt.request_digest.is_empty()||attempt.provider_id!=effect.proposal.provider_id
             ||attempt.transport_id.is_empty(){return Err(EffectError::InvalidAttempt)}
@@ -217,14 +217,14 @@ impl EffectLedger {
             EffectState::Executing=>EffectState::OutcomeUnknown,_=>return Err(EffectError::InvalidTransition)};self.persist()
     }
     pub fn compensate(&mut self,original_id:&str,command:&str,capability:&str,key:&str,
-        authority:&mut Authority,invocation:&Invocation)->Result<EffectRecord,EffectError>{
+        authority:&mut Authority,channel:&UnixStream,invocation:&Invocation)->Result<EffectRecord,EffectError>{
         let original=self.effects.get(original_id).ok_or(EffectError::EffectMissing)?.clone();
         if !matches!(original.state,EffectState::ObservedSucceeded|EffectState::ResolvedSucceeded){return Err(EffectError::InvalidTransition)}
         let mut proposal=EffectProposal::new(command,&original.proposal.activation_id,&original.proposal.objective_id,
             capability,"compensate",&original.proposal.target,&original.proposal.parameters_digest,key,
             original.proposal.consequence_class,original.proposal.expires_at);
         proposal.compensates_effect_id=Some(original_id.into());
-        self.propose_authorized(proposal,authority,invocation,true)
+        self.propose_authorized(proposal,authority,channel,invocation,true)
     }
     pub fn complete_objective(&self,objective:&str)->Result<(),EffectError>{
         let pending=self.effects.values().any(|e|e.proposal.objective_id==objective&&!matches!(e.state,
