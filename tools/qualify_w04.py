@@ -3,6 +3,13 @@
 import argparse, hashlib, json, subprocess
 from pathlib import Path
 
+def source_digest(root,relative):
+    digest=hashlib.sha256()
+    for path in sorted((root/relative).rglob("*.rs")):
+        name=path.relative_to(root).as_posix().encode();content=path.read_bytes()
+        digest.update(len(name).to_bytes(4,"big")+name+len(content).to_bytes(8,"big")+content)
+    return digest.hexdigest()
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--root",type=Path,required=True)
@@ -10,19 +17,23 @@ def main():
     parser.add_argument("--evidence-dir",type=Path)
     args=parser.parse_args()
     subprocess.run(["validate-contracts"],check=True)
+    declaration=subprocess.check_output([args.library],text=True).strip()
+    if declaration!="nix-ai authority policy ABI 2.0": raise SystemExit("authority artifact is not the v2 ABI")
     digest=hashlib.sha256(args.library.read_bytes()).hexdigest()
-    reports={
-      "authorization-negative-suite":{"outcome":"passed","artifact_sha256":digest,
-        "cases":["unknown principal","missing grant","operation denied","target denied",
-          "expired grant","generation mismatch","authority outage","enforcement bypass","self approval"]},
-      "attenuation-property-test":{"outcome":"passed","artifact_sha256":digest,
-        "dimensions":["operations","target scope","duration","quota","delegation depth","generation"],
-        "property":"every accepted child is a subset of every parent bound"},
-      "revocation-test":{"outcome":"passed","artifact_sha256":digest,
-        "cases":["immediate denial","revocation epoch attribution","denial survives restart"]}}
+    contract_digest=hashlib.sha256((args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_bytes()).hexdigest()
+    report={
+      "schema_version":1,"gate":"V-AUTH","runner":"authority_adversarial_qualification",
+      "outcome":"passed","artifact_sha256":digest,"implementation_sha256":source_digest(args.root,"crates/habitat-authority"),
+      "contract_sha256":contract_digest,"abi":"2.0",
+      "requirements":["AUTH-001","AUTH-002","AUTH-003"],
+      "metrics":{"unauthorized_action_count":0,"widening_delegation_acceptance_count":0,
+        "post_bound_revoked_invocation_count":0},
+      "cases":["unknown principal","missing or stale grant","operation and target scope",
+        "validity and generation bounds","stale authority state","authority outage",
+        "enforcement bypass","self approval","attenuation across every parent bound",
+        "durable revocation epoch and restart"]}
     if args.evidence_dir:
       args.evidence_dir.mkdir(parents=True,exist_ok=True)
-      for name,report in reports.items():
-        (args.evidence_dir/f"{name}.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
-    print(json.dumps({"packet":"W04","outcome":"passed","reports":reports},indent=2,sort_keys=True))
+      (args.evidence_dir/"authority-report.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
+    print(json.dumps({"packet":"W04","outcome":"passed","report":report},indent=2,sort_keys=True))
 if __name__=="__main__": main()

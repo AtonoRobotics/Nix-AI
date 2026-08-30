@@ -23,7 +23,7 @@ identity!(ActivationId, "activation:");
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum AuthorityError {
-    IdentityInvalid, InvalidGrant, SelfAuthority, ParentMissing, AttenuationViolation, Storage,
+    IdentityInvalid, InvalidGrant, SelfAuthority, ParentMissing, ParentInactive, AttenuationViolation, Storage,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -39,12 +39,12 @@ pub struct Grant {
 pub struct GrantBuilder(Grant);
 impl Grant {
     pub fn builder(id: &str, issuer: &str, subject: &str, capability: &str) -> GrantBuilder {
-        GrantBuilder(Grant { id:id.into(), schema_version:"1.0".into(), issuer:issuer.into(),
-            subject:subject.into(), capability:capability.into(), capability_version:"1.0".into(),
+        GrantBuilder(Grant { id:id.into(), schema_version:"2.0".into(), issuer:issuer.into(),
+            subject:subject.into(), capability:capability.into(), capability_version:"2.0".into(),
             operations:BTreeSet::new(), target_prefix:String::new(), quota:1, issued_at:0,
             not_before:0, expires_at:0, remaining_delegation_depth:0, generation:String::new(),
             activation:subject.into(), revocation_handle:format!("revoke:{id}"),
-            policy_ref:"policy:v1".into(), evidence_refs:vec![], issuance_proof:String::new() })
+            policy_ref:"policy:v2".into(), evidence_refs:vec![], issuance_proof:String::new() })
     }
 }
 impl GrantBuilder {
@@ -107,24 +107,25 @@ pub struct Decision {
     pub policy_version:String, pub revocation_epoch:u64, pub evaluated_state_version:String,
     pub result_evidence:String,
     pub enforcement_provider:Option<String>,
+    pub denial_reason:Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct Authority {
-    policy:String, generation:String, grants:HashMap<String,Grant>, revoked:HashSet<String>,
+    policy:String, generation:String, state_version:String, grants:HashMap<String,Grant>, revoked:HashSet<String>,
     epoch:u64, available:bool, decisions:Vec<Decision>, #[serde(skip)] path:Option<PathBuf>,
 }
 impl Authority {
-    pub fn new(policy:&str,generation:&str)->Self{Self{policy:policy.into(),generation:generation.into(),
+    pub fn new(policy:&str,generation:&str,state_version:&str)->Self{Self{policy:policy.into(),generation:generation.into(),state_version:state_version.into(),
         grants:HashMap::new(),revoked:HashSet::new(),epoch:0,available:true,decisions:vec![],path:None}}
-    pub fn open(path:impl AsRef<Path>,policy:&str,generation:&str)->Result<Self,AuthorityError>{
+    pub fn open(path:impl AsRef<Path>,policy:&str,generation:&str,state_version:&str)->Result<Self,AuthorityError>{
         let path=path.as_ref().to_owned();
         if path.exists(){
             let mut value:Self=serde_json::from_slice(&fs::read(&path).map_err(|_|AuthorityError::Storage)?)
                 .map_err(|_|AuthorityError::Storage)?;
             value.path=Some(path); value.available=true; Ok(value)
         }else{
-            let mut value=Self::new(policy,generation); value.path=Some(path); Ok(value)
+            let mut value=Self::new(policy,generation,state_version); value.path=Some(path); Ok(value)
         }
     }
     fn persist(&self)->Result<(),AuthorityError>{
@@ -141,12 +142,16 @@ impl Authority {
         self.grants.insert(grant.id.clone(),grant); self.persist()
     }
     pub fn set_available(&mut self,value:bool){self.available=value}
+    pub fn update_state_version(&mut self,value:&str)->Result<(),AuthorityError>{
+        self.state_version=value.into();self.persist()
+    }
     pub fn revoke(&mut self,grant_id:&str)->bool{
         self.epoch+=1; let changed=self.revoked.insert(grant_id.into());
         if self.persist().is_err(){self.available=false;} changed
     }
     pub fn delegate(&mut self,parent_id:&str,child:Grant)->Result<(),AuthorityError>{
         let parent=self.grants.get(parent_id).ok_or(AuthorityError::ParentMissing)?;
+        if self.revoked.contains(parent_id){return Err(AuthorityError::ParentInactive)}
         if child.issuer!=parent.subject || child.operations.is_empty()
             || !child.operations.is_subset(&parent.operations)
             || !child.target_prefix.starts_with(&parent.target_prefix)
@@ -159,31 +164,40 @@ impl Authority {
         self.grants.insert(child.id.clone(),child); self.persist()
     }
     pub fn evaluate(&mut self,request:&Invocation)->Decision{
-        let denial = if !self.available { Some("AUTHORITY_UNAVAILABLE") }
-            else if request.command_id.is_empty() || request.objective.is_empty() { Some("IDENTITY_INVALID") }
-            else if request.generation!=self.generation { Some("GENERATION_MISMATCH") }
+        let denial = if !self.available { Some(("UNAVAILABLE","authority state unavailable")) }
+            else if request.command_id.is_empty() || request.objective.is_empty() { Some(("INVALID","identity or objective missing")) }
+            else if request.generation!=self.generation { Some(("STALE","generation mismatch")) }
+            else if request.state_version!=self.state_version { Some(("STALE","authority state version mismatch")) }
             else { None };
-        let candidate = self.grants.values().find(|g| g.subject==request.activation.as_str()
-            && g.capability==request.capability);
-        let (grant,code)=if denial.is_some(){(None,denial)}else if let Some(g)=candidate{
-            if self.revoked.contains(&g.id){(Some(g),Some("GRANT_REVOKED"))}
-            else if request.at<g.not_before || request.at>=g.expires_at{(Some(g),Some("GRANT_EXPIRED"))}
-            else if g.generation!=request.generation{(Some(g),Some("GENERATION_MISMATCH"))}
-            else if !g.operations.contains(&request.operation){(Some(g),Some("OPERATION_DENIED"))}
-            else if !request.target.starts_with(&g.target_prefix){(Some(g),Some("TARGET_DENIED"))}
-            else if request.enforcement.as_ref().map(|p|p.verified).unwrap_or(false)==false
-                && request.operation!="read"{(Some(g),Some("ENFORCEMENT_UNVERIFIED"))}
-            else{(Some(g),None)}
-        }else{(None,Some("NO_GRANT"))};
+        let mut candidates=self.grants.values().filter(|g|g.subject==request.activation.as_str()
+            &&g.capability==request.capability).collect::<Vec<_>>();
+        candidates.sort_by(|left,right|left.id.cmp(&right.id));
+        let (mut grant,mut code)=(None,denial);
+        if code.is_none(){
+            for candidate in candidates{
+                let reason=if self.revoked.contains(&candidate.id){Some(("UNAUTHORIZED","grant revoked"))}
+                    else if request.at<candidate.not_before||request.at>=candidate.expires_at{Some(("STALE","grant outside validity interval"))}
+                    else if candidate.generation!=request.generation{Some(("STALE","grant generation mismatch"))}
+                    else if !candidate.operations.contains(&request.operation){Some(("UNAUTHORIZED","operation outside grant scope"))}
+                    else if !request.target.starts_with(&candidate.target_prefix){Some(("UNAUTHORIZED","target outside grant scope"))}
+                    else if !request.enforcement.as_ref().map(|p|p.verified).unwrap_or(false)
+                        &&request.operation!="read"{Some(("UNAUTHORIZED","enforcement proof unverified"))}
+                    else{None};
+                if grant.is_none(){grant=Some(candidate);code=reason}
+                if reason.is_none(){grant=Some(candidate);code=None;break}
+            }
+            if grant.is_none(){code=Some(("UNAUTHORIZED","no current scoped grant"))}
+        }
         let mut decision=Decision{decision_id:String::new(),allowed:code.is_none(),
-            grant_id:grant.map(|g|g.id.clone()),denial_code:code.map(Into::into),
+            grant_id:grant.map(|g|g.id.clone()),denial_code:code.map(|value|value.0.into()),
             subject:request.activation.as_str().into(),
             issuer_chain:grant.map(|g|vec![g.issuer.clone()]).unwrap_or_default(),
             activation:request.activation.as_str().into(),objective:request.objective.clone(),
             target:request.target.clone(),operation:request.operation.clone(),policy_version:self.policy.clone(),
             revocation_epoch:self.epoch,evaluated_state_version:request.state_version.clone(),
             result_evidence:String::new(),
-            enforcement_provider:request.enforcement.as_ref().map(|p|p.provider.clone())};
+            enforcement_provider:request.enforcement.as_ref().map(|p|p.provider.clone()),
+            denial_reason:code.map(|value|value.1.into())};
         decision.decision_id=format!("decision:sha256:{:x}",Sha256::digest(serde_json::to_vec(&decision).unwrap()));
         decision.result_evidence=format!("evidence:{}",decision.decision_id);
         self.decisions.push(decision.clone()); decision

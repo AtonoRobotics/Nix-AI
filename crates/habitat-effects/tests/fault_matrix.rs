@@ -48,9 +48,9 @@ fn cancellation_and_compensation_preserve_truthful_distinct_histories(){
 #[test]
 fn recovery_bounded_validity_ordering_and_completion_fail_closed(){
     let mut ledger=ledger(); ledger.register_provider(ProviderContract::reconcilable(
-        "service",ReconciliationMode::TargetState,ConsequenceClass::E4));
+        "service",ReconciliationMode::TargetState,ConsequenceClass::E3));
     let mut operation=EffectProposal::new("command:m","activation:1","objective:change","service.change","apply",
-        "resource:1","sha256:change","intent:change:0001",ConsequenceClass::E4,120);
+        "resource:1","sha256:change","intent:change:0001",ConsequenceClass::E3,120);
     operation=operation.bounded("constraint:7",100,120,true).ordered("resource:1",1);
     let effect=ledger.propose_at(operation,Admission::allow("decision:m",true),110).unwrap();
     assert_eq!(ledger.complete_objective("objective:change"),Err(EffectError::ObjectiveEffectsPending));

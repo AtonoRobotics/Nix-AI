@@ -16,4 +16,9 @@ fn admission_atomically_reserves_semantic_intent_and_deduplicates(){
     assert_eq!(first.state,EffectState::Reserved);
     assert_eq!(ledger.len(),1);
     assert!(ledger.get(&first.effect_id).unwrap().admission.precondition_valid);
+
+    let mut changed=proposal("intent:mail:recipient:payload");
+    changed.target="recipient:other".into();
+    assert_eq!(ledger.propose(changed,Admission::allow("decision:3",true)),
+        Err(EffectError::IdempotencyConflict));
 }

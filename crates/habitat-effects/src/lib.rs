@@ -4,7 +4,7 @@ use sha2::{Digest,Sha256};
 use std::{collections::HashMap,fs,path::{Path,PathBuf}};
 
 #[derive(Clone,Copy,Debug,PartialEq,Eq,PartialOrd,Ord,Serialize,Deserialize)]
-pub enum ConsequenceClass { E0,E1,E2,E3,E4 }
+pub enum ConsequenceClass { E0,E1,E2,E3 }
 
 #[derive(Clone,Copy,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub enum ReconciliationMode { IdempotencyKey,ExternalIdentifier,TargetState,None }
@@ -52,7 +52,7 @@ impl Admission { pub fn allow(decision:&str,precondition_valid:bool)->Self{
 
 #[derive(Clone,Copy,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub enum EffectState { Proposed,Rejected,Reserved,Executing,ObservedSucceeded,ObservedFailed,
-    OutcomeUnknown,Reconciling,ResolvedSucceeded,ResolvedFailed,ManualAuthorityRequired,Cancelled }
+    OutcomeUnknown,Reconciling,ResolvedSucceeded,ResolvedFailed,AuthorityRequired,Cancelled }
 
 #[derive(Clone,Debug,PartialEq,Eq,Serialize,Deserialize)]
 pub struct EffectRecord { pub effect_id:String,pub proposal:EffectProposal,pub admission:Admission,
@@ -76,7 +76,8 @@ impl Observation {
 
 #[derive(Debug,PartialEq,Eq)] pub enum EffectError { AdmissionDenied,ProviderMissing,ConsequenceUnsupported,
     EffectMissing,InvalidTransition,IndependentEvidenceRequired,ExpiredCommand,
-    ExecutionContractIncomplete,ObjectiveEffectsPending,OrderingViolation,Storage }
+    ExecutionContractIncomplete,ObjectiveEffectsPending,OrderingViolation,IdempotencyConflict,
+    InvalidAttempt,Storage }
 
 #[derive(Default,Serialize,Deserialize)] pub struct EffectLedger { effects:HashMap<String,EffectRecord>,by_key:HashMap<String,String>,
     providers:HashMap<String,ProviderContract>,attempts:HashMap<String,Vec<Attempt>>,
@@ -96,14 +97,18 @@ impl EffectLedger {
         self.propose_at(proposal,admission,0)
     }
     pub fn propose_at(&mut self,proposal:EffectProposal,admission:Admission,now:u64)->Result<EffectRecord,EffectError>{
-        if let Some(id)=self.by_key.get(&proposal.idempotency_key){return Ok(self.effects[id].clone())}
-        if !admission.allowed||!admission.precondition_valid{return Err(EffectError::AdmissionDenied)}
+        if let Some(id)=self.by_key.get(&proposal.idempotency_key){
+            let existing=&self.effects[id];
+            return if existing.proposal==proposal{Ok(existing.clone())}
+                else{Err(EffectError::IdempotencyConflict)}
+        }
+        if !admission.allowed||!admission.precondition_valid||admission.authority_decision.is_empty(){return Err(EffectError::AdmissionDenied)}
         let provider=self.providers.get(&proposal.provider_id).ok_or(EffectError::ProviderMissing)?;
         if proposal.consequence_class>provider.max_class||
             (proposal.consequence_class>=ConsequenceClass::E2&&provider.reconciliation==ReconciliationMode::None){
             return Err(EffectError::ConsequenceUnsupported)
         }
-        if proposal.consequence_class==ConsequenceClass::E4 && (proposal.execution_constraint_id.is_none()
+        if proposal.consequence_class==ConsequenceClass::E3 && (proposal.execution_constraint_id.is_none()
             ||proposal.valid_from.map(|v|now<v).unwrap_or(true)||proposal.valid_until.map(|v|now>=v).unwrap_or(true)
             ||!proposal.controller_ack_required){return Err(EffectError::ExecutionContractIncomplete)}
         if let (Some(group),Some(sequence))=(&proposal.ordering_group,proposal.ordering_sequence){
@@ -125,7 +130,9 @@ impl EffectLedger {
     pub fn dispatch_at(&mut self,id:&str,attempt:Attempt,now:u64)->Result<(),EffectError>{
         let effect=self.effects.get_mut(id).ok_or(EffectError::EffectMissing)?;
         if effect.state!=EffectState::Reserved{return Err(EffectError::InvalidTransition)}
-        if effect.proposal.consequence_class==ConsequenceClass::E4&&effect.proposal.valid_until.map(|v|now>=v).unwrap_or(true){
+        if attempt.request_digest.is_empty()||attempt.provider_id!=effect.proposal.provider_id
+            ||attempt.transport_id.is_empty(){return Err(EffectError::InvalidAttempt)}
+        if effect.proposal.consequence_class==ConsequenceClass::E3&&effect.proposal.valid_until.map(|v|now>=v).unwrap_or(true){
             return Err(EffectError::ExpiredCommand)
         }
         effect.state=EffectState::Executing;self.attempts.entry(id.into()).or_default().push(attempt);self.persist()

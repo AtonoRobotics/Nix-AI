@@ -1,3 +1,3 @@
 fn main() {
-    println!("habitat-authority policy ABI 1.0");
+    println!("nix-ai authority policy ABI 2.0");
 }

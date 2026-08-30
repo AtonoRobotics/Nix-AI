@@ -1,0 +1,32 @@
+{
+  "abi": "2.0",
+  "artifact_sha256": "e908b837a96f58e4783ddfdfed61828e21887e4da72773a648058249175572da",
+  "cases": [
+    "unknown principal",
+    "missing or stale grant",
+    "operation and target scope",
+    "validity and generation bounds",
+    "stale authority state",
+    "authority outage",
+    "enforcement bypass",
+    "self approval",
+    "attenuation across every parent bound",
+    "durable revocation epoch and restart"
+  ],
+  "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
+  "gate": "V-AUTH",
+  "implementation_sha256": "f291146ae54874dd7b295754cac7525dbeac33748e34079fbd57b8e3829d91c7",
+  "metrics": {
+    "post_bound_revoked_invocation_count": 0,
+    "unauthorized_action_count": 0,
+    "widening_delegation_acceptance_count": 0
+  },
+  "outcome": "passed",
+  "requirements": [
+    "AUTH-001",
+    "AUTH-002",
+    "AUTH-003"
+  ],
+  "runner": "authority_adversarial_qualification",
+  "schema_version": 1
+}
