@@ -15,6 +15,25 @@ service AgentRuntime {
 message GetActivationRequest {
   string activation_id = 1;
   string activation_credential = 2;
+  RequestBinding binding = 3;
+}
+
+// Canonical V2.0.1 invocation binding. Every mutating and lookup request is
+// authenticated against the same activation-scoped identity and lease tuple.
+message RequestBinding {
+  string schema_version = 1;
+  string command_id = 2;
+  string machine_id = 3;
+  string agent_id = 4;
+  string objective_id = 5;
+  string activation_id = 6;
+  uint64 lease_fence = 7;
+  string system_generation_id = 8;
+  string capability_activation_set_id = 9;
+  google.protobuf.Timestamp deadline = 10;
+  string trace_id = 11;
+  repeated string evidence_refs = 12;
+  string activation_credential = 13;
 }
 
 message ActivationEnvelope {
@@ -53,6 +72,7 @@ message SubmitDispositionRequest {
   DispositionKind kind = 3;
   google.protobuf.Struct payload = 4;
   DecisionRecord decision_record = 5;
+  RequestBinding binding = 6;
 }
 
 message DecisionRecord {
@@ -63,12 +83,14 @@ message DecisionRecord {
 message GetCommandResultRequest {
   string activation_id = 1;
   string command_id = 2;
+  RequestBinding binding = 3;
 }
 
 message CancelActivationRequest {
   string activation_id = 1;
   string command_id = 2;
   string reason_code = 3;
+  RequestBinding binding = 4;
 }
 
 enum RetryDisposition {

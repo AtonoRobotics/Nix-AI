@@ -1,12 +1,13 @@
 use habitat_abi::{
     proto::{
         agent_runtime_client::AgentRuntimeClient, agent_runtime_server::AgentRuntimeServer,
-        DispositionKind, GetActivationRequest, SubmitDispositionRequest,
+        DispositionKind, GetActivationRequest, RequestBinding, SubmitDispositionRequest,
     },
-    AgentAbi,
+    AgentAbi, SecurityPolicy, CONTRACT_VERSION,
 };
 use hyper_util::rt::TokioIo;
 use std::{
+    os::unix::fs::MetadataExt,
     path::{Path, PathBuf},
     time::Duration,
 };
@@ -22,9 +23,20 @@ use tonic::{
 };
 use tower::service_fn;
 
-async fn start(socket: &Path, ledger: &Path) -> JoinHandle<()> {
+fn policy(root: &Path) -> SecurityPolicy {
+    SecurityPolicy {
+        expected_peer_uid: std::fs::metadata(root).unwrap().uid(),
+        activation_id: "activation:01".into(),
+        activation_credential: "secret-credential".into(),
+        minimum_lease_fence: 7,
+        system_generation_id: "generation:01".into(),
+        capability_activation_set_id: "capability-set:01".into(),
+    }
+}
+
+async fn start(socket: &Path, ledger: &Path, policy: SecurityPolicy) -> JoinHandle<()> {
     let listener = UnixListener::bind(socket).unwrap();
-    let service = AgentAbi::open(ledger).unwrap();
+    let service = AgentAbi::open_with_security(ledger, policy).unwrap();
     tokio::spawn(async move {
         Server::builder()
             .add_service(
@@ -64,6 +76,28 @@ fn disposition(command: &str, kind: DispositionKind) -> SubmitDispositionRequest
         kind: kind as i32,
         payload: None,
         decision_record: None,
+        binding: Some(binding(command)),
+    }
+}
+
+fn binding(command: &str) -> RequestBinding {
+    RequestBinding {
+        schema_version: CONTRACT_VERSION.into(),
+        command_id: command.into(),
+        machine_id: "machine:01".into(),
+        agent_id: "agent:01".into(),
+        objective_id: "objective:01".into(),
+        activation_id: "activation:01".into(),
+        lease_fence: 7,
+        system_generation_id: "generation:01".into(),
+        capability_activation_set_id: "capability-set:01".into(),
+        deadline: Some(prost_types::Timestamp {
+            seconds: 4_102_444_800,
+            nanos: 0,
+        }),
+        trace_id: "trace:01".into(),
+        evidence_refs: vec!["evidence:sha256:01".into()],
+        activation_credential: "secret-credential".into(),
     }
 }
 
@@ -72,14 +106,16 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
     let temp = TempDir::new().unwrap();
     let socket = temp.path().join("agent.sock");
     let ledger = temp.path().join("commands.json");
-    let server = start(&socket, &ledger).await;
+    let security = policy(temp.path());
+    let server = start(&socket, &ledger, security.clone()).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut client = connect(socket.clone()).await;
     let activation = client
         .get_activation(request(
             GetActivationRequest {
                 activation_id: "activation:01".into(),
-                activation_credential: "ephemeral".into(),
+                activation_credential: "secret-credential".into(),
+                binding: Some(binding("get-activation:01")),
             },
             "2.8",
         ))
@@ -122,13 +158,13 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
         .await
         .unwrap_err()
         .message()
-        .contains("CONFLICT"));
+        .contains("REPLAY_DIGEST_MISMATCH"));
 
     server.abort();
     drop(client);
     tokio::time::sleep(Duration::from_millis(20)).await;
     std::fs::remove_file(&socket).unwrap();
-    let restarted = start(&socket, &ledger).await;
+    let restarted = start(&socket, &ledger, security).await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut restarted_client = connect(socket).await;
     assert_eq!(
@@ -145,11 +181,29 @@ async fn unix_peer_version_and_durable_duplicate_semantics() {
     restarted.abort();
 }
 
+#[test]
+fn corrupt_command_ledger_fails_closed() {
+    let temp = TempDir::new().unwrap();
+    let ledger = temp.path().join("commands.json");
+    std::fs::write(&ledger, b"{not-json").unwrap();
+
+    let error = AgentAbi::open_with_security(&ledger, policy(temp.path()))
+        .err()
+        .expect("corruption must be rejected");
+    assert_eq!(error.kind(), std::io::ErrorKind::InvalidData);
+    assert!(error.to_string().contains("command ledger is corrupt"));
+}
+
 #[tokio::test]
 async fn unknown_major_unstructured_and_oversized_commands_fail_closed() {
     let temp = TempDir::new().unwrap();
     let socket = temp.path().join("agent.sock");
-    let server = start(&socket, &temp.path().join("ledger.json")).await;
+    let server = start(
+        &socket,
+        &temp.path().join("ledger.json"),
+        policy(temp.path()),
+    )
+    .await;
     tokio::time::sleep(Duration::from_millis(20)).await;
     let mut incompatible = connect(socket.clone()).await;
     assert!(incompatible
@@ -186,5 +240,135 @@ async fn unknown_major_unstructured_and_oversized_commands_fail_closed() {
         .unwrap_err()
         .message()
         .contains("RESOURCE_EXHAUSTED"));
+    server.abort();
+}
+
+#[tokio::test]
+async fn invalid_bindings_fail_before_ledger_mutation() {
+    let temp = TempDir::new().unwrap();
+    let socket = temp.path().join("agent.sock");
+    let ledger = temp.path().join("ledger.json");
+    let server = start(&socket, &ledger, policy(temp.path())).await;
+    tokio::time::sleep(Duration::from_millis(20)).await;
+    let mut client = connect(socket).await;
+
+    let mut cases = Vec::new();
+    let mut missing = disposition("command:missing", DispositionKind::Checkpoint);
+    missing.binding = None;
+    cases.push((missing, "MISSING_BINDING"));
+    for field in [
+        "schema_version",
+        "command_id",
+        "machine_id",
+        "agent_id",
+        "objective_id",
+        "activation_id",
+        "system_generation_id",
+        "capability_activation_set_id",
+        "trace_id",
+        "activation_credential",
+    ] {
+        let mut message = disposition(
+            &format!("command:missing-{field}"),
+            DispositionKind::Checkpoint,
+        );
+        let binding = message.binding.as_mut().unwrap();
+        match field {
+            "schema_version" => binding.schema_version.clear(),
+            "command_id" => binding.command_id.clear(),
+            "machine_id" => binding.machine_id.clear(),
+            "agent_id" => binding.agent_id.clear(),
+            "objective_id" => binding.objective_id.clear(),
+            "activation_id" => binding.activation_id.clear(),
+            "system_generation_id" => binding.system_generation_id.clear(),
+            "capability_activation_set_id" => binding.capability_activation_set_id.clear(),
+            "trace_id" => binding.trace_id.clear(),
+            "activation_credential" => binding.activation_credential.clear(),
+            _ => unreachable!(),
+        }
+        cases.push((message, "MISSING_BINDING"));
+    }
+    let mut no_deadline = disposition("command:no-deadline", DispositionKind::Checkpoint);
+    no_deadline.binding.as_mut().unwrap().deadline = None;
+    cases.push((no_deadline, "MISSING_BINDING"));
+    let mut forged = disposition("command:forged", DispositionKind::Checkpoint);
+    forged.binding.as_mut().unwrap().activation_credential = "forged".into();
+    cases.push((forged, "ACTIVATION_CREDENTIAL_INVALID"));
+    let mut expired = disposition("command:expired", DispositionKind::Checkpoint);
+    expired.binding.as_mut().unwrap().deadline = Some(prost_types::Timestamp {
+        seconds: 1,
+        nanos: 0,
+    });
+    cases.push((expired, "DEADLINE_EXPIRED"));
+    let mut stale = disposition("command:stale", DispositionKind::Checkpoint);
+    stale.binding.as_mut().unwrap().lease_fence = 6;
+    cases.push((stale, "STALE_LEASE_FENCE"));
+    let mut wrong_command = disposition("command:outer", DispositionKind::Checkpoint);
+    wrong_command.binding.as_mut().unwrap().command_id = "command:inner".into();
+    cases.push((wrong_command, "COMMAND_ID_MISMATCH"));
+    let mut wrong_activation = disposition("command:activation", DispositionKind::Checkpoint);
+    wrong_activation.binding.as_mut().unwrap().activation_id = "activation:other".into();
+    cases.push((wrong_activation, "ACTIVATION_ID_MISMATCH"));
+    let mut wrong_generation = disposition("command:generation", DispositionKind::Checkpoint);
+    wrong_generation
+        .binding
+        .as_mut()
+        .unwrap()
+        .system_generation_id = "generation:other".into();
+    cases.push((wrong_generation, "ACTIVATION_SCOPE_MISMATCH"));
+    let mut wrong_capabilities = disposition("command:capabilities", DispositionKind::Checkpoint);
+    wrong_capabilities
+        .binding
+        .as_mut()
+        .unwrap()
+        .capability_activation_set_id = "capability-set:other".into();
+    cases.push((wrong_capabilities, "ACTIVATION_SCOPE_MISMATCH"));
+
+    for (message, code) in cases {
+        let error = client
+            .submit_disposition(request(message, "2.0"))
+            .await
+            .unwrap_err();
+        assert!(error.message().contains(code), "{error:?}");
+    }
+    assert!(
+        !ledger.exists(),
+        "rejected requests must not mutate the ledger"
+    );
+    server.abort();
+}
+
+#[tokio::test]
+async fn peer_mismatch_and_unavailable_ledger_fail_closed() {
+    let temp = TempDir::new().unwrap();
+    let socket = temp.path().join("peer.sock");
+    let mut wrong_peer = policy(temp.path());
+    wrong_peer.expected_peer_uid = wrong_peer.expected_peer_uid.saturating_add(1);
+    let server = start(&socket, &temp.path().join("peer-ledger.json"), wrong_peer).await;
+    tokio::time::sleep(Duration::from_millis(20)).await;
+    let mut client = connect(socket).await;
+    let error = client
+        .submit_disposition(request(
+            disposition("command:peer", DispositionKind::Checkpoint),
+            "2.0",
+        ))
+        .await
+        .unwrap_err();
+    assert!(error.message().contains("PEER_IDENTITY_MISMATCH"));
+    server.abort();
+
+    let socket = temp.path().join("unavailable.sock");
+    let ledger = temp.path().join("missing-parent/ledger.json");
+    let server = start(&socket, &ledger, policy(temp.path())).await;
+    tokio::time::sleep(Duration::from_millis(20)).await;
+    let mut client = connect(socket).await;
+    let error = client
+        .submit_disposition(request(
+            disposition("command:unavailable", DispositionKind::Checkpoint),
+            "2.0",
+        ))
+        .await
+        .unwrap_err();
+    assert_eq!(error.code(), tonic::Code::Unavailable);
     server.abort();
 }

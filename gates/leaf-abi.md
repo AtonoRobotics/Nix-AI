@@ -1,0 +1,16 @@
+# Gates: ABI identity and durable replay
+
+Scope: Bind every command to authenticated activation context and make replay fail closed.
+
+- [x] G1: ABI requests carry all canonical identity, lease, generation, deadline, trace, evidence, and credential bindings.
+  CHECK: rg -n "machine_id|agent_id|objective_id|lease_fence|system_generation_id|capability_activation_set_id|deadline|trace_id|evidence_refs|activation_credential" contracts/proto/nix_ai_agent_v2.proto
+  EXPECT: /activation_credential/
+  EVIDENCE: `RequestBinding` lines 23-37 carries schema/command/machine/agent/objective/activation/fence/generation/capability-set/deadline/trace/evidence/credential; every RPC request embeds it.
+- [x] G2: Missing/forged/expired/stale bindings and peer mismatch are rejected without mutation.
+  CHECK: env PATH=/nix/store/gxyz15yg1gjm2bcf7g4svy50w2ahvbrp-cargo-1.95.0/bin:/nix/store/4838cpsffgmc4xw856y0zdpvgssjljm0-rustc-1.95.0/bin:/usr/bin:/bin cargo test -p habitat-abi
+  EXPECT: /test result: ok/
+  EVIDENCE: 2026-08-30 transport suite passed; `invalid_bindings_fail_before_ledger_mutation` covers every required field, forged credential, expiration, stale fence, command/activation/scope mismatch, and verifies no ledger file; peer mismatch is separately exercised.
+- [x] G3: Corrupt, unavailable, and digest-mismatched replay ledgers fail closed while exact duplicates return the original result.
+  CHECK: env PATH=/nix/store/gxyz15yg1gjm2bcf7g4svy50w2ahvbrp-cargo-1.95.0/bin:/nix/store/4838cpsffgmc4xw856y0zdpvgssjljm0-rustc-1.95.0/bin:/usr/bin:/bin cargo test -p habitat-abi
+  EXPECT: /test result: ok/
+  EVIDENCE: 2026-08-30 transport suite passed exact duplicate/restart replay, digest mismatch INTERNAL, corrupt-open rejection, and unavailable persistence rejection; in-memory state changes only after fsync+rename+directory fsync.
