@@ -18,8 +18,9 @@
           token="$(tr -d '-' </proc/sys/kernel/random/uuid)$(tr -d '\n' </etc/machine-id)"
           password="$(printf '%s' "$token" | sha256sum | cut -d ' ' -f 1)"
           printf 'MINIO_ROOT_USER=habitat\nMINIO_ROOT_PASSWORD=%s\n' "$password" > "$credential_dir/minio-root.env"
-          printf 'postgresql:///habitat?host=/run/postgresql\n' > "$credential_dir/database-url"
+          printf 'postgresql:///habitat-state?host=/run/postgresql\n' > "$credential_dir/database-url"
           printf 'http://habitat:%s@127.0.0.1:9000\n' "$password" > "$credential_dir/object-store-url"
+          printf '%s\n' "$token" > "$credential_dir/abi-activation"
           chmod 0400 "$credential_dir"/*
         '';
       };
@@ -27,7 +28,7 @@
         services.postgresql = {
           enable = true;
           package = pkgs.postgresql_17;
-          ensureDatabases = [ "habitat" ];
+          ensureDatabases = [ "habitat-state" ];
           ensureUsers = [{ name = "habitat-state"; ensureDBOwnership = true; }];
         };
         services.minio = {
@@ -54,8 +55,11 @@
         habitat.runtime = {
           enable = true;
           package = habitatRuntime;
+          abiPackage = habitatAbi;
+          statePackage = habitatState;
           databaseCredential = "/run/habitat-credentials/database-url";
           objectStoreCredential = "/run/habitat-credentials/object-store-url";
+          activationCredential = "/run/habitat-credentials/abi-activation";
         };
       };
       habitatSystem = nixpkgs.lib.nixosSystem {
@@ -126,6 +130,7 @@
         name = "qualify-w00";
         runtimeInputs = contractTools;
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w00.py} ${self}
         '';
       };
@@ -134,6 +139,7 @@
         runtimeInputs = [ pkgs.docker-client python ];
         text = ''
           export PYTHONPATH=${./src}
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w02.py} "$@"
         '';
       };
@@ -248,6 +254,7 @@
         name = "qualify-w03";
         runtimeInputs = [ habitatAbi validateContracts python ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w03.py} \
             --root ${self} --server ${habitatAbi}/bin/habitat-abi-server "$@"
         '';
@@ -256,6 +263,7 @@
         name = "qualify-w04";
         runtimeInputs = [ habitatAuthority validateContracts python ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w04.py} \
             --root ${self} --library ${habitatAuthority}/bin/habitat-authority \
             --test-dir ${habitatAuthority}/libexec/nix-ai-tests "$@"
@@ -266,6 +274,7 @@
         runtimeInputs = [ pkgs.docker-client python ];
         text = ''
           export PYTHONPATH=${./src}
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w05.py} "$@"
         '';
       };
@@ -273,6 +282,7 @@
         name = "qualify-w06";
         runtimeInputs = [ python ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w06.py} --bwrap /usr/bin/bwrap --bash ${pkgs.bash}/bin/bash --python ${pkgs.python3}/bin/python --prlimit ${pkgs.util-linux}/bin/prlimit --taskset ${pkgs.util-linux}/bin/taskset --dd ${pkgs.coreutils}/bin/dd --sleep ${pkgs.coreutils}/bin/sleep --execution ${habitatExecution}/bin/habitat-execution --profile ${./nix/profiles/qemu-x86_64-conformance.json} "$@"
         '';
       };
@@ -280,6 +290,7 @@
         name = "qualify-w07";
         runtimeInputs = [ habitatContext python validateContracts ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w07.py} --root ${self} --artifact ${habitatContext}/bin/habitat-context \
             --test-dir ${habitatContext}/libexec/nix-ai-tests "$@"
         '';
@@ -288,6 +299,7 @@
         name = "qualify-w08";
         runtimeInputs = [ habitatEffects python validateContracts ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w08.py} --root ${self} \
             --artifact ${habitatEffects}/bin/habitat-effects \
             --test-dir ${habitatEffects}/libexec/nix-ai-tests "$@"
@@ -297,6 +309,7 @@
         name = "qualify-w09";
         runtimeInputs = [ habitatModels python validateContracts ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w09.py} --root ${self} --artifact ${habitatModels}/bin/habitat-models \
             --test-dir ${habitatModels}/libexec/nix-ai-tests "$@"
         '';
@@ -305,6 +318,7 @@
         name = "qualify-w10";
         runtimeInputs = [ habitatPackages python validateContracts ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w10.py} --root ${self} --artifact ${habitatPackages}/bin/habitat-packages \
             --test-dir ${habitatPackages}/libexec/nix-ai-tests "$@"
         '';
@@ -313,6 +327,7 @@
         name = "qualify-w11";
         runtimeInputs = [ habitatHarnesses python validateContracts ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_w11.py} --root ${self} --artifact ${habitatHarnesses}/bin/habitat-harnesses \
             --test-dir ${habitatHarnesses}/libexec/nix-ai-tests "$@"
         '';
@@ -321,6 +336,7 @@
         name = "qualify-v2-release";
         runtimeInputs = contractTools ++ [ pkgs.docker-client ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_v2_release.py} --root ${self} --run "$@"
         '';
       };
@@ -328,6 +344,7 @@
         name = "verify-v2-release";
         runtimeInputs = [ python ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec ${python}/bin/python ${./tools/qualify_v2_release.py} --root ${self} --verify-evidence "$@"
         '';
       };
@@ -430,6 +447,7 @@
         name = "test-${mode}";
         runtimeInputs = [ pkgs.coreutils pkgs.python3 pkgs.qemu ];
         text = ''
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
           exec python3 ${./tools/test_w01.py} ${mode} \
             --qemu ${pkgs.qemu}/bin/qemu-system-x86_64 \
             --code ${pkgs.OVMF.fd}/FV/OVMF_CODE.fd \

@@ -1,4 +1,7 @@
-use habitat_runtime::{dependencies_operational, serve_component, DurableState, COMPONENTS};
+use habitat_runtime::{
+    bind_component, component_socket, dependencies_operational, serve_component_listener,
+    DurableState, COMPONENTS,
+};
 use std::{
     env, fs, io,
     path::PathBuf,
@@ -49,6 +52,8 @@ fn main() -> io::Result<()> {
         require_credential("HABITAT_DATABASE_CREDENTIAL")?;
         require_credential("HABITAT_OBJECT_STORE_CREDENTIAL")?;
     }
+    let socket = component_socket(&run_dir, &component);
+    let listener = bind_component(&socket)?;
     if component == "runtime" {
         fs::write(run_dir.join("readiness"), b"RECOVERING\n")?;
     }
@@ -61,10 +66,11 @@ fn main() -> io::Result<()> {
         state.lock().unwrap().read("schema-version")?;
         fs::write(run_dir.join("readiness"), b"OPERATIONAL\n")?;
     }
-    serve_component(
+    serve_component_listener(
         &component,
-        &run_dir.join(format!("{component}.sock")),
+        listener,
         state,
         report,
+        socket.parent().expect("component socket has parent"),
     )
 }

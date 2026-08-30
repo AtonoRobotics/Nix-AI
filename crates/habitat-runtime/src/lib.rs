@@ -3,7 +3,7 @@ use std::{
     io::{self, BufRead, BufReader, Write},
     os::fd::AsRawFd,
     os::unix::{
-        fs::PermissionsExt,
+        fs::{FileTypeExt, PermissionsExt},
         net::{UnixListener, UnixStream},
     },
     path::{Path, PathBuf},
@@ -151,6 +151,14 @@ impl DurableState {
         Ok(changed > 0)
     }
 
+    pub fn record_effect(&self, objective: &str) -> io::Result<()> {
+        validate_id(objective)?;
+        self.append(
+            "effects",
+            &format!("{} effect:{objective} COMMITTED", now()),
+        )
+    }
+
     pub fn read(&self, name: &str) -> io::Result<String> {
         fs::read_to_string(self.root.join(name))
     }
@@ -188,6 +196,22 @@ pub fn query(socket: &Path, request: &str) -> io::Result<String> {
     Ok(response.trim().into())
 }
 
+pub fn component_socket(run_dir: &Path, component: &str) -> PathBuf {
+    run_dir.join(component).join(format!("{component}.sock"))
+}
+
+pub fn bind_component(socket: &Path) -> io::Result<UnixListener> {
+    if let Some(parent) = socket.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    if socket.exists() {
+        fs::remove_file(socket)?;
+    }
+    let listener = UnixListener::bind(socket)?;
+    fs::set_permissions(socket, fs::Permissions::from_mode(0o660))?;
+    Ok(listener)
+}
+
 pub fn serve_component(
     component: &str,
     socket: &Path,
@@ -200,35 +224,97 @@ pub fn serve_component(
             "unknown component",
         ));
     }
-    if socket.exists() {
-        fs::remove_file(socket)?;
-    }
-    let listener = UnixListener::bind(socket)?;
-    fs::set_permissions(socket, fs::Permissions::from_mode(0o660))?;
+    let listener = bind_component(socket)?;
+    serve_component_listener(
+        component,
+        listener,
+        state,
+        report,
+        socket.parent().unwrap_or(Path::new("/run")),
+    )
+}
+
+pub fn serve_component_listener(
+    component: &str,
+    listener: UnixListener,
+    state: Arc<Mutex<DurableState>>,
+    report: RecoveryReport,
+    component_dir: &Path,
+) -> io::Result<()> {
+    let run_dir = component_dir.parent().unwrap_or(component_dir);
     for incoming in listener.incoming() {
         let mut stream = incoming?;
-        let peer = peer_principal(&stream)?;
-        if peer.uid != unsafe { process_euid() } && peer.gid != unsafe { process_egid() } {
-            writeln!(stream, "UNAUTHORIZED")?;
-            continue;
-        }
+        // SO_PEERCRED must be available; filesystem ownership and the endpoint's
+        // dedicated client group are the allowlist (supplementary groups are not
+        // exposed by SO_PEERCRED, so comparing only its primary GID is incorrect).
+        let _peer = peer_principal(&stream)?;
         let mut request = String::new();
         BufReader::new(stream.try_clone()?).read_line(&mut request)?;
         let request = request.trim();
         let response = if request == "STATUS" {
             report.wire()
-        } else if component == "scheduler" && request.starts_with("SCHEDULE ") {
+        } else if component == "state" && request.starts_with("SCHEDULE ") {
             state
                 .lock()
                 .unwrap()
                 .schedule(&request[9..])
                 .map(|_| "ACCEPTED".into())
                 .unwrap_or_else(|_| "INVALID".into())
-        } else if component == "scheduler" && request == "TICK" {
+        } else if component == "state" && request == "TICK" {
             if state.lock().unwrap().complete_next()? {
                 "COMPLETED".into()
             } else {
                 "IDLE".into()
+            }
+        } else if component == "scheduler"
+            && (request.starts_with("SCHEDULE ") || request == "TICK")
+        {
+            query(&component_socket(run_dir, "state"), request)
+                .unwrap_or_else(|_| "UNAVAILABLE".into())
+        } else if component == "authority" && request.starts_with("AUTHORIZE ") {
+            if validate_id(&request[10..]).is_ok() {
+                "ALLOW".into()
+            } else {
+                "INVALID".into()
+            }
+        } else if component == "state" && request.starts_with("RECORD_EFFECT ") {
+            state
+                .lock()
+                .unwrap()
+                .record_effect(&request[14..])
+                .map(|_| "COMMITTED".into())
+                .unwrap_or_else(|_| "INVALID".into())
+        } else if component == "effects" && request.starts_with("APPLY ") {
+            query(
+                &component_socket(run_dir, "state"),
+                &format!("RECORD_EFFECT {}", &request[6..]),
+            )
+            .unwrap_or_else(|_| "UNAVAILABLE".into())
+        } else if component == "runtime" && request.starts_with("RUN ") {
+            let scheduler = component_socket(run_dir, "scheduler");
+            match query(&scheduler, &format!("SCHEDULE {}", &request[4..])) {
+                Ok(response) if response == "ACCEPTED" => {
+                    let objective = &request[4..];
+                    match query(
+                        &component_socket(run_dir, "authority"),
+                        &format!("AUTHORIZE {objective}"),
+                    ) {
+                        Ok(decision) if decision == "ALLOW" => match query(
+                            &component_socket(run_dir, "effects"),
+                            &format!("APPLY {objective}"),
+                        ) {
+                            Ok(applied) if applied == "COMMITTED" => {
+                                query(&scheduler, "TICK").unwrap_or_else(|_| "UNAVAILABLE".into())
+                            }
+                            Ok(other) => other,
+                            Err(_) => "UNAVAILABLE".into(),
+                        },
+                        Ok(other) => other,
+                        Err(_) => "UNAVAILABLE".into(),
+                    }
+                }
+                Ok(response) => response,
+                Err(_) => "UNAVAILABLE".into(),
             }
         } else {
             "INVALID".into()
@@ -271,15 +357,7 @@ fn peer_principal(stream: &UnixStream) -> io::Result<PeerPrincipal> {
 }
 
 extern "C" {
-    fn geteuid() -> u32;
-    fn getegid() -> u32;
     fn getsockopt(fd: i32, level: i32, option: i32, value: *mut u8, length: *mut u32) -> i32;
-}
-unsafe fn process_euid() -> u32 {
-    geteuid()
-}
-unsafe fn process_egid() -> u32 {
-    getegid()
 }
 
 pub fn dependencies_operational(run_dir: &Path, component: &str) -> io::Result<bool> {
@@ -297,8 +375,18 @@ pub fn dependencies_operational(run_dir: &Path, component: &str) -> io::Result<b
         }
     };
     Ok(dependencies.iter().all(|name| {
-        query(&run_dir.join(format!("{name}.sock")), "STATUS")
-            .map(|s| s.starts_with("READY "))
+        if *name == "abi" {
+            return component_socket(run_dir, name)
+                .metadata()
+                .map(|metadata| metadata.file_type().is_socket())
+                .unwrap_or(false);
+        }
+        query(&component_socket(run_dir, name), "STATUS")
+            .map(|s| {
+                s.contains("migrations=1")
+                    && s.contains("leases_fenced=1")
+                    && s.contains("effects_classified=1")
+            })
             .unwrap_or(false)
     }))
 }
@@ -313,10 +401,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let path = std::env::temp_dir().join(format!(
-            "habitat-runtime-test-{}-{nonce}",
-            std::process::id()
-        ));
+        let path = std::env::temp_dir().join(format!("hr-{}-{nonce}", std::process::id()));
         fs::create_dir_all(&path).unwrap();
         path
     }
@@ -370,8 +455,52 @@ mod tests {
         assert!(query(&socket, "STATUS")
             .unwrap()
             .starts_with("READY migrations=1"));
-        assert_eq!(query(&socket, "SCHEDULE no").unwrap(), "INVALID");
+        assert_eq!(
+            query(&socket, "SCHEDULE objective:socket").unwrap(),
+            "ACCEPTED"
+        );
+        assert_eq!(query(&socket, "TICK").unwrap(), "COMPLETED");
         fs::remove_file(socket).unwrap();
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn scheduler_and_coordinator_use_authoritative_state_rpc() {
+        let root = temporary();
+        for component in ["state", "scheduler", "authority", "effects", "runtime"] {
+            fs::create_dir_all(root.join(component)).unwrap();
+            let socket = component_socket(&root, component);
+            let state = Arc::new(Mutex::new(
+                DurableState::open(root.join(format!("data-{component}"))).unwrap(),
+            ));
+            let report = state.lock().unwrap().recover().unwrap();
+            thread::spawn(move || {
+                let _ = serve_component(component, &socket, state, report);
+            });
+        }
+        for component in ["state", "scheduler", "authority", "effects", "runtime"] {
+            let socket = component_socket(&root, component);
+            for _ in 0..50 {
+                if socket.exists() {
+                    break;
+                }
+                thread::sleep(Duration::from_millis(10));
+            }
+        }
+        assert_eq!(
+            query(&component_socket(&root, "runtime"), "RUN objective:rpc").unwrap(),
+            "COMPLETED"
+        );
+        assert!(fs::read_to_string(root.join("data-state/objectives"))
+            .unwrap()
+            .contains("objective:rpc"));
+        assert!(fs::read_to_string(root.join("data-state/effects"))
+            .unwrap()
+            .contains("effect:objective:rpc COMMITTED"));
+        assert!(!root.join("data-scheduler/objectives").exists());
+        for component in ["state", "scheduler", "authority", "effects", "runtime"] {
+            fs::remove_file(component_socket(&root, component)).unwrap();
+        }
         fs::remove_dir_all(root).unwrap();
     }
 }
