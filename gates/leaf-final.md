@@ -25,4 +25,4 @@ Scope: Re-run every binding check from the exact committed tree.
 - [ ] G6: Fresh QEMU objective, interruption recovery, governed rollback, and exact-tree evidence all pass.
   CHECK: /nix/var/nix/profiles/default/bin/nix develop --command qualify-v2-release
   EXPECT: /"outcome": "passed"/
-  EVIDENCE: pending strict Garage-backed QEMU qualification
+  EVIDENCE: `nix run .#test-boot` and `nix run .#test-rollback` pass with live PostgreSQL/Garage objectives and two coordinator SIGKILL/replacement boundaries per boot. Final release-orchestrator execution and exact-tree evidence regeneration remain pending, so this aggregate gate stays open.

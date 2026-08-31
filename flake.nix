@@ -82,11 +82,13 @@
         import os
         import pathlib
         import socket
+        import subprocess
         import time
 
         import boto3
 
         RUNTIME_SOCKET = "/run/habitat/runtime/runtime.sock"
+        SYSTEMCTL = "${pkgs.systemd}/bin/systemctl"
 
         def query(request):
             with socket.socket(socket.AF_UNIX) as client:
@@ -108,6 +110,26 @@
                 time.sleep(0.25)
             raise RuntimeError(f"timed out waiting for {description}: {error!r}")
 
+        def runtime_pid():
+            value = subprocess.check_output(
+                [SYSTEMCTL, "show", "--property=MainPID", "--value",
+                 "habitat-runtime.service"], text=True).strip()
+            return int(value)
+
+        def interrupt_runtime(label):
+            previous = runtime_pid()
+            if previous <= 0:
+                raise RuntimeError(f"runtime has no live PID before {label}")
+            subprocess.run(
+                [SYSTEMCTL, "kill", "--signal=KILL", "--kill-who=main",
+                 "habitat-runtime.service"], check=True)
+            replacement = wait_for(
+                lambda: (current if (current := runtime_pid()) > 0 and current != previous else None),
+                f"coordinator replacement after {label}")
+            wait_for(lambda: readiness.read_text().strip() == "OPERATIONAL",
+                     f"operational recovery after {label}")
+            return {"boundary": label, "previous_pid": previous, "replacement_pid": replacement}
+
         readiness = pathlib.Path("/run/habitat/runtime/readiness")
         wait_for(lambda: readiness.read_text().strip() == "OPERATIONAL",
                  "authoritative runtime readiness")
@@ -118,6 +140,7 @@
 
         wait_for(lambda: query("INSPECT " + objective) == "NOT_FOUND",
                  "durable prepared wake")
+        interruptions = [interrupt_runtime("after_wake_commit")]
         if wait_for(lambda: query("RESUME " + objective) == "COMPLETED",
                     "objective completion") is not True:
             raise RuntimeError("coordinator did not complete the objective")
@@ -143,6 +166,8 @@
         if record.get("objective_id") != objective or record.get("disposition") != "COMMITTED":
             raise RuntimeError("evidence bytes are not bound to the committed objective")
 
+        interruptions.append(interrupt_runtime("after_effect_commit"))
+
         def inspect_committed():
             response = query("INSPECT " + objective)
             return response if response.startswith("{") else None
@@ -161,7 +186,7 @@
             "objective_state": state["objective_state"],
             "effect_state": state["effect_state"],
             "evidence_ref": state["evidence_ref"],
-            "interruptions": [],
+            "interruptions": interruptions,
             "duplicate_resume": "original_disposition",
         }, sort_keys=True, separators=(",", ":")), flush=True)
       '';
@@ -218,7 +243,7 @@
           description = "Exercise a live objective and verify durable evidence";
           wantedBy = [ "multi-user.target" ];
           after = [ "habitat-runtime.service" ];
-          requires = [ "habitat-runtime.service" ];
+          wants = [ "habitat-runtime.service" ];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${python}/bin/python ${runtimeConformance}";

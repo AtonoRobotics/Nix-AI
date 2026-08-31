@@ -99,7 +99,16 @@ def validate_runtime(event):
     assert event["objective_state"] == "SATISFIED"
     assert event["effect_state"] == "COMMITTED"
     assert event["evidence_ref"].startswith("s3://habitat-evidence/sha256/")
-    assert event["interruptions"] == []
+    assert [item["boundary"] for item in event["interruptions"]] == [
+        "after_wake_commit",
+        "after_effect_commit",
+    ]
+    assert all(
+        item["previous_pid"] > 0
+        and item["replacement_pid"] > 0
+        and item["previous_pid"] != item["replacement_pid"]
+        for item in event["interruptions"]
+    )
     assert event["duplicate_resume"] == "original_disposition"
 
 

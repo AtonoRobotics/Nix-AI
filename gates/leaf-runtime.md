@@ -24,7 +24,7 @@ Scope: Deploy the fail-closed state-to-coordinator service graph and reach OPERA
 - [x] G5: PostgreSQL is the transactional lifecycle/command ledger and Garage stores content-addressed evidence bytes through the S3 boundary.
   CHECK: nix run .#test-boot
   EXPECT: /"gate": "V-BOOT".*"result": "pass"/
-  EVIDENCE: Strict two-boot QEMU qualification passed with zero skips. Baseline and candidate each completed a fresh objective to PostgreSQL `SATISFIED` / `COMMITTED`; the verifier fetched each `s3://habitat-evidence/sha256/<digest>` object from Garage, matched its SHA-256 and objective binding, and confirmed duplicate resume returned the committed disposition. The runtime events truthfully report `interruptions: []`; interruption recovery remains a separate open gate.
+  EVIDENCE: Strict two-boot QEMU qualification passed with zero skips. Baseline and candidate each completed a fresh objective to PostgreSQL `SATISFIED` / `COMMITTED`; the verifier fetched each `s3://habitat-evidence/sha256/<digest>` object from Garage, matched its SHA-256 and objective binding, and confirmed duplicate resume returned the committed disposition. Each boot also replaced the coordinator after the durable wake commit and after the effect commit, then recovered `OPERATIONAL` without losing the wake or changing the committed evidence.
 
 - [x] G6: The current NixOS image evaluates with Garage under the normal security policy.
   CHECK: nix eval --raw .#packages.x86_64-linux.habitat-raw.drvPath

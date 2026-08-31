@@ -48,6 +48,18 @@ class W01ProfileTests(unittest.TestCase):
         self.assertIn('if [ ! -s "$token_file" ]', flake)
         self.assertIn('token="$(cat "$token_file")"', flake)
 
+    def test_qemu_conformance_kills_and_replaces_the_runtime_process(self):
+        flake = (ROOT / "flake.nix").read_text()
+
+        self.assertIn('"--signal=KILL", "--kill-who=main"', flake)
+        self.assertIn('interrupt_runtime("after_wake_commit")', flake)
+        self.assertIn('interrupt_runtime("after_effect_commit")', flake)
+        conformance = flake.split(
+            "systemd.services.habitat-runtime-conformance", maxsplit=1
+        )[1]
+        self.assertIn('wants = [ "habitat-runtime.service" ]', conformance)
+        self.assertNotIn('requires = [ "habitat-runtime.service" ]', conformance)
+
     def test_bootstrap_evidence_uses_systemd_console_routing(self):
         image_module = (ROOT / "nix/modules/habitat-image.nix").read_text()
         bootstrap = image_module.split(
