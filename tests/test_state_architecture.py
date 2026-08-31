@@ -116,6 +116,9 @@ class StateArchitectureTests(unittest.TestCase):
           "command_id":"command:1","source_digest":"sha256:a","evaluator":"service:evaluator",
           "evaluator_closure":"sha256:b","target_generation":"generation:2",
           "rollback_generation":"generation:1","threshold":{"minimum_score":90},
+          "dependency_closure_digest":"sha256:c","contract_version":"V2.0.1",
+          "tests_digest":"sha256:d","requested_authority":["runtime.effect"],
+          "signing_key_digest":"sha256:e","live_verification_contract":"health:runtime",
           "evidence_ref":"evidence:1"},"service:controller")
         transitioned=protocol.dispatch({"operation":"change_transition","candidate_id":"candidate:1",
           "command_id":"command:2","new_state":"BUILT","actor":"service:controller","evidence_ref":"evidence:2",

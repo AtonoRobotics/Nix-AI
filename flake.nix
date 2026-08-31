@@ -135,6 +135,16 @@
         not_before = 1;
         expires_at = 4102444800;
       }]);
+      runtimePackageTrust = pkgs.writeText "habitat-package-trust.json" (builtins.toJSON {
+        "publisher:conformance" = "ea4a6c63e29c520abef5507b132ec5f9954776aebebe7b92421eea691446d22c";
+      });
+      runtimePackagePolicy = pkgs.writeText "habitat-package-policy.json" (builtins.toJSON {
+        allowed_authority = [ "runtime.effect" ];
+        max_memory_bytes = 268435456;
+        max_cpu_millis = 1000;
+        execution_profiles = [ "isolated" ];
+        abi_version = "V2.0.1";
+      });
       runtimeConfiguration = {
         services.postgresql = {
           enable = true;
@@ -220,12 +230,15 @@
           authorityPackage = habitatAuthority;
           effectsPackage = habitatEffects;
           executionPackage = habitatExecution;
+          packagesPackage = habitatPackages;
           authorityGrants = runtimeAuthorityGrants;
           authorityForwardingCredential = "/run/habitat-credentials/authority-forwarding-key";
           databaseCredential = "/run/habitat-credentials/database-url";
           objectStoreCredential = "/run/habitat-credentials/object-store-url";
           activationCredential = "/run/habitat-credentials/abi-activation";
           effectCredential = "/run/habitat-credentials/effect-token";
+          packageTrust = runtimePackageTrust;
+          packagePolicy = runtimePackagePolicy;
         };
       };
       habitatSystem = nixpkgs.lib.nixosSystem {

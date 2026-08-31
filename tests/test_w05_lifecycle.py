@@ -16,6 +16,7 @@ class LifecycleTests(unittest.TestCase):
 
     def setUp(self):
         self.store.reset_for_test()
+        self.store.ensure_active_generation("generation:current")
 
     def test_wake_is_committed_before_notification_and_redelivered_after_signal_loss(self):
         wake = f"wake:{uuid.uuid4()}"
@@ -76,7 +77,8 @@ class LifecycleTests(unittest.TestCase):
         self.store.propose_governed_change(candidate, "command:propose:"+candidate,
             "sha256:"+"a"*64, "evaluator:protected", "sha256:"+"b"*64,
             "generation:next", "generation:current", {"minimum_score": 90},
-            "evidence:proposal")
+            "evidence:proposal", "sha256:"+"c"*64, "V2.0.1", "sha256:"+"d"*64,
+            ["runtime.effect"], "sha256:"+"e"*64, "health:runtime")
         with self.assertRaisesRegex(ValueError,"illegal governed-change transition"):
             self.store.transition_governed_change(candidate,"command:terminal:"+candidate,
                 "CONFIRMED","health:independent","evidence:health",observation={"health_ready":True})
@@ -113,7 +115,9 @@ class LifecycleTests(unittest.TestCase):
         rollback_candidate=f"candidate:{uuid.uuid4()}"
         self.store.propose_governed_change(rollback_candidate,"command:propose:"+rollback_candidate,
             "sha256:"+"f"*64,"evaluator:protected","sha256:"+"b"*64,
-            "generation:bad","generation:next",{"minimum_score":90},"evidence:proposal")
+            "generation:bad","generation:next",{"minimum_score":90},"evidence:proposal",
+            "sha256:"+"c"*64,"V2.0.1","sha256:"+"d"*64,["runtime.effect"],
+            "sha256:"+"e"*64,"health:runtime")
         for index,(state,actor) in enumerate((("BUILT","builder:release"),
             ("EVALUATED","evaluator:protected"),("SIGNED","signer:release"),
             ("STAGED","service:packages"),("ACTIVATED","service:boot"),
@@ -216,7 +220,9 @@ class LifecycleTests(unittest.TestCase):
 
                 objective = f"objective:{uuid.uuid4()}"
                 self.store.schedule_objective(objective,now=int(time.time()))
-                self.assertEqual(query({"operation":"runtime_status"})["status"],"unauthorized")
+                status=query({"operation":"runtime_status"})
+                self.assertEqual(status["status"],"ok")
+                self.assertIn(status["result"]["readiness"],("READY","RECOVERING"))
                 inspection = query({"operation":"runtime_inspect","objective_id":objective})
                 self.assertEqual(inspection["status"],"ok")
                 self.assertEqual(inspection["result"]["objective_id"],objective)

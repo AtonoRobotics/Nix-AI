@@ -76,6 +76,7 @@ class StateProtocol:
                     "history":self.repository.governed_change_history(request["candidate_id"],limit,cursor),
                     "next_cursor":cursor+limit}
         if operation == "package_admit":
+            if principal!="service:packages": raise ValueError("package admission requires verifier principal")
             return self.repository.admit_verified_package(request)
         if operation == "runtime_status":
             self.recovery=self.repository.recover(now=int(time.time()))
@@ -153,10 +154,11 @@ class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
         self.operations={
           "service:abi":frozenset({"evidence_put","commit_command","get_command"}),
           "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect"}),
-          "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","package_admit","effect_guard","effect_guard_invalidate"}),
+          "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","effect_guard","effect_guard_invalidate"}),
+          "service:packages":frozenset({"evidence_put","package_admit"}),
           "service:authority":frozenset({"evidence_put","authority_get","authority_commit"}),
-          "service:effects":frozenset({"evidence_put","effect_transition","effect_observe","effect_guard","effect_guard_invalidate","runtime_inspect"}),
-          "service:controller":frozenset({"evidence_put","change_propose","change_transition","change_get","package_admit"}),
+          "service:effects":frozenset({"evidence_put","effect_transition","effect_observe","effect_guard","effect_guard_invalidate","runtime_inspect","runtime_status"}),
+          "service:controller":frozenset({"evidence_put","change_propose","change_transition","change_get"}),
           "service:evaluator":frozenset({"evidence_put","change_transition","change_get"}),
           "service:signer":frozenset({"evidence_put","change_transition","change_get"}),
           "service:health":frozenset({"evidence_put","change_transition","change_get"}),

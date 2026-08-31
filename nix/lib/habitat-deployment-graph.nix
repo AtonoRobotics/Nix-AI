@@ -2,13 +2,14 @@
 let
   canonical = {
     services = {
-      state = { identity = "service:state"; unit = "habitat-state.service"; dependencies = [ "postgresql.target" "habitat-garage-initialize.service" ]; readiness = [ ]; credentials = [ "database" "objectStore" "effect" ]; clients = [ "service:abi" "service:scheduler" "service:authority" "service:effects" "service:runtime" ]; };
+      state = { identity = "service:state"; unit = "habitat-state.service"; dependencies = [ "postgresql.target" "habitat-garage-initialize.service" ]; readiness = [ ]; credentials = [ "database" "objectStore" "effect" ]; clients = [ "service:abi" "service:scheduler" "service:authority" "service:effects" "service:packages" "service:runtime" ]; };
       scheduler = { identity = "service:scheduler"; unit = "habitat-scheduler.service"; dependencies = [ "habitat-state.service" ]; readiness = [ "state" ]; credentials = [ ]; clients = [ "service:runtime" ]; };
       authority = { identity = "service:authority"; unit = "habitat-authority.service"; dependencies = [ "habitat-state.service" "habitat-scheduler.service" ]; readiness = [ "state" "scheduler" ]; credentials = [ "authorityGrants" "authorityForwarding" ]; clients = [ "service:runtime" "service:effects" "service:operator" "service:reviewer" ]; };
       provider = { identity = "service:provider"; unit = "habitat-provider.service"; dependencies = [ ]; readiness = [ ]; credentials = [ ]; clients = [ "service:effects" ]; };
       effects = { identity = "service:effects"; unit = "habitat-effects.service"; dependencies = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-provider.service" ]; readiness = [ "state" "scheduler" "authority" "provider" ]; credentials = [ "effect" "database" ]; clients = [ "service:runtime" "service:operator" ]; };
+      packages = { identity = "service:packages"; unit = "habitat-packages.service"; dependencies = [ "habitat-state.service" ]; readiness = [ "state" ]; credentials = [ "packageTrust" "packagePolicy" ]; clients = [ "service:runtime" ]; };
       abi = { identity = "service:abi"; unit = "habitat-abi.service"; dependencies = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" ]; readiness = [ "state" "scheduler" "authority" "effects" ]; credentials = [ "activation" ]; clients = [ "service:runtime" ]; };
-      runtime = { identity = "service:runtime"; unit = "habitat-runtime.service"; dependencies = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" "habitat-abi.service" ]; readiness = [ "state" "scheduler" "authority" "effects" "abi" ]; credentials = [ "authorityForwarding" ]; clients = [ "service:operator" "service:runtime-conformance" ]; };
+      runtime = { identity = "service:runtime"; unit = "habitat-runtime.service"; dependencies = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" "habitat-packages.service" "habitat-abi.service" ]; readiness = [ "state" "scheduler" "authority" "effects" "packages" "abi" ]; credentials = [ "authorityForwarding" ]; clients = [ "service:operator" "service:runtime-conformance" ]; };
     };
     credentials = {
       authorityGrants = { option = "authorityGrants"; loadName = "grants"; };
@@ -17,8 +18,10 @@ let
       objectStore = { option = "objectStoreCredential"; loadName = "object-store-url"; };
       activation = { option = "activationCredential"; loadName = "activation-credential"; };
       effect = { option = "effectCredential"; loadName = "effect-token"; };
+      packageTrust = { option = "packageTrust"; loadName = "package-trust"; };
+      packagePolicy = { option = "packagePolicy"; loadName = "package-policy"; };
     };
-    principals = [ "service:state" "service:scheduler" "service:authority" "service:provider" "service:effects" "service:abi" "service:runtime" "service:operator" "service:reviewer" "service:runtime-conformance" ];
+    principals = [ "service:state" "service:scheduler" "service:authority" "service:provider" "service:effects" "service:packages" "service:abi" "service:runtime" "service:operator" "service:reviewer" "service:runtime-conformance" ];
   };
   value = if graph == null then canonical else graph;
   names = builtins.attrNames value.services;

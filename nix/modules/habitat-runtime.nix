@@ -97,6 +97,20 @@ let
       echo "PostgreSQL effect schema did not become readable" >&2
       exit 1
     fi
+    state_socket=/run/habitat/state/state.sock
+    state_ready=
+    for attempt in $(${pkgs.coreutils}/bin/seq 1 300); do
+      status="$(${lib.getExe' cfg.authorityPackage "habitat-authority"} \
+        --client "$state_socket" STATUS 2>/dev/null || true)"
+      case "$status" in
+        READY*|RECOVERING*) state_ready=1; break ;;
+      esac
+      ${pkgs.coreutils}/bin/sleep 0.1
+    done
+    if [ -z "$state_ready" ]; then
+      echo "state service did not become ready for effect recovery" >&2
+      exit 1
+    fi
     ${writePeers "effects"}
     exec ${cfg.effectsPackage}/bin/habitat-effects \
       /run/habitat/effects/effects.sock \
@@ -116,6 +130,16 @@ let
       /run/habitat/provider/provider.sock /var/lib/habitat/provider \
       /run/habitat/provider/peers.json
   '';
+  packagesStart = pkgs.writeShellScript "habitat-packages-start" ''
+    set -eu
+    ${writePeers "packages"}
+    exec ${cfg.packagesPackage}/bin/habitat-packages serve \
+      /run/habitat/packages/packages.sock /run/habitat/state/state.sock \
+      /run/habitat/packages/peers.json \
+      "$CREDENTIALS_DIRECTORY/package-trust" \
+      "$CREDENTIALS_DIRECTORY/package-policy" \
+      /var/lib/habitat/packages/probes
+  '';
   abiUnit = lib.recursiveUpdate (common "abi") {
     restartTriggers = [ cfg.abiPackage ];
     serviceConfig.ExecStart = abiStart;
@@ -134,12 +158,15 @@ in {
     authorityPackage = lib.mkOption { type = lib.types.package; description = "Package containing the fail-closed habitat-authority service."; };
     effectsPackage = lib.mkOption { type = lib.types.package; description = "Package containing the durable habitat-effects service."; };
     executionPackage = lib.mkOption { type = lib.types.package; description = "Package containing the offline durable provider."; };
+    packagesPackage = lib.mkOption { type = lib.types.package; description = "Package containing verified package admission."; };
     authorityGrants = lib.mkOption { type = lib.types.path; description = "Explicitly provisioned runtime grants."; };
     authorityForwardingCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; description = "Runtime-to-authority forwarding MAC key."; };
     databaseCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
     objectStoreCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
     activationCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
     effectCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
+    packageTrust = lib.mkOption { type = lib.types.path; };
+    packagePolicy = lib.mkOption { type = lib.types.path; };
   };
   config = lib.mkIf cfg.enable {
     users.groups = (lib.genAttrs (map (name: "habitat-${name}-clients") components) (_: { })) // {
@@ -180,6 +207,11 @@ in {
         restartTriggers = [ cfg.executionPackage ];
         serviceConfig.ExecStart = providerStart;
       };
+      habitat-packages = lib.recursiveUpdate (common "packages") {
+        restartTriggers = [ cfg.packagesPackage cfg.packageTrust cfg.packagePolicy ];
+        serviceConfig.ExecStart = packagesStart;
+        serviceConfig.LoadCredential = loadCredentials "packages";
+      };
       habitat-abi = abiUnit;
       habitat-state = lib.recursiveUpdate (common "state") {
         requires = dependencies.state;
@@ -192,6 +224,10 @@ in {
         serviceConfig.RestartMode = "direct";
         serviceConfig.LoadCredential = loadCredentials "state";
         serviceConfig.RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
+        # Binding the state store to the runtime package derivation gives a
+        # concrete immutable generation identity without recursively making
+        # the unit definition depend on the system toplevel that contains it.
+        environment.HABITAT_ACTIVE_GENERATION = "generation:${cfg.package}";
       };
       habitat-runtime = lib.recursiveUpdate (runtimeUnit "runtime") {
         serviceConfig.LoadCredential = loadCredentials "runtime";

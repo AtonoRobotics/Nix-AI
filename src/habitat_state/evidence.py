@@ -91,6 +91,7 @@ class EvidenceStore:
           "service:runtime":(("change.","package."),("sha256:","generation:")),
           "service:abi":("command.",("sha256:",)),
           "service:controller":(("change.","package."),("sha256:","generation:")),
+          "service:packages":("package.",( "sha256:",)),
           "service:evaluator":("change.",("sha256:",)),
           "service:signer":("change.",("sha256:",)),
           "service:health":("change.",("sha256:","generation:")),

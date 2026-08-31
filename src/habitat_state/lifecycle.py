@@ -101,6 +101,14 @@ class LifecycleStore:
               version bigint NOT NULL);
             ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS evaluator_closure text;
             ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS active_generation text;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS dependency_closure_digest text;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS contract_version text;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS tests_digest text;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS requested_authority jsonb;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS signing_key_digest text;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS live_verification_contract text;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS expected_active_version bigint;
+            ALTER TABLE change_candidates ADD COLUMN IF NOT EXISTS activation_binding_version bigint;
             CREATE TABLE IF NOT EXISTS change_history(
               candidate_id text NOT NULL, version bigint NOT NULL, previous_state text,
               new_state text NOT NULL, command_id text NOT NULL UNIQUE, actor text NOT NULL,
@@ -618,25 +626,52 @@ class LifecycleStore:
                        rollback_generation,json.dumps(threshold),evidence_ref))
         return {"candidate_id":candidate_id,"state":"PROPOSED","version":1}
 
+    def ensure_active_generation(self,generation):
+        if not isinstance(generation,str) or not generation.startswith("generation:"):
+            raise ValueError("active generation identity is invalid")
+        with self._connect() as c:
+            c.execute("""INSERT INTO active_generation_binding
+              (singleton,active_generation,previous_generation,candidate_id,version)
+              VALUES(true,%s,NULL,'system:boot',1) ON CONFLICT(singleton) DO NOTHING""",(generation,))
+
     def propose_governed_change(self, candidate_id, command_id, source_digest, evaluator,
                                 evaluator_closure, target_generation, rollback_generation,
-                                threshold, evidence_ref):
+                                threshold, evidence_ref, dependency_closure_digest,
+                                contract_version, tests_digest, requested_authority,
+                                signing_key_digest, live_verification_contract):
         if (not evaluator or not evaluator_closure.startswith("sha256:")
                 or not source_digest.startswith("sha256:") or len(source_digest)!=71):
             raise ValueError("protected evaluator identity and closure are required")
+        digests=(dependency_closure_digest,tests_digest,signing_key_digest)
+        if (contract_version!="V2.0.1" or any(not isinstance(value,str) or
+                not value.startswith("sha256:") or len(value)!=71 for value in digests)
+                or not isinstance(requested_authority,list)
+                or not all(isinstance(value,str) and value for value in requested_authority)
+                or not isinstance(live_verification_contract,str)
+                or not live_verification_contract):
+            raise ValueError("governed candidate immutable bindings are incomplete")
         if target_generation == rollback_generation:
             raise ValueError("rollback generation must precede candidate generation")
         fp=self._fingerprint("propose_governed_change",[candidate_id,source_digest,evaluator,
-            evaluator_closure,target_generation,rollback_generation,threshold,evidence_ref])
+            evaluator_closure,target_generation,rollback_generation,threshold,evidence_ref,
+            dependency_closure_digest,contract_version,tests_digest,requested_authority,
+            signing_key_digest,live_verification_contract])
         with self._connect() as c:
             replay=self._replay(c,command_id,fp)
             if replay:return replay
+            binding=c.execute("SELECT active_generation,version FROM active_generation_binding WHERE singleton FOR UPDATE").fetchone()
+            if not binding or binding["active_generation"]!=rollback_generation:
+                raise ValueError("rollback generation is not the active generation")
             c.execute("""INSERT INTO change_candidates
               (candidate_id,source_digest,evaluator_generation,target_generation,
-               rollback_generation,threshold,state,evidence_ref,version,evaluator_closure)
-              VALUES(%s,%s,%s,%s,%s,%s,'PROPOSED',%s,1,%s)""",
+               rollback_generation,threshold,state,evidence_ref,version,evaluator_closure,
+               dependency_closure_digest,contract_version,tests_digest,requested_authority,
+               signing_key_digest,live_verification_contract,expected_active_version)
+              VALUES(%s,%s,%s,%s,%s,%s,'PROPOSED',%s,1,%s,%s,%s,%s,%s,%s,%s,%s)""",
               (candidate_id,source_digest,evaluator,target_generation,rollback_generation,
-               json.dumps(threshold),evidence_ref,evaluator_closure))
+               json.dumps(threshold),evidence_ref,evaluator_closure,dependency_closure_digest,
+               contract_version,tests_digest,json.dumps(requested_authority),signing_key_digest,
+               live_verification_contract,binding["version"]))
             c.execute("INSERT INTO change_history(candidate_id,version,previous_state,new_state,command_id,actor,evidence_ref) VALUES(%s,1,NULL,'PROPOSED',%s,%s,%s)",
                       (candidate_id,command_id,evaluator,evidence_ref))
             result={"candidate_id":candidate_id,"state":"PROPOSED","version":1,
@@ -676,17 +711,29 @@ class LifecycleStore:
                     raise ValueError("independent health confirmation required")
             version=row["version"]+1
             active=row["active_generation"]
-            if new_state=="ACTIVATED": active=row["target_generation"]
-            if new_state=="ROLLED_BACK": active=row["rollback_generation"]
+            binding_version=row["activation_binding_version"]
+            if new_state=="ACTIVATED":
+                changed=c.execute("""UPDATE active_generation_binding SET
+                  previous_generation=active_generation,active_generation=%s,candidate_id=%s,
+                  version=version+1 WHERE singleton AND active_generation=%s AND version=%s
+                  RETURNING version""",(row["target_generation"],candidate_id,
+                  row["rollback_generation"],row["expected_active_version"])).fetchone()
+                if not changed:raise ValueError("active generation changed during staging")
+                active=row["target_generation"];binding_version=changed["version"]
+            if new_state=="ROLLED_BACK":
+                changed=c.execute("""UPDATE active_generation_binding SET
+                  previous_generation=active_generation,active_generation=%s,candidate_id=%s,
+                  version=version+1 WHERE singleton AND active_generation=%s
+                  AND candidate_id=%s AND version=%s RETURNING version""",
+                  (row["rollback_generation"],candidate_id,row["target_generation"],
+                   candidate_id,row["activation_binding_version"])).fetchone()
+                if not changed:raise ValueError("candidate no longer owns active generation")
+                active=row["rollback_generation"];binding_version=changed["version"]
             c.execute("UPDATE change_candidates SET state=%s,version=%s,active_generation=%s WHERE candidate_id=%s",
                       (new_state,version,active,candidate_id))
             if new_state in ("ACTIVATED","ROLLED_BACK"):
-                c.execute("""INSERT INTO active_generation_binding
-                  (singleton,active_generation,previous_generation,candidate_id,version)
-                  VALUES(true,%s,%s,%s,1) ON CONFLICT(singleton) DO UPDATE SET
-                  previous_generation=active_generation_binding.active_generation,active_generation=EXCLUDED.active_generation,
-                  candidate_id=EXCLUDED.candidate_id,version=active_generation_binding.version+1""",
-                  (active,row["rollback_generation"],candidate_id))
+                c.execute("UPDATE change_candidates SET activation_binding_version=%s WHERE candidate_id=%s",
+                          (binding_version,candidate_id))
             c.execute("INSERT INTO change_history(candidate_id,version,previous_state,new_state,command_id,actor,evidence_ref,observation) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)",
                       (candidate_id,version,row["state"],new_state,command_id,actor,evidence_ref,json.dumps(observation)))
             result={"candidate_id":candidate_id,"state":new_state,"version":version,

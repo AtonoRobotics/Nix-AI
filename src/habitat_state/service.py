@@ -43,6 +43,9 @@ def main(argv=None):
     socket_path=Path(arguments.socket)
     prepare_socket_path(socket_path)
     repository=PostgresRepository(arguments.database_url); repository.migrate()
+    active_generation=os.environ.get("HABITAT_ACTIVE_GENERATION")
+    if not active_generation: raise LedgerUnavailable("active system generation is unavailable")
+    repository.ensure_active_generation(active_generation)
     recovery=repository.recover(now=int(time.time())); evidence=EvidenceStore(arguments.object_store_credential,repository)
     if arguments.effect_uid is None or not arguments.effect_token_credential:
         parser.error("--effect-uid and --effect-token-credential are required")
@@ -55,7 +58,7 @@ def main(argv=None):
             service,identity=binding.rsplit("=",1);uid_text,gid_text,unit=identity.split(":",2)
             uid,gid=int(uid_text),int(gid_text)
         except (ValueError,TypeError): parser.error("--allow-service must be SERVICE=UID:GID:UNIT")
-        if service not in {"service:abi","service:scheduler","service:authority","service:effects","service:runtime",
+        if service not in {"service:abi","service:scheduler","service:authority","service:effects","service:packages","service:runtime",
                 "service:controller","service:evaluator","service:signer","service:health"}:
             parser.error("unknown state service principal")
         if unit != "habitat-"+service.removeprefix("service:")+".service": parser.error("service principal unit mismatch")

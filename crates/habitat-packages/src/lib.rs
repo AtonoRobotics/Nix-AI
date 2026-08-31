@@ -3,6 +3,15 @@ use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
+use std::{
+    fs::{self, OpenOptions},
+    io::Write,
+    os::unix::fs::PermissionsExt,
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+    thread,
+    time::{Duration, Instant},
+};
 
 pub const CONTRACT_VERSION: &str = "V2.0.1";
 
@@ -219,7 +228,7 @@ impl BundleSubmission {
         )
     }
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AdmissionPolicy {
     pub allowed_authority: BTreeSet<String>,
     pub max_memory_bytes: u64,
@@ -240,6 +249,79 @@ impl AdmissionPolicy {
 }
 pub trait ProbeExecutor {
     fn execute(&mut self, contract: &str, bundle: &[u8]) -> Result<Vec<u8>, String>;
+}
+
+pub struct ExecutableProbe {
+    root: PathBuf,
+    timeout: Duration,
+}
+
+impl ExecutableProbe {
+    pub fn new(root: impl AsRef<Path>, timeout: Duration) -> Result<Self, String> {
+        if timeout.is_zero() {
+            return Err("probe timeout must be positive".into());
+        }
+        fs::create_dir_all(root.as_ref()).map_err(|error| error.to_string())?;
+        Ok(Self {
+            root: root.as_ref().to_owned(),
+            timeout,
+        })
+    }
+}
+
+impl ProbeExecutor for ExecutableProbe {
+    fn execute(&mut self, contract: &str, bundle: &[u8]) -> Result<Vec<u8>, String> {
+        let identity = format!("{:x}", Sha256::digest(bundle));
+        let path = self.root.join(format!("probe-{identity}"));
+        let mut file = OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(&path)
+            .map_err(|error| error.to_string())?;
+        file.write_all(bundle)
+            .and_then(|_| file.sync_all())
+            .map_err(|error| error.to_string())?;
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o500))
+            .map_err(|error| error.to_string())?;
+        let mut child = Command::new(&path)
+            .arg(contract)
+            .env_clear()
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .map_err(|error| error.to_string())?;
+        let started = Instant::now();
+        loop {
+            match child.try_wait().map_err(|error| error.to_string())? {
+                Some(_) => break,
+                None if started.elapsed() < self.timeout => {
+                    thread::sleep(Duration::from_millis(10))
+                }
+                None => {
+                    let _ = child.kill();
+                    let _ = child.wait();
+                    let _ = fs::remove_file(&path);
+                    return Err("behavioral probe deadline exceeded".into());
+                }
+            }
+        }
+        let output = child
+            .wait_with_output()
+            .map_err(|error| error.to_string())?;
+        let _ = fs::remove_file(&path);
+        if !output.status.success() || !output.stderr.is_empty() {
+            return Err("behavioral probe failed".into());
+        }
+        let observation: serde_json::Value = serde_json::from_slice(&output.stdout)
+            .map_err(|_| "behavioral probe output is not JSON".to_string())?;
+        if observation["contract"].as_str() != Some(contract)
+            || observation["passed"].as_bool() != Some(true)
+        {
+            return Err("behavioral probe did not satisfy its contract".into());
+        }
+        Ok(output.stdout)
+    }
 }
 
 #[derive(Deserialize)]

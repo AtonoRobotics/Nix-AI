@@ -111,19 +111,40 @@ class PostgresRepository:
           request["objective_id"],request["request_digest"],request.get("previous_state"),
           request["new_state"],request["evidence_ref"],request.get("external_ref"))
     def propose_verified_change(self,request,principal):
-        self._verified(request["evidence_ref"],subject=request["candidate_id"],producer=principal,
+        evidence=self._verified(request["evidence_ref"],subject=request["candidate_id"],producer=principal,
           source=request["source_digest"],operation="change.propose",disposition="PROPOSED")
+        payload=evidence.get("payload",{})
+        for field in ("dependency_closure_digest","contract_version","tests_digest",
+                      "requested_authority","signing_key_digest","live_verification_contract",
+                      "evaluator","evaluator_closure","target_generation","rollback_generation","threshold"):
+            if payload.get(field)!=request.get(field):
+                raise LedgerCorrupt(f"change proposal evidence does not bind {field}")
         return self._lifecycle.propose_governed_change(request["candidate_id"],request["command_id"],
           request["source_digest"],request["evaluator"],request["evaluator_closure"],request["target_generation"],
-          request["rollback_generation"],request["threshold"],request["evidence_ref"])
+          request["rollback_generation"],request["threshold"],request["evidence_ref"],
+          request["dependency_closure_digest"],request["contract_version"],request["tests_digest"],
+          request["requested_authority"],request["signing_key_digest"],request["live_verification_contract"])
     def transition_verified_change(self,request,principal):
         observation=self._verified(request["evidence_ref"],subject=request["candidate_id"],producer=principal,
           source=request["evidence_source"],operation="change."+request["new_state"].lower(),disposition=request["new_state"])
         return self._lifecycle.transition_governed_change(request["candidate_id"],request["command_id"],
           request["new_state"],request["actor"],request["evidence_ref"],observation=observation)
     def admit_verified_package(self,request):
-        self._verified(request["evidence_ref"],subject=request["package_id"],producer="service:runtime",
+        evidence=self._verified(request["evidence_ref"],subject=request["package_id"],producer="service:packages",
           source=request["content_digest"],operation="package.admit",disposition="VERIFIED")
+        payload=evidence.get("payload",{})
+        required=("manifest","manifest_digest","bundle_digest","signature_digest",
+          "provenance_digest","sbom_digest","dependency_closure","admission_evidence")
+        if payload.get("manifest")!=request["manifest"] or any(key not in payload for key in required):
+            raise LedgerCorrupt("package evidence does not bind the admitted manifest and materials")
+        if payload.get("bundle_digest")!=request["content_digest"]:
+            raise LedgerCorrupt("package evidence bundle digest mismatch")
+        for key in ("manifest_digest","signature_digest","provenance_digest","sbom_digest","admission_evidence"):
+            value=payload.get(key)
+            if not isinstance(value,str) or not value.startswith("sha256:") or len(value)!=71:
+                raise LedgerCorrupt("package evidence material digest is invalid")
+        if not isinstance(payload.get("dependency_closure"),list):
+            raise LedgerCorrupt("package evidence dependency closure is invalid")
         return self._lifecycle.admit_package(request["package_id"],request["content_digest"],request["manifest"],request["evidence_ref"])
     def commit_verified_authority(self,request):
         self._verified(request["evidence_ref"],subject=request["binding_id"],producer="service:authority",
@@ -154,6 +175,7 @@ class PostgresRepository:
             if not row:raise ValueError("CONFLICT: evidence admission changed")
             return row["evidence_ref"]
     def recover(self, now): return self._lifecycle.recover(now=now)
+    def ensure_active_generation(self,generation): return self._lifecycle.ensure_active_generation(generation)
     def get_command(self,activation_id,command_id):
         bound=self._commands.get_bound(activation_id,command_id)
         if bound is None:return None
