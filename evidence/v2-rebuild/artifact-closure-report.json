@@ -194,7 +194,7 @@
     {
       "class": "provenance",
       "path": "generated/v2/provenance.json",
-      "sha256": "95d9a1e38ac8f3a5142bea846faddb407e2c2bf0fd124bb71d988725f38ad618"
+      "sha256": "b65a10b74e9606df341a499e0dacd955e28c6bf570f9048a5ce800d51e76f285"
     },
     {
       "class": "evidence_indexes",
@@ -219,7 +219,7 @@
     {
       "class": "sha256_manifests",
       "path": "generated/v2/MANIFEST.sha256",
-      "sha256": "ebd7b1dc4c28cc03559d2e75bf4f279456876e6062a8dff16250b131e2fddad5"
+      "sha256": "c2bdc5ae71722c7c6ef789049439c665e31d5c52bd6aca538e9287b9f9337d99"
     }
   ],
   "schema_version": "1.0",
