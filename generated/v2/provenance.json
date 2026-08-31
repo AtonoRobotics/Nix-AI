@@ -71,7 +71,7 @@
     },
     {
       "path": "flake.nix",
-      "sha256": "dda1902fec988e197e2e01709366a5478b4a677d61b076b12d5d01a5fa68eda5"
+      "sha256": "f24809a9f61771ce3f23037e91fa19ac45fe0ae2930c3a82be8ddf108f0a76f4"
     },
     {
       "path": "tools/derive_v2_contract.py",

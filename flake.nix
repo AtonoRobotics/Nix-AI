@@ -347,6 +347,15 @@
           exec ${python}/bin/python ${./tools/qualify_w02.py} "$@"
         '';
       };
+      testAllPython = pkgs.writeShellApplication {
+        name = "test-all-python";
+        runtimeInputs = contractTools ++ [ pkgs.docker-client pkgs.garage python ];
+        text = ''
+          export PYTHONPATH=${./src}
+          export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
+          exec ${python}/bin/python ${./tools/test_all_python.py} "$@"
+        '';
+      };
       habitatState = pkgs.python3Packages.buildPythonPackage {
         pname = "habitat-state";
         version = "0.1.0";
@@ -714,6 +723,11 @@
           program = "${qualifyW02}/bin/qualify-w02";
           meta.description = "Run live PostgreSQL/Garage W02 disaster qualification";
         };
+        test-python = {
+          type = "app";
+          program = "${testAllPython}/bin/test-all-python";
+          meta.description = "Run the complete Python suite with live PostgreSQL and Garage";
+        };
         test-w03 = {
           type = "app";
           program = "${qualifyW03}/bin/qualify-w03";
@@ -849,7 +863,7 @@
       formatter.${system} = pkgs.nixfmt;
 
       devShells.${system}.default = pkgs.mkShell {
-        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 qualifyW03 qualifyW04
+        packages = contractTools ++ [ validateContracts qualifyW00 qualifyW02 testAllPython qualifyW03 qualifyW04
           qualifyW06 qualifyW07 qualifyW08 qualifyW09 qualifyW10 qualifyW11 qualifyV2Release verifyV2Release
           habitatState habitatAbi habitatAuthority habitatExecution habitatContext habitatEffects habitatModels habitatPackages habitatHarnesses habitatRuntime ];
       };

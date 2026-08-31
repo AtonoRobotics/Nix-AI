@@ -14,10 +14,10 @@ Scope: Re-run every binding check from the exact committed tree.
   CHECK: /nix/var/nix/profiles/default/bin/nix develop --command cargo test --workspace
   EXPECT: /test result: ok/
   EVIDENCE: Doc-tests habitat_packages | Doc-tests habitat_runtime
-- [ ] G4: Complete Python suite passes with zero skips.
-  CHECK: /nix/var/nix/profiles/default/bin/nix develop --command python -m unittest discover -s tests -v
+- [x] G4: Complete Python suite passes with zero skips.
+  CHECK: /nix/var/nix/profiles/default/bin/nix run .#test-python
   EXPECT: /OK/
-  EVIDENCE: pending unified PostgreSQL/Garage test provisioning with zero skips
+  EVIDENCE: The unified runner provisioned pinned PostgreSQL 17 and Garage, supplied the pinned contract toolchain, and completed 99 tests in 37.675 seconds: `OK`, zero skips.
 - [ ] G5: Nix flake check passes.
   CHECK: /nix/var/nix/profiles/default/bin/nix flake check --show-trace && echo flake-ok
   EXPECT: flake-ok

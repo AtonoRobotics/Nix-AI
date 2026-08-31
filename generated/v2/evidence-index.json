@@ -6,7 +6,7 @@
     },
     {
       "path": "evidence/v2-rebuild/core-retention-audit.json",
-      "sha256": "ce1969967dc1ff304b76df5d1cac729dd2938428c52483233f83aa4e0db6b455"
+      "sha256": "ed07ec6e0754c49ce31f1de81c46aa379c157e8597d557db56860d4fef675084"
     },
     {
       "path": "evidence/v2-rebuild/disposition-ledger.json",

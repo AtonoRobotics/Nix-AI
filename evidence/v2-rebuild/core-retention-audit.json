@@ -5,7 +5,7 @@
   },
   "candidate_file_count": 64,
   "counts": {
-    "dependency": 74,
+    "dependency": 78,
     "fixture": 5,
     "source_unit": 41,
     "test": 18
@@ -2068,7 +2068,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-runtime/",
-      "sha256": "0c0ad5fc41c54afdec3e6bd4fc86b70948a86907de05e120fd237351031fe7f6",
+      "sha256": "0e50a3443d8a5ce17831582e4ea67bb438ae3942ae266107c5232d39c54afa09",
       "source": "crates/habitat-runtime/src/lib.rs",
       "verification_tests": [
         "crates/habitat-effects/tests/admission.rs",
@@ -2099,7 +2099,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "crates/habitat-runtime/",
-      "sha256": "ca22e935303ea04f47983259fcc3f4786d46f6c893fc92da51c75e6a6bbac3d7",
+      "sha256": "a6fe127a35fc1f84096c742ae1778e0a3772a224cbd1e6464efe9c33b79f4e8b",
       "source": "crates/habitat-runtime/src/main.rs",
       "verification_tests": [
         "crates/habitat-effects/tests/admission.rs",
@@ -2160,7 +2160,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "nix/modules/",
-      "sha256": "927b1403ab80f8b6a8b4182840d5a05367cdb7c42ded7e429fe266e15010f70b",
+      "sha256": "b60588036557612dd2c35c2b1fd2f5b9973b2e79eb4f0a74953fc71c04855b5c",
       "source": "nix/modules/habitat-image.nix",
       "verification_tests": [
         "crates/habitat-execution/tests/admission.rs",
@@ -2190,7 +2190,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "nix/modules/",
-      "sha256": "ab65bca43e03d34054d7d45f04c1c4847b7c3192a5c7fb41a9161b22a7c68f29",
+      "sha256": "f33e4f49e0eb3937b2d54eadc9ee88483963864f6b5644b2379d9483808c5935",
       "source": "nix/modules/habitat-runtime.nix",
       "verification_tests": [
         "crates/habitat-execution/tests/admission.rs",
@@ -2390,7 +2390,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "src/habitat_state/",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py",
       "verification_tests": [
         "tests/test_w02_state.py",
@@ -2417,7 +2417,30 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:hashlib",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2440,7 +2463,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2463,7 +2486,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2486,7 +2509,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2509,7 +2532,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2532,7 +2555,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2555,7 +2578,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2578,7 +2601,30 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:time",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2601,7 +2647,30 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:boto3",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2624,7 +2693,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2647,7 +2716,30 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
+      "source": "src/habitat_state/command_ledger.py"
+    },
+    {
+      "authority": [
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-001",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-002",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-003",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json#/requirements/STATE-004"
+      ],
+      "identity": "src/habitat_state/command_ledger.py:python:lifecycle",
+      "kind": "dependency",
+      "necessity": "declared Python import",
+      "predicates": [
+        "RET-003"
+      ],
+      "requirement_ids": [
+        "STATE-001",
+        "STATE-002",
+        "STATE-003",
+        "STATE-004"
+      ],
+      "review_unit": "exact-file-bytes",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2670,7 +2762,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "28f80b418620751790a8c56c3f1e2ad0b1c92e8de5291f1f0d40c567ab3b2d00",
+      "sha256": "3f0f88ea53041b575ec91358403f7552b778cf058cdc07ba7cc26e43e6b19c9d",
       "source": "src/habitat_state/command_ledger.py"
     },
     {
@@ -2818,7 +2910,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "src/habitat_state/",
-      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "sha256": "26b023ae0dd6a773383ea169b0835e139f6878b6662d7cd80f029af497c0fa21",
       "source": "src/habitat_state/lifecycle.py",
       "verification_tests": [
         "tests/test_w02_state.py",
@@ -2845,7 +2937,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "sha256": "26b023ae0dd6a773383ea169b0835e139f6878b6662d7cd80f029af497c0fa21",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2868,7 +2960,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "sha256": "26b023ae0dd6a773383ea169b0835e139f6878b6662d7cd80f029af497c0fa21",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2891,7 +2983,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "sha256": "26b023ae0dd6a773383ea169b0835e139f6878b6662d7cd80f029af497c0fa21",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2914,7 +3006,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "sha256": "26b023ae0dd6a773383ea169b0835e139f6878b6662d7cd80f029af497c0fa21",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -2937,7 +3029,7 @@
         "STATE-004"
       ],
       "review_unit": "exact-file-bytes",
-      "sha256": "64f75915898b003f8b5d576b625b29ddb240855eb0d52babe73942bcb998cbec",
+      "sha256": "26b023ae0dd6a773383ea169b0835e139f6878b6662d7cd80f029af497c0fa21",
       "source": "src/habitat_state/lifecycle.py"
     },
     {
@@ -3357,7 +3449,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "tests/test_w01_profile.py",
-      "sha256": "0813e4574e58dd4d8e9e205b184375605d7735c11486b409a642aea181f7ee8e",
+      "sha256": "2ace30ffe341372b63d6dbe37c8f3dd904421dd0d6a1a9964171c481c5c42547",
       "source": "tests/test_w01_profile.py"
     },
     {
@@ -3401,7 +3493,7 @@
       ],
       "review_unit": "exact-file-bytes",
       "selector": "tests/test_w05_lifecycle.py",
-      "sha256": "ecb1a42c5236c077b13b93e1ddce8345756fad0f6fc9e44551e780c62c828df5",
+      "sha256": "24dd0eb182ebc5be26f1bc2f338af3f1a57ebcf225fec2e40572e01a67cddadd",
       "source": "tests/test_w05_lifecycle.py"
     }
   ],
@@ -3433,7 +3525,7 @@
     "tests/test_w02_state.py",
     "tests/test_w05_lifecycle.py"
   ],
-  "scope_digest": "c3baed082980fce117dad4f4aa0a8bafec3353d3b61f2439de087298f5431c95",
+  "scope_digest": "eb1add5a8d02f719c63b25f2e96fd961dc7e8fccca1e5992dea718b5596e9426",
   "unresolved_candidates": [],
   "untrusted_candidates": [],
   "valid": true
