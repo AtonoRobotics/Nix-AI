@@ -7,17 +7,17 @@
         "--root",
         "/home/samuel/nixai",
         "--output",
-        "/tmp/nix-ai-v2-release-15ofktxs/change.json"
+        "/tmp/nix-ai-v2-release-lp3lkdw9/change.json"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-15ofktxs/change.json",
+          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/change.json",
           "sha256": "sha256:78055415686ed7271fc1a48700e7843bb0065b3f66d4171418bdbebcc46f0e96"
         }
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:54:14.370807Z",
+      "finished_at": "2026-08-31T04:04:36.059272Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -26,8 +26,8 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:54:13.982537Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T04:04:35.671243Z",
       "stderr_bytes": 0,
       "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout_bytes": 1232,
@@ -120,7 +120,7 @@
   "result": "pass",
   "runner": "self_change_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [],
   "test_count": 1
 }

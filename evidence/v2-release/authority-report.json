@@ -15,7 +15,7 @@
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:53:38.178195Z",
+      "finished_at": "2026-08-31T04:03:57.174580Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -24,10 +24,10 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:53:27.855682Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T04:03:46.804135Z",
       "stderr_bytes": 693,
-      "stderr_sha256": "sha256:5be291b17d0076dbbad1c8505cc891efef1c43833d3ec8def7fc746783ecdbac",
+      "stderr_sha256": "sha256:a7f0d02f574748f887188cd935502e45a3634074bb76246a9ca5010307cc5b4e",
       "stdout_bytes": 0,
       "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
@@ -76,7 +76,7 @@
   "result": "pass",
   "runner": "authority_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [],
   "test_count": 1
 }

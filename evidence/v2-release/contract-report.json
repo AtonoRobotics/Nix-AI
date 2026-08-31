@@ -14,7 +14,7 @@
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:46:54.695228Z",
+      "finished_at": "2026-08-31T03:57:31.461472Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -23,12 +23,12 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:46:53.573602Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T03:57:30.331219Z",
       "stderr_bytes": 812,
       "stderr_sha256": "sha256:379ae4e7d57b4e497e6366ec01b758b3dd171286b74e1b6f72e8e9398b65caa1",
       "stdout_bytes": 1942,
-      "stdout_sha256": "sha256:afe790b12ddbf857f4f0e554e95a18d26819c6e2bf7e15f99000c9bf08767392"
+      "stdout_sha256": "sha256:1f24c574f289c7e87b949f32a7f985aa254496cb8289f85a69a706800969d3e4"
     }
   ],
   "gate": "V-CONTRACT",
@@ -83,7 +83,7 @@
   "result": "pass",
   "runner": "contract_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [
     {
       "path": "manifest-report.json",

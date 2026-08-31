@@ -7,17 +7,17 @@
         ".#test-w06",
         "--",
         "--evidence-dir",
-        "/tmp/nix-ai-v2-release-15ofktxs/isolation"
+        "/tmp/nix-ai-v2-release-lp3lkdw9/isolation"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-15ofktxs/isolation/architecture-boundary-test.json",
+          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/isolation/architecture-boundary-test.json",
           "sha256": "sha256:a1cecf5279e3851b58167a4b7bc6d8689627ac64a0816471df40f57700068898"
         }
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:54:13.939882Z",
+      "finished_at": "2026-08-31T04:04:35.628727Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -26,12 +26,12 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:54:06.923136Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T04:04:25.069400Z",
       "stderr_bytes": 379,
-      "stderr_sha256": "sha256:55a03050503bed8734886888069b33a2fd829e606722be7de8d849e739d90d86",
+      "stderr_sha256": "sha256:928cd6d847fe6440431993ec66ded65a17208d791d839bb4438423bb4db0b19c",
       "stdout_bytes": 5483,
-      "stdout_sha256": "sha256:f9f77670800dc0c8348c045c269b59fc734592b8be4b06537c024769e1df0e10"
+      "stdout_sha256": "sha256:1620b16950ce3f6187d31ba1aadad84d169e0bfde8c347daa6e5f0fd884591c3"
     }
   ],
   "gate": "V-ISOLATION",
@@ -181,7 +181,7 @@
   "result": "pass",
   "runner": "execution_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [],
   "test_count": 1
 }

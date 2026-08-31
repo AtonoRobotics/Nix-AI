@@ -9,17 +9,17 @@
         "--ledger",
         "/home/samuel/nixai/evidence/v2-rebuild/disposition-ledger.json",
         "--output",
-        "/tmp/nix-ai-v2-release-15ofktxs/scope.json"
+        "/tmp/nix-ai-v2-release-lp3lkdw9/scope.json"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-15ofktxs/scope.json",
-          "sha256": "sha256:6e57453914b532b7da5bf74b0726732c7519d076d2cd358bf446981a7681d1ab"
+          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/scope.json",
+          "sha256": "sha256:83d893300e52a6a59c4d74c15dd2fa001664ed434e64924eb3f11863330e3d35"
         }
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:46:53.534372Z",
+      "finished_at": "2026-08-31T03:57:30.293521Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -28,12 +28,12 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:46:53.363885Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T03:57:30.130208Z",
       "stderr_bytes": 0,
       "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout_bytes": 965,
-      "stdout_sha256": "sha256:a50d15ad474305f6a0d407781002dcdb9a5bf6ca578db9f467810a333ffdca97"
+      "stdout_sha256": "sha256:5cf54b64603341d5d42c72682599deb00cdc99d37e8638d3e61687ed721f399a"
     }
   ],
   "gate": "V-SCOPE",
@@ -113,12 +113,12 @@
     "scanned_tracked_path_count": 285,
     "schema_version": 1,
     "valid": true,
-    "verified_commit": "605b7357f9585a98ba0f8b0ffd90465146a71e9b"
+    "verified_commit": "be43ebb6398c86a0842fe2097b59731a59536cbf"
   },
   "result": "pass",
   "runner": "scope_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [
     {
       "path": "retention-ledger.json",

@@ -7,17 +7,17 @@
         ".#test-rollback",
         "--",
         "--evidence",
-        "/tmp/nix-ai-v2-release-15ofktxs/rollback.json"
+        "/tmp/nix-ai-v2-release-lp3lkdw9/rollback.json"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-15ofktxs/rollback.json",
-          "sha256": "sha256:243ac62ffbd97eb3d540a3e4b603138442b91606c3f629f2648caefed523ab15"
+          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/rollback.json",
+          "sha256": "sha256:8fa69f5e3f8189f3510f4b5530018889afdac44c8ac14163b8fa28e7b1d0b4bb"
         }
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:52:17.373413Z",
+      "finished_at": "2026-08-31T04:02:40.748750Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -26,12 +26,12 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:49:19.662225Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T03:59:48.300133Z",
       "stderr_bytes": 6150,
-      "stderr_sha256": "sha256:1204ff7f030cda2865eb702cd2a710aa8778765095eef92ce75e0fa68e7033f1",
+      "stderr_sha256": "sha256:ab6a7ef1a617a309eea93c601537a4580b6b77b53cf0e9dabeff5f6eb2a02988",
       "stdout_bytes": 10722,
-      "stdout_sha256": "sha256:243ac62ffbd97eb3d540a3e4b603138442b91606c3f629f2648caefed523ab15"
+      "stdout_sha256": "sha256:8fa69f5e3f8189f3510f4b5530018889afdac44c8ac14163b8fa28e7b1d0b4bb"
     }
   ],
   "gate": "V-ROLLBACK",
@@ -67,12 +67,12 @@
   "observations": {
     "artifact_digests": [
       {
-        "path": "/nix/store/f4wsmiz12jnjrsphazmhgzbkw6pm80d0-habitat-qemu/habitat.qcow2",
-        "sha256": "sha256:382028a71cc3baee84acbf6ee900360607d9758f95fee579bd73e42d4a6d9d78"
+        "path": "/nix/store/l54al8a5202ghrvlmih278j7grl5rl4g-habitat-qemu/habitat.qcow2",
+        "sha256": "sha256:3791abfbdff926ce70e5240284031270ea4d02654426b2eb4c3eb9ce410f17d1"
       },
       {
-        "path": "/tmp/habitat-w01-ntlw59vy/observed-events.json",
-        "sha256": "sha256:75ff3f3669d5ed2aa5f30a756aae2eba3435f485648a25fcc09f9341b53eeb83"
+        "path": "/tmp/habitat-w01-nnzvge8y/observed-events.json",
+        "sha256": "sha256:b106728543bcdd88a7bd4323dfe4816582d6cfb923094eed64e06d80bec487e5"
       }
     ],
     "behavioral_assertions": [
@@ -83,7 +83,7 @@
     ],
     "events": [
       {
-        "boot_attempt_id": "abc89f28-b043-4e01-9b47-4e68617909c4",
+        "boot_attempt_id": "1dea728d-3d6a-4418-bf93-77bc41427436",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
         "decision": "UNCONFIRMED",
@@ -92,7 +92,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 0,
-        "machine_id": "4141598ab5a14b5b8687b3a7db70da5d",
+        "machine_id": "16b124822d9c490197ae3f70d01bbbe9",
         "operational_state": "none",
         "previous_confirmed_generation_id": "none",
         "protections": {
@@ -103,7 +103,7 @@
         "system_generation_id": "531d51817f20925871466862d9db9276"
       },
       {
-        "boot_attempt_id": "cfd9da22-42f4-4e80-bccf-65ff3176685e",
+        "boot_attempt_id": "50020dcd-9578-43cf-96e1-3d1443b42c44",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
         "decision": "ACTIVE_UNCONFIRMED",
@@ -112,7 +112,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 1,
-        "machine_id": "4141598ab5a14b5b8687b3a7db70da5d",
+        "machine_id": "16b124822d9c490197ae3f70d01bbbe9",
         "operational_state": "baseline-durable-state",
         "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
         "protections": {
@@ -123,7 +123,7 @@
         "system_generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33"
       },
       {
-        "boot_attempt_id": "adf6e88f-953e-45ab-94ad-18fd1a30cd81",
+        "boot_attempt_id": "609dc73d-f94b-4308-b685-7de336c1b52c",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
         "decision": "ROLLED_BACK",
@@ -132,7 +132,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 2,
-        "machine_id": "4141598ab5a14b5b8687b3a7db70da5d",
+        "machine_id": "16b124822d9c490197ae3f70d01bbbe9",
         "operational_state": "baseline-durable-state",
         "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
         "protections": {
@@ -149,21 +149,21 @@
           "/nix/store/xqnbm0vgqcq9b1b54c80qj9s0qhbwa08-python3-3.13.15/bin/python3",
           "-c",
           "import json,sys\nd=json.load(open(sys.argv[1]));assert d['result']=='pass' and len(d['events'])>=2\nassert all(e['health_result']=='PRE_OPERATIONAL' and e['closure_digest'].startswith('sha256:') for e in d['events'])\nassert len(d['runtime_events'])==len(d['events'])\nassert all(e['outcome']=='passed' and e['objective_state']=='SATISFIED' for e in d['runtime_events'])\n",
-          "/tmp/habitat-w01-ntlw59vy/observed-events.json"
+          "/tmp/habitat-w01-nnzvge8y/observed-events.json"
         ],
         "artifact_digests": [
           {
-            "path": "/nix/store/f4wsmiz12jnjrsphazmhgzbkw6pm80d0-habitat-qemu/habitat.qcow2",
-            "sha256": "sha256:382028a71cc3baee84acbf6ee900360607d9758f95fee579bd73e42d4a6d9d78"
+            "path": "/nix/store/l54al8a5202ghrvlmih278j7grl5rl4g-habitat-qemu/habitat.qcow2",
+            "sha256": "sha256:3791abfbdff926ce70e5240284031270ea4d02654426b2eb4c3eb9ce410f17d1"
           },
           {
-            "path": "/tmp/habitat-w01-ntlw59vy/observed-events.json",
-            "sha256": "sha256:75ff3f3669d5ed2aa5f30a756aae2eba3435f485648a25fcc09f9341b53eeb83"
+            "path": "/tmp/habitat-w01-nnzvge8y/observed-events.json",
+            "sha256": "sha256:b106728543bcdd88a7bd4323dfe4816582d6cfb923094eed64e06d80bec487e5"
           }
         ],
         "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
         "exit_status": 0,
-        "finished_at": "2026-08-31T03:52:16.321432Z",
+        "finished_at": "2026-08-31T04:02:39.711056Z",
         "kind": "executed_command",
         "runner_identity": {
           "gid": 1000,
@@ -172,8 +172,8 @@
           "uid": 1000
         },
         "schema_version": "2.0",
-        "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-        "started_at": "2026-08-31T03:52:16.304947Z",
+        "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+        "started_at": "2026-08-31T04:02:39.693188Z",
         "stderr_bytes": 0,
         "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "stdout_bytes": 0,
@@ -210,7 +210,7 @@
       "qemu-observation": {
         "events": [
           {
-            "boot_attempt_id": "abc89f28-b043-4e01-9b47-4e68617909c4",
+            "boot_attempt_id": "1dea728d-3d6a-4418-bf93-77bc41427436",
             "bootstrap_phase": "reconciliation",
             "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
             "decision": "UNCONFIRMED",
@@ -219,7 +219,7 @@
             "hardware_profile_id": "qemu-x86_64-conformance",
             "health_result": "PRE_OPERATIONAL",
             "history_count": 0,
-            "machine_id": "4141598ab5a14b5b8687b3a7db70da5d",
+            "machine_id": "16b124822d9c490197ae3f70d01bbbe9",
             "operational_state": "none",
             "previous_confirmed_generation_id": "none",
             "protections": {
@@ -230,7 +230,7 @@
             "system_generation_id": "531d51817f20925871466862d9db9276"
           },
           {
-            "boot_attempt_id": "cfd9da22-42f4-4e80-bccf-65ff3176685e",
+            "boot_attempt_id": "50020dcd-9578-43cf-96e1-3d1443b42c44",
             "bootstrap_phase": "reconciliation",
             "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
             "decision": "ACTIVE_UNCONFIRMED",
@@ -239,7 +239,7 @@
             "hardware_profile_id": "qemu-x86_64-conformance",
             "health_result": "PRE_OPERATIONAL",
             "history_count": 1,
-            "machine_id": "4141598ab5a14b5b8687b3a7db70da5d",
+            "machine_id": "16b124822d9c490197ae3f70d01bbbe9",
             "operational_state": "baseline-durable-state",
             "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
             "protections": {
@@ -250,7 +250,7 @@
             "system_generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33"
           },
           {
-            "boot_attempt_id": "adf6e88f-953e-45ab-94ad-18fd1a30cd81",
+            "boot_attempt_id": "609dc73d-f94b-4308-b685-7de336c1b52c",
             "bootstrap_phase": "reconciliation",
             "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
             "decision": "ROLLED_BACK",
@@ -259,7 +259,7 @@
             "hardware_profile_id": "qemu-x86_64-conformance",
             "health_result": "PRE_OPERATIONAL",
             "history_count": 2,
-            "machine_id": "4141598ab5a14b5b8687b3a7db70da5d",
+            "machine_id": "16b124822d9c490197ae3f70d01bbbe9",
             "operational_state": "baseline-durable-state",
             "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
             "protections": {
@@ -277,20 +277,20 @@
             "duplicate_resume": "original_disposition",
             "effect_state": "COMMITTED",
             "event": "habitat.runtime",
-            "evidence_ref": "s3://habitat-evidence/sha256/a35f5d8ae6bdb00403cc60b27947f105f786a22a4c6fa70fc0b88b6a9f56f2db",
+            "evidence_ref": "s3://habitat-evidence/sha256/e26b6527d8f7a67858188a49917d1d1e24c3e38c58d5b8cdfa55e27e41d14948",
             "interruptions": [
               {
                 "boundary": "after_wake_commit",
-                "previous_pid": 858,
-                "replacement_pid": 923
+                "previous_pid": 866,
+                "replacement_pid": 932
               },
               {
                 "boundary": "after_effect_commit",
-                "previous_pid": 923,
-                "replacement_pid": 945
+                "previous_pid": 932,
+                "replacement_pid": 953
               }
             ],
-            "objective_id": "objective:qemu-b1d422f0-9151-40df-b0c2-08c9bfb22b57",
+            "objective_id": "objective:qemu-d99e7e37-2efd-4602-8da7-44710519944d",
             "objective_state": "SATISFIED",
             "outcome": "passed",
             "schema_version": "2.0"
@@ -299,20 +299,20 @@
             "duplicate_resume": "original_disposition",
             "effect_state": "COMMITTED",
             "event": "habitat.runtime",
-            "evidence_ref": "s3://habitat-evidence/sha256/2b24029bee8bc5fb32a10004198a8ff057efad0e01ba69bbc21be17c01587ded",
+            "evidence_ref": "s3://habitat-evidence/sha256/03eda05f117590731990ed42ed12d28be03112e91fa9dcf27b67fb232e701e40",
             "interruptions": [
               {
                 "boundary": "after_wake_commit",
-                "previous_pid": 836,
-                "replacement_pid": 887
+                "previous_pid": 815,
+                "replacement_pid": 873
               },
               {
                 "boundary": "after_effect_commit",
-                "previous_pid": 887,
-                "replacement_pid": 906
+                "previous_pid": 873,
+                "replacement_pid": 893
               }
             ],
-            "objective_id": "objective:qemu-480f2f3b-0cea-4769-bfd0-30a3b019a46e",
+            "objective_id": "objective:qemu-a640397d-4303-4b89-9a5d-e82461112cbb",
             "objective_state": "SATISFIED",
             "outcome": "passed",
             "schema_version": "2.0"
@@ -321,20 +321,20 @@
             "duplicate_resume": "original_disposition",
             "effect_state": "COMMITTED",
             "event": "habitat.runtime",
-            "evidence_ref": "s3://habitat-evidence/sha256/64e99aa747a4250c8f94c3db1fddbbc93f4d04b4d05859348aaf96b0bc0b8643",
+            "evidence_ref": "s3://habitat-evidence/sha256/14ea824eea28da9a7e504e7ac356039176dfe02c187cdbb67bcb526f76d716cf",
             "interruptions": [
               {
                 "boundary": "after_wake_commit",
                 "previous_pid": 811,
-                "replacement_pid": 868
+                "replacement_pid": 866
               },
               {
                 "boundary": "after_effect_commit",
-                "previous_pid": 868,
-                "replacement_pid": 888
+                "previous_pid": 866,
+                "replacement_pid": 886
               }
             ],
-            "objective_id": "objective:qemu-51eefed3-ad7f-431e-813e-55bd3f647e03",
+            "objective_id": "objective:qemu-f171412a-945c-4bd0-b5f9-b4262aec8c92",
             "objective_state": "SATISFIED",
             "outcome": "passed",
             "schema_version": "2.0"
@@ -349,7 +349,7 @@
   "result": "pass",
   "runner": "candidate_rollback_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [],
   "test_count": 1
 }

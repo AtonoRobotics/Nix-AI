@@ -7,17 +7,17 @@
         ".#test-w02",
         "--",
         "--evidence-dir",
-        "/tmp/nix-ai-v2-release-15ofktxs/state"
+        "/tmp/nix-ai-v2-release-lp3lkdw9/state"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-15ofktxs/state/state-crash-matrix.json",
+          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/state/state-crash-matrix.json",
           "sha256": "sha256:803bf4d6545304572cc8dc17f77e8176f5391ebbc46b5768ec51b6059304f67e"
         }
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:52:51.872345Z",
+      "finished_at": "2026-08-31T04:03:10.451138Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -26,12 +26,12 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:52:17.412003Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T04:02:40.786057Z",
       "stderr_bytes": 215,
-      "stderr_sha256": "sha256:bef1eaad82b735c0eecc0201ddb41f2ec67509bff67f1719703ddad4da2aece0",
+      "stderr_sha256": "sha256:f7201f2f658f779ff2a8dc996e944163525b1131598bb937c6f9661cb7c386e0",
       "stdout_bytes": 3485,
-      "stdout_sha256": "sha256:f8c45d201125f7b3115b2ec18adbeb0f8bf0d68604d67d71a5596d6076573e46"
+      "stdout_sha256": "sha256:f8c6864ef96ceb4f523b6b240ab8e96762ecf520fbb77753a3b0af8fdfb27cfe"
     }
   ],
   "gate": "V-STATE",
@@ -140,7 +140,7 @@
   "result": "pass",
   "runner": "state_crash_migration_restore_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [
     {
       "path": "migration-report.json",

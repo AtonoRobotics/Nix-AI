@@ -7,17 +7,17 @@
         ".#test-w05",
         "--",
         "--evidence-dir",
-        "/tmp/nix-ai-v2-release-15ofktxs/lifecycle"
+        "/tmp/nix-ai-v2-release-lp3lkdw9/lifecycle"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-15ofktxs/lifecycle/wake-crash-matrix.json",
+          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/lifecycle/wake-crash-matrix.json",
           "sha256": "sha256:05f4a9df05fd969b721396bae36eeba5343552a6c1d2444581b6c73a69acc01c"
         }
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:54:19.422223Z",
+      "finished_at": "2026-08-31T04:04:40.437667Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -26,12 +26,12 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:54:14.415101Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T04:04:36.099297Z",
       "stderr_bytes": 215,
-      "stderr_sha256": "sha256:24eed8ab2846dec83ce96b80c6371b251418bdf44270dcea4b526269b5fb4f91",
+      "stderr_sha256": "sha256:f1b8c771f755276bf7fb7eed522efd3f2a88fb4d091fb8645d4c10f11d7b9a18",
       "stdout_bytes": 3110,
-      "stdout_sha256": "sha256:94a9925464f7775b44eef0145c886dbf52615ab85faaea9a9052cd8745473312"
+      "stdout_sha256": "sha256:fb97c410662812054f37ae9cdd3ca160653d2798a54b8ca3a8ca835a948cd92b"
     },
     {
       "argv": [
@@ -48,7 +48,7 @@
       ],
       "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:54:30.001709Z",
+      "finished_at": "2026-08-31T04:04:50.856997Z",
       "kind": "executed_command",
       "runner_identity": {
         "gid": 1000,
@@ -57,10 +57,10 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
-      "started_at": "2026-08-31T03:54:19.437753Z",
+      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+      "started_at": "2026-08-31T04:04:40.448250Z",
       "stderr_bytes": 689,
-      "stderr_sha256": "sha256:470c5bd594ca3329ee9e8ed5c9aa81b0a0116fdf94a218ac0ecfd17a16437f0c",
+      "stderr_sha256": "sha256:ccac0dbf16f8db76efd16fe55f40d6530e4e1a76d722906dbd1333caeac796d1",
       "stdout_bytes": 0,
       "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
@@ -163,7 +163,7 @@
   "result": "pass",
   "runner": "headless_interruption_recovery_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
   "supporting_evidence": [],
   "test_count": 2
 }
