@@ -113,7 +113,8 @@ def _runner_identity(argv: list[str]) -> str | None:
     if len(argv) == 6 and argv[:2] == ["nix", "run"] and argv[3] == "--":
         option = "--evidence" if argv[2] in {".#test-boot", ".#test-rollback"} else "--evidence-dir"
         return argv[2] if argv[4] == option and Path(argv[5]).is_absolute() else None
-    if len(argv) >= 2 and Path(argv[0]).name.startswith("python3"):
+    python_name = Path(argv[0]).name if argv else ""
+    if len(argv) >= 2 and (python_name == "python" or python_name.startswith("python3")):
         script = argv[1]
         if script == "tools/validate_contracts.py" and len(argv) == 3 and Path(argv[2]).is_absolute():
             return script

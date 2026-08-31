@@ -91,7 +91,7 @@
     },
     {
       "path": "tools/qualify_v2_release.py",
-      "sha256": "b50fb1bc2c4495b2fd4a9408e2560be0dda79503ac3e499287b5797f3f047494"
+      "sha256": "6d24da441877ae971210ffea52e109d03cb943fc3a468ee4094fc809db6881ab"
     },
     {
       "path": "tools/verify_v2_build_closure.py",

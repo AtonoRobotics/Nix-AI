@@ -64,6 +64,22 @@ class ReleaseVerifierTests(unittest.TestCase):
 
         self.assertIn('qualify_v2_release.py} --root "$PWD" --run', flake)
 
+    def test_pinned_python_launcher_is_a_recognized_runner(self):
+        from tools.qualify_v2_release import _runner_identity
+
+        root = str(ROOT)
+        argv = [
+            "/nix/store/example/bin/python",
+            "tools/verify_v2_removal.py",
+            "--root",
+            root,
+            "--ledger",
+            str(ROOT / "evidence/v2-rebuild/disposition-ledger.json"),
+            "--output",
+            "/tmp/scope.json",
+        ]
+        self.assertEqual(_runner_identity(argv), "tools/verify_v2_removal.py")
+
     def live_result(self, *, services=False):
         value = {"outcome": "passed", "evidence_origin": "executed", "skip_count": 0,
                  "assertions": [{"name": "behavior observed", "passed": True}]}
