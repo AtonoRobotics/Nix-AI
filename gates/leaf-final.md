@@ -17,12 +17,12 @@ Scope: Re-run every binding check from the exact committed tree.
 - [x] G4: Complete Python suite passes with zero skips.
   CHECK: /nix/var/nix/profiles/default/bin/nix run .#test-python
   EXPECT: /OK/
-  EVIDENCE: The unified runner provisioned pinned PostgreSQL 17 and Garage, supplied the pinned contract toolchain, and completed 99 tests in 37.675 seconds: `OK`, zero skips.
-- [ ] G5: Nix flake check passes.
+  EVIDENCE: The unified runner provisioned pinned PostgreSQL 17 and Garage, supplied the pinned contract toolchain, and completed 102 tests in 41.129 seconds: `OK`, zero skips.
+- [x] G5: Nix flake check passes.
   CHECK: /nix/var/nix/profiles/default/bin/nix flake check --show-trace && echo flake-ok
   EXPECT: flake-ok
-  EVIDENCE: pending Garage migration and full flake check
-- [ ] G6: Fresh QEMU objective, interruption recovery, governed rollback, and exact-tree evidence all pass.
-  CHECK: /nix/var/nix/profiles/default/bin/nix develop --command qualify-v2-release
-  EXPECT: /"outcome": "passed"/
-  EVIDENCE: `nix run .#test-boot` and `nix run .#test-rollback` pass with live PostgreSQL/Garage objectives and two coordinator SIGKILL/replacement boundaries per boot. Final release-orchestrator execution and exact-tree evidence regeneration remain pending, so this aggregate gate stays open.
+  EVIDENCE: `nix flake check --show-trace` evaluated the complete app/package surface and built all 47 checks, including release and artifact qualification: exit 0.
+- [x] G6: Fresh QEMU objective, interruption recovery, governed rollback, and exact-tree evidence all pass.
+  CHECK: /nix/var/nix/profiles/default/bin/nix run .#test-w13
+  EXPECT: V2 release qualification passed.
+  EVIDENCE: The live release orchestrator passed after booting the PostgreSQL/Garage image, completing objectives across injected coordinator SIGKILL boundaries, rejecting a candidate, and restoring its bound rollback generation. W13 independently verified all 13 protected gate reports and the binding completion predicate.
