@@ -36,5 +36,28 @@ Budget note: multi-subsystem production completion with live image qualification
 - 2026-08-30 current-core audit leaf self-verified; final regeneration awaits live-runner completion
 - 2026-08-30 exact committed tree: 91 Python tests pass with 11 service-configuration skips; Rust fmt, strict clippy, and workspace tests pass
 - 2026-08-30 production acceptance abandoned honestly: nixpkgs rejects abandoned vulnerable MinIO, preventing the fresh QEMU/release run; runtime PostgreSQL/MinIO coordinator persistence remains incomplete
+
+## V2 gap-remediation contract
+
+Depth: tree 4   Mode: orchestrated
+
+- Interfaces: preserve the immutable V2.0.1 contract, public `habitat-*` names, the protobuf/tonic ABI, and the existing operator-facing runtime request surface. Internal authority and effect requests must be structured, identity-bound, versioned, and fail closed.
+- Data ownership: `habitat-authority` exclusively owns grants, revocations, and decisions; `habitat-effects` exclusively owns reservations, attempts, observations, and reconciliation; PostgreSQL owns transactional lifecycle and command truth; the supported S3-compatible store owns digest-addressed evidence bytes.
+- Packet ownership: runtime/trust owns `crates/habitat-runtime`, `crates/habitat-authority`, `crates/habitat-effects`, `src/habitat_state`, `nix/modules/habitat-runtime.nix`, runtime-focused tests, and all runtime/deployment portions of `flake.nix`; governed change owns `crates/habitat-packages`, `tools/qualify_v2_change.py`, and its focused tests/evidence schema; qualification owns the remaining `tools/qualif*`, qualification tests, and the V2 drift checker; final integration owns release evidence, public docs, and these ledgers, and does not change `flake.nix` unless a defect is returned to the runtime owner as a separately reviewed corrective packet.
+- Conventions: Rust remains rustfmt- and strict-clippy-clean; Python remains canonical, typed at trust boundaries, and fail closed; no pass result may be inferred from process exit, test names, source strings, or caller-supplied booleans.
+- Review rule: every packet is reviewed by a fresh agent after implementation. A packet may be committed and pushed only when the reviewer records `APPROVED`, reports no unresolved bugs or V2 drift, and the driver independently reruns its gates.
+- Exact-tree sequence: packet ledgers and review records are completed from a preliminary full acceptance run, then all non-evidence sources are committed and frozen. Qualification is rerun from that frozen commit, after which only `evidence/` changes may be committed. Exact-tree verification and push occur without any further non-evidence edit; the pushed SHA and verification result are recorded under excluded `evidence/remediation/` so bookkeeping cannot stale the release digest.
+
+## V2 gap-remediation tree
+
+- 2 Close every V2 review and release gap .......... gates/remediation-root.md
+  - 2.1 Runtime trust and durable ownership ........ gates/remediation-runtime.md
+  - 2.2 Governed-change binding .................... gates/remediation-change.md
+  - 2.3 Live qualification evidence ................ gates/remediation-qualification.md
+  - 2.4 Exact-tree release and drift closure ........ gates/remediation-release.md
+
+## V2 gap-remediation status log
+
+- 2026-08-30 remediation plan written; interfaces, ownership, packet gates, independent review, commit, and push policy fixed
 - 2026-08-30 Garage approved in ADR 0001 as the canonical embedded S3 backend because no admissible MinIO version is available; the prior combined Garage/state/QEMU experiment remains quarantined in the recovery stash and will not be restored wholesale
 - 2026-08-30 requalification reopened: migrate Garage, persistence wiring, and strict QEMU behavior as isolated reviewed commits; no prior MinIO abandonment is treated as current acceptance evidence
