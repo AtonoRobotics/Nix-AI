@@ -11,10 +11,13 @@ from .lifecycle import LifecycleStore
 MIGRATION = """
 CREATE TABLE IF NOT EXISTS abi_command_ledger (
  activation_id text NOT NULL, command_id text NOT NULL,
- request_digest text NOT NULL CHECK (request_digest ~ '^[0-9a-f]{64}$'),
+ request_digest text NOT NULL,
  committed_result jsonb NOT NULL, evidence_ref text NOT NULL,
  committed_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (activation_id, command_id),
  CHECK (jsonb_typeof(committed_result) = 'object'));
+ALTER TABLE abi_command_ledger DROP CONSTRAINT IF EXISTS abi_command_ledger_request_digest_check;
+ALTER TABLE abi_command_ledger ADD CONSTRAINT abi_command_ledger_request_digest_check
+ CHECK (request_digest ~ '^sha256:[0-9a-f]{64}$');
 CREATE OR REPLACE FUNCTION abi_command_ledger_immutable() RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN RAISE EXCEPTION 'command ledger is append-only' USING ERRCODE='42501'; END $$;
 DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='abi_command_ledger_immutable')
@@ -51,8 +54,9 @@ class CommandLedgerStore:
     def commit(self, activation_id, command_id, request_digest, proposed):
         if not all(isinstance(value, str) and value for value in (activation_id, command_id, request_digest)):
             raise ValueError("activation, command, and digest are required")
-        if len(request_digest) != 64 or any(c not in "0123456789abcdef" for c in request_digest):
-            raise ValueError("request digest must be lowercase sha256")
+        digest = request_digest.removeprefix("sha256:")
+        if not request_digest.startswith("sha256:") or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ValueError("request digest must be canonical sha256:<lowercase-hex>")
         self._validate_result(proposed, command_id)
         evidence_ref = proposed.get("durable_record_id")
         if not isinstance(evidence_ref, str) or not evidence_ref: raise ValueError("durable record id is required")

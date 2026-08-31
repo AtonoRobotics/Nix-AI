@@ -157,17 +157,20 @@ class TransactionalStateTests(unittest.TestCase):
         result = {"command_id": command, "committed": True,
                   "durable_record_id": "command:sha256:" + "a" * 64,
                   "state": "DISPOSITION_COMMITTED", "error": None, "evidence_refs": []}
-        first = ledger.commit(activation, command, "a" * 64, result)
-        duplicate = ledger.commit(activation, command, "a" * 64, result)
-        mismatch = ledger.commit(activation, command, "b" * 64, result)
+        digest = "sha256:" + "a" * 64
+        first = ledger.commit(activation, command, digest, result)
+        duplicate = ledger.commit(activation, command, digest, result)
+        mismatch = ledger.commit(activation, command, "sha256:" + "b" * 64, result)
         self.assertFalse(first.duplicate)
         self.assertTrue(duplicate.duplicate)
         self.assertTrue(mismatch.digest_mismatch)
         self.assertEqual(mismatch.result, first.result)
+        with self.assertRaisesRegex(ValueError, "sha256"):
+            ledger.commit(f"activation:{uuid.uuid4()}", f"command:{uuid.uuid4()}", "c" * 64, result)
         with psycopg.connect(os.environ["HABITAT_TEST_DATABASE_URL"]) as connection:
             with self.assertRaises(psycopg.errors.InsufficientPrivilege):
                 connection.execute("UPDATE abi_command_ledger SET request_digest=%s WHERE activation_id=%s",
-                                   ("c" * 64, activation))
+                                   ("sha256:" + "c" * 64, activation))
 
 if __name__ == "__main__":
     unittest.main()
