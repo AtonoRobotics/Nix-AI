@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib, hmac, json
 import psycopg
 from psycopg.rows import dict_row
+from .errors import ActivationInvalid
 
 class ClockUntrusted(RuntimeError): pass
 
@@ -890,41 +891,43 @@ class LifecycleStore:
             self._record(c,command_id,fingerprint,result)
             return result
 
-    def resolve_activation(self,binding,credential):
+    def _resolve_activation(self,c,binding,credential):
         required=("activation_id","machine_id","agent_id","objective_id","lease_fence",
           "system_generation_id","capability_activation_set_id","deadline","trace_id")
         if (not isinstance(binding,dict) or set(binding)!=set(required)
                 or not isinstance(credential,str) or not credential):
-            raise ValueError("complete activation binding and credential are required")
+            raise ActivationInvalid("complete activation binding and credential are required")
         if (type(binding["lease_fence"]) is not int or not 1<=binding["lease_fence"]<=2**64-1
                 or type(binding["deadline"]) is not int or not 1<=binding["deadline"]<=2**63-1):
-            raise ValueError("activation fence and deadline are invalid")
-        with self._connect() as c:
-            now=c.execute("SELECT extract(epoch FROM clock_timestamp())::bigint AS now").fetchone()["now"]
-            row=c.execute("SELECT * FROM activations WHERE activation_id=%s FOR SHARE",
-                          (binding["activation_id"],)).fetchone()
-            if not row:raise PermissionError("activation is not authorized")
-            generation=c.execute("SELECT active_generation FROM active_generation_binding WHERE singleton FOR SHARE").fetchone()
-            capability_set=c.execute("SELECT set_id FROM capability_activation_sets WHERE active FOR SHARE").fetchone()
-            exact=("machine_id","agent_id","objective_id","lease_fence","system_generation_id",
-                   "capability_activation_set_id","trace_id")
-            if any(row[field]!=binding[field] for field in exact):
-                raise PermissionError("activation binding does not match authoritative state")
-            if (not generation or generation["active_generation"]!=row["system_generation_id"]
-                    or not capability_set or capability_set["set_id"]!=row["capability_activation_set_id"]):
-                raise PermissionError("activation generation or capability set is no longer active")
-            if row["state"] not in ("LEASED","PREPARING","RUNNING","WAITING_CONTEXT",
-                                    "WAITING_EFFECT","SLEEPING"):
-                raise PermissionError("activation is not active")
-            if (row["lease_expires_at"] is None or row["deadline"] is None
-                    or now>=row["lease_expires_at"] or now>=row["deadline"]
-                    or binding["deadline"]>row["deadline"] or binding["deadline"]<=now):
-                raise ValueError("activation or request deadline is expired or out of scope")
-            presented="sha256:"+hashlib.sha256(credential.encode()).hexdigest()
-            if not hmac.compare_digest(presented,row["credential_digest"]):
-                raise PermissionError("activation credential is invalid")
-            return {key:value for key,value in row.items()
-                    if key not in ("credential_digest","credential_key_version","monotonic_started")}
+            raise ActivationInvalid("activation fence and deadline are invalid")
+        now=c.execute("SELECT extract(epoch FROM clock_timestamp())::bigint AS now").fetchone()["now"]
+        row=c.execute("SELECT * FROM activations WHERE activation_id=%s FOR SHARE",
+                      (binding["activation_id"],)).fetchone()
+        if not row:raise PermissionError("activation is not authorized")
+        generation=c.execute("SELECT active_generation FROM active_generation_binding WHERE singleton FOR SHARE").fetchone()
+        capability_set=c.execute("SELECT set_id FROM capability_activation_sets WHERE active FOR SHARE").fetchone()
+        exact=("machine_id","agent_id","objective_id","lease_fence","system_generation_id",
+               "capability_activation_set_id","trace_id")
+        if any(row[field]!=binding[field] for field in exact):
+            raise PermissionError("activation binding does not match authoritative state")
+        if (not generation or generation["active_generation"]!=row["system_generation_id"]
+                or not capability_set or capability_set["set_id"]!=row["capability_activation_set_id"]):
+            raise PermissionError("activation generation or capability set is no longer active")
+        if row["state"] not in ("LEASED","PREPARING","RUNNING","WAITING_CONTEXT",
+                                "WAITING_EFFECT","SLEEPING"):
+            raise PermissionError("activation is not active")
+        if (row["lease_expires_at"] is None or row["deadline"] is None
+                or now>=row["lease_expires_at"] or now>=row["deadline"]
+                or binding["deadline"]>row["deadline"] or binding["deadline"]<=now):
+            raise ActivationInvalid("activation or request deadline is expired or out of scope")
+        presented="sha256:"+hashlib.sha256(credential.encode()).hexdigest()
+        if not hmac.compare_digest(presented,row["credential_digest"]):
+            raise PermissionError("activation credential is invalid")
+        return {key:value for key,value in row.items()
+                if key not in ("credential_digest","credential_key_version","monotonic_started")}
+
+    def resolve_activation(self,binding,credential):
+        with self._connect() as c:return self._resolve_activation(c,binding,credential)
 
     def propose_governed_change(self, candidate_id, command_id, source_digest, evaluator,
                                 evaluator_closure, target_generation, rollback_generation,

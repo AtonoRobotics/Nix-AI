@@ -128,6 +128,87 @@ class LifecycleTests(unittest.TestCase):
             repository.resolve_activation(resolution,"service:runtime")
         self.assertEqual(repository.resolve_activation(resolution,"service:abi")["activation_id"],
                          claim["activation_id"])
+        class CommandEvidence:
+            def verify_record(self,reference,**bindings):
+                if reference!="s3://evidence/command-result":raise ValueError("evidence mismatch")
+                return {**bindings,"payload":{"activation_id":claim["activation_id"],
+                  "command_id":bindings["subject"],"request_digest":bindings["source"],
+                  "lease_fence":1,"system_generation_id":"generation:current",
+                  "machine_id":"machine:test","agent_id":"agent:test",
+                  "objective_id":objective,"trace_id":"trace:test",
+                  "capability_activation_set_id":"capability-set:current"}}
+        repository.bind_evidence(CommandEvidence())
+        command_result={"command_id":"command:activation:test","committed":True,
+          "durable_record_id":"s3://evidence/command-result","state":"DISPOSITION_COMMITTED",
+          "error":None,"evidence_refs":["s3://evidence/command-result"]}
+        command_request={"binding":binding,"activation_credential":activation_credential,
+          "command_id":command_result["command_id"],"request_digest":"sha256:"+"e"*64,
+          "result":command_result}
+        committed=repository.commit_activation_command(command_request,"service:abi")
+        self.assertEqual(repository.commit_activation_command(command_request,"service:abi"),committed)
+        self.assertEqual(repository.commit_activation_command(command_request|{"result":{"malformed":True}},
+                                                              "service:abi"),committed)
+        self.assertEqual(repository.get_activation_command({"binding":binding,
+          "activation_credential":activation_credential,"command_id":command_result["command_id"]},
+          "service:abi"),command_result)
+        mismatch=repository.commit_activation_command(command_request|{"request_digest":"sha256:"+"f"*64},
+                                                      "service:abi")
+        self.assertEqual(mismatch,{"status":"digest_mismatch","result":command_result})
+        for malformed in (True,"e"*64,"sha256:"+"e"*63,"sha256:"+"E"*64,
+                          "sha256:"+"g"*64):
+            with self.subTest(malformed=malformed),self.assertRaisesRegex(ValueError,"canonical"):
+                repository.commit_activation_command(command_request|{"request_digest":malformed},
+                                                     "service:abi")
+        with self.assertRaises(PermissionError):
+            repository.commit_activation_command(command_request|{
+              "binding":binding|{"lease_fence":2}},"service:abi")
+        with repository._commands._connect() as connection:
+            ledger_rows=connection.execute("SELECT count(*) AS count FROM abi_command_ledger WHERE activation_id=%s",
+              (claim["activation_id"],)).fetchone()["count"]
+        self.assertEqual(ledger_rows,1)
+        class MissingEvidence:
+            def verify_record(self,_reference,**_bindings):raise RuntimeError("evidence unavailable")
+        repository.bind_evidence(MissingEvidence())
+        with self.assertRaisesRegex(RuntimeError,"evidence unavailable"):
+            repository.commit_activation_command(command_request,"service:abi")
+        with self.assertRaisesRegex(RuntimeError,"evidence unavailable"):
+            repository.get_activation_command({"binding":binding,
+              "activation_credential":activation_credential,
+              "command_id":command_result["command_id"]},"service:abi")
+        repository.bind_evidence(CommandEvidence())
+        for malformed_result in (
+          command_result|{"state":"ARBITRARY"},
+          command_result|{"evidence_refs":[]},
+          command_result|{"evidence_refs":[1]},
+          command_result|{"evidence_refs":[command_result["durable_record_id"],"unverified:anything"]},
+          command_result|{"error":"not-an-ErrorStatus"},
+          command_result|{"forged":{"authority":"widened"}},
+          command_result|{"durable_record_id":"s3://evidence/another"}):
+            with self.subTest(result=malformed_result),self.assertRaisesRegex(
+                    (ValueError,RuntimeError),"bound|disposition|evidence"):
+                repository.commit_activation_command(command_request|{
+                  "command_id":"command:activation:malformed",
+                  "request_digest":"sha256:"+"d"*64,
+                  "result":malformed_result|{"command_id":"command:activation:malformed"}},
+                  "service:abi")
+        concurrent_result=command_result|{"command_id":"command:activation:concurrent"}
+        concurrent_request=command_request|{"command_id":concurrent_result["command_id"],
+          "result":concurrent_result,"request_digest":"sha256:"+"c"*64}
+        barrier=threading.Barrier(2);concurrent=[]
+        def commit_duplicate():
+            try:
+                barrier.wait();concurrent.append(repository.commit_activation_command(
+                  concurrent_request,"service:abi"))
+            except Exception as error:concurrent.append(error)
+        workers=[threading.Thread(target=commit_duplicate) for _ in range(2)]
+        for worker in workers:worker.start()
+        for worker in workers:worker.join()
+        self.assertEqual(concurrent,[concurrent_result,concurrent_result])
+        with repository._commands._connect() as connection:
+            concurrent_rows=connection.execute("""SELECT count(*) AS count FROM abi_command_ledger
+              WHERE activation_id=%s AND command_id=%s""",
+              (claim["activation_id"],concurrent_result["command_id"])).fetchone()["count"]
+        self.assertEqual(concurrent_rows,1)
         for field,bad_value in (("machine_id","machine:forged"),("agent_id","agent:forged"),
           ("objective_id","objective:forged"),("activation_id","activation:forged"),
           ("lease_fence",2),("system_generation_id","generation:forged"),
@@ -655,6 +736,10 @@ class LifecycleTests(unittest.TestCase):
               principals={(os.getuid(),os.getgid(),"habitat-scheduler.service"):"service:scheduler"},
               effect_uid=os.getuid(),effect_token="effect-admission-token-for-runtime-test",
               identity_observer=lambda pid,uid,gid:(pid,uid,gid,"habitat-scheduler.service"))
+            self.assertNotIn("commit_command",server.operations["service:abi"])
+            self.assertNotIn("get_command",server.operations["service:abi"])
+            self.assertIn("activation_commit_command",server.operations["service:abi"])
+            self.assertIn("activation_get_command",server.operations["service:abi"])
             thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
             try:
                 with socket.socket(socket.AF_UNIX) as client:

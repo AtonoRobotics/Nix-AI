@@ -47,10 +47,22 @@ class CommandLedgerStore:
         with self._connect() as connection: connection.execute(MIGRATION)
     @staticmethod
     def _validate_result(result, command_id):
-        if not isinstance(result, dict) or result.get("command_id") != command_id:
+        required={"command_id","committed","durable_record_id","state","error","evidence_refs"}
+        if (not isinstance(command_id,str) or not command_id.startswith("command:") or
+                not isinstance(result,dict) or set(result)!=required or
+                result.get("command_id")!=command_id):
             raise LedgerCorrupt("committed result is not bound to its command")
-        if result.get("committed") is not True or not isinstance(result.get("state"), str):
+        if result.get("committed") is not True or result.get("state") not in {
+                "DISPOSITION_COMMITTED", "CANCELLED"}:
             raise LedgerCorrupt("committed result lacks mandatory disposition fields")
+        if result.get("error") is not None:
+            raise LedgerCorrupt("committed result cannot contain an error disposition")
+        durable_ref=result.get("durable_record_id")
+        evidence_refs=result.get("evidence_refs")
+        if (not isinstance(durable_ref,str) or not durable_ref or
+                not isinstance(evidence_refs,list) or
+                evidence_refs != [durable_ref]):
+            raise LedgerCorrupt("committed result lacks its durable evidence reference")
         return result
     def commit(self, activation_id, command_id, request_digest, proposed):
         if not all(isinstance(value, str) and value for value in (activation_id, command_id, request_digest)):
@@ -98,11 +110,6 @@ class PostgresRepository:
     def put_evidence(self,envelope,principal,command_id):
         if self._evidence is None: raise LedgerUnavailable("evidence authority is not bound")
         return self._evidence.put_envelope(envelope,principal,command_id)
-    def commit_verified_command(self,activation_id,command_id,request_digest,result,principal):
-        self._verified(result["durable_record_id"],subject=command_id,producer=principal,
-          source=request_digest,operation="command.commit",disposition=result["state"])
-        outcome=self._commands.commit(activation_id,command_id,request_digest,result)
-        return {"status":"digest_mismatch" if outcome.digest_mismatch else "ok","result":outcome.result}
     def observe_verified_effect(self,objective_id,effect_id):
         projection=self._lifecycle.inspect_effect_projection(objective_id,effect_id)
         if not projection:raise ValueError("effect projection not found")
@@ -152,8 +159,10 @@ class PostgresRepository:
             raise LedgerCorrupt("package evidence dependency closure is invalid")
         return self._lifecycle.admit_package(request["package_id"],request["content_digest"],request["manifest"],request["evidence_ref"])
     def commit_verified_authority(self,request):
-        self._verified(request["evidence_ref"],subject=request["binding_id"],producer="service:authority",
-          source=request["snapshot_digest"],operation="authority.snapshot")
+        digest=request["snapshot_digest"]
+        expected="authority://snapshots/sha256/"+digest.removeprefix("sha256:")
+        if request["evidence_ref"] != expected:
+            raise ValueError("authority snapshot content identity mismatch")
         return self._lifecycle.commit_authority_snapshot(request["binding_id"],request["command_id"],
           request["expected_version"],request["generation"],request["snapshot"],request["snapshot_digest"],request["evidence_ref"])
     def claim_verified_activation(self,request,principal):
@@ -179,6 +188,62 @@ class PostgresRepository:
     def resolve_activation(self,request,principal):
         if principal!="service:abi":raise ValueError("activation resolution requires ABI principal")
         return self._lifecycle.resolve_activation(request["binding"],request["activation_credential"])
+    def commit_activation_command(self,request,principal):
+        if principal!="service:abi":raise ValueError("activation command commit requires ABI principal")
+        digest=request["request_digest"]
+        if (not isinstance(digest,str) or len(digest)!=71 or not digest.startswith("sha256:")
+                or any(character not in "0123456789abcdef" for character in digest[7:])):
+            raise ValueError("canonical request digest is required")
+        with self._commands._connect() as c:
+            activation=self._lifecycle._resolve_activation(c,request["binding"],request["activation_credential"])
+            lock_identity=f"{len(activation['activation_id'])}:{activation['activation_id']}{request['command_id']}"
+            c.execute("SELECT pg_advisory_xact_lock(hashtextextended(%s, 24681357))",
+                      (lock_identity,))
+            row=c.execute("""SELECT request_digest,committed_result,evidence_ref FROM abi_command_ledger
+              WHERE activation_id=%s AND command_id=%s FOR UPDATE""",
+              (activation["activation_id"],request["command_id"])).fetchone()
+            if row:
+                stored=self._commands._validate_result(row["committed_result"],request["command_id"])
+                if stored["durable_record_id"]!=row["evidence_ref"]:
+                    raise LedgerCorrupt("command ledger evidence binding is corrupt")
+                self._verify_activation_command_evidence(stored["durable_record_id"],row["request_digest"],
+                  stored,activation,principal)
+                if row["request_digest"]!=digest:return {"status":"digest_mismatch","result":stored}
+                return stored
+            result=self._commands._validate_result(request["result"],request["command_id"])
+            self._verify_activation_command_evidence(result["durable_record_id"],digest,result,
+                                                      activation,principal)
+            c.execute("""INSERT INTO abi_command_ledger
+              (activation_id,command_id,request_digest,committed_result,evidence_ref)
+              VALUES(%s,%s,%s,%s,%s)""",(activation["activation_id"],request["command_id"],
+              digest,json.dumps(result),result["durable_record_id"]))
+            return result
+    def _verify_activation_command_evidence(self,reference,digest,result,activation,principal):
+        evidence=self._verified(reference,subject=result["command_id"],producer=principal,
+          source=digest,operation="command.commit",disposition=result["state"])
+        payload=evidence.get("payload",{})
+        expected={"activation_id":activation["activation_id"],"command_id":result["command_id"],
+          "request_digest":digest,"lease_fence":activation["lease_fence"],
+          "machine_id":activation["machine_id"],"agent_id":activation["agent_id"],
+          "objective_id":activation["objective_id"],"trace_id":activation["trace_id"],
+          "system_generation_id":activation["system_generation_id"],
+          "capability_activation_set_id":activation["capability_activation_set_id"]}
+        if any(payload.get(field)!=value for field,value in expected.items()):
+            raise LedgerCorrupt("command evidence does not bind the activation command")
+    def get_activation_command(self,request,principal):
+        if principal!="service:abi":raise ValueError("activation command lookup requires ABI principal")
+        with self._commands._connect() as c:
+            activation=self._lifecycle._resolve_activation(c,request["binding"],request["activation_credential"])
+            row=c.execute("""SELECT request_digest,committed_result,evidence_ref FROM abi_command_ledger
+              WHERE activation_id=%s AND command_id=%s FOR SHARE""",
+              (request["binding"]["activation_id"],request["command_id"])).fetchone()
+            if not row:return None
+            result=self._commands._validate_result(row["committed_result"],request["command_id"])
+            if result["durable_record_id"]!=row["evidence_ref"]:
+                raise LedgerCorrupt("command ledger evidence binding is corrupt")
+            self._verify_activation_command_evidence(row["evidence_ref"],row["request_digest"],
+                                                      result,activation,principal)
+            return result
     def publish_verified_capability_set(self,request,principal):
         if principal!="service:packages":raise ValueError("capability set publication requires packages principal")
         evidence=self._verified(request["evidence_ref"],subject=request["set_id"],producer=principal,
@@ -228,13 +293,6 @@ class PostgresRepository:
             return self.put_evidence(envelope,"service:state",command_id)["evidence_ref"]
         return self._lifecycle.recover(now=now,publish_recovery_evidence=publish)
     def ensure_active_generation(self,generation): return self._lifecycle.ensure_active_generation(generation)
-    def get_command(self,activation_id,command_id):
-        bound=self._commands.get_bound(activation_id,command_id)
-        if bound is None:return None
-        self._verified(bound["evidence_ref"],subject=command_id,producer="service:abi",
-          source=bound["request_digest"],operation="command.commit",
-          disposition=bound["result"]["state"])
-        return bound["result"]
     def guard_objective_effects(self,*args): return self._lifecycle.guard_objective_effects(*args)
     def invalidate_objective_effect_guard(self,*args): return self._lifecycle.invalidate_objective_effect_guard(*args)
     def governed_change(self,*args): return self._lifecycle.governed_change(*args)

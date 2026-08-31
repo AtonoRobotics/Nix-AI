@@ -8,7 +8,7 @@ import socketserver
 import struct
 import time
 
-from .errors import EvidenceNotFound, LedgerCorrupt, LedgerUnavailable
+from .errors import ActivationInvalid, EvidenceNotFound, LedgerCorrupt, LedgerUnavailable
 
 def _process_start_time(stat):
     try:return int(stat.rsplit(")",1)[1].split()[19])
@@ -51,15 +51,14 @@ class StateProtocol:
             return self.repository.guard_objective_effects(request["objective_id"], request["effect_ids"], request["effect_set_digest"])
         if operation == "effect_guard_invalidate":
             return self.repository.invalidate_objective_effect_guard(request["objective_id"], request["compensates_effect_id"])
-        if operation == "commit_command":
-            if principal!="service:abi": raise ValueError("command commit requires ABI principal")
-            return self.repository.commit_verified_command(request["activation_id"],request["command_id"],request["request_digest"],request["result"],principal)
-        if operation == "get_command":
-            return self.repository.get_command(request["activation_id"], request["command_id"])
         if operation == "activation_claim":
             return self.repository.claim_verified_activation(request,principal)
         if operation == "activation_resolve":
             return self.repository.resolve_activation(request,principal)
+        if operation == "activation_commit_command":
+            return self.repository.commit_activation_command(request,principal)
+        if operation == "activation_get_command":
+            return self.repository.get_activation_command(request,principal)
         if operation == "capability_set_publish":
             return self.repository.publish_verified_capability_set(request,principal)
         if operation == "change_propose":
@@ -141,6 +140,8 @@ class _StateHandler(socketserver.StreamRequestHandler):
         except EvidenceNotFound as error: self._send({"status":"not_found","message":str(error)})
         except LedgerCorrupt as error: self._send({"status":"corrupt","message":str(error)})
         except LedgerUnavailable as error: self._send({"status":"unavailable","message":str(error)})
+        except ActivationInvalid as error: self._send({"status":"invalid","message":str(error)})
+        except PermissionError as error: self._send({"status":"unauthorized","message":str(error)})
         except (TimeoutError,socket.timeout): self._send({"status":"unavailable","message":"request deadline exceeded"})
         except (KeyError, TypeError, ValueError, json.JSONDecodeError) as error: self._send({"status":"corrupt","message":str(error)})
     def _send(self, response):
@@ -160,7 +161,8 @@ class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
         self.principals=dict(principals or {})
         self.identity_observer=identity_observer
         self.operations={
-          "service:abi":frozenset({"evidence_put","commit_command","get_command","activation_resolve"}),
+          "service:abi":frozenset({"evidence_put","activation_resolve",
+            "activation_commit_command","activation_get_command"}),
           "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect","activation_claim"}),
           "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","effect_guard","effect_guard_invalidate"}),
           "service:packages":frozenset({"evidence_put","package_admit","capability_set_publish"}),

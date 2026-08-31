@@ -58,7 +58,7 @@ class StateArchitectureTests(unittest.TestCase):
         self.assertNotIn("verify_record",protocol)
         self.assertNotIn("put_envelope",protocol)
         repository=inspect.getsource(__import__("habitat_state.repository",fromlist=["PostgresRepository"]).PostgresRepository)
-        for use_case in ("put_evidence","commit_verified_command","observe_verified_effect",
+        for use_case in ("put_evidence","commit_activation_command","get_activation_command","observe_verified_effect",
                          "propose_verified_change","transition_verified_change",
                          "admit_verified_package","commit_verified_authority"):
             self.assertIn("def "+use_case,repository)
