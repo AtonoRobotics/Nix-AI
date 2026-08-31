@@ -93,7 +93,7 @@ fn disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry() {
     dispatch(
         &mut ledger,
         &effect,
-        Attempt::new("sha256:req", 100, "mail", "transport:7"),
+        Attempt::new("sha256:payload", 100, "mail", "transport:7"),
     )
     .unwrap();
     ledger
@@ -107,7 +107,7 @@ fn disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry() {
     ledger
         .begin_reconciliation(
             &effect.effect_id,
-            ReconciliationAttempt::new("sha256:lookup", 101, "mail", "lookup:7"),
+            ReconciliationAttempt::new("sha256:payload", 101, "mail", "lookup:7"),
         )
         .unwrap();
     ledger
@@ -124,6 +124,12 @@ fn disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry() {
     assert_eq!(
         ledger.attempts(&effect.effect_id)[0].terminal_classification,
         Some(EffectState::OutcomeUnknown)
+    );
+    assert_eq!(
+        ledger.attempts(&effect.effect_id)[0]
+            .observation_source
+            .as_deref(),
+        Some("transport")
     );
     assert_eq!(ledger.reconciliations(&effect.effect_id).len(), 1);
     assert_eq!(
@@ -145,7 +151,7 @@ fn acknowledgement_is_not_success_without_the_declared_observation() {
     dispatch(
         &mut ledger,
         &effect,
-        Attempt::new("sha256:req", 100, "mail", "transport:8"),
+        Attempt::new("sha256:payload", 100, "mail", "transport:8"),
     )
     .unwrap();
     assert_eq!(
@@ -181,7 +187,7 @@ fn cancellation_and_compensation_preserve_truthful_distinct_histories() {
     dispatch(
         &mut ledger,
         &original,
-        Attempt::new("sha256:o", 100, "mail", "transport:o"),
+        Attempt::new("sha256:payload", 100, "mail", "transport:o"),
     )
     .unwrap();
     ledger
@@ -222,7 +228,7 @@ fn cancellation_and_compensation_preserve_truthful_distinct_histories() {
     dispatch(
         &mut ledger,
         &compensation,
-        Attempt::new("sha256:c", 110, "mail", "transport:c"),
+        Attempt::new("sha256:payload", 110, "mail", "transport:c"),
     )
     .unwrap();
     ledger
@@ -280,7 +286,7 @@ fn recovery_bounded_validity_ordering_and_completion_fail_closed() {
     assert_eq!(
         ledger.dispatch_authorized_at(
             &effect.effect_id,
-            Attempt::new("sha256:m", 121, "service", "transport:m"),
+            Attempt::new("sha256:change", 121, "service", "transport:m"),
             &mut authority,
             &channel,
             &invocation,

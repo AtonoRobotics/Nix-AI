@@ -191,7 +191,7 @@ impl HarnessCheckpoint {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BackendState {
     pub identity: DurableIdentity,
-    pub effect_history: Vec<String>,
+    pub terminal_effect_refs: Vec<String>,
     pub completion_contract: String,
 }
 pub struct BackendConformance;
