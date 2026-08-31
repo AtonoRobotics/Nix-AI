@@ -17,11 +17,53 @@
           install -d -m 0700 "$credential_dir"
           token="$(tr -d '-' </proc/sys/kernel/random/uuid)$(tr -d '\n' </etc/machine-id)"
           password="$(printf '%s' "$token" | sha256sum | cut -d ' ' -f 1)"
-          printf 'MINIO_ROOT_USER=habitat\nMINIO_ROOT_PASSWORD=%s\n' "$password" > "$credential_dir/minio-root.env"
+          access_key="GK$(printf '%s' "$token" | sha256sum | cut -c1-24)"
+          printf 'GARAGE_RPC_SECRET=%s\n' "$password" > "$credential_dir/garage.env"
           printf 'postgresql:///habitat-state?host=/run/postgresql\n' > "$credential_dir/database-url"
-          printf 'http://habitat:%s@127.0.0.1:9000\n' "$password" > "$credential_dir/object-store-url"
+          printf '{"endpoint":"http://127.0.0.1:9000","access_key":"%s","secret_key":"%s","bucket":"habitat-evidence","region":"garage"}\n' \
+            "$access_key" "$password" > "$credential_dir/object-store-url"
           printf '%s\n' "$token" > "$credential_dir/abi-activation"
           chmod 0400 "$credential_dir"/*
+        '';
+      };
+      garageInitialize = pkgs.writeShellApplication {
+        name = "habitat-garage-initialize";
+        runtimeInputs = [ pkgs.coreutils pkgs.garage pkgs.gnugrep pkgs.jq ];
+        text = ''
+          set -euo pipefail
+          GARAGE_RPC_SECRET="$(sed -n 's/^GARAGE_RPC_SECRET=//p' /run/habitat-credentials/garage.env)"
+          export GARAGE_RPC_SECRET
+
+          status_file="$(mktemp)"
+          trap 'rm -f "$status_file"' EXIT
+          for attempt in $(seq 1 300); do
+            if garage status >"$status_file" 2>&1; then
+              break
+            fi
+            test "$attempt" -lt 300 || {
+              echo 'Garage RPC did not become ready' >&2
+              cat "$status_file" >&2
+              exit 1
+            }
+            sleep 0.1
+          done
+
+          node_id="$(garage node id | grep -Eo '[0-9a-f]{64}@' | head -n1 | tr -d '@')"
+          test -n "$node_id"
+          if grep -q 'NO ROLE ASSIGNED' "$status_file"; then
+            garage layout assign --zone local --capacity 1G "$node_id"
+            garage layout apply --version 1
+          fi
+
+          access_key="$(jq -r .access_key /run/habitat-credentials/object-store-url)"
+          secret_key="$(jq -r .secret_key /run/habitat-credentials/object-store-url)"
+          if ! garage key info habitat >/dev/null 2>&1; then
+            garage key import --yes -n habitat "$access_key" "$secret_key"
+          fi
+          if ! garage bucket info habitat-evidence >/dev/null 2>&1; then
+            garage bucket create habitat-evidence
+          fi
+          garage bucket allow --read --write --owner --key habitat habitat-evidence
         '';
       };
       runtimeConfiguration = {
@@ -31,26 +73,47 @@
           ensureDatabases = [ "habitat-state" ];
           ensureUsers = [{ name = "habitat-state"; ensureDBOwnership = true; }];
         };
-        services.minio = {
+        services.garage = {
           enable = true;
-          listenAddress = "127.0.0.1:9000";
-          consoleAddress = "127.0.0.1:9001";
-          browser = false;
-          rootCredentialsFile = "/run/habitat-credentials/minio-root.env";
+          package = pkgs.garage;
+          environmentFile = "/run/habitat-credentials/garage.env";
+          settings = {
+            db_engine = "sqlite";
+            replication_factor = 1;
+            rpc_bind_addr = "127.0.0.1:3901";
+            rpc_public_addr = "127.0.0.1:3901";
+            s3_api = {
+              s3_region = "garage";
+              api_bind_addr = "127.0.0.1:9000";
+              root_domain = ".s3.garage";
+            };
+          };
         };
         systemd.services.habitat-runtime-credentials = {
           description = "Create ephemeral Habitat runtime credentials";
           wantedBy = [ "multi-user.target" ];
-          before = [ "minio.service" "habitat-state.service" ];
+          before = [ "garage.service" "habitat-state.service" ];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${runtimeCredentials}/bin/habitat-runtime-credentials";
             RemainAfterExit = true;
           };
         };
-        systemd.services.minio = {
+        systemd.services.garage = {
           after = [ "habitat-runtime-credentials.service" ];
           requires = [ "habitat-runtime-credentials.service" ];
+        };
+        systemd.services.habitat-garage-initialize = {
+          description = "Initialize the Habitat Garage layout, key, and evidence bucket";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "garage.service" ];
+          requires = [ "garage.service" ];
+          before = [ "habitat-state.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${garageInitialize}/bin/habitat-garage-initialize";
+            RemainAfterExit = true;
+          };
         };
         habitat.runtime = {
           enable = true;
@@ -136,7 +199,7 @@
       };
       qualifyW02 = pkgs.writeShellApplication {
         name = "qualify-w02";
-        runtimeInputs = [ pkgs.docker-client python ];
+        runtimeInputs = [ pkgs.docker-client pkgs.garage python ];
         text = ''
           export PYTHONPATH=${./src}
           export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
@@ -508,7 +571,7 @@
         test-w02 = {
           type = "app";
           program = "${qualifyW02}/bin/qualify-w02";
-          meta.description = "Run live PostgreSQL/MinIO W02 disaster qualification";
+          meta.description = "Run live PostgreSQL/Garage W02 disaster qualification";
         };
         test-w03 = {
           type = "app";

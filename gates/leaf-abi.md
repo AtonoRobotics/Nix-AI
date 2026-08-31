@@ -15,7 +15,7 @@ Scope: Bind every command to authenticated activation context and make replay fa
   EXPECT: /test result: ok/
   EVIDENCE: Escalated `cargo test -p habitat-abi` passed 6 tests, including exact duplicate/restart replay, digest mismatch INTERNAL, unavailable/corrupt repository INTERNAL, and direct UDS authoritative/malformed-response coverage; no local ledger remains.
 
-- [x] G4: State and lifecycle focused tests pass against provisioned PostgreSQL and MinIO with zero skips.
-  CHECK: .venv/bin/python tools/qualify_w02.py --evidence-dir /tmp/nixai-w02-evidence && .venv/bin/python tools/qualify_w05.py --evidence-dir /tmp/nixai-w05-evidence
+- [x] G4: State and lifecycle focused tests pass against provisioned PostgreSQL and the approved Garage S3 backend with zero skips.
+  CHECK: nix run .#test-w02 && nix run .#test-w05
   EXPECT: /"outcome": "passed"/
-  EVIDENCE: W02 provisioned PostgreSQL+MinIO and passed 7 live state tests with skip_count=0; W05 provisioned PostgreSQL and passed 4 live lifecycle/effect tests with skip_count=0.
+  EVIDENCE: W02 provisioned PostgreSQL+Garage and passed 7 live state tests with skip_count=0, including Garage outage and restart; W05 provisioned PostgreSQL and passed 4 live lifecycle/effect tests with skip_count=0.

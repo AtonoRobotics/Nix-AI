@@ -3,7 +3,7 @@ let
   cfg = config.habitat.runtime;
   components = [ "state" "scheduler" "authority" "effects" "abi" "runtime" ];
   dependencies = {
-    state = [ "postgresql.service" "minio.service" ]; scheduler = [ "habitat-state.service" ];
+    state = [ "postgresql.service" "habitat-garage-initialize.service" ]; scheduler = [ "habitat-state.service" ];
     authority = [ "habitat-state.service" "habitat-scheduler.service" ];
     effects = [ "habitat-state.service" "habitat-scheduler.service" ];
     abi = [ "habitat-state.service" "habitat-command-ledger.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" ];

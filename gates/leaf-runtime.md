@@ -2,10 +2,10 @@
 
 Scope: Deploy the fail-closed state-to-coordinator service graph and reach OPERATIONAL only after recovery.
 
-- [ ] G1: Dedicated systemd services form PostgreSQL/Garage -> state/scheduler -> authority/effect -> ABI -> coordinator dependencies.
+- [x] G1: Dedicated systemd services form PostgreSQL/Garage -> state/scheduler -> authority/effect -> ABI -> coordinator dependencies.
   CHECK: rg -n "habitat-(state|scheduler|authority|effects|abi|runtime)|postgresql|garage|OPERATIONAL|RECOVERING" nix/modules
   EXPECT: /OPERATIONAL/
-  EVIDENCE: pending Garage migration and service-graph verification
+  EVIDENCE: Fresh QEMU boot started Garage, completed `habitat-garage-initialize`, then started state, command ledger, scheduler, authority, effects, ABI, and runtime in dependency order before reaching multi-user.
 - [x] G2: Runtime tests execute cold boot recovery, wake delivery, objective completion, reconciliation, and continued scheduling.
   CHECK: sh -c 'rustc --edition=2021 --test crates/habitat-runtime/src/lib.rs -o /tmp/habitat-runtime-gate-tests && /tmp/habitat-runtime-gate-tests'
   EXPECT: /test result: ok/
@@ -24,7 +24,7 @@ Scope: Deploy the fail-closed state-to-coordinator service graph and reach OPERA
 - [ ] G5: PostgreSQL is the transactional lifecycle/command ledger and Garage stores content-addressed evidence bytes through the S3 boundary.
   EVIDENCE: pending
 
-- [ ] G6: The current NixOS image evaluates with Garage under the normal security policy.
+- [x] G6: The current NixOS image evaluates with Garage under the normal security policy.
   CHECK: nix eval --raw .#packages.x86_64-linux.habitat-raw.drvPath
   EXPECT: /habitat-raw\.drv/
-  EVIDENCE: pending Garage migration
+  EVIDENCE: Normal-policy evaluation produced `/nix/store/2s57nrz08d5ymym1wihycimqb42s0b79-habitat-raw.drv`; `nix build .#habitat-raw` built `/nix/store/1jfyhz1zdn5by4k0mzlzf3zc1s7ihq65-habitat-raw.drv` without an insecure-package override.
