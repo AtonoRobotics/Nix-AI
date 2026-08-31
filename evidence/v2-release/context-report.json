@@ -7,14 +7,43 @@
         "--no-link",
         ".#checks.x86_64-linux.w07-qualification"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "flake.lock",
+          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:53:45.592389Z",
       "kind": "executed_command",
-      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/b98lviq5fp1y19mj6pmc26qc8w87fv6h-habitat-context-0.1.0.drv\n  /nix/store/gd597ms3jw6k1s8yh798xipap3b6qhb0-validate-contracts.drv\n  /nix/store/yczl41d1d9i1br33ybidqf1fl2bg4f2z-qualify-w07.drv\n  /nix/store/vgzx7kz8nb8skby4xnq33d0df1d4vc4a-habitat-w07-qualification.drv\nbuilding '/nix/store/b98lviq5fp1y19mj6pmc26qc8w87fv6h-habitat-context-0.1.0.drv'...\nbuilding '/nix/store/gd597ms3jw6k1s8yh798xipap3b6qhb0-validate-contracts.drv'...\nbuilding '/nix/store/yczl41d1d9i1br33ybidqf1fl2bg4f2z-qualify-w07.drv'...\nbuilding '/nix/store/vgzx7kz8nb8skby4xnq33d0df1d4vc4a-habitat-w07-qualification.drv'...\n",
-      "output_bytes": 697,
-      "output_sha256": "sha256:7d5200355e4d6ff8f9a09f86eb12d94450a48178e68abce2521c51b1686a7b06"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:53:38.210538Z",
+      "stderr_bytes": 689,
+      "stderr_sha256": "sha256:c9451f5199093caad20cac8244d749ca77b6cc0925a0e9dcb9bbc9521c214429",
+      "stdout_bytes": 0,
+      "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "gate": "V-CONTEXT",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "V-CONTEXT packet behavioral checks executed",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "skip_count": 0
+  },
   "metric_evidence": {
     "context_created_authority_count": [
       0
@@ -35,10 +64,23 @@
     "silent_contradiction_resolution_count": 0,
     "unbounded_process_count": 0
   },
+  "observations": {
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "V-CONTEXT packet behavioral checks executed",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "skip_count": 0
+    }
+  },
   "result": "pass",
   "runner": "context_fault_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [],
   "test_count": 1
 }

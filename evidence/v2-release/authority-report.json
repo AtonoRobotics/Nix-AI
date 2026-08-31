@@ -7,14 +7,43 @@
         "--no-link",
         ".#checks.x86_64-linux.w04-qualification"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "flake.lock",
+          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:53:38.178195Z",
       "kind": "executed_command",
-      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/7fk355cs16w3r73zpjbc7brm7mn0rn1n-habitat-authority-0.1.0.drv\n  /nix/store/7j42jkzbi1ll16303qmbfavb8qc37w80-validate-contracts.drv\n  /nix/store/xmlpjrmj57zbr7fd6m32abxyi51w78ms-qualify-w04.drv\n  /nix/store/03272xxyysfdhmnr1cmypfn115paadg6-habitat-w04-qualification.drv\nbuilding '/nix/store/7fk355cs16w3r73zpjbc7brm7mn0rn1n-habitat-authority-0.1.0.drv'...\nbuilding '/nix/store/7j42jkzbi1ll16303qmbfavb8qc37w80-validate-contracts.drv'...\nbuilding '/nix/store/xmlpjrmj57zbr7fd6m32abxyi51w78ms-qualify-w04.drv'...\nbuilding '/nix/store/03272xxyysfdhmnr1cmypfn115paadg6-habitat-w04-qualification.drv'...\n",
-      "output_bytes": 701,
-      "output_sha256": "sha256:eec6dd207775c59bfed5affdadef3fd8ea5f36948683603e8962d8efc1f87b24"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:53:27.855682Z",
+      "stderr_bytes": 693,
+      "stderr_sha256": "sha256:5be291b17d0076dbbad1c8505cc891efef1c43833d3ec8def7fc746783ecdbac",
+      "stdout_bytes": 0,
+      "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "gate": "V-AUTH",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "V-AUTH packet behavioral checks executed",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "skip_count": 0
+  },
   "metric_evidence": {
     "post_bound_revoked_invocation_count": [
       0
@@ -31,10 +60,23 @@
     "unauthorized_action_count": 0,
     "widening_delegation_acceptance_count": 0
   },
+  "observations": {
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "V-AUTH packet behavioral checks executed",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "skip_count": 0
+    }
+  },
   "result": "pass",
   "runner": "authority_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [],
   "test_count": 1
 }

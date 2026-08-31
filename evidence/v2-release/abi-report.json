@@ -7,11 +7,29 @@
         "--no-link",
         ".#checks.x86_64-linux.w03-qualification"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "flake.lock",
+          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:53:12.902242Z",
       "kind": "executed_command",
-      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/mkiin659h9a45hk4p09sy78a3yjncy16-habitat-abi-0.1.0.drv\n  /nix/store/z0w4w4f013ckdix0w43mp8s5fisqk562-validate-contracts.drv\n  /nix/store/i1gj8mby6ivpcp6yzfrfhrkymwk8v4s5-qualify-w03.drv\n  /nix/store/7fpw01qngy0p86hmi550lmyjn2f8pc03-habitat-w03-qualification.drv\nbuilding '/nix/store/mkiin659h9a45hk4p09sy78a3yjncy16-habitat-abi-0.1.0.drv'...\nbuilding '/nix/store/z0w4w4f013ckdix0w43mp8s5fisqk562-validate-contracts.drv'...\nbuilding '/nix/store/i1gj8mby6ivpcp6yzfrfhrkymwk8v4s5-qualify-w03.drv'...\nbuilding '/nix/store/7fpw01qngy0p86hmi550lmyjn2f8pc03-habitat-w03-qualification.drv'...\n",
-      "output_bytes": 689,
-      "output_sha256": "sha256:cae4f56918daf6903b801ca9eda1ba716909e3378d4279cf0f3c558e3a0aa6d9"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:52:51.909625Z",
+      "stderr_bytes": 681,
+      "stderr_sha256": "sha256:45c3cf7b2eacbf8ee9fb5347365b228349f20b63debb5eec5e4039df8a00546f",
+      "stdout_bytes": 0,
+      "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "argv": [
@@ -20,11 +38,29 @@
         "--no-link",
         ".#checks.x86_64-linux.w09-qualification"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "flake.lock",
+          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:53:20.240536Z",
       "kind": "executed_command",
-      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 3 derivations will be built:\n  /nix/store/v9wzfns7di17g6z57kma74i0yy8i2n49-habitat-models-0.1.0.drv\n  /nix/store/2n3s84r8cxyrgrahv08rzghcl037vq1j-qualify-w09.drv\n  /nix/store/adj5bskann91q12mh62w6qsmi6payqr9-habitat-w09-qualification.drv\nbuilding '/nix/store/v9wzfns7di17g6z57kma74i0yy8i2n49-habitat-models-0.1.0.drv'...\nbuilding '/nix/store/2n3s84r8cxyrgrahv08rzghcl037vq1j-qualify-w09.drv'...\nbuilding '/nix/store/adj5bskann91q12mh62w6qsmi6payqr9-habitat-w09-qualification.drv'...\n",
-      "output_bytes": 545,
-      "output_sha256": "sha256:a5ca569de14061515e03eb10dd43b19d21342b8e63fc14b7125149736c2634b9"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:53:12.912036Z",
+      "stderr_bytes": 537,
+      "stderr_sha256": "sha256:206cc379c8ac441a5de728be6c2998236d22ea7edfb35ccfa1575fecc37410a8",
+      "stdout_bytes": 0,
+      "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "argv": [
@@ -33,14 +69,43 @@
         "--no-link",
         ".#checks.x86_64-linux.w11-qualification"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "flake.lock",
+          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:53:27.822533Z",
       "kind": "executed_command",
-      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 3 derivations will be built:\n  /nix/store/99j1myz0aj2api1dmmv4iba9gli25k3p-habitat-harnesses-0.1.0.drv\n  /nix/store/3gqjwhdy5scsynvrg1jrsqnxqv01pjbq-qualify-w11.drv\n  /nix/store/2iy3shf01yzx0dcdpmcdjyflhk2pwmp0-habitat-w11-qualification.drv\nbuilding '/nix/store/99j1myz0aj2api1dmmv4iba9gli25k3p-habitat-harnesses-0.1.0.drv'...\nbuilding '/nix/store/3gqjwhdy5scsynvrg1jrsqnxqv01pjbq-qualify-w11.drv'...\nbuilding '/nix/store/2iy3shf01yzx0dcdpmcdjyflhk2pwmp0-habitat-w11-qualification.drv'...\n",
-      "output_bytes": 551,
-      "output_sha256": "sha256:06c8bbb92da2b4672b7c61121c0c4d93051721265624993fca572bbcce1404ff"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:53:20.252346Z",
+      "stderr_bytes": 543,
+      "stderr_sha256": "sha256:80d1e5b2cf839f1574237bc97d81c89de4d07bd668e6c3f6882639429e66e3e0",
+      "stdout_bytes": 0,
+      "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "gate": "V-ABI",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "V-ABI packet behavioral checks executed",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "skip_count": 0
+  },
   "metric_evidence": {
     "duplicate_execution_count": [
       0,
@@ -63,10 +128,23 @@
     "removed_semantic_admission_count": 0,
     "semantic_mismatch_count": 0
   },
+  "observations": {
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "V-ABI packet behavioral checks executed",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "skip_count": 0
+    }
+  },
   "result": "pass",
   "runner": "abi_conformance",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [
     {
       "path": "backend-replacement-report.json",

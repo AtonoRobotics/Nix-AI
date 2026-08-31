@@ -7,16 +7,51 @@
         ".#test-w06",
         "--",
         "--evidence-dir",
-        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/isolation"
+        "/tmp/nix-ai-v2-release-15ofktxs/isolation"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "/tmp/nix-ai-v2-release-15ofktxs/isolation/architecture-boundary-test.json",
+          "sha256": "sha256:a1cecf5279e3851b58167a4b7bc6d8689627ac64a0816471df40f57700068898"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:54:13.939882Z",
       "kind": "executed_command",
-      "output": "{\n  \"outcome\": \"passed\",\n  \"packet\": \"W06\",\n  \"reports\": {\n    \"architecture-boundary-test\": {\n      \"control_plane_in_activation\": false,\n      \"outcome\": \"passed\",\n      \"provider_bypass\": false\n    },\n    \"build-conformance-report\": {\n      \"locked_nix_build\": true,\n      \"outcome\": \"passed\"\n    },\n    \"hardware-profile-qualification\": {\n      \"others\": \"explicitly absent\",\n      \"outcome\": \"passed\",\n      \"runtime\": \"NATIVE\"\n    },\n    \"isolation-adversarial-suite\": {\n      \"artifact_sha256\": \"3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773\",\n      \"bubblewrap_sha256\": \"52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712\",\n      \"denied\": [\n        \"host secrets\",\n        \"provider socket\",\n        \"evaluator evidence\",\n        \"peer workspace\",\n        \"host network\",\n        \"ambient environment\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"packet-evidence-report\": {\n      \"outcome\": \"passed\",\n      \"packet\": \"W06\"\n    },\n    \"profile-feature-report\": {\n      \"declarations\": [\n        {\n          \"reason\": \"live bwrap namespace qualification\",\n          \"runtime\": \"Native\",\n          \"status\": \"qualified\"\n        },\n        {\n          \"reason\": \"not declared by profile\",\n          \"runtime\": \"Wasi\",\n          \"status\": \"absent\"\n        },\n        {\n          \"reason\": \"not declared by profile\",\n          \"runtime\": \"Oci\",\n          \"status\": \"absent\"\n        },\n        {\n          \"reason\": \"KVM not declared by profile\",\n          \"runtime\": \"MicroVm\",\n          \"status\": \"absent\"\n        }\n      ],\n      \"outcome\": \"passed\",\n      \"profile\": \"qemu-x86_64-conformance\"\n    },\n    \"resource-enforcement-report\": {\n      \"admission\": [\n        \"CPU\",\n        \"memory\",\n        \"storage\",\n        \"process count\",\n        \"timeout\"\n      ],\n      \"artifact_sha256\": \"3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773\",\n      \"enforced\": [\n        \"profile-bound CPU limit\",\n        \"memory address-space limit\",\n        \"workspace storage limit\",\n        \"process-count limit\",\n        \"activation timeout\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"secret-exposure-negative-test\": {\n      \"ambient_secrets\": false,\n      \"outcome\": \"passed\"\n    },\n    \"system-conformance-report\": {\n      \"isolation_selected_before_execution\": true,\n      \"outcome\": \"passed\"\n    },\n    \"termination-test\": {\n      \"artifact_sha256\": \"3ac133646774c2618d076231293a84cdf18166fe5946b3d05de7794b63ece773\",\n      \"cases\": [\n        \"profile-bound timeout terminates sandbox\"\n      ],\n      \"deadline_seconds\": 1,\n      \"outcome\": \"passed\"\n    }\n  }\n}\nwarning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 2 derivations will be built:\n  /nix/store/w2hmfdzp321fb90drkmfjd0p66j901lk-habitat-execution-0.1.0.drv\n  /nix/store/f1mk787s01w26p54c0h4icdljqja0r0v-qualify-w06.drv\nbuilding '/nix/store/w2hmfdzp321fb90drkmfjd0p66j901lk-habitat-execution-0.1.0.drv'...\nbuilding '/nix/store/f1mk787s01w26p54c0h4icdljqja0r0v-qualify-w06.drv'...\n",
-      "output_bytes": 2999,
-      "output_sha256": "sha256:70d1f1f9ce1243e52058b5f9390298dc8a90889fe3a301a29ebb3595d73e547a"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:54:06.923136Z",
+      "stderr_bytes": 379,
+      "stderr_sha256": "sha256:55a03050503bed8734886888069b33a2fd829e606722be7de8d849e739d90d86",
+      "stdout_bytes": 5483,
+      "stdout_sha256": "sha256:f9f77670800dc0c8348c045c269b59fc734592b8be4b06537c024769e1df0e10"
     }
   ],
   "gate": "V-ISOLATION",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "native isolation boundary adversarial checks executed",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "services": [
+      {
+        "name": "execution-boundary",
+        "state": "ready"
+      }
+    ],
+    "skip_count": 0
+  },
   "metric_evidence": {
     "adapter_bypass_count": [
       0
@@ -91,6 +126,23 @@
       "outcome": "passed",
       "profile": "qemu-x86_64-conformance"
     },
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "native isolation boundary adversarial checks executed",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "services": [
+        {
+          "name": "execution-boundary",
+          "state": "ready"
+        }
+      ],
+      "skip_count": 0
+    },
     "resource-enforcement-report.json": {
       "admission": [
         "CPU",
@@ -129,7 +181,7 @@
   "result": "pass",
   "runner": "execution_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [],
   "test_count": 1
 }

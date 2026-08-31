@@ -7,16 +7,51 @@
         ".#test-boot",
         "--",
         "--evidence",
-        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/boot.json"
+        "/tmp/nix-ai-v2-release-15ofktxs/boot.json"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "/tmp/nix-ai-v2-release-15ofktxs/boot.json",
+          "sha256": "sha256:525be782e050716fca26c7f6a3d58d5ba5987b2b18900d0d0bcd3e3881ec3e84"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:49:19.624616Z",
       "kind": "executed_command",
-      "output": "{\n  \"events\": [\n    {\n      \"boot_attempt_id\": \"a431f820-037c-4e89-af51-d73be0c46aa4\",\n      \"bootstrap_phase\": \"reconciliation\",\n      \"closure_digest\": \"sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44\",\n      \"decision\": \"UNCONFIRMED\",\n      \"event\": \"habitat.bootstrap\",\n      \"generation_role\": \"baseline\",\n      \"hardware_profile_id\": \"qemu-x86_64-conformance\",\n      \"health_result\": \"PRE_OPERATIONAL\",\n      \"history_count\": 0,\n      \"machine_id\": \"043a5db038b046d9b8e47d7ad193c463\",\n      \"operational_state\": \"none\",\n      \"previous_confirmed_generation_id\": \"none\",\n      \"protections\": {\n        \"nix_store_read_only\": true,\n        \"recovery_read_only\": true\n      },\n      \"schema_version\": \"1.0\",\n      \"system_generation_id\": \"531d51817f20925871466862d9db9276\"\n    },\n    {\n      \"boot_attempt_id\": \"9ecb5bc3-401e-4e01-a9fd-68e87522e963\",\n      \"bootstrap_phase\": \"reconciliation\",\n      \"closure_digest\": \"sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b\",\n      \"decision\": \"ACTIVE_UNCONFIRMED\",\n      \"event\": \"habitat.bootstrap\",\n      \"generation_role\": \"candidate\",\n      \"hardware_profile_id\": \"qemu-x86_64-conformance\",\n      \"health_result\": \"PRE_OPERATIONAL\",\n      \"history_count\": 1,\n      \"machine_id\": \"043a5db038b046d9b8e47d7ad193c463\",\n      \"operational_state\": \"baseline-durable-state\",\n      \"previous_confirmed_generation_id\": \"531d51817f20925871466862d9db9276\",\n      \"protections\": {\n        \"nix_store_read_only\": true,\n        \"recovery_read_only\": true\n      },\n      \"schema_version\": \"1.0\",\n      \"system_generation_id\": \"46588f790d3b25e2e1b9e4ed5abc5d33\"\n    }\n  ],\n  \"gate\": \"V-BOOT\",\n  \"result\": \"pass\",\n  \"schema_version\": \"1.0\"\n}\nwarning: Git tree '/tmp/nixai-publish-issue24' is dirty\n",
-      "output_bytes": 1780,
-      "output_sha256": "sha256:13ce16932b6373e3b34352d7e81f4ecffeb14318a3fe4142ab6660139606a5d8"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:46:54.734208Z",
+      "stderr_bytes": 6142,
+      "stderr_sha256": "sha256:d9438c376881be9d96de083fdc76d60d87633d2fc1462477a5d7c2c749a57168",
+      "stdout_bytes": 8158,
+      "stdout_sha256": "sha256:525be782e050716fca26c7f6a3d58d5ba5987b2b18900d0d0bcd3e3881ec3e84"
     }
   ],
   "gate": "V-BOOT",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "fresh QEMU boots produced valid generation events",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "services": [
+      {
+        "name": "qemu-guest",
+        "state": "ready"
+      }
+    ],
+    "skip_count": 0
+  },
   "metric_evidence": {
     "active_human_session_required": [
       0
@@ -34,9 +69,25 @@
     "identity_reported": true
   },
   "observations": {
+    "artifact_digests": [
+      {
+        "path": "/nix/store/2h1rk27hxljy47k9xkgj5fdlbj2zrx6b-habitat-qemu/habitat.qcow2",
+        "sha256": "sha256:5e2dcf5fc668617ef6befffe9f7788c9c3ef13dd11efbb9c52c5d3e09abc87be"
+      },
+      {
+        "path": "/tmp/habitat-w01-lt0nm3bw/observed-events.json",
+        "sha256": "sha256:efc467b07bf2c227a4cb20889d8f4ae63802f3467903a14aca4a304b80350ec5"
+      }
+    ],
+    "behavioral_assertions": [
+      {
+        "name": "fresh QEMU boots produced valid generation events",
+        "passed": true
+      }
+    ],
     "events": [
       {
-        "boot_attempt_id": "a431f820-037c-4e89-af51-d73be0c46aa4",
+        "boot_attempt_id": "9d7e2dd2-5e26-460d-82d4-a469e8d5357e",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
         "decision": "UNCONFIRMED",
@@ -45,7 +96,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 0,
-        "machine_id": "043a5db038b046d9b8e47d7ad193c463",
+        "machine_id": "a1b5125db4ad493ea1b460f8cd18aed3",
         "operational_state": "none",
         "previous_confirmed_generation_id": "none",
         "protections": {
@@ -56,7 +107,7 @@
         "system_generation_id": "531d51817f20925871466862d9db9276"
       },
       {
-        "boot_attempt_id": "9ecb5bc3-401e-4e01-a9fd-68e87522e963",
+        "boot_attempt_id": "9a799b32-33a3-44d1-9e05-c5ae0d9f4d99",
         "bootstrap_phase": "reconciliation",
         "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
         "decision": "ACTIVE_UNCONFIRMED",
@@ -65,7 +116,7 @@
         "hardware_profile_id": "qemu-x86_64-conformance",
         "health_result": "PRE_OPERATIONAL",
         "history_count": 1,
-        "machine_id": "043a5db038b046d9b8e47d7ad193c463",
+        "machine_id": "a1b5125db4ad493ea1b460f8cd18aed3",
         "operational_state": "baseline-durable-state",
         "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
         "protections": {
@@ -76,14 +127,171 @@
         "system_generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33"
       }
     ],
+    "execution": [
+      {
+        "argv": [
+          "/nix/store/xqnbm0vgqcq9b1b54c80qj9s0qhbwa08-python3-3.13.15/bin/python3",
+          "-c",
+          "import json,sys\nd=json.load(open(sys.argv[1]));assert d['result']=='pass' and len(d['events'])>=2\nassert all(e['health_result']=='PRE_OPERATIONAL' and e['closure_digest'].startswith('sha256:') for e in d['events'])\nassert len(d['runtime_events'])==len(d['events'])\nassert all(e['outcome']=='passed' and e['objective_state']=='SATISFIED' for e in d['runtime_events'])\n",
+          "/tmp/habitat-w01-lt0nm3bw/observed-events.json"
+        ],
+        "artifact_digests": [
+          {
+            "path": "/nix/store/2h1rk27hxljy47k9xkgj5fdlbj2zrx6b-habitat-qemu/habitat.qcow2",
+            "sha256": "sha256:5e2dcf5fc668617ef6befffe9f7788c9c3ef13dd11efbb9c52c5d3e09abc87be"
+          },
+          {
+            "path": "/tmp/habitat-w01-lt0nm3bw/observed-events.json",
+            "sha256": "sha256:efc467b07bf2c227a4cb20889d8f4ae63802f3467903a14aca4a304b80350ec5"
+          }
+        ],
+        "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+        "exit_status": 0,
+        "finished_at": "2026-08-31T03:49:18.608919Z",
+        "kind": "executed_command",
+        "runner_identity": {
+          "gid": 1000,
+          "hostname": "strix-alpha",
+          "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+          "uid": 1000
+        },
+        "schema_version": "2.0",
+        "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+        "started_at": "2026-08-31T03:49:18.586206Z",
+        "stderr_bytes": 0,
+        "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
     "gate": "V-BOOT",
+    "live_services": [
+      {
+        "name": "qemu-guest",
+        "state": "ready"
+      }
+    ],
+    "outcome": "passed",
+    "packet": "W01",
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "fresh QEMU boots produced valid generation events",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "services": [
+        {
+          "name": "qemu-guest",
+          "state": "ready"
+        }
+      ],
+      "skip_count": 0
+    },
+    "reports": {
+      "qemu-observation": {
+        "events": [
+          {
+            "boot_attempt_id": "9d7e2dd2-5e26-460d-82d4-a469e8d5357e",
+            "bootstrap_phase": "reconciliation",
+            "closure_digest": "sha256:531d51817f20925871466862d9db9276f222b7ddb9dd05af8a308e1f2da83d44",
+            "decision": "UNCONFIRMED",
+            "event": "habitat.bootstrap",
+            "generation_role": "baseline",
+            "hardware_profile_id": "qemu-x86_64-conformance",
+            "health_result": "PRE_OPERATIONAL",
+            "history_count": 0,
+            "machine_id": "a1b5125db4ad493ea1b460f8cd18aed3",
+            "operational_state": "none",
+            "previous_confirmed_generation_id": "none",
+            "protections": {
+              "nix_store_read_only": true,
+              "recovery_read_only": true
+            },
+            "schema_version": "1.0",
+            "system_generation_id": "531d51817f20925871466862d9db9276"
+          },
+          {
+            "boot_attempt_id": "9a799b32-33a3-44d1-9e05-c5ae0d9f4d99",
+            "bootstrap_phase": "reconciliation",
+            "closure_digest": "sha256:46588f790d3b25e2e1b9e4ed5abc5d33c07d07ce34a4a02ceff9583106cb929b",
+            "decision": "ACTIVE_UNCONFIRMED",
+            "event": "habitat.bootstrap",
+            "generation_role": "candidate",
+            "hardware_profile_id": "qemu-x86_64-conformance",
+            "health_result": "PRE_OPERATIONAL",
+            "history_count": 1,
+            "machine_id": "a1b5125db4ad493ea1b460f8cd18aed3",
+            "operational_state": "baseline-durable-state",
+            "previous_confirmed_generation_id": "531d51817f20925871466862d9db9276",
+            "protections": {
+              "nix_store_read_only": true,
+              "recovery_read_only": true
+            },
+            "schema_version": "1.0",
+            "system_generation_id": "46588f790d3b25e2e1b9e4ed5abc5d33"
+          }
+        ],
+        "gate": "V-BOOT",
+        "result": "pass",
+        "runtime_events": [
+          {
+            "duplicate_resume": "original_disposition",
+            "effect_state": "COMMITTED",
+            "event": "habitat.runtime",
+            "evidence_ref": "s3://habitat-evidence/sha256/08d9cf0f441ee9499e4d292c76b47c95d4b10ef78428dde0023ace5fc3664010",
+            "interruptions": [
+              {
+                "boundary": "after_wake_commit",
+                "previous_pid": 865,
+                "replacement_pid": 931
+              },
+              {
+                "boundary": "after_effect_commit",
+                "previous_pid": 931,
+                "replacement_pid": 952
+              }
+            ],
+            "objective_id": "objective:qemu-be4cfa56-a9d5-4847-82de-de66f8a2b887",
+            "objective_state": "SATISFIED",
+            "outcome": "passed",
+            "schema_version": "2.0"
+          },
+          {
+            "duplicate_resume": "original_disposition",
+            "effect_state": "COMMITTED",
+            "event": "habitat.runtime",
+            "evidence_ref": "s3://habitat-evidence/sha256/d32021060e47ed20d2bc1f75edc7c9ec393b4248aa34cba07a26c85c3b9437f1",
+            "interruptions": [
+              {
+                "boundary": "after_wake_commit",
+                "previous_pid": 818,
+                "replacement_pid": 873
+              },
+              {
+                "boundary": "after_effect_commit",
+                "previous_pid": 873,
+                "replacement_pid": 893
+              }
+            ],
+            "objective_id": "objective:qemu-b63b7d8a-9fe2-4cf6-89e2-bf954c2cceca",
+            "objective_state": "SATISFIED",
+            "outcome": "passed",
+            "schema_version": "2.0"
+          }
+        ],
+        "schema_version": "1.0"
+      }
+    },
     "result": "pass",
-    "schema_version": "1.0"
+    "schema_version": "2.0"
   },
   "result": "pass",
   "runner": "qemu_boot_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [],
   "test_count": 1
 }

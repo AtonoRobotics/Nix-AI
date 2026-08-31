@@ -2,21 +2,50 @@
   "attestations": [
     {
       "argv": [
-        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3",
+        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python",
         "tools/qualify_v2_change.py",
         "--root",
-        "/tmp/nixai-publish-issue24",
+        "/home/samuel/nixai",
         "--output",
-        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/change.json"
+        "/tmp/nix-ai-v2-release-15ofktxs/change.json"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "/tmp/nix-ai-v2-release-15ofktxs/change.json",
+          "sha256": "sha256:78055415686ed7271fc1a48700e7843bb0065b3f66d4171418bdbebcc46f0e96"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:54:14.370807Z",
       "kind": "executed_command",
-      "output": "{\"attacks\": [{\"case\": \"in-place released-contract mutation\", \"rejected\": true}, {\"case\": \"candidate self-confirmation\", \"rejected\": true}, {\"case\": \"evaluator capture\", \"rejected\": true}, {\"case\": \"unbound rollback target\", \"rejected\": true}], \"candidate_manifest\": {\"contract_sha256\": \"f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a\", \"dependency_closure_sha256\": \"e85b9cd7fbaf9b42b2549698e0ac0dba1f01be73d68ebe7d6b658bc298fd05b7\", \"evaluator\": \"independent-qualifier\", \"evidence_policy_sha256\": \"948f6f5568a449f19135da7a5dc7effabe939cccd176fa718a619fac1c633a53\", \"proposer\": \"candidate-builder\", \"rollback_target\": \"previous-confirmed-generation\", \"source_sha256\": \"0d0dcbc7cae9abdc11216cd80cd43cb77851ce77a880bc0ef385daa51584e048\", \"tests_sha256\": \"9ee0e7e229ff92995accdb785e650fb4d6d3827904376034ae04ec410722c871\", \"thresholds\": {\"failed_gate_count\": 0, \"missing_gate_count\": 0}}, \"contract_manifest_sha256\": \"5ccdd43bd2489b3f202ffa1620a11ff8593e8ffc26161c2c3f2a8e2d55aacb8c\", \"gate\": \"V-CHANGE\", \"metrics\": {\"evaluator_capture_count\": 0, \"in_place_contract_mutation_count\": 0, \"self_confirmed_candidate_count\": 0}, \"result\": \"pass\", \"runner\": \"self_change_adversarial_qualification\", \"schema_version\": \"1.0\"}\n",
-      "output_bytes": 1232,
-      "output_sha256": "sha256:322116fd729edc7b9d64f9261fe2801d8e2541f4e1fda60ac2849bc812deb552"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:54:13.982537Z",
+      "stderr_bytes": 0,
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 1232,
+      "stdout_sha256": "sha256:9c2d6a042e1780010820e8c8b997e9ec991bbd54583f5b19da287408f466e8cc"
     }
   ],
   "gate": "V-CHANGE",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "governed-change capture and self-confirmation attacks rejected",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "skip_count": 0
+  },
   "metric_evidence": {
     "evaluator_capture_count": [
       0
@@ -54,13 +83,13 @@
     ],
     "candidate_manifest": {
       "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
-      "dependency_closure_sha256": "e85b9cd7fbaf9b42b2549698e0ac0dba1f01be73d68ebe7d6b658bc298fd05b7",
+      "dependency_closure_sha256": "94511b76bd0067cb9ada25f3b170f4b22b25d1cdcf0c142be202a43a0a763842",
       "evaluator": "independent-qualifier",
-      "evidence_policy_sha256": "948f6f5568a449f19135da7a5dc7effabe939cccd176fa718a619fac1c633a53",
+      "evidence_policy_sha256": "52afe539fbd3eebceebf54c0dcd731e6608328649d5fa06a7b2bce6b95568547",
       "proposer": "candidate-builder",
       "rollback_target": "previous-confirmed-generation",
-      "source_sha256": "0d0dcbc7cae9abdc11216cd80cd43cb77851ce77a880bc0ef385daa51584e048",
-      "tests_sha256": "9ee0e7e229ff92995accdb785e650fb4d6d3827904376034ae04ec410722c871",
+      "source_sha256": "af9f7860eba5e7debb05d0c524580cd4b54d5074a4a8edf8508140a44c654458",
+      "tests_sha256": "f9a551125274b9923fccd164755995c6b53305012a0361624c03de15a2744d3f",
       "thresholds": {
         "failed_gate_count": 0,
         "missing_gate_count": 0
@@ -73,6 +102,17 @@
       "in_place_contract_mutation_count": 0,
       "self_confirmed_candidate_count": 0
     },
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "governed-change capture and self-confirmation attacks rejected",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "skip_count": 0
+    },
     "result": "pass",
     "runner": "self_change_adversarial_qualification",
     "schema_version": "1.0"
@@ -80,7 +120,7 @@
   "result": "pass",
   "runner": "self_change_adversarial_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [],
   "test_count": 1
 }

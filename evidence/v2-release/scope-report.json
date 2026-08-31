@@ -2,23 +2,52 @@
   "attestations": [
     {
       "argv": [
-        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3",
+        "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python",
         "tools/verify_v2_removal.py",
         "--root",
-        "/tmp/nixai-publish-issue24",
+        "/home/samuel/nixai",
         "--ledger",
-        "/tmp/nixai-publish-issue24/evidence/v2-rebuild/disposition-ledger.json",
+        "/home/samuel/nixai/evidence/v2-rebuild/disposition-ledger.json",
         "--output",
-        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/scope.json"
+        "/tmp/nix-ai-v2-release-15ofktxs/scope.json"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "/tmp/nix-ai-v2-release-15ofktxs/scope.json",
+          "sha256": "sha256:6e57453914b532b7da5bf74b0726732c7519d076d2cd358bf446981a7681d1ab"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:46:53.534372Z",
       "kind": "executed_command",
-      "output": "{\"contaminated_units\": [], \"delete_counts_by_inventory_class\": {\"build_closure_members\": 14, \"dependencies\": 36, \"generated_artifacts\": 2, \"public_semantics\": 193, \"tracked_paths\": 51}, \"policy_exclusions\": [\"AGENTS.md\", \"docs/agents/domain.md\", \"docs/agents/issue-tracker.md\", \"docs/agents/triage-labels.md\", \"tests/test_v2_artifact_closure.py\", \"tests/test_v2_contract_derivation.py\", \"tests/test_v2_rebuild_frontier.py\", \"tests/test_v2_scope_classification.py\", \"tests/test_v2_scope_removal.py\", \"tools/classify_v2_scope.py\", \"tools/inventory_v2.py\", \"tools/qualify_v2_artifacts.py\", \"tools/verify_v2_build_closure.py\", \"tools/verify_v2_removal.py\"], \"policy_prefix_exclusions\": [\"contracts/v2/\", \"contracts/v2.0.1/\", \"evidence/v2-rebuild/\"], \"remaining_delete_units\": [], \"runner\": {\"name\": \"verify-v2-removal\", \"version\": 2}, \"scanned_tracked_path_count\": 265, \"schema_version\": 1, \"valid\": true, \"verified_commit\": \"82138651769f402a603418158b376699d9630bac\"}\n",
-      "output_bytes": 965,
-      "output_sha256": "sha256:82ce1f154208d9beefadf45fba5ad615b1519cccc6424f181f9cbbf2d3fa7533"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:46:53.363885Z",
+      "stderr_bytes": 0,
+      "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 965,
+      "stdout_sha256": "sha256:a50d15ad474305f6a0d407781002dcdb9a5bf6ca578db9f467810a333ffdca97"
     }
   ],
   "gate": "V-SCOPE",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "historical disposition and current semantic scope validated",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "skip_count": 0
+  },
   "metric_evidence": {
     "contaminated_retained_unit_count": [
       0
@@ -65,20 +94,31 @@
       "contracts/v2.0.1/",
       "evidence/v2-rebuild/"
     ],
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "historical disposition and current semantic scope validated",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "skip_count": 0
+    },
     "remaining_delete_units": [],
     "runner": {
       "name": "verify-v2-removal",
       "version": 2
     },
-    "scanned_tracked_path_count": 265,
+    "scanned_tracked_path_count": 285,
     "schema_version": 1,
     "valid": true,
-    "verified_commit": "82138651769f402a603418158b376699d9630bac"
+    "verified_commit": "605b7357f9585a98ba0f8b0ffd90465146a71e9b"
   },
   "result": "pass",
   "runner": "scope_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [
     {
       "path": "retention-ledger.json",

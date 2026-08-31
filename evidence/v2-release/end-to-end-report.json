@@ -7,13 +7,31 @@
         ".#test-w05",
         "--",
         "--evidence-dir",
-        "/tmp/nix-shell.SfiWH9/nix-ai-v2-release-kxyw3a7v/lifecycle"
+        "/tmp/nix-ai-v2-release-15ofktxs/lifecycle"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "/tmp/nix-ai-v2-release-15ofktxs/lifecycle/wake-crash-matrix.json",
+          "sha256": "sha256:05f4a9df05fd969b721396bae36eeba5343552a6c1d2444581b6c73a69acc01c"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:54:19.422223Z",
       "kind": "executed_command",
-      "output": "{\n  \"outcome\": \"passed\",\n  \"packet\": \"W05\",\n  \"reports\": {\n    \"lease-recovery-report\": {\n      \"cases\": [\n        \"clock trust rejection\",\n        \"expired lease classification\",\n        \"effect-wait reconciliation\",\n        \"restart recovery\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"objective-transition-report\": {\n      \"cases\": [\n        \"legal transitions\",\n        \"implicit success rejected\",\n        \"accepted completion claim required\"\n      ],\n      \"outcome\": \"passed\"\n    },\n    \"wake-crash-matrix\": {\n      \"faults\": [\n        \"notification_loss\",\n        \"database_process_kill\"\n      ],\n      \"invariants\": [\n        \"commit before notification\",\n        \"at-least-once delivery\",\n        \"idempotent acknowledgement\"\n      ],\n      \"outcome\": \"passed\"\n    }\n  }\n}\nwarning: Git tree '/tmp/nixai-publish-issue24' is dirty\ntest_expired_activation_is_classified_and_untrusted_clock_is_denied (tests.test_w05_lifecycle.LifecycleTests.test_expired_activation_is_classified_and_untrusted_clock_is_denied) ... ok\ntest_lost_notification_does_not_lose_wake_and_objective_requires_claim (tests.test_w05_lifecycle.LifecycleTests.test_lost_notification_does_not_lose_wake_and_objective_requires_claim) ... ok\ntest_wake_is_committed_before_notification_and_redelivered_after_signal_loss (tests.test_w05_lifecycle.LifecycleTests.test_wake_is_committed_before_notification_and_redelivered_after_signal_loss) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.144s\n\nOK\n",
-      "output_bytes": 1520,
-      "output_sha256": "sha256:b08de484fd46ac7d5345f974a3978eec91aad6da5d4c3fb73cbbe09855792459"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:54:14.415101Z",
+      "stderr_bytes": 215,
+      "stderr_sha256": "sha256:24eed8ab2846dec83ce96b80c6371b251418bdf44270dcea4b526269b5fb4f91",
+      "stdout_bytes": 3110,
+      "stdout_sha256": "sha256:94a9925464f7775b44eef0145c886dbf52615ab85faaea9a9052cd8745473312"
     },
     {
       "argv": [
@@ -22,14 +40,49 @@
         "--no-link",
         ".#checks.x86_64-linux.w08-qualification"
       ],
-      "exit_code": 0,
+      "artifact_digests": [
+        {
+          "path": "flake.lock",
+          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+        }
+      ],
+      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "exit_status": 0,
+      "finished_at": "2026-08-31T03:54:30.001709Z",
       "kind": "executed_command",
-      "output": "warning: Git tree '/tmp/nixai-publish-issue24' is dirty\nthese 4 derivations will be built:\n  /nix/store/9n3rcnlswg2lijpr58flpxhldmjddn8z-validate-contracts.drv\n  /nix/store/dr9j95bi8m4nb8gny28l4n5cx89xyb2y-habitat-effects-0.1.0.drv\n  /nix/store/ra866zllp5df4ks3d407mijck3q4fhnp-qualify-w08.drv\n  /nix/store/fzsd3zgnc7k0bv2dh7x6ycg6rq8zi6yg-habitat-w08-qualification.drv\nbuilding '/nix/store/dr9j95bi8m4nb8gny28l4n5cx89xyb2y-habitat-effects-0.1.0.drv'...\nbuilding '/nix/store/9n3rcnlswg2lijpr58flpxhldmjddn8z-validate-contracts.drv'...\nbuilding '/nix/store/ra866zllp5df4ks3d407mijck3q4fhnp-qualify-w08.drv'...\nbuilding '/nix/store/fzsd3zgnc7k0bv2dh7x6ycg6rq8zi6yg-habitat-w08-qualification.drv'...\n",
-      "output_bytes": 697,
-      "output_sha256": "sha256:d6b5fe340fbf9f95a33692797a1331d9d568dc2b7922473cf2aec61eb5d24534"
+      "runner_identity": {
+        "gid": 1000,
+        "hostname": "strix-alpha",
+        "platform": "Linux-6.17.0-19-generic-x86_64-with-glibc2.42",
+        "uid": 1000
+      },
+      "schema_version": "2.0",
+      "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
+      "started_at": "2026-08-31T03:54:19.437753Z",
+      "stderr_bytes": 689,
+      "stderr_sha256": "sha256:470c5bd594ca3329ee9e8ed5c9aa81b0a0116fdf94a218ac0ecfd17a16437f0c",
+      "stdout_bytes": 0,
+      "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "gate": "V-END-TO-END",
+  "live_result": {
+    "assertions": [
+      {
+        "name": "durable objective and effect recovery executed",
+        "passed": true
+      }
+    ],
+    "evidence_origin": "executed",
+    "outcome": "passed",
+    "services": [
+      {
+        "name": "postgresql",
+        "state": "ready"
+      }
+    ],
+    "skip_count": 0
+  },
   "metric_evidence": {
     "active_human_session_required": [
       0,
@@ -77,6 +130,23 @@
       ],
       "outcome": "passed"
     },
+    "qualification_result": {
+      "assertions": [
+        {
+          "name": "durable objective and effect recovery executed",
+          "passed": true
+        }
+      ],
+      "evidence_origin": "executed",
+      "outcome": "passed",
+      "services": [
+        {
+          "name": "postgresql",
+          "state": "ready"
+        }
+      ],
+      "skip_count": 0
+    },
     "wake-crash-matrix.json": {
       "faults": [
         "notification_loss",
@@ -93,7 +163,7 @@
   "result": "pass",
   "runner": "headless_interruption_recovery_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:ef3f66afea7e1609c217c1974db4cc67196c3b1873753f1a928ea64d195fd6a8",
+  "source_tree_sha256": "sha256:6ae108f306e883a554c37c453c54b456ca2413f7bb3c0b9390dcf01bb1424907",
   "supporting_evidence": [],
   "test_count": 2
 }
