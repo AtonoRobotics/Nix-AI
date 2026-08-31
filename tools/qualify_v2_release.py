@@ -281,7 +281,7 @@ def run_release(root: Path, evidence: Path) -> None:
         scratch = Path(temporary)
         scope = command(root, "V-SCOPE", [sys.executable, "tools/verify_v2_removal.py", "--root", str(root),
             "--ledger", str(root / "evidence/v2-rebuild/disposition-ledger.json"),
-            "--output", str(scratch / "scope.json")])
+            "--output", str(scratch / "scope.json")], artifacts=[scratch / "scope.json"])
         retention = {"schema_version": "1.0", "runner": RUNNERS["V-SCOPE"],
             "source": "../v2-rebuild/disposition-ledger.json",
             "source_sha256": sha_file(root / "evidence/v2-rebuild/disposition-ledger.json"),
@@ -291,7 +291,8 @@ def run_release(root: Path, evidence: Path) -> None:
         write_report(root, evidence / "scope-report.json", "V-SCOPE", [scope],
             observations=json.loads((scratch / "scope.json").read_text()),
             supporting=[{"path": "retention-ledger.json", "sha256": sha_file(evidence / "retention-ledger.json")}])
-        contract = command(root, "V-CONTRACT", [sys.executable, "tools/validate_contracts.py", str(root)])
+        contract = command(root, "V-CONTRACT", [sys.executable, "tools/validate_contracts.py", str(root)],
+                           artifacts=[root / "contracts/v2.0.1/MANIFEST.sha256"])
         manifest = {"schema_version": "1.0", "runner": RUNNERS["V-CONTRACT"],
             "architecture_manifest_sha256": sha_file(root / "contracts/architecture/MANIFEST.sha256"),
             "v2_manifest_sha256": sha_file(root / "contracts/v2/MANIFEST.sha256"),
@@ -302,14 +303,17 @@ def run_release(root: Path, evidence: Path) -> None:
             supporting=[{"path": "manifest-report.json", "sha256": sha_file(evidence / "manifest-report.json")}])
 
         boot_path, rollback_path = scratch / "boot.json", scratch / "rollback.json"
-        boot = command(root, "V-BOOT", ["nix", "run", ".#test-boot", "--", "--evidence", str(boot_path)])
+        boot = command(root, "V-BOOT", ["nix", "run", ".#test-boot", "--", "--evidence", str(boot_path)],
+                       artifacts=[boot_path])
         boot_data = json.loads(boot_path.read_text())
         write_report(root, evidence / "boot-report.json", "V-BOOT", [boot], observations=boot_data)
-        rollback = command(root, "V-ROLLBACK", ["nix", "run", ".#test-rollback", "--", "--evidence", str(rollback_path)])
+        rollback = command(root, "V-ROLLBACK", ["nix", "run", ".#test-rollback", "--", "--evidence", str(rollback_path)],
+                           artifacts=[rollback_path])
         write_report(root, evidence / "defective-rollback-report.json", "V-ROLLBACK", [rollback], observations=json.loads(rollback_path.read_text()))
 
         state_dir = scratch / "state"
-        state = command(root, "V-STATE", ["nix", "run", ".#test-w02", "--", "--evidence-dir", str(state_dir)])
+        state = command(root, "V-STATE", ["nix", "run", ".#test-w02", "--", "--evidence-dir", str(state_dir)],
+                        artifacts=[state_dir / "state-crash-matrix.json"])
         state_observations = {p.name: json.loads(p.read_text()) for p in state_dir.glob("*.json")}
         for output, source in (("migration-report.json", "state-crash-matrix.json"),
                                ("backup-restore-report.json", "backup-restore-report.json")):
@@ -331,7 +335,8 @@ def run_release(root: Path, evidence: Path) -> None:
             "V-EFFECT": ["w08-qualification"], "V-PACKAGE": ["w10-qualification"],
         }
         for gate, names in checks.items():
-            attestations = [command(root, gate, ["nix", "build", "--no-link", f".#checks.x86_64-linux.{name}"]) for name in names]
+            attestations = [command(root, gate, ["nix", "build", "--no-link", f".#checks.x86_64-linux.{name}"],
+                                    artifacts=[root / "flake.lock"]) for name in names]
             write_report(root, evidence / ({"V-ABI":"abi-report.json","V-AUTH":"authority-report.json","V-CONTEXT":"context-report.json","V-EFFECT":"effect-report.json","V-PACKAGE":"package-report.json"}[gate]), gate, attestations)
 
         abi_path = evidence / "abi-report.json"
@@ -341,16 +346,20 @@ def run_release(root: Path, evidence: Path) -> None:
         abi_path.write_bytes(canonical(abi))
 
         isolation_dir = scratch / "isolation"
-        isolation = command(root, "V-ISOLATION", ["nix", "run", ".#test-w06", "--", "--evidence-dir", str(isolation_dir)])
+        isolation = command(root, "V-ISOLATION", ["nix", "run", ".#test-w06", "--", "--evidence-dir", str(isolation_dir)],
+                            artifacts=[isolation_dir / "architecture-boundary-test.json"])
         write_report(root, evidence / "isolation-report.json", "V-ISOLATION", [isolation], observations={p.name: json.loads(p.read_text()) for p in isolation_dir.glob("*.json")})
 
         change_path = scratch / "change.json"
-        change = command(root, "V-CHANGE", [sys.executable, "tools/qualify_v2_change.py", "--root", str(root), "--output", str(change_path)])
+        change = command(root, "V-CHANGE", [sys.executable, "tools/qualify_v2_change.py", "--root", str(root), "--output", str(change_path)],
+                         artifacts=[change_path])
         write_report(root, evidence / "self-change-report.json", "V-CHANGE", [change], observations=json.loads(change_path.read_text()))
 
         lifecycle_dir = scratch / "lifecycle"
-        lifecycle = command(root, "V-END-TO-END", ["nix", "run", ".#test-w05", "--", "--evidence-dir", str(lifecycle_dir)])
-        effect = command(root, "V-END-TO-END", ["nix", "build", "--no-link", ".#checks.x86_64-linux.w08-qualification"])
+        lifecycle = command(root, "V-END-TO-END", ["nix", "run", ".#test-w05", "--", "--evidence-dir", str(lifecycle_dir)],
+                            artifacts=[lifecycle_dir / "wake-crash-matrix.json"])
+        effect = command(root, "V-END-TO-END", ["nix", "build", "--no-link", ".#checks.x86_64-linux.w08-qualification"],
+                         artifacts=[root / "flake.lock"])
         observations = {p.name: json.loads(p.read_text()) for p in lifecycle_dir.glob("*.json")}
         write_report(root, evidence / "end-to-end-report.json", "V-END-TO-END", [lifecycle, effect], observations=observations)
 
