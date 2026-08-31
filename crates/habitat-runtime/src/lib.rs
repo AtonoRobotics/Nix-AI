@@ -531,7 +531,7 @@ fn objective_is_satisfied(wire: &str, objective: &str) -> bool {
         .is_some_and(|projection| {
             projection["objective_id"].as_str() == Some(objective)
                 && projection["objective_state"].as_str() == Some("SATISFIED")
-                && projection["guard"]["ready"].as_bool() == Some(true)
+                && objective_is_guarded(wire, objective)
         })
 }
 
@@ -849,6 +849,11 @@ fn deployed_response(
         .and_then(|wire| snapshot_from_state_projection(&wire))
         {
             Ok(snapshot) if snapshot.state == ObjectiveState::Compensated => "COMPENSATED".into(),
+            Ok(snapshot) if snapshot.state == ObjectiveState::Satisfied => {
+                // Terminal replay is an exact guarded read, not a coordinator
+                // state transition.
+                resume_objective(run_dir, objective, true)
+            }
             Ok(snapshot) if Coordinator::new().resume(&snapshot).is_ok() => {
                 resume_objective(run_dir, objective, true)
             }

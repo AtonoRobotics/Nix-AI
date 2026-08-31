@@ -153,8 +153,8 @@ fn query_state(socket: &Path, request: &str) -> io::Result<String> {
         connect_with_timeouts(
             socket,
             frames(),
-            Duration::from_secs(2),
-            Duration::from_secs(2),
+            Duration::from_secs(10),
+            Duration::from_secs(10),
         )
         .map_err(io::Error::other)?;
     transport.send_request(&wire).map_err(io::Error::other)?;
@@ -207,8 +207,8 @@ fn provider_request(socket: &Path, command: &ProviderCommand) -> io::Result<Prov
         connect_with_timeouts(
             socket,
             frames(),
-            Duration::from_secs(2),
-            Duration::from_secs(2),
+            Duration::from_secs(10),
+            Duration::from_secs(10),
         )
         .map_err(io::Error::other)?;
     transport.send_request(command).map_err(io::Error::other)?;

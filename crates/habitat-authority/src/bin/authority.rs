@@ -146,15 +146,17 @@ fn main() -> io::Result<()> {
             .duration_since(UNIX_EPOCH)
             .unwrap_or_default()
             .as_secs();
-        authority
+        let reaped = authority
             .reap_expired_prepares(request_now)
             .map_err(|_| io::Error::other("authority persistence unavailable"))?;
-        commit_authority(
-            &state_socket,
-            &authority,
-            &state_version,
-            &mut state_version_number,
-        )?;
+        if reaped > 0 {
+            commit_authority(
+                &state_socket,
+                &authority,
+                &state_version,
+                &mut state_version_number,
+            )?;
+        }
         if line.trim() == "STATUS" {
             if command_policy
                 .authorize(&service, &AuthorityCommand::Status)

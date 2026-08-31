@@ -151,7 +151,8 @@ class LifecycleStore:
             END IF; END $$;
             DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='habitat-verifier') THEN
               GRANT SELECT ON objectives,objective_effect_guards,durable_effects,
-                effect_records,effect_attempts,effect_transition_history
+                effect_records,effect_attempts,effect_transition_history,
+                authority_bindings,authority_binding_history
                 TO "habitat-verifier";
             END IF; END $$;
             CREATE OR REPLACE FUNCTION effects_reserve_compensation(
