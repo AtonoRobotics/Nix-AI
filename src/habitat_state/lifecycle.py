@@ -226,6 +226,111 @@ class LifecycleStore:
                  "RECONCILIATION_REQUIRED" if row["state"] in ("DISPATCHED","UNCERTAIN") else "RETRYABLE"}
                 for row in rows]
 
+    def recover(self, *, now):
+        """Run boot recovery from authoritative PostgreSQL rows."""
+        expired = self.recover_expired(now=now)
+        effects = self.recover_nonterminal_effects()
+        with self._connect() as c:
+            wakes = c.execute("""SELECT count(*) AS count FROM wakes WHERE
+              state IN ('PENDING','RELEASED') OR
+              (state='LEASED' AND lease_expires_at<=%s)""", (now,)).fetchone()["count"]
+        return {"migrations": True, "leases_fenced": True,
+                "effects_classified": True, "expired_activations": len(expired),
+                "nonterminal_effects": len(effects), "wakes_redelivered": wakes}
+
+    def schedule_objective(self, objective_id, *, now):
+        """Atomically create an objective and its durable wake."""
+        command_id = f"schedule:{objective_id}"
+        fingerprint = self._fingerprint("schedule_objective", [objective_id])
+        with self._connect() as c:
+            replay = self._replay(c, command_id, fingerprint)
+            if replay:
+                return replay
+            if c.execute("SELECT 1 FROM objectives WHERE objective_id=%s",
+                         (objective_id,)).fetchone():
+                raise ValueError("CONFLICT: objective identity reused")
+            wake_id = f"wake:{objective_id}"
+            c.execute("INSERT INTO objectives VALUES(%s,'PROPOSED',1)", (objective_id,))
+            c.execute("INSERT INTO wakes VALUES(%s,%s,'PENDING',%s,NULL,NULL,1,%s)",
+                      (wake_id, objective_id, now, command_id))
+            c.execute("""INSERT INTO lifecycle_history
+              (entity_id,previous_state,new_state,command_id,actor,evidence_ref)
+              VALUES(%s,NULL,'PROPOSED',%s,'service:runtime-coordinator',%s)""",
+                      (objective_id, command_id, f"evidence:{fingerprint}"))
+            result = {"objective_id": objective_id, "wake_id": wake_id,
+                      "state": "PROPOSED", "version": 1}
+            self._record(c, command_id, fingerprint, result)
+            return result
+
+    def complete_ready_objective(self, *, now):
+        """Atomically lease/ack one wake and satisfy its committed-effect objective."""
+        with self._connect() as c:
+            wake = c.execute("""SELECT * FROM wakes WHERE due_at<=%s AND
+              (state IN ('PENDING','RELEASED') OR
+               (state='LEASED' AND lease_expires_at<=%s))
+              ORDER BY due_at,wake_id FOR UPDATE SKIP LOCKED LIMIT 1""",
+                             (now, now)).fetchone()
+            if not wake:
+                return None
+            objective_id = wake["objective_id"]
+            objective = c.execute("SELECT * FROM objectives WHERE objective_id=%s FOR UPDATE",
+                                  (objective_id,)).fetchone()
+            effect = c.execute("""SELECT state,evidence_ref FROM durable_effects
+              WHERE effect_id=%s FOR SHARE""", (f"effect:{objective_id}",)).fetchone()
+            if not objective or objective["state"] != "PROPOSED":
+                raise ValueError("CONFLICT: objective is not schedulable")
+            if not effect or effect["state"] != "COMMITTED":
+                raise ValueError("CONFLICT: completion lacks committed effect")
+            command_id = f"complete:{wake['wake_id']}"
+            fingerprint = self._fingerprint("complete_objective", [objective_id,
+                                                                    effect["evidence_ref"]])
+            c.execute("UPDATE wakes SET state='ACKNOWLEDGED',version=version+1 WHERE wake_id=%s",
+                      (wake["wake_id"],))
+            c.execute("UPDATE objectives SET state='SATISFIED',version=version+1 WHERE objective_id=%s",
+                      (objective_id,))
+            c.execute("""INSERT INTO lifecycle_history
+              (entity_id,previous_state,new_state,command_id,actor,evidence_ref)
+              VALUES(%s,'PROPOSED','SATISFIED',%s,'service:runtime-coordinator',%s)""",
+                      (objective_id, command_id, effect["evidence_ref"]))
+            result = {"objective_id": objective_id, "wake_id": wake["wake_id"],
+                      "state": "SATISFIED", "version": objective["version"] + 1}
+            self._record(c, command_id, fingerprint, result)
+            return result
+
+    def commit_effect(self, objective_id, request_digest, evidence_ref):
+        """Atomically record the externally reconciled effect disposition."""
+        effect_id = f"effect:{objective_id}"
+        command_id = f"effect-commit:{objective_id}"
+        fingerprint = self._fingerprint(
+            "commit_effect", [effect_id, request_digest, evidence_ref])
+        with self._connect() as c:
+            replay = self._replay(c, command_id, fingerprint)
+            if replay:
+                return replay
+            objective = c.execute("SELECT state FROM objectives WHERE objective_id=%s FOR SHARE",
+                                  (objective_id,)).fetchone()
+            if not objective or objective["state"] != "PROPOSED":
+                raise ValueError("CONFLICT: effect has no proposed objective")
+            c.execute("""INSERT INTO durable_effects
+              (effect_id,activation_id,request_digest,state,external_ref,evidence_ref,version)
+              VALUES(%s,%s,%s,'COMMITTED',%s,%s,1)""",
+                      (effect_id, objective_id, request_digest, effect_id, evidence_ref))
+            result = {"effect_id": effect_id, "state": "COMMITTED", "version": 1,
+                      "external_ref": effect_id, "evidence_ref": evidence_ref}
+            self._record(c, command_id, fingerprint, result)
+            return result
+
+    def inspect_objective(self, objective_id):
+        with self._connect() as c:
+            objective = c.execute("SELECT state FROM objectives WHERE objective_id=%s",
+                                  (objective_id,)).fetchone()
+            effect = c.execute("SELECT state,evidence_ref FROM durable_effects WHERE effect_id=%s",
+                               (f"effect:{objective_id}",)).fetchone()
+        if not objective or not effect:
+            return None
+        return {"objective_id": objective_id, "objective_state": objective["state"],
+                "effect_state": effect["state"], "evidence_ref": effect["evidence_ref"]}
+
     def admit_package(self, package_id, content_digest, manifest, evidence_ref):
         if not content_digest.startswith("sha256:") or len(content_digest) != 71:
             raise ValueError("content-bound sha256 digest required")

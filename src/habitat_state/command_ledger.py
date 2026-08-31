@@ -1,6 +1,7 @@
 """Transactional PostgreSQL command replay ledger and protected UDS adapter."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -8,10 +9,14 @@ import socket
 import socketserver
 import stat
 import struct
+import time
 from dataclasses import dataclass
 
+import boto3
 import psycopg
 from psycopg.rows import dict_row
+
+from .lifecycle import LifecycleStore
 
 
 MIGRATION = """
@@ -39,6 +44,42 @@ class LedgerUnavailable(RuntimeError):
 
 class LedgerCorrupt(RuntimeError):
     pass
+
+
+class EvidenceStore:
+    """Content-addressed S3 evidence adapter with read-after-write verification."""
+
+    def __init__(self, credential_path):
+        try:
+            config = json.loads(Path(credential_path).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise LedgerUnavailable("object-store credential is unavailable") from error
+        required = ("endpoint", "access_key", "secret_key", "bucket", "region")
+        if any(not isinstance(config.get(key), str) or not config[key] for key in required):
+            raise LedgerUnavailable("object-store credential is incomplete")
+        self.bucket = config["bucket"]
+        self.client = boto3.client(
+            "s3", endpoint_url=config["endpoint"],
+            aws_access_key_id=config["access_key"],
+            aws_secret_access_key=config["secret_key"], region_name=config["region"])
+        try:
+            self.client.head_bucket(Bucket=self.bucket)
+        except Exception as error:
+            raise LedgerUnavailable("evidence object store unavailable") from error
+
+    def put(self, record):
+        content = json.dumps(record, sort_keys=True, separators=(",", ":")).encode()
+        digest = hashlib.sha256(content).hexdigest()
+        key = f"sha256/{digest}"
+        try:
+            self.client.put_object(Bucket=self.bucket, Key=key, Body=content,
+                                   Metadata={"sha256": digest})
+            stored = self.client.get_object(Bucket=self.bucket, Key=key)["Body"].read()
+        except Exception as error:
+            raise LedgerUnavailable("evidence write or verification failed") from error
+        if hashlib.sha256(stored).hexdigest() != digest or stored != content:
+            raise LedgerCorrupt("evidence bytes do not match committed digest")
+        return f"s3://{self.bucket}/{key}"
 
 
 @dataclass(frozen=True)
@@ -120,7 +161,11 @@ class _LedgerHandler(socketserver.StreamRequestHandler):
             self._send({"status": "corrupt", "message": "invalid request framing"})
             return
         try:
-            request = json.loads(raw)
+            decoded = raw.decode().strip()
+            if not decoded.startswith("{"):
+                self._send_runtime(decoded)
+                return
+            request = json.loads(decoded)
             operation = request.get("operation")
             if operation == "commit_command":
                 outcome = self.server.store.commit(
@@ -143,12 +188,57 @@ class _LedgerHandler(socketserver.StreamRequestHandler):
     def _send(self, response):
         self.wfile.write(json.dumps(response, separators=(",", ":")).encode() + b"\n")
 
+    def _send_runtime(self, request):
+        lifecycle = self.server.lifecycle
+        if lifecycle is None:
+            self.wfile.write(b"UNAVAILABLE\n")
+            return
+        try:
+            if request == "STATUS":
+                report = self.server.recovery
+                response = ("READY migrations=1 leases_fenced=1 effects_classified=1 "
+                            f"wakes_redelivered={report['wakes_redelivered']}")
+            elif request.startswith("SCHEDULE "):
+                objective = request[9:]
+                if not objective or len(objective) > 128:
+                    response = "INVALID"
+                else:
+                    lifecycle.schedule_objective(objective, now=int(time.time()))
+                    response = "ACCEPTED"
+            elif request == "TICK":
+                response = "COMPLETED" if lifecycle.complete_ready_objective(
+                    now=int(time.time())) else "IDLE"
+            elif request.startswith("RECORD_EFFECT "):
+                objective = request[14:]
+                digest = hashlib.sha256(objective.encode()).hexdigest()
+                effect = f"effect:{objective}"
+                evidence = self.server.evidence.put({
+                    "objective_id": objective, "effect_id": effect,
+                    "request_digest": digest, "disposition": "COMMITTED"})
+                lifecycle.commit_effect(objective, digest, evidence)
+                response = "COMMITTED"
+            elif request.startswith("INSPECT "):
+                inspected = lifecycle.inspect_objective(request[8:])
+                response = (json.dumps(inspected, sort_keys=True, separators=(",", ":"))
+                            if inspected else "NOT_FOUND")
+            else:
+                response = "INVALID"
+        except (LedgerCorrupt, LedgerUnavailable, psycopg.Error):
+            response = "UNAVAILABLE"
+        except (KeyError, TypeError, ValueError):
+            response = "INVALID"
+        self.wfile.write(response.encode() + b"\n")
+
 
 class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
     daemon_threads = True
 
-    def __init__(self, path, store, *, allowed_uids=None, max_request_bytes=2 * 1024 * 1024):
+    def __init__(self, path, store, *, lifecycle=None, recovery=None, evidence=None,
+                 allowed_uids=None, max_request_bytes=2 * 1024 * 1024):
         self.store = store
+        self.lifecycle = lifecycle
+        self.recovery = recovery
+        self.evidence = evidence
         self.allowed_uids = frozenset(allowed_uids or {os.getuid()})
         self.max_request_bytes = max_request_bytes
         super().__init__(path, _LedgerHandler)
@@ -159,11 +249,15 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="PostgreSQL-backed Habitat ABI command ledger")
     parser.add_argument("socket")
     parser.add_argument("--database-url", default=os.environ.get("HABITAT_DATABASE_URL"))
+    parser.add_argument("--object-store-credential",
+                        default=os.environ.get("HABITAT_OBJECT_STORE_CREDENTIAL"))
     parser.add_argument("--mode", type=lambda value: int(value, 8), default=0o660)
     parser.add_argument("--allow-uid", action="append", type=int, default=[])
     arguments = parser.parse_args(argv)
     if not arguments.database_url:
         parser.error("--database-url or HABITAT_DATABASE_URL is required")
+    if not arguments.object_store_credential:
+        parser.error("--object-store-credential or HABITAT_OBJECT_STORE_CREDENTIAL is required")
     socket_path = Path(arguments.socket)
     if socket_path.exists():
         if not stat.S_ISSOCK(socket_path.lstat().st_mode):
@@ -171,9 +265,15 @@ def main(argv=None):
         socket_path.unlink()
     store = CommandLedgerStore(arguments.database_url)
     store.migrate()
+    lifecycle = LifecycleStore(arguments.database_url)
+    lifecycle.migrate()
+    recovery = lifecycle.recover(now=int(time.time()))
+    evidence = EvidenceStore(arguments.object_store_credential)
     try:
         allowed_uids = set(arguments.allow_uid) | {os.getuid()}
-        with CommandLedgerServer(str(socket_path), store, allowed_uids=allowed_uids) as server:
+        with CommandLedgerServer(str(socket_path), store, lifecycle=lifecycle,
+                                 recovery=recovery, evidence=evidence,
+                                 allowed_uids=allowed_uids) as server:
             socket_path.chmod(arguments.mode)
             server.serve_forever()
     finally:

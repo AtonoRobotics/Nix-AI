@@ -6,7 +6,7 @@ let
     state = [ "postgresql.service" "habitat-garage-initialize.service" ]; scheduler = [ "habitat-state.service" ];
     authority = [ "habitat-state.service" "habitat-scheduler.service" ];
     effects = [ "habitat-state.service" "habitat-scheduler.service" ];
-    abi = [ "habitat-state.service" "habitat-command-ledger.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" ];
+    abi = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" ];
     runtime = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" "habitat-abi.service" ];
   };
   common = component: {
@@ -31,13 +31,17 @@ let
     set -eu
     export HABITAT_ABI_ACTIVATION_CREDENTIAL="$(cat "$CREDENTIALS_DIRECTORY/activation-credential")"
     export HABITAT_ABI_PEER_UID="$(${pkgs.coreutils}/bin/id -u habitat-runtime)"
-    exec ${cfg.abiPackage}/bin/habitat-abi-server /run/habitat/abi/abi.sock /run/habitat/state/ledger.sock
+    exec ${cfg.abiPackage}/bin/habitat-abi-server /run/habitat/abi/abi.sock /run/habitat/state/state.sock
   '';
   stateStart = pkgs.writeShellScript "habitat-state-start" ''
     set -eu
     export HABITAT_DATABASE_URL="$(cat "$CREDENTIALS_DIRECTORY/database-url")"
-    exec ${cfg.statePackage}/bin/habitat-state /run/habitat/state/ledger.sock \
-      --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-abi)"
+    export HABITAT_OBJECT_STORE_CREDENTIAL="$CREDENTIALS_DIRECTORY/object-store-url"
+    exec ${cfg.statePackage}/bin/habitat-state /run/habitat/state/state.sock \
+      --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-abi)" \
+      --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-scheduler)" \
+      --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-effects)" \
+      --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-runtime)"
   '';
   abiUnit = lib.recursiveUpdate (common "abi") {
     restartTriggers = [ cfg.abiPackage ];
@@ -69,16 +73,7 @@ in {
     in { isSystemUser = true; group = "habitat-${component}-clients"; extraGroups = clientGroups.${component}; });
     systemd.services = (lib.listToAttrs (map (component: lib.nameValuePair "habitat-${component}" (runtimeUnit component)) [ "scheduler" "authority" "effects" "runtime" ])) // {
       habitat-abi = abiUnit;
-      habitat-state = lib.recursiveUpdate (runtimeUnit "state") {
-        environment = { HABITAT_DATABASE_CREDENTIAL = "%d/database-url"; HABITAT_OBJECT_STORE_CREDENTIAL = "%d/object-store-url"; };
-        serviceConfig.LoadCredential = [ "database-url:${cfg.databaseCredential}" "object-store-url:${cfg.objectStoreCredential}" ];
-        serviceConfig.RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
-      };
-      habitat-command-ledger = lib.recursiveUpdate (common "state") {
-        description = "PostgreSQL-backed Habitat ABI command ledger";
-        wantedBy = [ "multi-user.target" ];
-        after = [ "postgresql.service" "habitat-state.service" ];
-        requires = [ "postgresql.service" "habitat-state.service" ];
+      habitat-state = lib.recursiveUpdate (common "state") {
         restartTriggers = [ cfg.statePackage ];
         serviceConfig.ExecStart = stateStart;
         serviceConfig.LoadCredential = [ "database-url:${cfg.databaseCredential}" "object-store-url:${cfg.objectStoreCredential}" ];

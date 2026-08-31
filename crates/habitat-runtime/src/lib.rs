@@ -42,6 +42,39 @@ impl RecoveryReport {
             self.wakes_redelivered
         )
     }
+
+    pub fn from_wire(value: &str) -> io::Result<Self> {
+        if !value.starts_with("READY ") {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "state is not ready",
+            ));
+        }
+        let field = |name: &str| {
+            value.split_whitespace().find_map(|entry| {
+                entry
+                    .strip_prefix(name)
+                    .and_then(|rest| rest.strip_prefix('='))
+            })
+        };
+        let required = |name| match field(name) {
+            Some("1") => Ok(true),
+            _ => Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                format!("state recovery predicate {name} is not satisfied"),
+            )),
+        };
+        let wakes_redelivered = field("wakes_redelivered")
+            .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "missing wake count"))?
+            .parse()
+            .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "invalid wake count"))?;
+        Ok(Self {
+            migrations: required("migrations")?,
+            leases_fenced: required("leases_fenced")?,
+            effects_classified: required("effects_classified")?,
+            wakes_redelivered,
+        })
+    }
 }
 
 pub struct DurableState {
@@ -290,6 +323,9 @@ pub fn serve_component_listener(
                 &format!("RECORD_EFFECT {}", &request[6..]),
             )
             .unwrap_or_else(|_| "UNAVAILABLE".into())
+        } else if component == "runtime" && request.starts_with("INSPECT ") {
+            query(&component_socket(run_dir, "state"), request)
+                .unwrap_or_else(|_| "UNAVAILABLE".into())
         } else if component == "runtime" && request.starts_with("RUN ") {
             let scheduler = component_socket(run_dir, "scheduler");
             match query(&scheduler, &format!("SCHEDULE {}", &request[4..])) {
@@ -394,14 +430,22 @@ pub fn dependencies_operational(run_dir: &Path, component: &str) -> io::Result<b
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::{thread, time::Duration};
+    use std::{
+        sync::atomic::{AtomicU64, Ordering},
+        thread,
+        time::Duration,
+    };
+
+    static TEMPORARY_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
     fn temporary() -> PathBuf {
         let nonce = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let path = std::env::temp_dir().join(format!("hr-{}-{nonce}", std::process::id()));
+        let sequence = TEMPORARY_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+        let path =
+            std::env::temp_dir().join(format!("hr-{}-{nonce}-{sequence}", std::process::id()));
         fs::create_dir_all(&path).unwrap();
         path
     }
@@ -434,6 +478,22 @@ mod tests {
                 >= 2
         );
         fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn recovery_wire_is_fail_closed() {
+        assert!(RecoveryReport::from_wire(
+            "READY migrations=1 leases_fenced=1 effects_classified=1 wakes_redelivered=2"
+        )
+        .unwrap()
+        .operational());
+        for invalid in [
+            "READY migrations=0 leases_fenced=1 effects_classified=1 wakes_redelivered=0",
+            "READY migrations=1 leases_fenced=1 effects_classified=1",
+            "UNAVAILABLE",
+        ] {
+            assert!(RecoveryReport::from_wire(invalid).is_err());
+        }
     }
 
     #[test]

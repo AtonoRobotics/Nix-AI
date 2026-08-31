@@ -1,9 +1,10 @@
-import os, sys, unittest, uuid
+import json, os, socket, sys, tempfile, threading, time, unittest, uuid
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from habitat_state import Conflict
 from habitat_state.lifecycle import LifecycleStore, ClockUntrusted
+from habitat_state.command_ledger import CommandLedgerServer, CommandLedgerStore
 
 @unittest.skipUnless(os.getenv("HABITAT_TEST_DATABASE_URL"), "live W05 database not configured")
 class LifecycleTests(unittest.TestCase):
@@ -77,6 +78,54 @@ class LifecycleTests(unittest.TestCase):
             "generation:next", "generation:current", {"minimum_score": 1.0},
             "sha256:" + "5" * 64)
         self.assertEqual(candidate["state"], "PROPOSED")
+
+    def test_runtime_protocol_uses_postgresql_authority_and_evidence(self):
+        class Evidence:
+            records = []
+
+            def put(self, record):
+                self.records.append(record)
+                return "s3://habitat-evidence/sha256/" + "a" * 64
+
+        ledger = CommandLedgerStore(os.environ["HABITAT_TEST_DATABASE_URL"])
+        ledger.migrate()
+        recovery = self.store.recover(now=int(time.time()))
+        evidence = Evidence()
+        with tempfile.TemporaryDirectory() as directory:
+            path = str(Path(directory) / "state.sock")
+            server = CommandLedgerServer(path, ledger, lifecycle=self.store,
+                                         recovery=recovery, evidence=evidence)
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                def query(request):
+                    with socket.socket(socket.AF_UNIX) as client:
+                        client.connect(path)
+                        client.sendall(request.encode() + b"\n")
+                        return client.makefile().readline().strip()
+
+                objective = f"objective:{uuid.uuid4()}"
+                self.assertIn("migrations=1", query("STATUS"))
+                self.assertEqual(query(f"SCHEDULE {objective}"), "ACCEPTED")
+                self.assertEqual(query(f"SCHEDULE {objective}"), "ACCEPTED")
+                self.assertEqual(query(f"RECORD_EFFECT {objective}"), "COMMITTED")
+                self.assertEqual(query("TICK"), "COMPLETED")
+                inspected = json.loads(query(f"INSPECT {objective}"))
+                self.assertEqual(inspected["objective_state"], "SATISFIED")
+                self.assertEqual(inspected["effect_state"], "COMMITTED")
+                self.assertEqual(len(evidence.records), 1)
+
+                command = "runtime-ledger:" + uuid.uuid4().hex
+                proposed = {"command_id": command, "committed": True,
+                            "state": "COMPLETED", "durable_record_id": "sha256:" + "b" * 64}
+                request = json.dumps({"operation": "commit_command",
+                                      "activation_id": objective, "command_id": command,
+                                      "request_digest": "c" * 64, "result": proposed})
+                self.assertEqual(json.loads(query(request))["status"], "ok")
+            finally:
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=5)
 
 if __name__ == "__main__":
     unittest.main()

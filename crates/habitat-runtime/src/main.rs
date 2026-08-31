@@ -1,6 +1,6 @@
 use habitat_runtime::{
-    bind_component, component_socket, dependencies_operational, serve_component_listener,
-    DurableState, COMPONENTS,
+    bind_component, component_socket, dependencies_operational, query, serve_component_listener,
+    DurableState, RecoveryReport, COMPONENTS,
 };
 use std::{
     env, fs, io,
@@ -54,17 +54,24 @@ fn main() -> io::Result<()> {
     }
     let socket = component_socket(&run_dir, &component);
     let listener = bind_component(&socket)?;
+    let readiness = socket
+        .parent()
+        .expect("component socket has parent")
+        .join("readiness");
     if component == "runtime" {
-        fs::write(run_dir.join("readiness"), b"RECOVERING\n")?;
+        fs::write(&readiness, b"RECOVERING\n")?;
     }
     let state = Arc::new(Mutex::new(DurableState::open(state_dir)?));
-    let report = state.lock().unwrap().recover()?;
     while !dependencies_operational(&run_dir, &component)? {
         thread::sleep(Duration::from_millis(250));
     }
+    let report = if component == "state" {
+        state.lock().unwrap().recover()?
+    } else {
+        RecoveryReport::from_wire(&query(&component_socket(&run_dir, "state"), "STATUS")?)?
+    };
     if component == "runtime" {
-        state.lock().unwrap().read("schema-version")?;
-        fs::write(run_dir.join("readiness"), b"OPERATIONAL\n")?;
+        fs::write(readiness, b"OPERATIONAL\n")?;
     }
     serve_component_listener(
         &component,
