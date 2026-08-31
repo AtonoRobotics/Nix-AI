@@ -1,0 +1,153 @@
+import hashlib
+import boto3
+import json
+import os
+import pathlib
+import socket
+import struct
+import subprocess
+import time
+
+import boto3
+
+RUNTIME_SOCKET = "/run/habitat/runtime/runtime.sock"
+SYSTEMCTL = "@systemctl@"
+
+def recv_exact(client, size):
+    wire = b""
+    while len(wire) < size:
+        chunk = client.recv(size - len(wire))
+        if not chunk:
+            raise ConnectionError("transport closed during framed message")
+        wire += chunk
+    return wire
+
+def query(request):
+    with socket.socket(socket.AF_UNIX) as client:
+        client.settimeout(5)
+        client.connect(RUNTIME_SOCKET)
+        payload = json.dumps(request, separators=(",", ":")).encode()
+        client.sendall(struct.pack("!I", len(payload)) + payload)
+        size = struct.unpack("!I", recv_exact(client, 4))[0]
+        if size > 1024 * 1024:
+            raise ValueError("oversized transport response")
+        return json.loads(recv_exact(client, size))
+
+def readiness_state(path):
+    wire = path.read_bytes()
+    size = struct.unpack("!I", wire[:4])[0]
+    if len(wire) != size + 4:
+        return None
+    return json.loads(wire[4:])
+
+def wait_for(check, description, timeout=120):
+    deadline = time.monotonic() + timeout
+    error = None
+    while time.monotonic() < deadline:
+        try:
+            result = check()
+            if result:
+                return result
+        except Exception as current:
+            error = current
+        time.sleep(0.25)
+    raise RuntimeError(f"timed out waiting for {description}: {error!r}")
+
+def runtime_pid():
+    value = subprocess.check_output(
+        [SYSTEMCTL, "show", "--property=MainPID", "--value",
+         "habitat-runtime.service"], text=True).strip()
+    return int(value)
+
+def interrupt_runtime(label):
+    previous = runtime_pid()
+    if previous <= 0:
+        raise RuntimeError(f"runtime has no live PID before {label}")
+    subprocess.run(
+        [SYSTEMCTL, "kill", "--signal=KILL", "--kill-who=main",
+         "habitat-runtime.service"], check=True)
+    replacement = wait_for(
+        lambda: (current if (current := runtime_pid()) > 0 and current != previous else None),
+        f"coordinator replacement after {label}")
+    wait_for(lambda: readiness_state(readiness) ==
+             {"state":"OPERATIONAL", "pid":replacement},
+             f"operational recovery after {label}")
+    wait_for(lambda: query("STATUS").startswith("READY "),
+             f"runtime socket recovery after {label}")
+    return {"boundary": label, "previous_pid": previous, "replacement_pid": replacement}
+
+readiness = pathlib.Path("/run/habitat/runtime/readiness")
+wait_for(lambda: readiness_state(readiness) ==
+         {"state":"OPERATIONAL", "pid":runtime_pid()},
+         "authoritative runtime readiness")
+unauthorized = "objective:ungranted"
+if query("RESUME " + unauthorized) != "UNAUTHORIZED":
+    raise RuntimeError("authority did not default-deny an objective without a grant")
+objective = "objective:qemu-" + pathlib.Path(
+    "/proc/sys/kernel/random/uuid").read_text().strip()
+if query("PREPARE " + objective) != "ACCEPTED":
+    raise RuntimeError("durable objective and wake were not committed")
+
+wait_for(lambda: query("INSPECT " + objective) == "NOT_FOUND",
+         "durable prepared wake")
+interruptions = [interrupt_runtime("after_wake_commit")]
+completion = query("RESUME " + objective)
+if completion != "COMPLETED":
+    raise RuntimeError(
+        "coordinator did not complete the objective: " + completion)
+
+state = json.loads(query("INSPECT " + objective))
+if (state["objective_state"] != "SATISFIED" or len(state["effects"]) != 1
+        or state["effects"][0]["state"] != "COMMITTED"
+        or not state["guard"]["ready"]):
+    raise RuntimeError("authoritative disposition is incomplete")
+effect = state["effects"][0]
+credential = json.loads(
+    (pathlib.Path(os.environ["CREDENTIALS_DIRECTORY"]) / "object-store").read_text())
+client = boto3.client(
+    "s3", endpoint_url=credential["endpoint"],
+    aws_access_key_id=credential["access_key"],
+    aws_secret_access_key=credential["secret_key"], region_name=credential["region"])
+prefix = "s3://" + credential["bucket"] + "/sha256/"
+if not effect["evidence_ref"].startswith(prefix):
+    raise RuntimeError("effect is not bound to digest-addressed evidence")
+digest = effect["evidence_ref"][len(prefix):]
+evidence = client.get_object(
+    Bucket=credential["bucket"], Key="sha256/" + digest)["Body"].read()
+if hashlib.sha256(evidence).hexdigest() != digest:
+    raise RuntimeError("evidence object digest mismatch")
+record = json.loads(evidence)
+if record.get("objective_id") != objective or record.get("disposition") != "COMMITTED":
+    raise RuntimeError("evidence bytes are not bound to the committed objective")
+
+interruptions.append(interrupt_runtime("after_effect_commit"))
+
+def inspect_committed():
+    response = query("INSPECT " + objective)
+    return response if response.startswith("{") else None
+
+recovered = wait_for(inspect_committed, "committed disposition replay")
+if json.loads(recovered) != state:
+    raise RuntimeError("committed disposition changed across state restart")
+if query("RESUME " + objective) != "COMPLETED":
+    raise RuntimeError("duplicate resume did not replay the committed disposition")
+
+runtime_state = pathlib.Path("/var/lib/habitat/runtime")
+if runtime_state.exists() and any(runtime_state.iterdir()):
+    raise RuntimeError("coordinator persisted effect state outside the effect service")
+
+print(json.dumps({
+    "schema_version": "2.0",
+    "event": "habitat.runtime",
+    "outcome": "passed",
+    "objective_id": objective,
+    "objective_state": state["objective_state"],
+    "effect_state": effect["state"],
+    "evidence_ref": effect["evidence_ref"],
+    "interruptions": interruptions,
+    "duplicate_resume": "original_disposition",
+    "automatic_allow": False,
+    "transactional_store": "postgresql",
+    "evidence_store": "garage-s3",
+    "runtime_effect_files": 0,
+}, sort_keys=True, separators=(",", ":")), flush=True)
