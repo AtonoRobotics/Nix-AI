@@ -69,6 +69,8 @@ class LifecycleTests(unittest.TestCase):
 
     def test_scheduler_claim_binds_current_generation_and_capability_set(self):
         objective = f"objective:{uuid.uuid4()}"
+        activation_credential="activation-secret-01"
+        credential_digest="sha256:"+hashlib.sha256(activation_credential.encode()).hexdigest()
         scheduled = self.store.schedule_objective(objective, now=100)
         self.store.publish_capability_activation_set(
             "command:set:current", "capability-set:current", "generation:current",
@@ -87,7 +89,7 @@ class LifecycleTests(unittest.TestCase):
             resource_lease_id="resource-lease:test",
             trace_id="trace:test",
             correlation_id="correlation:test",
-            credential_digest="sha256:" + "a" * 64,
+            credential_digest=credential_digest,
             credential_key_version=1,
             expected_lease_fence=1,
             evidence_ref="s3://evidence/activation-claim",
@@ -105,10 +107,44 @@ class LifecycleTests(unittest.TestCase):
             agent_id="agent:test", lease_owner="service:runtime", lease_seconds=30,
             context_bundle_id="context:compiled", isolation_profile_id="isolation:default",
             resource_lease_id="resource-lease:test", trace_id="trace:test",
-            correlation_id="correlation:test", credential_digest="sha256:" + "a" * 64,
+            correlation_id="correlation:test", credential_digest=credential_digest,
             credential_key_version=1,expected_lease_fence=1,
             evidence_ref="s3://evidence/activation-claim")
         self.assertEqual(replay, claim)
+        binding={"activation_id":claim["activation_id"],"machine_id":"machine:test",
+          "agent_id":"agent:test","objective_id":objective,"lease_fence":1,
+          "system_generation_id":"generation:current",
+          "capability_activation_set_id":"capability-set:current",
+          "deadline":claim["deadline"],"trace_id":"trace:test"}
+        resolved=self.store.resolve_activation(binding,activation_credential)
+        self.assertEqual(resolved["activation_id"],claim["activation_id"])
+        self.assertEqual(resolved["objective_id"],objective)
+        self.assertEqual(resolved["capability_grant_ids"],["grant:context","grant:effect"])
+        self.assertNotIn("credential_digest",resolved)
+        self.assertNotIn("credential_key_version",resolved)
+        repository=PostgresRepository(os.environ["HABITAT_TEST_DATABASE_URL"])
+        resolution={"binding":binding,"activation_credential":activation_credential}
+        with self.assertRaisesRegex(ValueError,"ABI principal"):
+            repository.resolve_activation(resolution,"service:runtime")
+        self.assertEqual(repository.resolve_activation(resolution,"service:abi")["activation_id"],
+                         claim["activation_id"])
+        for field,bad_value in (("machine_id","machine:forged"),("agent_id","agent:forged"),
+          ("objective_id","objective:forged"),("activation_id","activation:forged"),
+          ("lease_fence",2),("system_generation_id","generation:forged"),
+          ("capability_activation_set_id","capability-set:forged"),("trace_id","trace:forged")):
+            with self.subTest(field=field),self.assertRaises((PermissionError,ValueError)):
+                self.store.resolve_activation(binding|{field:bad_value},activation_credential)
+        with self.assertRaises(PermissionError):
+            self.store.resolve_activation(binding,"forged-credential")
+        with self.assertRaises(ValueError):
+            self.store.resolve_activation(binding|{"deadline":claim["deadline"]+1},activation_credential)
+        with self.assertRaises(ValueError):
+            self.store.resolve_activation(binding|{"unexpected":"scope"},activation_credential)
+        for field,bad_value in (("lease_fence",True),("lease_fence",0),("lease_fence",-1),
+          ("lease_fence",2**64),("deadline",True),("deadline",0),("deadline",-1),
+          ("deadline",2**63)):
+            with self.subTest(field=field,bad_value=bad_value),self.assertRaises(ValueError):
+                self.store.resolve_activation(binding|{field:bad_value},activation_credential)
         with self.assertRaisesRegex(ValueError, "claimable|live objective"):
             self.store.claim_activation(
                 command_id=f"command:second:{objective}", activation_id=f"activation:{uuid.uuid4()}",
@@ -160,16 +196,33 @@ class LifecycleTests(unittest.TestCase):
           "new_activation_version":2,"previous_wake_state":"LEASED",
           "new_wake_state":"RELEASED","previous_wake_version":2,
           "new_wake_version":3})
+        reclaimed_credential="activation-secret-02"
         reclaimed=self.store.claim_activation(
             command_id=f"command:reclaim:{objective}",activation_id=claim["activation_id"],
             objective_id=objective,wake_id=scheduled["wake_id"],machine_id="machine:test",
             agent_id="agent:test",lease_owner="service:runtime",lease_seconds=30,
             context_bundle_id="context:compiled",isolation_profile_id="isolation:default",
             resource_lease_id="resource-lease:test",trace_id="trace:reclaimed",
-            correlation_id="correlation:reclaimed",credential_digest="sha256:"+"d"*64,
+            correlation_id="correlation:reclaimed",credential_digest="sha256:"+
+              hashlib.sha256(reclaimed_credential.encode()).hexdigest(),
             credential_key_version=1,expected_lease_fence=2,
             evidence_ref="s3://evidence/activation-reclaim")
         self.assertEqual(reclaimed["lease_fence"],2)
+        reclaimed_binding=binding|{"lease_fence":2,"deadline":reclaimed["deadline"],
+          "trace_id":"trace:reclaimed"}
+        self.assertEqual(self.store.resolve_activation(reclaimed_binding,reclaimed_credential)["state"],
+                         "LEASED")
+        for invalid_fence in (1,3):
+            with self.subTest(invalid_fence=invalid_fence),self.assertRaises(PermissionError):
+                self.store.resolve_activation(reclaimed_binding|{"lease_fence":invalid_fence},
+                                              reclaimed_credential)
+        self.store.transition_activation(claim["activation_id"],"PREPARING")
+        self.store.transition_activation(claim["activation_id"],"RUNNING")
+        self.assertEqual(self.store.resolve_activation(reclaimed_binding,reclaimed_credential)["state"],
+                         "RUNNING")
+        self.store.transition_activation(claim["activation_id"],"FAILED")
+        with self.assertRaisesRegex(PermissionError,"not active"):
+            self.store.resolve_activation(reclaimed_binding,reclaimed_credential)
         with psycopg.connect(os.environ["HABITAT_TEST_DATABASE_URL"]) as connection:
             with self.assertRaises(psycopg.errors.InsufficientPrivilege):
                 connection.execute("UPDATE activation_binding_history SET evidence_ref='changed'")

@@ -58,6 +58,8 @@ class StateProtocol:
             return self.repository.get_command(request["activation_id"], request["command_id"])
         if operation == "activation_claim":
             return self.repository.claim_verified_activation(request,principal)
+        if operation == "activation_resolve":
+            return self.repository.resolve_activation(request,principal)
         if operation == "capability_set_publish":
             return self.repository.publish_verified_capability_set(request,principal)
         if operation == "change_propose":
@@ -158,7 +160,7 @@ class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
         self.principals=dict(principals or {})
         self.identity_observer=identity_observer
         self.operations={
-          "service:abi":frozenset({"evidence_put","commit_command","get_command"}),
+          "service:abi":frozenset({"evidence_put","commit_command","get_command","activation_resolve"}),
           "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect","activation_claim"}),
           "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","effect_guard","effect_guard_invalidate"}),
           "service:packages":frozenset({"evidence_put","package_admit","capability_set_publish"}),

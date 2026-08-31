@@ -176,6 +176,9 @@ class PostgresRepository:
           correlation_id=request["correlation_id"],credential_digest=request["credential_digest"],
           credential_key_version=request["credential_key_version"],
           expected_lease_fence=request["expected_lease_fence"],evidence_ref=request["evidence_ref"])
+    def resolve_activation(self,request,principal):
+        if principal!="service:abi":raise ValueError("activation resolution requires ABI principal")
+        return self._lifecycle.resolve_activation(request["binding"],request["activation_credential"])
     def publish_verified_capability_set(self,request,principal):
         if principal!="service:packages":raise ValueError("capability set publication requires packages principal")
         evidence=self._verified(request["evidence_ref"],subject=request["set_id"],producer=principal,
