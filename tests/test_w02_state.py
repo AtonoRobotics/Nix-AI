@@ -8,6 +8,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from habitat_state import (CommandId, Conflict, Correlation, EntityId, EntityKind,
     EvidenceMetadata, InjectedCrash, IntegrityError, PrincipalId, State, StateStore, Version,
     CommandLedgerStore)
+from habitat_state.evidence import EvidenceStore,GarageEvidenceAdapter
+from habitat_state.errors import LedgerCorrupt
 
 def correlation():
     return Correlation(uuid.uuid4(), uuid.uuid4(), uuid.uuid4(), uuid.uuid4().hex)
@@ -133,6 +135,20 @@ class TransactionalStateTests(unittest.TestCase):
         with self.assertRaises(PermissionError): ordinary.restore({})
         with self.assertRaises(ValueError):
             self.store.put_evidence(b"x" * (16 * 1024 * 1024 + 1), metadata(correlation()))
+
+    def test_authenticated_evidence_envelope_is_canonical_idempotent_and_fail_closed(self):
+        evidence=EvidenceStore.__new__(EvidenceStore);evidence.bucket=os.environ["HABITAT_TEST_S3_BUCKET"]
+        evidence.adapter=GarageEvidenceAdapter.from_urls(os.environ["HABITAT_TEST_S3_ENDPOINT"],
+          os.environ["HABITAT_TEST_S3_ACCESS_KEY"],os.environ["HABITAT_TEST_S3_SECRET_KEY"],evidence.bucket)
+        envelope={"schema_version":"1","producer":"service:authority","subject":"authority:runtime",
+          "operation":"authority.snapshot","source":"sha256:"+"a"*64,"payload":{"version":1}}
+        first=evidence.put_envelope(envelope,"service:authority")
+        self.assertEqual(evidence.put_envelope(envelope,"service:authority"),first)
+        self.assertEqual(evidence.verify_record(first["evidence_ref"],subject="authority:runtime",
+          producer="service:authority",source="sha256:"+"a"*64),envelope)
+        with self.assertRaises(LedgerCorrupt):evidence.put_envelope(envelope,"service:effects")
+        forged=envelope|{"source":"sha256:not-a-digest"}
+        with self.assertRaises(LedgerCorrupt):evidence.put_envelope(forged,"service:authority")
 
     def test_command_ledger_exact_replay_and_digest_mismatch(self):
         ledger = CommandLedgerStore(os.environ["HABITAT_TEST_DATABASE_URL"])
