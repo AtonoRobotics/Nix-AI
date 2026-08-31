@@ -9,7 +9,7 @@ Scope: Deploy the fail-closed state-to-coordinator service graph and reach OPERA
 - [x] G2: Runtime tests execute cold boot recovery, wake delivery, objective completion, reconciliation, and continued scheduling.
   CHECK: sh -c 'rustc --edition=2021 --test crates/habitat-runtime/src/lib.rs -o /tmp/habitat-runtime-gate-tests && /tmp/habitat-runtime-gate-tests'
   EXPECT: /test result: ok/
-  EVIDENCE: test result: ok. 3 passed; state/scheduler/authority/effects/coordinator RPC integration completes an objective and records the effect in authoritative state.
+  EVIDENCE: test result: ok. 4 passed; state/scheduler/authority/effects/coordinator RPC integration prepares, resumes, completes, and replays an objective while recording the effect in authoritative state.
 
 - [x] G3: Runtime source has no declaration-only entrypoint, TODO, or placeholder implementation.
   CHECK: sh -c '! rg -n "TODO|FIXME|declaration-only|unimplemented!|todo!" crates/habitat-runtime nix/modules/habitat-runtime.nix && echo CLEAN'
@@ -21,8 +21,10 @@ Scope: Deploy the fail-closed state-to-coordinator service graph and reach OPERA
   EXPECT: /habitat-runtime/
   EVIDENCE: ({ config, lib, pkgs, ... }: (let cfg = (config).habitat.runtime; components = [ ("state") ("scheduler") ("authority") ("effects") ("abi") ("runtime") ]; unit = (component: { after = (cfg).dependencie
 
-- [ ] G5: PostgreSQL is the transactional lifecycle/command ledger and Garage stores content-addressed evidence bytes through the S3 boundary.
-  EVIDENCE: pending
+- [x] G5: PostgreSQL is the transactional lifecycle/command ledger and Garage stores content-addressed evidence bytes through the S3 boundary.
+  CHECK: nix run .#test-boot
+  EXPECT: /"gate": "V-BOOT".*"result": "pass"/
+  EVIDENCE: Strict two-boot QEMU qualification passed with zero skips. Baseline and candidate each completed a fresh objective to PostgreSQL `SATISFIED` / `COMMITTED`; the verifier fetched each `s3://habitat-evidence/sha256/<digest>` object from Garage, matched its SHA-256 and objective binding, and confirmed duplicate resume returned the committed disposition. The runtime events truthfully report `interruptions: []`; interruption recovery remains a separate open gate.
 
 - [x] G6: The current NixOS image evaluates with Garage under the normal security policy.
   CHECK: nix eval --raw .#packages.x86_64-linux.habitat-raw.drvPath

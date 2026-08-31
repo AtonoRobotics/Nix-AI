@@ -44,7 +44,7 @@ let
       printf '%s\n' '${generationId}' > /var/lib/habitat/active-generation
       printf '%s\n' 'PRE_OPERATIONAL' > /var/lib/habitat/readiness
       sync
-      printf '%s\n' "$record" > /dev/ttyS0
+      printf '%s\n' "$record"
     '';
   };
 in {
@@ -92,6 +92,8 @@ in {
       ProtectSystem = "strict";
       ReadWritePaths = [ "/var/lib/habitat" "/srv/habitat" ];
       UMask = "0077";
+      StandardOutput = "journal+console";
+      StandardError = "journal+console";
     };
   };
 
@@ -153,7 +155,9 @@ in {
   };
 
   systemd.tmpfiles.rules = [
-    "d /var/lib/habitat 0700 root root -"
+    # Dedicated service state leaves remain 0700.  The shared root must be
+    # traverse-only so those service users can reach their systemd-owned leaf.
+    "d /var/lib/habitat 0711 root root -"
     "d /srv/habitat 0750 root root -"
   ];
 

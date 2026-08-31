@@ -229,6 +229,46 @@ pub fn query(socket: &Path, request: &str) -> io::Result<String> {
     Ok(response.trim().into())
 }
 
+fn resume_objective(run_dir: &Path, objective: &str) -> String {
+    if validate_id(objective).is_err() {
+        return "INVALID".into();
+    }
+    match query(
+        &component_socket(run_dir, "authority"),
+        &format!("AUTHORIZE {objective}"),
+    ) {
+        Ok(decision) if decision == "ALLOW" => match query(
+            &component_socket(run_dir, "effects"),
+            &format!("APPLY {objective}"),
+        ) {
+            Ok(applied) if applied == "COMMITTED" => {
+                let scheduler = component_socket(run_dir, "scheduler");
+                match query(&scheduler, "TICK") {
+                    Ok(completed) if completed == "COMPLETED" => completed,
+                    Ok(idle) if idle == "IDLE" => {
+                        match query(
+                            &component_socket(run_dir, "state"),
+                            &format!("INSPECT {objective}"),
+                        ) {
+                            Ok(state) if state.contains("\"objective_state\":\"SATISFIED\"") => {
+                                "COMPLETED".into()
+                            }
+                            Ok(_) => idle,
+                            Err(_) => "UNAVAILABLE".into(),
+                        }
+                    }
+                    Ok(other) => other,
+                    Err(_) => "UNAVAILABLE".into(),
+                }
+            }
+            Ok(other) => other,
+            Err(_) => "UNAVAILABLE".into(),
+        },
+        Ok(other) => other,
+        Err(_) => "UNAVAILABLE".into(),
+    }
+}
+
 pub fn component_socket(run_dir: &Path, component: &str) -> PathBuf {
     run_dir.join(component).join(format!("{component}.sock"))
 }
@@ -326,29 +366,18 @@ pub fn serve_component_listener(
         } else if component == "runtime" && request.starts_with("INSPECT ") {
             query(&component_socket(run_dir, "state"), request)
                 .unwrap_or_else(|_| "UNAVAILABLE".into())
+        } else if component == "runtime" && request.starts_with("PREPARE ") {
+            query(
+                &component_socket(run_dir, "scheduler"),
+                &format!("SCHEDULE {}", &request[8..]),
+            )
+            .unwrap_or_else(|_| "UNAVAILABLE".into())
+        } else if component == "runtime" && request.starts_with("RESUME ") {
+            resume_objective(run_dir, &request[7..])
         } else if component == "runtime" && request.starts_with("RUN ") {
             let scheduler = component_socket(run_dir, "scheduler");
             match query(&scheduler, &format!("SCHEDULE {}", &request[4..])) {
-                Ok(response) if response == "ACCEPTED" => {
-                    let objective = &request[4..];
-                    match query(
-                        &component_socket(run_dir, "authority"),
-                        &format!("AUTHORIZE {objective}"),
-                    ) {
-                        Ok(decision) if decision == "ALLOW" => match query(
-                            &component_socket(run_dir, "effects"),
-                            &format!("APPLY {objective}"),
-                        ) {
-                            Ok(applied) if applied == "COMMITTED" => {
-                                query(&scheduler, "TICK").unwrap_or_else(|_| "UNAVAILABLE".into())
-                            }
-                            Ok(other) => other,
-                            Err(_) => "UNAVAILABLE".into(),
-                        },
-                        Ok(other) => other,
-                        Err(_) => "UNAVAILABLE".into(),
-                    }
-                }
+                Ok(response) if response == "ACCEPTED" => resume_objective(run_dir, &request[4..]),
                 Ok(response) => response,
                 Err(_) => "UNAVAILABLE".into(),
             }
@@ -549,6 +578,22 @@ mod tests {
         }
         assert_eq!(
             query(&component_socket(&root, "runtime"), "RUN objective:rpc").unwrap(),
+            "COMPLETED"
+        );
+        assert_eq!(
+            query(
+                &component_socket(&root, "runtime"),
+                "PREPARE objective:interrupted"
+            )
+            .unwrap(),
+            "ACCEPTED"
+        );
+        assert_eq!(
+            query(
+                &component_socket(&root, "runtime"),
+                "RESUME objective:interrupted"
+            )
+            .unwrap(),
             "COMPLETED"
         );
         assert!(fs::read_to_string(root.join("data-state/objectives"))

@@ -47,21 +47,43 @@ fn main() -> io::Result<()> {
             "unknown component",
         ));
     }
-    fs::create_dir_all(&run_dir)?;
+    fs::create_dir_all(&run_dir).map_err(|error| {
+        io::Error::new(
+            error.kind(),
+            format!("create runtime root {}: {error}", run_dir.display()),
+        )
+    })?;
     if component == "state" {
         require_credential("HABITAT_DATABASE_CREDENTIAL")?;
         require_credential("HABITAT_OBJECT_STORE_CREDENTIAL")?;
     }
     let socket = component_socket(&run_dir, &component);
-    let listener = bind_component(&socket)?;
+    let listener = bind_component(&socket).map_err(|error| {
+        io::Error::new(
+            error.kind(),
+            format!("bind component socket {}: {error}", socket.display()),
+        )
+    })?;
     let readiness = socket
         .parent()
         .expect("component socket has parent")
         .join("readiness");
     if component == "runtime" {
-        fs::write(&readiness, b"RECOVERING\n")?;
+        fs::write(&readiness, b"RECOVERING\n").map_err(|error| {
+            io::Error::new(
+                error.kind(),
+                format!("publish recovering state {}: {error}", readiness.display()),
+            )
+        })?;
     }
-    let state = Arc::new(Mutex::new(DurableState::open(state_dir)?));
+    let state = Arc::new(Mutex::new(DurableState::open(&state_dir).map_err(
+        |error| {
+            io::Error::new(
+                error.kind(),
+                format!("open component state {}: {error}", state_dir.display()),
+            )
+        },
+    )?));
     while !dependencies_operational(&run_dir, &component)? {
         thread::sleep(Duration::from_millis(250));
     }
@@ -71,7 +93,12 @@ fn main() -> io::Result<()> {
         RecoveryReport::from_wire(&query(&component_socket(&run_dir, "state"), "STATUS")?)?
     };
     if component == "runtime" {
-        fs::write(readiness, b"OPERATIONAL\n")?;
+        fs::write(&readiness, b"OPERATIONAL\n").map_err(|error| {
+            io::Error::new(
+                error.kind(),
+                format!("publish operational state {}: {error}", readiness.display()),
+            )
+        })?;
     }
     serve_component_listener(
         &component,

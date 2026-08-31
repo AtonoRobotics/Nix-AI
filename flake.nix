@@ -14,8 +14,18 @@
           set -euo pipefail
           umask 0077
           credential_dir=/run/habitat-credentials
+          token_dir=/var/lib/habitat/credentials
+          token_file="$token_dir/runtime-token"
           install -d -m 0700 "$credential_dir"
-          token="$(tr -d '-' </proc/sys/kernel/random/uuid)$(tr -d '\n' </etc/machine-id)"
+          install -d -m 0700 "$token_dir"
+          if [ ! -s "$token_file" ]; then
+            token="$(tr -d '-' </proc/sys/kernel/random/uuid)$(tr -d '\n' </etc/machine-id)"
+            printf '%s\n' "$token" > "$token_file.new"
+            chmod 0600 "$token_file.new"
+            mv "$token_file.new" "$token_file"
+            sync "$token_file"
+          fi
+          token="$(cat "$token_file")"
           password="$(printf '%s' "$token" | sha256sum | cut -d ' ' -f 1)"
           access_key="GK$(printf '%s' "$token" | sha256sum | cut -c1-24)"
           printf 'GARAGE_RPC_SECRET=%s\n' "$password" > "$credential_dir/garage.env"
@@ -66,6 +76,95 @@
           garage bucket allow --read --write --owner --key habitat habitat-evidence
         '';
       };
+      runtimeConformance = pkgs.writeText "habitat-runtime-conformance.py" ''
+        import hashlib
+        import json
+        import os
+        import pathlib
+        import socket
+        import time
+
+        import boto3
+
+        RUNTIME_SOCKET = "/run/habitat/runtime/runtime.sock"
+
+        def query(request):
+            with socket.socket(socket.AF_UNIX) as client:
+                client.settimeout(5)
+                client.connect(RUNTIME_SOCKET)
+                client.sendall(request.encode() + b"\n")
+                return client.makefile().readline().strip()
+
+        def wait_for(check, description, timeout=120):
+            deadline = time.monotonic() + timeout
+            error = None
+            while time.monotonic() < deadline:
+                try:
+                    result = check()
+                    if result:
+                        return result
+                except Exception as current:
+                    error = current
+                time.sleep(0.25)
+            raise RuntimeError(f"timed out waiting for {description}: {error!r}")
+
+        readiness = pathlib.Path("/run/habitat/runtime/readiness")
+        wait_for(lambda: readiness.read_text().strip() == "OPERATIONAL",
+                 "authoritative runtime readiness")
+        objective = "objective:qemu-" + pathlib.Path(
+            "/proc/sys/kernel/random/uuid").read_text().strip()
+        if query("PREPARE " + objective) != "ACCEPTED":
+            raise RuntimeError("durable objective and wake were not committed")
+
+        wait_for(lambda: query("INSPECT " + objective) == "NOT_FOUND",
+                 "durable prepared wake")
+        if wait_for(lambda: query("RESUME " + objective) == "COMPLETED",
+                    "objective completion") is not True:
+            raise RuntimeError("coordinator did not complete the objective")
+
+        state = json.loads(query("INSPECT " + objective))
+        if state["objective_state"] != "SATISFIED" or state["effect_state"] != "COMMITTED":
+            raise RuntimeError("authoritative disposition is incomplete")
+        credential = json.loads(
+            (pathlib.Path(os.environ["CREDENTIALS_DIRECTORY"]) / "object-store").read_text())
+        client = boto3.client(
+            "s3", endpoint_url=credential["endpoint"],
+            aws_access_key_id=credential["access_key"],
+            aws_secret_access_key=credential["secret_key"], region_name=credential["region"])
+        prefix = "s3://" + credential["bucket"] + "/sha256/"
+        if not state["evidence_ref"].startswith(prefix):
+            raise RuntimeError("effect is not bound to digest-addressed evidence")
+        digest = state["evidence_ref"][len(prefix):]
+        evidence = client.get_object(
+            Bucket=credential["bucket"], Key="sha256/" + digest)["Body"].read()
+        if hashlib.sha256(evidence).hexdigest() != digest:
+            raise RuntimeError("evidence object digest mismatch")
+        record = json.loads(evidence)
+        if record.get("objective_id") != objective or record.get("disposition") != "COMMITTED":
+            raise RuntimeError("evidence bytes are not bound to the committed objective")
+
+        def inspect_committed():
+            response = query("INSPECT " + objective)
+            return response if response.startswith("{") else None
+
+        recovered = wait_for(inspect_committed, "committed disposition replay")
+        if json.loads(recovered) != state:
+            raise RuntimeError("committed disposition changed across state restart")
+        if query("RESUME " + objective) != "COMPLETED":
+            raise RuntimeError("duplicate resume did not replay the committed disposition")
+
+        print(json.dumps({
+            "schema_version": "2.0",
+            "event": "habitat.runtime",
+            "outcome": "passed",
+            "objective_id": objective,
+            "objective_state": state["objective_state"],
+            "effect_state": state["effect_state"],
+            "evidence_ref": state["evidence_ref"],
+            "interruptions": [],
+            "duplicate_resume": "original_disposition",
+        }, sort_keys=True, separators=(",", ":")), flush=True)
+      '';
       runtimeConfiguration = {
         services.postgresql = {
           enable = true;
@@ -113,6 +212,23 @@
             Type = "oneshot";
             ExecStart = "${garageInitialize}/bin/habitat-garage-initialize";
             RemainAfterExit = true;
+          };
+        };
+        systemd.services.habitat-runtime-conformance = {
+          description = "Exercise a live objective and verify durable evidence";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "habitat-runtime.service" ];
+          requires = [ "habitat-runtime.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${python}/bin/python ${runtimeConformance}";
+            LoadCredential = "object-store:/run/habitat-credentials/object-store-url";
+            NoNewPrivileges = true;
+            PrivateTmp = true;
+            ProtectHome = true;
+            ProtectSystem = "strict";
+            StandardOutput = "journal+console";
+            StandardError = "journal+console";
           };
         };
         habitat.runtime = {

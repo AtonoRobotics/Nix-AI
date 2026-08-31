@@ -11,7 +11,7 @@ let
   };
   common = component: {
     description = "Habitat ${component} runtime service"; wantedBy = [ "multi-user.target" ];
-    after = dependencies.${component}; requires = dependencies.${component}; restartTriggers = [ cfg.package ];
+    after = dependencies.${component}; wants = dependencies.${component}; restartTriggers = [ cfg.package ];
     serviceConfig = {
       Type = "simple"; User = "habitat-${component}"; Group = "habitat-${component}-clients";
       Restart = "on-failure"; RestartSec = "1s"; StartLimitBurst = 5;
@@ -22,6 +22,7 @@ let
       RestrictAddressFamilies = [ "AF_UNIX" ]; RestrictNamespaces = true; LockPersonality = true;
       MemoryDenyWriteExecute = true; CapabilityBoundingSet = ""; SystemCallArchitectures = "native";
       TasksMax = 64; MemoryMax = "256M"; CPUQuota = "100%";
+      StandardOutput = "journal+console"; StandardError = "journal+console";
     };
   };
   runtimeUnit = component: lib.recursiveUpdate (common component) {
@@ -40,6 +41,7 @@ let
     exec ${cfg.statePackage}/bin/habitat-state /run/habitat/state/state.sock \
       --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-abi)" \
       --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-scheduler)" \
+      --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-authority)" \
       --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-effects)" \
       --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-runtime)"
   '';
@@ -74,8 +76,10 @@ in {
     systemd.services = (lib.listToAttrs (map (component: lib.nameValuePair "habitat-${component}" (runtimeUnit component)) [ "scheduler" "authority" "effects" "runtime" ])) // {
       habitat-abi = abiUnit;
       habitat-state = lib.recursiveUpdate (common "state") {
+        requires = dependencies.state;
         restartTriggers = [ cfg.statePackage ];
         serviceConfig.ExecStart = stateStart;
+        serviceConfig.RestartMode = "direct";
         serviceConfig.LoadCredential = [ "database-url:${cfg.databaseCredential}" "object-store-url:${cfg.objectStoreCredential}" ];
         serviceConfig.RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
       };
