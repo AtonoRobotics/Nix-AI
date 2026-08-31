@@ -5,7 +5,7 @@ Budget note: multi-subsystem production completion with live image qualification
 
 ## Contract
 
-- Interfaces: preserve all public `habitat-*` names and the immutable V2.0.1 contract; Agent ABI remains protobuf/tonic over authenticated UDS; PostgreSQL is operational truth and evidence bytes are digest addressed.
+- Interfaces: preserve all public `habitat-*` names and the immutable V2.0.1 contract; Agent ABI remains protobuf/tonic over authenticated UDS; PostgreSQL is operational truth and evidence bytes are digest addressed through the Garage S3 boundary.
 - Data ownership: baseline/audit owns `.gitignore`, audit tools, and audit tests; ABI owns `contracts/proto/nix_ai_agent_v2.proto` and `crates/habitat-abi`; packages/change owns `crates/habitat-packages` and its tests; runtime owns runtime coordinator sources and `nix/modules`; qualification owns `tools/qualification*`, `tools/qualify_v2_*`, and release tests. Shared manifests are integrated only by the driver.
 - Naming and conventions: Rust is rustfmt-clean and strict-clippy-clean; Python evidence uses canonical sorted JSON; failures are fail-closed and use typed error codes; no caller-supplied pass booleans.
 
@@ -36,3 +36,5 @@ Budget note: multi-subsystem production completion with live image qualification
 - 2026-08-30 current-core audit leaf self-verified; final regeneration awaits live-runner completion
 - 2026-08-30 exact committed tree: 91 Python tests pass with 11 service-configuration skips; Rust fmt, strict clippy, and workspace tests pass
 - 2026-08-30 production acceptance abandoned honestly: nixpkgs rejects abandoned vulnerable MinIO, preventing the fresh QEMU/release run; runtime PostgreSQL/MinIO coordinator persistence remains incomplete
+- 2026-08-30 Garage approved in ADR 0001 as the canonical embedded S3 backend because no admissible MinIO version is available; the prior combined Garage/state/QEMU experiment remains quarantined in the recovery stash and will not be restored wholesale
+- 2026-08-30 requalification reopened: migrate Garage, persistence wiring, and strict QEMU behavior as isolated reviewed commits; no prior MinIO abandonment is treated as current acceptance evidence
