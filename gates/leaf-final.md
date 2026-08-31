@@ -21,7 +21,7 @@ Scope: Re-run every binding check from the exact committed tree.
 - [x] G5: Nix flake check passes.
   CHECK: /nix/var/nix/profiles/default/bin/nix flake check --show-trace && echo flake-ok
   EXPECT: flake-ok
-  EVIDENCE: `nix flake check --show-trace` evaluated the complete app/package surface and built all 47 checks, including release and artifact qualification: exit 0.
+  EVIDENCE: `nix flake check --show-trace` evaluated the complete app/package surface and built all 66 clean-tree checks, including release and artifact qualification: exit 0.
 - [x] G6: Fresh QEMU objective, interruption recovery, governed rollback, and exact-tree evidence all pass.
   CHECK: /nix/var/nix/profiles/default/bin/nix run .#test-w13
   EXPECT: V2 release qualification passed.
