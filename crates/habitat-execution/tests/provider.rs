@@ -142,3 +142,31 @@ fn crash_boundaries_are_reconciled_without_redispatch() {
     };
     assert_eq!(after.observe(&id2, &digest2).unwrap().outcome, "SUCCEEDED");
 }
+
+#[test]
+fn tampered_world_after_crash_fails_closed_and_retains_intent() {
+    let root = tempdir().unwrap();
+    let id = "effect:sha256:".to_owned() + &"e".repeat(64);
+    let command = execute(&id, "command:tamper", "idempotency:tamper", 0);
+    let provider = OfflineProvider::open(root.path()).unwrap();
+    assert!(matches!(
+        provider.execute(&command, Some("after-world")),
+        Err(ProviderError::Storage(_))
+    ));
+    std::fs::write(
+        root.path()
+            .join("world")
+            .join(format!("{}.applied", "e".repeat(64))),
+        b"tampered",
+    )
+    .unwrap();
+    assert!(matches!(
+        provider.execute(&command, None),
+        Err(ProviderError::Conflict)
+    ));
+    assert!(root
+        .path()
+        .join("records")
+        .join(format!("{}.intent", "e".repeat(64)))
+        .is_file());
+}

@@ -513,6 +513,21 @@ fn effect_prepare_commit_abort_is_durable_and_consumes_quota_only_on_commit() {
     let mut store =
         RuntimeAuthorityStore::open(&path, vec![grant.clone()], "state:current").unwrap();
     assert!(store.prepare_effect(&request, 100).unwrap().allowed);
+    let timestamp_replay = RuntimeAuthorityRequest {
+        requested_at: 101,
+        ..request.clone()
+    };
+    let timestamp_conflict = store.prepare_effect(&timestamp_replay, 101).unwrap();
+    assert!(!timestamp_conflict.allowed);
+    assert_eq!(timestamp_conflict.code, "REQUEST_ID_CONFLICT");
+    let altered = RuntimeAuthorityRequest {
+        requested_at: 102,
+        target: "objective:altered".into(),
+        ..request.clone()
+    };
+    let conflict = store.prepare_effect(&altered, 102).unwrap();
+    assert!(!conflict.allowed);
+    assert_eq!(conflict.code, "REQUEST_ID_CONFLICT");
     // Crash after PREPARE (and equivalently before PostgreSQL RESERVED): a
     // fresh authority process reports PREPARED and quota remains unconsumed.
     drop(store);
@@ -522,7 +537,7 @@ fn effect_prepare_commit_abort_is_durable_and_consumes_quota_only_on_commit() {
         .status_effect(
             &request,
             &format!("effect:sha256:{}", "f".repeat(64)),
-            100,
+            101,
             &format!("sha256:{}", "e".repeat(64)),
         )
         .unwrap();
@@ -540,15 +555,15 @@ fn effect_prepare_commit_abort_is_durable_and_consumes_quota_only_on_commit() {
         target: "objective:other".into(),
         ..request.clone()
     };
-    assert!(!store.prepare_effect(&second, 100).unwrap().allowed);
+    assert!(!store.prepare_effect(&second, 101).unwrap().allowed);
     assert!(store.abort_effect(&request).unwrap());
-    assert!(store.prepare_effect(&second, 100).unwrap().allowed);
+    assert!(store.prepare_effect(&second, 101).unwrap().allowed);
     assert!(store.abort_effect(&second).unwrap());
-    assert!(store.prepare_effect(&request, 100).unwrap().allowed);
+    assert!(store.prepare_effect(&request, 101).unwrap().allowed);
     let effect_id = format!("effect:sha256:{}", "a".repeat(64));
     assert!(
         store
-            .commit_effect(&request, &effect_id, 100)
+            .commit_effect(&request, &effect_id, 101)
             .unwrap()
             .allowed
     );
@@ -560,23 +575,33 @@ fn effect_prepare_commit_abort_is_durable_and_consumes_quota_only_on_commit() {
         .status_effect(
             &request,
             &effect_id,
-            100,
+            101,
             &format!("sha256:{}", "e".repeat(64)),
         )
         .unwrap();
     assert!(committed.allowed);
     assert_eq!(committed.code, "AUTHORIZED");
+    let expired_replay = store
+        .status_effect(
+            &request,
+            &effect_id,
+            500,
+            &format!("sha256:{}", "e".repeat(64)),
+        )
+        .unwrap();
+    assert!(expired_replay.allowed);
+    assert_eq!(expired_replay.code, "AUTHORIZED");
     let persisted: serde_json::Value =
         serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
     assert_eq!(persisted["quota_usage"]["grant:saga"], 1);
     assert!(
         store
-            .commit_effect(&request, &effect_id, 100)
+            .commit_effect(&request, &effect_id, 101)
             .unwrap()
             .allowed
     );
     assert!(!store.prepare_effect(&request, 200).unwrap().allowed);
-    assert!(!store.prepare_effect(&second, 100).unwrap().allowed);
+    assert!(!store.prepare_effect(&second, 101).unwrap().allowed);
 }
 
 #[test]

@@ -156,7 +156,7 @@ class LifecycleStore:
               GRANT SELECT,INSERT ON effect_transition_history TO "habitat-effects";
             END IF; END $$;
             DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='habitat-verifier') THEN
-              GRANT SELECT ON objectives,objective_effect_guards,durable_effects,
+              GRANT SELECT ON objectives,wakes,objective_effect_guards,durable_effects,
                 effect_records,effect_attempts,effect_transition_history,
                 authority_bindings,authority_binding_history
                 TO "habitat-verifier";
@@ -350,19 +350,21 @@ class LifecycleStore:
                   ELSE t.new_state END FROM provider_effect_transitions t
                 WHERE t.effect_id=d.effect_id ORDER BY t.sequence DESC LIMIT 1)""").fetchone()["count"]
             canonical_inconsistent=c.execute("""SELECT count(*) AS count FROM effect_records r
-              WHERE r.canonical_record->'record'->>'effect_id'<>r.effect_id
-                 OR r.canonical_record->'record'->'proposal'->>'objective_id'<>r.objective_id
-                 OR r.canonical_record->'record'->'proposal'->>'parameters_digest'<>r.request_digest
-                 OR r.canonical_record->'record'->>'state'<>r.state
+              WHERE jsonb_typeof(r.canonical_record) IS DISTINCT FROM 'object'
+                 OR jsonb_typeof(r.canonical_record->'proposal') IS DISTINCT FROM 'object'
+                 OR r.canonical_record->>'effect_id' IS DISTINCT FROM r.effect_id
+                 OR r.canonical_record->'proposal'->>'objective_id' IS DISTINCT FROM r.objective_id
+                 OR r.canonical_record->'proposal'->>'parameters_digest' IS DISTINCT FROM r.request_digest
+                 OR r.canonical_record->>'state' IS DISTINCT FROM r.state
                  OR NOT EXISTS (SELECT 1 FROM effect_transition_history h
                     WHERE h.effect_id=r.effect_id AND h.effect_version=r.version
-                      AND h.new_state=r.state AND h.canonical_event=r.canonical_record)
-                 OR (SELECT count(*) FROM effect_attempts a WHERE a.effect_id=r.effect_id)
-                    <> jsonb_array_length(COALESCE(r.canonical_record->'attempts','[]'::jsonb))
-                       +jsonb_array_length(COALESCE(r.canonical_record->'reconciliations','[]'::jsonb))
+                      AND h.new_state=r.state AND h.canonical_event->'record'=r.canonical_record
+                      AND (SELECT count(*) FROM effect_attempts a WHERE a.effect_id=r.effect_id)
+                        = jsonb_array_length(COALESCE(h.canonical_event->'attempts','[]'::jsonb))
+                         +jsonb_array_length(COALESCE(h.canonical_event->'reconciliations','[]'::jsonb)))
                  OR NOT EXISTS (SELECT 1 FROM durable_effects d WHERE d.effect_id=r.effect_id
                     AND d.activation_id=r.objective_id
-                    AND d.request_digest=replace(r.request_digest,'sha256:',''))""").fetchone()["count"]
+                    AND d.request_digest=r.request_digest)""").fetchone()["count"]
             missing_guards=c.execute("""SELECT count(DISTINCT r.objective_id) AS count
               FROM effect_records r WHERE r.state IN ('ObservedSucceeded','ResolvedSucceeded')
               AND NOT EXISTS (SELECT 1 FROM objective_effect_guards g
@@ -456,7 +458,7 @@ class LifecycleStore:
                 or len(request_digest)!=71
                 or any(character not in "0123456789abcdef" for character in request_digest[7:])):
             raise ValueError("effect request digest must be canonical sha256")
-        legal={None:{"PROPOSED"},"PROPOSED":{"AUTHORIZED"},
+        legal={None:{"PROPOSED","REJECTED"},"PROPOSED":{"AUTHORIZED"},
                "AUTHORIZED":{"DISPATCHED"},
                "DISPATCHED":{"OBSERVED_SUCCEEDED","OBSERVED_FAILED","UNCERTAIN"},
                "UNCERTAIN":{"RESOLVED_SUCCEEDED","RESOLVED_FAILED"}}
@@ -482,9 +484,11 @@ class LifecycleStore:
             row=c.execute("SELECT * FROM durable_effects WHERE effect_id=%s FOR UPDATE",(effect_id,)).fetchone()
             if previous_state is None:
                 if row: raise ValueError("effect identity already exists")
+                initial_state = "REJECTED" if new_state == "REJECTED" else "PROPOSED"
                 c.execute("""INSERT INTO durable_effects
                   (effect_id,activation_id,request_digest,state,external_ref,evidence_ref,version)
-                  VALUES(%s,%s,%s,'PROPOSED',NULL,%s,1)""",(effect_id,objective_id,request_digest,evidence_ref))
+                  VALUES(%s,%s,%s,%s,%s,%s,1)""",
+                  (effect_id,objective_id,request_digest,initial_state,external_ref,evidence_ref))
                 version=1
             else:
                 if not row or row["activation_id"]!=objective_id or row["request_digest"]!=request_digest:

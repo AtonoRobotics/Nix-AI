@@ -182,6 +182,84 @@ class LifecycleTests(unittest.TestCase):
               FROM effect_migration_archive WHERE source_table='durable_effects'
                 AND raw_record->>'effect_id'=%s""", (effect_id,)).fetchone()["n"], 0)
 
+    def test_terminal_canonical_effect_keeps_state_ready_after_restart(self):
+        objective_id = f"objective:{uuid.uuid4()}"
+        effect_id = f"effect:{uuid.uuid4()}"
+        request_digest = "sha256:" + "7" * 64
+        record = {
+            "effect_id": effect_id,
+            "state": "ObservedSucceeded",
+            "proposal": {
+                "objective_id": objective_id,
+                "parameters_digest": request_digest,
+            },
+        }
+        canonical = {
+            "record": record,
+            "attempts": [],
+            "reconciliations": [],
+        }
+        effect_set_digest = "sha256:" + hashlib.sha256(
+            json.dumps([effect_id], separators=(",", ":")).encode()
+        ).hexdigest()
+        with self.store._connect() as connection:
+            connection.execute("INSERT INTO objectives VALUES(%s,'SATISFIED',2)",
+                               (objective_id,))
+            connection.execute("""INSERT INTO durable_effects
+              (effect_id,activation_id,request_digest,state,external_ref,evidence_ref,version)
+              VALUES(%s,%s,%s,'COMMITTED','transport:1','evidence:1',1)""",
+                               (effect_id, objective_id, request_digest))
+            connection.execute("""INSERT INTO provider_effect_transitions
+              (transition_id,effect_id,previous_state,new_state,request_digest,evidence_ref,sequence)
+              VALUES(%s,%s,'DISPATCHED','OBSERVED_SUCCEEDED',%s,'evidence:1',1)""",
+                               (f"transition:{uuid.uuid4()}", effect_id, request_digest))
+            connection.execute("""INSERT INTO effect_records
+              (effect_id,objective_id,request_digest,state,canonical_record,version)
+              VALUES(%s,%s,%s,'ObservedSucceeded',%s,1)""",
+                               (effect_id, objective_id, request_digest, json.dumps(record)))
+            connection.execute("""INSERT INTO effect_transition_history
+              (event_id,effect_id,previous_state,new_state,canonical_event,effect_version)
+              VALUES(%s,%s,'Executing','ObservedSucceeded',%s,1)""",
+                               (f"event:{uuid.uuid4()}", effect_id, json.dumps(canonical)))
+            connection.execute("""INSERT INTO objective_effect_guards
+              (objective_id,effect_set_digest,effect_count,ready)
+              VALUES(%s,%s,1,true)""", (objective_id, effect_set_digest))
+
+        recovery = LifecycleStore(
+            os.environ["HABITAT_TEST_DATABASE_URL"]
+        ).recover(now=int(time.time()))
+        self.assertTrue(recovery["effects_classified"], recovery)
+        self.assertEqual(recovery["canonical_inconsistent_effects"], 0)
+
+        for path in (("effect_id",), ("proposal", "objective_id"),
+                     ("proposal", "parameters_digest"), ("state",)):
+            pg_path = "{" + ",".join(path) + "}"
+            malformed = json.loads(json.dumps(record))
+            owner = malformed
+            for key in path[:-1]:
+                owner = owner[key]
+            del owner[path[-1]]
+            malformed_event = {**canonical, "record": malformed}
+            with self.store._connect() as connection:
+                version = connection.execute(
+                    "UPDATE effect_records SET canonical_record=%s,version=version+1 "
+                    "WHERE effect_id=%s RETURNING version",
+                    (json.dumps(malformed), effect_id),
+                ).fetchone()["version"]
+                connection.execute(
+                    "INSERT INTO effect_transition_history "
+                    "(event_id,effect_id,previous_state,new_state,canonical_event,effect_version) "
+                    "VALUES(%s,%s,'ObservedSucceeded','ObservedSucceeded',%s,%s)",
+                    (f"event:{uuid.uuid4()}", effect_id,
+                     json.dumps(malformed_event), version),
+                )
+            corrupt = LifecycleStore(
+                os.environ["HABITAT_TEST_DATABASE_URL"]
+            ).recover(now=int(time.time()))
+            self.assertFalse(corrupt["effects_classified"], (pg_path, corrupt))
+            self.assertEqual(corrupt["canonical_inconsistent_effects"], 1,
+                             (pg_path, corrupt))
+
     def test_runtime_protocol_uses_postgresql_authority_and_evidence(self):
         class Evidence:
             records = []

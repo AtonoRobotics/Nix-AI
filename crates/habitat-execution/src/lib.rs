@@ -460,6 +460,19 @@ impl OfflineProvider {
         } else {
             self.world_path(effect_id)?
         };
+        let applied_bytes = if operation == "compensate" {
+            None
+        } else {
+            Some(
+                serde_json::to_vec(&serde_json::json!({
+                    "effect_id":effect_id,
+                    "operation":operation,
+                    "payload":payload,
+                    "request_digest":request_digest,
+                }))
+                .map_err(|_| ProviderError::Invalid)?,
+            )
+        };
         let postcondition = if operation == "compensate" {
             format!(
                 "absent:{}",
@@ -469,14 +482,10 @@ impl OfflineProvider {
                     .unwrap_or("")
             )
         } else {
-            let applied = serde_json::to_vec(&serde_json::json!({
-                "effect_id":effect_id,
-                "operation":operation,
-                "payload":payload,
-                "request_digest":request_digest,
-            }))
-            .map_err(|_| ProviderError::Invalid)?;
-            format!("present:sha256:{:x}", Sha256::digest(applied))
+            format!(
+                "present:sha256:{:x}",
+                Sha256::digest(applied_bytes.as_deref().ok_or(ProviderError::Invalid)?)
+            )
         };
         observation.postcondition_digest =
             format!("sha256:{:x}", Sha256::digest(postcondition.as_bytes()));
@@ -514,19 +523,17 @@ impl OfflineProvider {
                 Err(error) => return Err(ProviderError::Storage(error)),
             }
         } else if !world_path.exists() {
-            let applied = serde_json::to_vec(&serde_json::json!({
-                "effect_id":effect_id,
-                "operation":operation,
-                "payload":payload,
-                "request_digest":request_digest,
-            }))
-            .map_err(|_| ProviderError::Invalid)?;
+            let applied = applied_bytes.as_deref().ok_or(ProviderError::Invalid)?;
             let mut world = OpenOptions::new()
                 .create_new(true)
                 .write(true)
                 .open(&world_path)?;
-            world.write_all(&applied)?;
+            world.write_all(applied)?;
             world.sync_all()?;
+        } else if fs::read(&world_path)?
+            != applied_bytes.as_deref().ok_or(ProviderError::Invalid)?
+        {
+            return Err(ProviderError::Conflict);
         }
         File::open(self.root.join("world"))?.sync_all()?;
         if fault == Some("after-world") {

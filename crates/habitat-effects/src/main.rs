@@ -153,8 +153,8 @@ fn query_state(socket: &Path, request: &str) -> io::Result<String> {
         connect_with_timeouts(
             socket,
             frames(),
-            Duration::from_secs(2),
-            Duration::from_secs(2),
+            Duration::from_secs(10),
+            Duration::from_secs(10),
         )
         .map_err(io::Error::other)?;
     transport.send_request(&wire).map_err(io::Error::other)?;
@@ -527,15 +527,74 @@ fn checkpoint_effect(
     Ok(())
 }
 
-fn objective_precondition(socket: &Path, objective: &str) -> io::Result<bool> {
+fn objective_precondition(socket: &Path, objective: &str, compensation: bool) -> io::Result<bool> {
     let wire = query_state(socket, &format!("INSPECT {objective}"))?;
     let projection = serde_json::from_str::<serde_json::Value>(&wire)
         .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
+    let admissible_state = if compensation {
+        "SATISFIED"
+    } else {
+        "PROPOSED"
+    };
     Ok(projection["objective_id"].as_str() == Some(objective)
-        && matches!(
-            projection["objective_state"].as_str(),
-            Some("PROPOSED" | "SATISFIED")
-        ))
+        && projection["objective_state"].as_str() == Some(admissible_state))
+}
+
+fn terminal_replay(
+    state_socket: &Path,
+    token: &str,
+    request: &RuntimeEffectRequest,
+    record: &habitat_effects::EffectRecord,
+) -> io::Result<Option<serde_json::Value>> {
+    let (projection_state, state, code) = match record.state {
+        EffectState::ObservedSucceeded | EffectState::ResolvedSucceeded => {
+            ("COMMITTED", "COMMITTED", "COMMITTED")
+        }
+        EffectState::ObservedFailed | EffectState::ResolvedFailed => {
+            ("FAILED", "FAILED", "PROVIDER_FAILED")
+        }
+        EffectState::Rejected => ("REJECTED", "FAILED", "REJECTED"),
+        _ => return Ok(None),
+    };
+    let response = state_request(
+        state_socket,
+        &serde_json::json!({
+            "operation":"effect_observe", "admission_token":token,
+            "objective_id":request.objective_id,
+            "effect_id":record.effect_id,
+        }),
+    )
+    .ok_or_else(|| io::Error::other("authoritative terminal effect is unavailable"))?;
+    let projection = &response["result"]["projection"];
+    let evidence_ref = projection["evidence_ref"]
+        .as_str()
+        .filter(|reference| reference.starts_with("s3://"))
+        .ok_or_else(|| io::Error::other("authoritative terminal evidence is missing"))?;
+    if response["status"] != "ok"
+        || projection["effect_id"] != record.effect_id
+        || projection["objective_id"] != request.objective_id
+        || projection["request_digest"] != request.parameters_digest
+        || projection["state"] != projection_state
+    {
+        return Err(io::Error::other(
+            "local and authoritative terminal effect disagree",
+        ));
+    }
+    Ok(Some(serde_json::json!({
+        "schema_version":"2.0", "command_id":request.command_id,
+        "objective_id":request.objective_id, "effect_id":record.effect_id,
+        "state":state, "code":code, "evidence_ref":evidence_ref,
+    })))
+}
+
+fn persist_rejection(
+    state_socket: &Path,
+    token: &str,
+    record: &habitat_effects::EffectRecord,
+    reason: &str,
+) -> io::Result<String> {
+    let source = format!("sha256:{:x}", Sha256::digest(reason.as_bytes()));
+    persist_provider_transition(state_socket, token, record, None, "REJECTED", &source, None)
 }
 
 fn guard_objective(
@@ -581,6 +640,31 @@ fn reconcile_pending(
             continue;
         };
         if record.state == EffectState::Reserved {
+            let rejected = state_request(
+                state_socket,
+                &serde_json::json!({
+                    "operation":"effect_observe", "admission_token":token,
+                    "objective_id":record.proposal.objective_id,
+                    "effect_id":record.effect_id,
+                }),
+            )
+            .is_some_and(|response| {
+                let projection = &response["result"]["projection"];
+                response["status"] == "ok"
+                    && projection["effect_id"] == record.effect_id
+                    && projection["objective_id"] == record.proposal.objective_id
+                    && projection["request_digest"] == record.proposal.parameters_digest
+                    && projection["state"] == "REJECTED"
+                    && projection["evidence_ref"]
+                        .as_str()
+                        .is_some_and(|reference| reference.starts_with("s3://"))
+            });
+            if rejected {
+                ledger.reject_reserved(&effect_id, "authoritative rejection replay")?;
+                checkpoint_effect(ledger, store, &effect_id)
+                    .map_err(|_| habitat_effects::EffectError::Storage)?;
+                continue;
+            }
             eprintln!("recovering durable RESERVED effect {effect_id}");
             let Some(authority_request) = record.runtime_authority_request.clone() else {
                 eprintln!("reserved recovery blocked: missing authority request for {effect_id}");
@@ -634,16 +718,10 @@ fn reconcile_pending(
                 .as_ref()
                 .is_some_and(|decision| decision.allowed && decision.code == "AUTHORIZED")
             {
-                if record
-                    .proposal
-                    .valid_until
-                    .is_some_and(|until| now() >= until)
-                {
-                    // A durable COMMIT cannot be forged into a fresh bounded
-                    // authorization after expiry. Leave the effect RESERVED
-                    // and blocked for operator reconciliation; never dispatch.
-                    continue;
-                }
+                // STATUS can return AUTHORIZED here only for the exact durable
+                // COMMIT binding. Its one first dispatch remains valid after
+                // the request wall-clock deadline; no fresh authority is
+                // minted and the effect/idempotency identity is unchanged.
                 let decision = status.expect("checked committed status");
                 let attempt = Attempt::new(
                     &record.proposal.parameters_digest,
@@ -699,6 +777,15 @@ fn reconcile_pending(
                 continue;
             }
             ledger.reject_reserved(&effect_id, "recovered PREPARE aborted")?;
+            persist_rejection(
+                state_socket,
+                token,
+                ledger
+                    .get(&effect_id)
+                    .ok_or(habitat_effects::EffectError::Storage)?,
+                "recovered PREPARE aborted",
+            )
+            .map_err(|_| habitat_effects::EffectError::Storage)?;
             checkpoint_effect(ledger, store, &effect_id)
                 .map_err(|_| habitat_effects::EffectError::Storage)?;
             continue;
@@ -811,11 +898,9 @@ fn reconcile_pending(
         match provider_result {
             Ok(provider_observation) => {
                 let external_ref = provider_observation.transport_id.clone();
-                let observed_state = state_observation
-                    .as_ref()
-                    .and_then(|response| {
-                        response["result"]["projection"]["provider_state"].as_str()
-                    });
+                let observed_state = state_observation.as_ref().and_then(|response| {
+                    response["result"]["projection"]["provider_state"].as_str()
+                });
                 // A response-loss crash can occur after state durably accepts
                 // DISPATCHED -> UNCERTAIN.  Resume from that observed boundary
                 // instead of replaying a stale predecessor forever.
@@ -1146,10 +1231,6 @@ fn main() -> io::Result<()> {
             reject(&mut transport)?;
             continue;
         }
-        if now() < request.valid_from || now() >= request.valid_until {
-            reject(&mut transport)?;
-            continue;
-        }
         let mut proposal = EffectProposal::new(
             &request.command_id,
             &request.authority_request.activation_id,
@@ -1172,7 +1253,35 @@ fn main() -> io::Result<()> {
         if request.authority_request.operation == "compensate" {
             proposal.compensates_effect_id = Some(request.authority_request.target.clone());
         }
-        match objective_precondition(&state_socket, &request.objective_id) {
+        match ledger.runtime_replay(&proposal) {
+            Ok(Some(existing)) => {
+                match terminal_replay(&state_socket, token, &request, &existing) {
+                    Ok(Some(disposition)) => {
+                        respond!(transport, "{}", disposition)?;
+                        continue;
+                    }
+                    Ok(None) => {}
+                    Err(_) => {
+                        reject_code(&mut transport, "UNAVAILABLE")?;
+                        continue;
+                    }
+                }
+            }
+            Err(_) => {
+                reject(&mut transport)?;
+                continue;
+            }
+            _ => {}
+        }
+        if now() < request.valid_from || now() >= request.valid_until {
+            reject(&mut transport)?;
+            continue;
+        }
+        match objective_precondition(
+            &state_socket,
+            &request.objective_id,
+            request.authority_request.operation == "compensate",
+        ) {
             Ok(true) => {}
             Ok(false) => {
                 eprintln!(
@@ -1320,8 +1429,24 @@ fn main() -> io::Result<()> {
             ledger
                 .reject_reserved(&record.effect_id, "execution authorization expired")
                 .map_err(|_| io::Error::other("failed to reject expired reservation"))?;
+            let evidence_ref = persist_rejection(
+                &state_socket,
+                token,
+                ledger
+                    .get(&record.effect_id)
+                    .ok_or_else(|| io::Error::other("rejected effect disappeared"))?,
+                "execution authorization expired",
+            )?;
             checkpoint_effect(&ledger, &store, &record.effect_id)?;
-            reject(&mut transport)?;
+            respond!(
+                transport,
+                "{}",
+                serde_json::json!({
+                    "schema_version":"2.0", "command_id":request.command_id,
+                    "objective_id":request.objective_id, "effect_id":record.effect_id,
+                    "state":"FAILED", "code":"REJECTED", "evidence_ref":evidence_ref,
+                })
+            )?;
             continue;
         }
         injected_crash("before-authority-commit");
@@ -1392,15 +1517,19 @@ fn main() -> io::Result<()> {
             .observe(&record.effect_id, observation)
             .map_err(|_| io::Error::other("effect observation failed"))?;
         checkpoint_effect(&ledger, &store, &record.effect_id)?;
-        guard_objective(&mut ledger, &state_socket, token, &request.objective_id)
-            .map_err(|_| io::Error::other("effect guard persistence failed"))?;
+        let succeeded = committed.outcome == "SUCCEEDED";
+        if succeeded {
+            guard_objective(&mut ledger, &state_socket, token, &request.objective_id)
+                .map_err(|_| io::Error::other("effect guard persistence failed"))?;
+        }
         respond!(
             transport,
             "{}",
             serde_json::json!({
                 "schema_version":"2.0", "command_id":request.command_id,
                 "objective_id":request.objective_id, "effect_id":record.effect_id,
-                "state":"COMMITTED", "code":"COMMITTED",
+                "state":if succeeded { "COMMITTED" } else { "FAILED" },
+                "code":if succeeded { "COMMITTED" } else { "PROVIDER_FAILED" },
                 "evidence_ref":evidence
             })
         )?;

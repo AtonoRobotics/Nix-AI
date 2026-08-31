@@ -850,11 +850,17 @@ impl RuntimeAuthorityStore {
             Some(reservation)
                 if reservation.request_digest == request_digest
                     && reservation.effect_id.as_deref() == Some(effect_id)
-                    && reservation.committed =>
+                    && reservation.committed
+                    && reservation.revocation_epoch == self.revocation_epoch
+                    && reservation.configuration_digest == self.configuration_digest
+                    && reservation.state_version == self.state_version =>
             {
                 // AUTHORIZED is an exact replay of the already durable COMMIT,
                 // allowing effects recovery to persist EXECUTING before the
                 // one and only provider dispatch.
+                decision.allowed = true;
+                decision.code = "AUTHORIZED".into();
+                decision.grant_id = reservation.chain.last().cloned();
             }
             Some(reservation)
                 if reservation.request_digest == request_digest && !reservation.committed =>

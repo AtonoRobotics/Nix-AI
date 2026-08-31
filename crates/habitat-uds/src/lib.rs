@@ -121,14 +121,14 @@ impl TransportError {
 
 #[derive(Clone, Debug)]
 pub struct ServiceCommandPolicy<Command: Eq + std::hash::Hash> {
-    allowed: std::collections::HashMap<String, HashSet<Command>>,
+    allowed: std::collections::HashMap<ServicePrincipal, HashSet<Command>>,
 }
 
 impl<Command: Clone + Eq + std::hash::Hash> ServiceCommandPolicy<Command> {
     pub fn new(entries: impl IntoIterator<Item = (ServicePrincipal, Vec<Command>)>) -> Self {
         let mut allowed = std::collections::HashMap::new();
         for (service, commands) in entries {
-            allowed.insert(service.service_id, commands.into_iter().collect());
+            allowed.insert(service, commands.into_iter().collect());
         }
         Self { allowed }
     }
@@ -140,7 +140,7 @@ impl<Command: Clone + Eq + std::hash::Hash> ServiceCommandPolicy<Command> {
     ) -> Result<(), TransportError> {
         if self
             .allowed
-            .get(&service.service_id)
+            .get(service)
             .is_some_and(|commands| commands.contains(command))
         {
             Ok(())
