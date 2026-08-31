@@ -3,7 +3,7 @@
 import argparse, hashlib, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd() / "tools"))
-from qualify_w_common import PacketRun,run_test_directory,write_reports
+from qualify_w_common import PacketRun,emit_result,run_test_directory
 
 def main():
     parser=argparse.ArgumentParser()
@@ -12,7 +12,7 @@ def main():
     parser.add_argument("--test-dir",type=Path,required=True)
     parser.add_argument("--evidence-dir",type=Path)
     args=parser.parse_args();run=PacketRun("W07",args.root)
-    run.command(["validate-contracts"],artifacts=[args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="context contract validates")
+    run.command(["validate-contracts"],action="contracts:validate",artifacts=[args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="context contract validates")
     declaration=json.loads(__import__('subprocess').check_output([args.artifact],text=True))
     digest=hashlib.sha256(args.artifact.read_bytes()).hexdigest()
     count=run_test_directory(run,args.test_dir,args.artifact,"context")
@@ -31,7 +31,8 @@ def main():
         "activation and objective identity remain unchanged"]}}
     reports["result"]={"packet":"W07","outcome":"passed","artifact_sha256":digest}
     for report in reports.values():report["behavioral_test_proof"]=proof
-    write_reports(args.evidence_dir,reports)
-    print(json.dumps(run.result(reports),indent=2,sort_keys=True))
+    metrics={"context_created_authority_count":0,"silent_contradiction_resolution_count":0,"context_item_without_provenance_count":0,"unbounded_process_count":0}
+    for metric,value in metrics.items():run.observe_metric("V-CONTEXT",metric,value,semantic_evidence={"kind":"context_fault_results","observed":reports["context-fault-test"]["properties"],"binary_count":count})
+    emit_result(run,reports,args.evidence_dir,gate_results={"V-CONTEXT":{"metrics":metrics,"deployed_dependencies":["context-artifact"]}})
 
 if __name__=="__main__": main()

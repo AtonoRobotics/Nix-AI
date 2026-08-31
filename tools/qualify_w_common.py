@@ -3,39 +3,16 @@
 from __future__ import annotations
 
 import json
+import base64
 import subprocess
+import os
+import socket
 from pathlib import Path
 from typing import Iterable, Sequence
 import sys
 
-from qualification import execute
-
-
-def source_digest(root: Path) -> str:
-    """Digest the current tracked source using the release verifier's algorithm."""
-    import hashlib
-
-    root = root.resolve()
-    excluded = {".git", "target", "result", "__pycache__"}
-    if (root / ".git").exists():
-        listed = subprocess.run(
-            ["git", "-C", str(root), "ls-files"], check=True, capture_output=True, text=True
-        ).stdout.splitlines()
-        paths = [root / relative for relative in listed]
-    else:
-        paths = [item for item in root.rglob("*") if item.is_file()]
-    digest = hashlib.sha256()
-    for path in sorted(
-        item for item in paths
-        if item.is_file() and not excluded.intersection(item.relative_to(root).parts)
-    ):
-        relative = path.relative_to(root).as_posix()
-        if relative.startswith("evidence/"):
-            continue
-        name, content = relative.encode(), path.read_bytes()
-        digest.update(len(name).to_bytes(4, "big") + name)
-        digest.update(len(content).to_bytes(8, "big") + content)
-    return "sha256:" + digest.hexdigest()
+from qualification import (canonical_json, derive_metric, execute, make_metric_observation,
+                           source_digest)
 
 
 class PacketRun:
@@ -46,32 +23,106 @@ class PacketRun:
         self.attestations: list[dict[str, object]] = []
         self.assertions: list[dict[str, object]] = []
         self.services: list[dict[str, str]] = []
+        self.observations: dict[str, dict[str, object]] = {}
 
     def command(
         self,
         argv: Sequence[str | Path],
         *,
+        action: str,
         artifacts: Iterable[Path],
         assertion: str,
         environment: dict[str, str] | None = None,
     ) -> dict[str, object]:
         rendered = [str(value) for value in argv]
         record = execute(
-            self.root, self.source_tree, rendered, artifacts=artifacts, environment=environment
+            self.root, self.source_tree, rendered, action=action,
+            artifacts=artifacts, environment=environment
         )
         self.attestations.append(record)
-        passed = record["exit_status"] == 0
-        self.assertions.append({"name": assertion, "passed": passed})
+        action = record["action_observation"]
+        passed = action["result"] == "succeeded" and bool(action["artifact_ids"])
+        observation_id = "assertion:" + action["observation_id"].split(":", 1)[1]
+        observation = {
+            "schema_version": "1.0", "observation_id": observation_id,
+            "kind": "behavioral_assertion", "name": assertion, "passed": passed,
+            "action_observation_id": action["observation_id"],
+            "artifact_ids": action["artifact_ids"],
+        }
+        self.observations[observation_id] = observation
+        self.assertions.append({"name": assertion, "passed": passed,
+                                "observation_id": observation_id})
         if not passed:
-            raise SystemExit(f"{self.packet} command failed: {' '.join(rendered)}")
+            captured = record["captured_outputs"]
+            stdout = base64.b64decode(captured["stdout"]["content"]).decode(
+                "utf-8", errors="replace")
+            stderr = base64.b64decode(captured["stderr"]["content"]).decode(
+                "utf-8", errors="replace")
+            raise SystemExit(
+                f"{self.packet} command failed: {' '.join(rendered)}\n"
+                f"--- stdout ---\n{stdout[-12000:]}\n"
+                f"--- stderr ---\n{stderr[-12000:]}"
+            )
         return record
 
-    def ready_service(self, name: str) -> None:
-        if not name:
-            raise ValueError("service name is required")
-        self.services.append({"name": name, "state": "ready"})
+    def ready_service(self, name: str, *, unit: str | None = None,
+                      endpoint: str | None = None, process_id: int | None = None,
+                      health: str | None = None) -> None:
+        if not name or not unit or not endpoint or type(process_id) is not int \
+                or process_id <= 0 or health != "ready":
+            raise ValueError("readiness requires service, unit, endpoint, process, and ready health")
+        if not Path(f"/proc/{process_id}").exists():
+            raise ValueError("readiness process is not live")
+        if endpoint.startswith("unix:"):
+            address = endpoint.removeprefix("unix:")
+            with socket.socket(socket.AF_UNIX) as probe_socket:
+                probe_socket.settimeout(2); probe_socket.connect(address)
+        elif endpoint.startswith("tcp://"):
+            host, port = endpoint.removeprefix("tcp://").rsplit(":", 1)
+            with socket.create_connection((host, int(port)), timeout=2):
+                pass
+        else:
+            raise ValueError("readiness endpoint must be a probed unix or tcp endpoint")
+        if not self.attestations:
+            raise ValueError("readiness requires an executed probe")
+        probe = self.attestations[-1]["action_observation"]
+        if probe["result"] != "succeeded":
+            raise ValueError("readiness probe did not succeed")
+        payload = {
+            "schema_version": "1.0", "kind": "service_readiness", "name": name,
+            "unit": unit, "endpoint": endpoint, "process_id": process_id, "health": health,
+            "action_observation_id": probe["observation_id"],
+        }
+        readiness_id = "observation:" + __import__("hashlib").sha256(
+            canonical_json(payload)).hexdigest()
+        self.services.append({
+            **payload, "state": "ready", "result": "ready",
+            "observed_at": probe["finished_at"],
+            "probe_observation_id": readiness_id,
+            "identity": self.attestations[-1]["runner_identity"],
+        })
 
-    def result(self, reports: dict[str, object]) -> dict[str, object]:
+    def observe_metric(self, gate: str, metric: str, value: object, *,
+                       semantic_evidence: dict[str, object]) -> dict[str, object]:
+        """Record a semantic metric emitted after its measuring action executed."""
+        if not self.attestations:
+            raise ValueError("metric observation requires an executed measuring action")
+        if not semantic_evidence or not isinstance(semantic_evidence.get("kind"), str) \
+                or "observed" not in semantic_evidence:
+            raise ValueError("metric observation requires typed semantic evidence")
+        action = self.attestations[-1]["action_observation"]
+        observation = make_metric_observation(
+            metric, value, subject=gate, action_observation_id=action["observation_id"],
+            artifact_ids=action["artifact_ids"])
+        payload = {key: item for key, item in observation.items() if key != "observation_id"}
+        payload["semantic_evidence"] = semantic_evidence
+        observation = {**payload, "observation_id": "observation:" +
+                       __import__("hashlib").sha256(canonical_json(payload)).hexdigest()}
+        self.observations[observation["observation_id"]] = observation
+        return observation
+
+    def result(self, reports: dict[str, object], *,
+               gate_results: dict[str, dict[str, object]] | None = None) -> dict[str, object]:
         if not self.attestations or not self.assertions:
             raise SystemExit(f"{self.packet} has no executed behavioral evidence")
         if any(item["passed"] is not True for item in self.assertions):
@@ -87,6 +138,38 @@ class PacketRun:
         artifacts = []
         for record in self.attestations:
             artifacts.extend(record["artifact_digests"])
+        rendered_gates = {}
+        for gate, meaning in (gate_results or {}).items():
+            metrics = meaning.get("metrics")
+            dependencies = meaning.get("deployed_dependencies")
+            if not isinstance(metrics, dict) or not metrics or not isinstance(dependencies, list):
+                raise SystemExit(f"{self.packet} {gate} has incomplete gate meaning")
+            derivations = {}
+            derived = {}
+            for name, expected in metrics.items():
+                matches = [item for item in self.observations.values()
+                           if item.get("kind") == "metric_observation"
+                           and item.get("subject") == gate and item.get("metric") == name]
+                if len(matches) != 1:
+                    raise SystemExit(f"{self.packet} {gate} metric {name} lacks one typed observation")
+                observation = matches[0]
+                operation = ("all_values" if expected is True else
+                             "any_values" if expected is False else "sum_values")
+                derivation = {"metric": name, "operation": operation,
+                              "observation_ids": [observation["observation_id"]]}
+                value = derive_metric(derivation, self.observations)
+                if value != expected:
+                    raise SystemExit(f"{self.packet} {gate} metric {name} is not derived: "
+                                     f"observed {value!r}, claimed {expected!r}")
+                derivations[name] = derivation
+                derived[name] = value
+            rendered_gates[gate] = {
+                "qualification_result": qualification_result,
+                "metrics": derived,
+                "metric_derivations": derivations,
+                "observations": self.observations,
+                "deployed_dependencies": dependencies,
+            }
         return {
             "packet": self.packet,
             "outcome": "passed",
@@ -94,8 +177,10 @@ class PacketRun:
             "live_services": self.services,
             "behavioral_assertions": self.assertions,
             "execution": self.attestations,
+            "observations": self.observations,
             "artifact_digests": artifacts,
             "reports": reports,
+            "gate_results": rendered_gates,
         }
 
 
@@ -109,6 +194,21 @@ def write_reports(directory: Path | None, reports: dict[str, object]) -> None:
         )
 
 
+def emit_result(run: PacketRun, reports: dict[str, object], directory: Path | None, *,
+                gate_results: dict[str, dict[str, object]]) -> dict[str, object]:
+    """Serialize the packet's canonical executable result for release consumption."""
+    result = run.result(reports, gate_results=gate_results)
+    write_reports(directory, reports)
+    if directory is not None:
+        (directory / "qualification-result.json").write_bytes(canonical_json(result))
+    print(canonical_json(result).decode(), end="")
+    return result
+
+
+def observe_gate_metrics(run: PacketRun, gate: str, metrics: dict[str, object]) -> None:
+    raise RuntimeError("compatibility metric synthesis is forbidden; emit each semantic observation")
+
+
 def run_test_directory(run: PacketRun, directory: Path, artifact: Path, subsystem: str) -> int:
     binaries = sorted(
         path for path in directory.iterdir()
@@ -119,6 +219,7 @@ def run_test_directory(run: PacketRun, directory: Path, artifact: Path, subsyste
     for binary in binaries:
         run.command(
             [binary], artifacts=[binary, artifact],
+            action=f"{subsystem}:{binary.name}",
             assertion=f"{subsystem} behavioral binary {binary.name} passes",
         )
     return len(binaries)

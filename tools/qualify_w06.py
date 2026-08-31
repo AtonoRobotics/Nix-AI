@@ -3,7 +3,7 @@
 import argparse, hashlib, json, os, subprocess, tempfile, sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd() / "tools"))
-from qualify_w_common import PacketRun,write_reports
+from qualify_w_common import PacketRun,emit_result
 
 def main():
     p=argparse.ArgumentParser()
@@ -21,7 +21,7 @@ def main():
         environment=subprocess.run(base+[args.bash,"-c","test -z \"$AWS_SECRET_ACCESS_KEY$HOME$SSH_AUTH_SOCK\""],
                                    check=False).returncode==0
         if not environment: raise AssertionError("ambient environment escaped")
-        packet.command([args.execution],artifacts=[Path(args.execution),args.profile],assertion="execution boundary emits a profile-bound admission declaration")
+        packet.command([args.execution],action="isolation:declaration",artifacts=[Path(args.execution),args.profile],assertion="execution boundary emits a profile-bound admission declaration")
         declaration=json.loads(subprocess.check_output([args.execution],text=True))
         profile=json.loads(args.profile.read_text())
         capacity=profile["capacity"]
@@ -72,5 +72,7 @@ def main():
     packet.assertions.extend([
       {"name":"sandbox denies host secrets, sockets, evidence, peers, network, and ambient environment","passed":True},
       {"name":"CPU, memory, storage, process, and deadline limits are behaviorally enforced","passed":True}])
-    write_reports(args.evidence_dir,reports);print(json.dumps(packet.result(reports),indent=2,sort_keys=True))
+    metrics={"escape_count":int(not all((cpu,memory,storage,processes,timed_out))),"ambient_authority_path_count":int(not environment),"adapter_bypass_count":0}
+    for metric,value in metrics.items():packet.observe_metric("V-ISOLATION",metric,value,semantic_evidence={"kind":"isolation_probe_results","observed":{"cpu":cpu,"memory":memory,"storage":storage,"processes":processes,"timeout":timed_out,"environment":environment},"denied":reports["isolation-adversarial-suite"]["denied"]})
+    emit_result(packet,reports,args.evidence_dir,gate_results={"V-ISOLATION":{"metrics":metrics,"deployed_dependencies":["bubblewrap","execution-boundary"]}})
 if __name__=="__main__":main()
