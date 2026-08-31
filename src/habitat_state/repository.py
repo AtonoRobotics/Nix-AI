@@ -1,4 +1,5 @@
 """Authoritative transactional PostgreSQL repository."""
+import hashlib
 import json
 from dataclasses import dataclass
 
@@ -155,6 +156,41 @@ class PostgresRepository:
           source=request["snapshot_digest"],operation="authority.snapshot")
         return self._lifecycle.commit_authority_snapshot(request["binding_id"],request["command_id"],
           request["expected_version"],request["generation"],request["snapshot"],request["snapshot_digest"],request["evidence_ref"])
+    def claim_verified_activation(self,request,principal):
+        if principal!="service:scheduler":raise ValueError("activation claim requires scheduler principal")
+        evidence=self._verified(request["evidence_ref"],subject=request["activation_id"],producer=principal,
+          source=request["credential_digest"],operation="activation.claim",disposition="LEASED")
+        payload=evidence.get("payload",{})
+        bound_fields=("command_id","objective_id","wake_id","machine_id","agent_id","lease_owner",
+          "context_bundle_id","isolation_profile_id","resource_lease_id","trace_id",
+          "correlation_id","credential_key_version","lease_seconds","expected_lease_fence")
+        if any(payload.get(field)!=request.get(field) for field in bound_fields):
+            raise LedgerCorrupt("activation claim evidence does not bind the complete request")
+        return self._lifecycle.claim_activation(
+          command_id=request["command_id"],activation_id=request["activation_id"],
+          objective_id=request["objective_id"],wake_id=request["wake_id"],
+          machine_id=request["machine_id"],agent_id=request["agent_id"],
+          lease_owner=request["lease_owner"],lease_seconds=request["lease_seconds"],
+          context_bundle_id=request["context_bundle_id"],isolation_profile_id=request["isolation_profile_id"],
+          resource_lease_id=request["resource_lease_id"],trace_id=request["trace_id"],
+          correlation_id=request["correlation_id"],credential_digest=request["credential_digest"],
+          credential_key_version=request["credential_key_version"],
+          expected_lease_fence=request["expected_lease_fence"],evidence_ref=request["evidence_ref"])
+    def publish_verified_capability_set(self,request,principal):
+        if principal!="service:packages":raise ValueError("capability set publication requires packages principal")
+        evidence=self._verified(request["evidence_ref"],subject=request["set_id"],producer=principal,
+          source=request["generation_id"],operation="capability-set.publish",disposition="ACTIVE")
+        payload=evidence.get("payload",{})
+        for field in ("command_id","grant_ids","expected_active_set_id","expected_active_version"):
+            if payload.get(field)!=request.get(field):
+                raise LedgerCorrupt(f"capability-set evidence does not bind {field}")
+        expected_deactivation={"set_id":request.get("expected_active_set_id"),
+          "version":request["expected_active_version"]}
+        if payload.get("deactivates")!=expected_deactivation:
+            raise LedgerCorrupt("capability-set evidence does not bind deactivation")
+        return self._lifecycle.publish_capability_activation_set(request["command_id"],request["set_id"],
+          request["generation_id"],request["grant_ids"],request["evidence_ref"],
+          request.get("expected_active_set_id"),request["expected_active_version"])
     def migrate(self, **kwargs):
         self._commands.migrate(); self._lifecycle.migrate(**kwargs)
     def reserve_evidence(self,producer,command_id,content_digest,quota=1000):
@@ -178,7 +214,16 @@ class PostgresRepository:
             row=c.execute("UPDATE evidence_admissions SET evidence_ref=%s WHERE producer=%s AND command_id=%s AND content_digest=%s AND (evidence_ref IS NULL OR evidence_ref=%s) RETURNING evidence_ref",(evidence_ref,producer,command_id,content_digest,evidence_ref)).fetchone()
             if not row:raise ValueError("CONFLICT: evidence admission changed")
             return row["evidence_ref"]
-    def recover(self, now): return self._lifecycle.recover(now=now)
+    def recover(self, now):
+        if self._evidence is None: raise LedgerUnavailable("evidence authority is not bound")
+        def publish(command_id,payload):
+            canonical=json.dumps(payload,sort_keys=True,separators=(",",":")).encode()
+            source="sha256:"+hashlib.sha256(canonical).hexdigest()
+            envelope={"schema_version":"1","producer":"service:state",
+              "subject":payload["activation_id"],"operation":"activation.recover",
+              "source":source,"payload":payload}
+            return self.put_evidence(envelope,"service:state",command_id)["evidence_ref"]
+        return self._lifecycle.recover(now=now,publish_recovery_evidence=publish)
     def ensure_active_generation(self,generation): return self._lifecycle.ensure_active_generation(generation)
     def get_command(self,activation_id,command_id):
         bound=self._commands.get_bound(activation_id,command_id)

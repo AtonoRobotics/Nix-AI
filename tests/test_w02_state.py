@@ -1,4 +1,4 @@
-import json, os, sys, unittest, uuid
+import hashlib, json, os, sys, unittest, uuid
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
@@ -149,6 +149,29 @@ class TransactionalStateTests(unittest.TestCase):
         with self.assertRaises(LedgerCorrupt):evidence.put_envelope(envelope,"service:effects")
         forged=envelope|{"source":"sha256:not-a-digest"}
         with self.assertRaises(LedgerCorrupt):evidence.put_envelope(forged,"service:authority")
+        capability={"schema_version":"1","producer":"service:packages",
+          "subject":"capability-set:test","operation":"capability-set.publish",
+          "source":"generation:test","payload":{"command_id":"command:set:test",
+            "grant_ids":["grant:test"]}}
+        published=evidence.put_envelope(capability,"service:packages")
+        self.assertEqual(evidence.verify_record(published["evidence_ref"],
+          subject="capability-set:test",producer="service:packages",source="generation:test",
+          operation="capability-set.publish"),capability)
+        recovery_payload={"command_id":"recovery:activation:test:2",
+          "activation_id":"activation:test","wake_id":"wake:test","lease_fence":1,
+          "previous_activation_state":"LEASED","new_activation_state":"REQUESTED",
+          "previous_activation_version":1,"new_activation_version":2,
+          "previous_wake_state":"LEASED","new_wake_state":"RELEASED",
+          "previous_wake_version":1,"new_wake_version":2}
+        recovery_source="sha256:"+hashlib.sha256(json.dumps(recovery_payload,
+          sort_keys=True,separators=(",",":" )).encode()).hexdigest()
+        recovery={"schema_version":"1","producer":"service:state",
+          "subject":"activation:test","operation":"activation.recover",
+          "source":recovery_source,"payload":recovery_payload}
+        recovered=evidence.put_envelope(recovery,"service:state",recovery_payload["command_id"])
+        self.assertEqual(evidence.verify_record(recovered["evidence_ref"],
+          subject="activation:test",producer="service:state",source=recovery_source,
+          operation="activation.recover"),recovery)
 
     def test_command_ledger_exact_replay_and_digest_mismatch(self):
         ledger = CommandLedgerStore(os.environ["HABITAT_TEST_DATABASE_URL"])

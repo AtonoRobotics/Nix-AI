@@ -86,12 +86,13 @@ class EvidenceStore:
             raise LedgerCorrupt("evidence source digest is malformed")
         if not isinstance(envelope["payload"],dict): raise LedgerCorrupt("evidence payload must be an object")
         families={
+          "service:state":("activation.",("sha256:",)),
           "service:authority":("authority.",("sha256:",)),
           "service:effects":("effect.",("provider://","sha256:")),
           "service:runtime":(("change.","package."),("sha256:","generation:")),
           "service:abi":("command.",("sha256:",)),
           "service:controller":(("change.","package."),("sha256:","generation:")),
-          "service:packages":("package.",( "sha256:",)),
+          "service:packages":(("package.","capability-set."),("sha256:","generation:")),
           "service:evaluator":("change.",("sha256:",)),
           "service:signer":("change.",("sha256:",)),
           "service:health":("change.",("sha256:","generation:")),

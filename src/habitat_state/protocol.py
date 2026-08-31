@@ -56,6 +56,10 @@ class StateProtocol:
             return self.repository.commit_verified_command(request["activation_id"],request["command_id"],request["request_digest"],request["result"],principal)
         if operation == "get_command":
             return self.repository.get_command(request["activation_id"], request["command_id"])
+        if operation == "activation_claim":
+            return self.repository.claim_verified_activation(request,principal)
+        if operation == "capability_set_publish":
+            return self.repository.publish_verified_capability_set(request,principal)
         if operation == "change_propose":
             if principal!="service:controller" or request["evaluator"]!="service:evaluator":
                 raise ValueError("governed proposal requires controller and protected evaluator")
@@ -80,8 +84,10 @@ class StateProtocol:
             return self.repository.admit_verified_package(request)
         if operation == "runtime_status":
             self.recovery=self.repository.recover(now=int(time.time()))
-            return {"readiness":"READY" if self.recovery["effects_classified"] else "RECOVERING",
+            ready=self.recovery["effects_classified"] and self.recovery["activations_classified"]
+            return {"readiness":"READY" if ready else "RECOVERING",
                     "migrations":True,"leases_fenced":True,
+                    "activations_classified":self.recovery["activations_classified"],
                     "effects_classified":self.recovery["effects_classified"],
                     "wakes_redelivered":self.recovery["wakes_redelivered"]}
         if operation == "runtime_schedule":
@@ -153,9 +159,9 @@ class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
         self.identity_observer=identity_observer
         self.operations={
           "service:abi":frozenset({"evidence_put","commit_command","get_command"}),
-          "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect"}),
+          "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect","activation_claim"}),
           "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","effect_guard","effect_guard_invalidate"}),
-          "service:packages":frozenset({"evidence_put","package_admit"}),
+          "service:packages":frozenset({"evidence_put","package_admit","capability_set_publish"}),
           "service:authority":frozenset({"evidence_put","authority_get","authority_commit"}),
           "service:effects":frozenset({"evidence_put","effect_transition","effect_observe","effect_guard","effect_guard_invalidate","runtime_inspect","runtime_status"}),
           "service:controller":frozenset({"evidence_put","change_propose","change_transition","change_get"}),

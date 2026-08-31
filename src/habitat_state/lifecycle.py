@@ -28,6 +28,52 @@ class LifecycleStore:
               activation_id text PRIMARY KEY, objective_id text NOT NULL, state text NOT NULL,
               lease_owner text, lease_expires_at bigint, monotonic_started bigint,
               version bigint NOT NULL);
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS wake_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS machine_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS agent_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS lease_fence bigint;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS system_generation_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS capability_activation_set_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS context_bundle_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS capability_grant_ids jsonb;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS isolation_profile_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS resource_lease_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS deadline bigint;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS trace_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS correlation_id text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS credential_digest text;
+            ALTER TABLE activations ADD COLUMN IF NOT EXISTS credential_key_version bigint;
+            DROP INDEX IF EXISTS activations_one_live_objective;
+            CREATE UNIQUE INDEX activations_one_live_objective
+              ON activations(objective_id) WHERE state IN
+              ('LEASED','PREPARING','RUNNING','WAITING_CONTEXT','WAITING_EFFECT','SLEEPING')
+              AND lease_fence IS NOT NULL;
+            CREATE TABLE IF NOT EXISTS activation_migration_archive(
+              activation_id text PRIMARY KEY, raw_record jsonb NOT NULL,
+              classification text NOT NULL, archived_at timestamptz NOT NULL DEFAULT now());
+            CREATE TABLE IF NOT EXISTS activation_binding_history(
+              activation_id text NOT NULL, version bigint NOT NULL, command_id text NOT NULL UNIQUE,
+              binding jsonb NOT NULL, evidence_ref text NOT NULL,
+              recorded_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(activation_id,version));
+            CREATE TABLE IF NOT EXISTS capability_activation_sets(
+              set_id text PRIMARY KEY, generation_id text NOT NULL, grant_ids jsonb NOT NULL,
+              evidence_ref text NOT NULL, active boolean NOT NULL, version bigint NOT NULL);
+            CREATE UNIQUE INDEX IF NOT EXISTS capability_activation_sets_one_active
+              ON capability_activation_sets(active) WHERE active;
+            CREATE TABLE IF NOT EXISTS capability_activation_set_history(
+              set_id text NOT NULL, version bigint NOT NULL, generation_id text NOT NULL,
+              grant_ids jsonb NOT NULL, evidence_ref text NOT NULL,
+              recorded_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(set_id,version));
+            ALTER TABLE capability_activation_set_history ADD COLUMN IF NOT EXISTS command_id text;
+            ALTER TABLE capability_activation_set_history ADD COLUMN IF NOT EXISTS active boolean;
+            CREATE UNIQUE INDEX IF NOT EXISTS capability_activation_set_history_command
+              ON capability_activation_set_history(command_id) WHERE command_id IS NOT NULL;
+            INSERT INTO activation_migration_archive(activation_id,raw_record,classification)
+              SELECT activation_id,to_jsonb(a),'UNKNOWN' FROM activations a
+              WHERE lease_fence IS NULL OR wake_id IS NULL OR machine_id IS NULL OR agent_id IS NULL
+                OR system_generation_id IS NULL OR capability_activation_set_id IS NULL
+                OR credential_digest IS NULL
+              ON CONFLICT(activation_id) DO NOTHING;
             CREATE TABLE IF NOT EXISTS lifecycle_history(
               record_id bigserial PRIMARY KEY, entity_id text NOT NULL, previous_state text,
               new_state text NOT NULL, command_id text NOT NULL UNIQUE, actor text NOT NULL,
@@ -137,6 +183,12 @@ class LifecycleStore:
             DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='lifecycle_history_immutable')
             THEN CREATE TRIGGER lifecycle_history_immutable BEFORE UPDATE OR DELETE ON lifecycle_history
             FOR EACH ROW EXECUTE FUNCTION lifecycle_immutable(); END IF; END $$;
+            DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='activation_binding_history_immutable')
+            THEN CREATE TRIGGER activation_binding_history_immutable BEFORE UPDATE OR DELETE ON activation_binding_history
+            FOR EACH ROW EXECUTE FUNCTION lifecycle_immutable(); END IF; END $$;
+            DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname='capability_activation_set_history_immutable')
+            THEN CREATE TRIGGER capability_activation_set_history_immutable BEFORE UPDATE OR DELETE ON capability_activation_set_history
+            FOR EACH ROW EXECUTE FUNCTION lifecycle_immutable(); END IF; END $$;
             DO $$ BEGIN IF to_regclass('effect_history') IS NOT NULL AND NOT EXISTS
               (SELECT 1 FROM pg_trigger WHERE tgname='legacy_effect_history_immutable') THEN
               CREATE TRIGGER legacy_effect_history_immutable BEFORE UPDATE OR DELETE
@@ -186,7 +238,7 @@ class LifecycleStore:
 
     def reset_for_test(self):
         with self._connect() as c:
-            c.execute("TRUNCATE lifecycle_commands, objectives, wakes, activations, durable_effects, effect_records, effect_attempts, effect_migration_archive, objective_effect_guards, admitted_packages, change_candidates, change_history, active_generation_binding, authority_bindings, authority_binding_history")
+            c.execute("TRUNCATE lifecycle_commands, objectives, wakes, activations, activation_binding_history, activation_migration_archive, capability_activation_sets, capability_activation_set_history, durable_effects, effect_records, effect_attempts, effect_migration_archive, objective_effect_guards, admitted_packages, change_candidates, change_history, active_generation_binding, authority_bindings, authority_binding_history")
             c.execute("ALTER TABLE provider_effect_transitions DISABLE TRIGGER provider_effect_transitions_immutable")
             c.execute("TRUNCATE provider_effect_transitions")
             c.execute("ALTER TABLE provider_effect_transitions ENABLE TRIGGER provider_effect_transitions_immutable")
@@ -312,7 +364,7 @@ class LifecycleStore:
             c.execute("UPDATE activations SET state=%s,version=version+1 WHERE activation_id=%s",
                       (new_state,activation_id))
 
-    def recover_expired(self,*,now):
+    def recover_expired(self,*,now,publish_recovery_evidence=None):
         with self._connect() as c:
             rows=c.execute("SELECT * FROM activations WHERE lease_expires_at<=%s AND state NOT IN "
                            "('COMPLETED','FAILED','CANCELLED') FOR UPDATE",(now,)).fetchall()
@@ -320,20 +372,68 @@ class LifecycleStore:
             for row in rows:
                 classification="RECONCILIATION_REQUIRED" if row["state"]=="WAITING_EFFECT" else "RETRYABLE"
                 new_state="FAILED" if classification=="RECONCILIATION_REQUIRED" else "REQUESTED"
+                next_version=row["version"]+1
+                evidence=None
+                command_id=f"recovery:{row['activation_id']}:{next_version}"
+                wake=None
+                if row["lease_fence"] is not None:
+                    history=c.execute("""SELECT evidence_ref FROM activation_binding_history
+                      WHERE activation_id=%s ORDER BY version DESC LIMIT 1 FOR SHARE""",
+                                      (row["activation_id"],)).fetchone()
+                    if not history:raise ValueError("activation binding history is missing during recovery")
+                    if publish_recovery_evidence is None:
+                        raise ValueError("protected activation recovery evidence publisher is unavailable")
+                if row.get("wake_id"):
+                    wake=c.execute("SELECT * FROM wakes WHERE wake_id=%s FOR UPDATE",
+                                   (row["wake_id"],)).fetchone()
+                    if row["lease_fence"] is not None and (not wake or wake["state"]!="LEASED"
+                            or wake["lease_owner"]!=row["lease_owner"]):
+                        raise ValueError("activation wake lease disagrees during recovery")
+                if row["lease_fence"] is not None:
+                    if wake is None:
+                        raise ValueError("activation binding has no recoverable wake")
+                    payload={"command_id":command_id,"activation_id":row["activation_id"],
+                      "wake_id":row["wake_id"],"lease_fence":row["lease_fence"],
+                      "previous_activation_state":row["state"],"new_activation_state":new_state,
+                      "previous_activation_version":row["version"],"new_activation_version":next_version,
+                      "previous_wake_state":wake["state"],"new_wake_state":"RELEASED",
+                      "previous_wake_version":wake["version"],"new_wake_version":wake["version"]+1}
+                    evidence=publish_recovery_evidence(command_id,payload)
+                    if not isinstance(evidence,str) or not evidence.startswith("s3://"):
+                        raise ValueError("protected activation recovery evidence is invalid")
+                if row.get("wake_id"):
+                    released=c.execute("""UPDATE wakes SET state='RELEASED',lease_owner=NULL,
+                      lease_expires_at=NULL,version=version+1 WHERE wake_id=%s AND state='LEASED'
+                      AND lease_owner=%s RETURNING version""",(row["wake_id"],row["lease_owner"])).fetchone()
+                    if row["lease_fence"] is not None and not released:
+                        raise ValueError("activation wake lease disagrees during recovery")
                 c.execute("UPDATE activations SET state=%s,lease_owner=NULL,lease_expires_at=NULL,"
-                          "version=version+1 WHERE activation_id=%s",(new_state,row["activation_id"]))
+                          "version=%s WHERE activation_id=%s",(new_state,next_version,row["activation_id"]))
+                if evidence:
+                    binding=dict(row);binding.update({"state":new_state,"lease_owner":None,
+                      "lease_expires_at":None,"version":next_version})
+                    c.execute("""INSERT INTO activation_binding_history
+                      (activation_id,version,command_id,binding,evidence_ref) VALUES(%s,%s,%s,%s,%s)""",
+                      (row["activation_id"],next_version,command_id,json.dumps(binding,default=str),evidence))
+                    c.execute("""INSERT INTO lifecycle_history
+                      (entity_id,previous_state,new_state,command_id,actor,evidence_ref)
+                      VALUES(%s,'LEASED','RELEASED',%s,'service:state-recovery',%s)""",
+                      (row["wake_id"],command_id+":wake",evidence))
                 result.append({"activation_id":row["activation_id"],"classification":classification,
                                "state":new_state})
             return result
 
-    def recover(self, *, now):
+    def recover(self, *, now, publish_recovery_evidence=None):
         """Run boot recovery from authoritative PostgreSQL rows."""
-        expired = self.recover_expired(now=now)
+        expired = self.recover_expired(now=now,
+          publish_recovery_evidence=publish_recovery_evidence)
         with self._connect() as c:
             wakes = c.execute("""SELECT count(*) AS count FROM wakes WHERE
               state IN ('PENDING','RELEASED') OR
               (state='LEASED' AND lease_expires_at<=%s)""", (now,)).fetchone()["count"]
             unclassified = c.execute("""SELECT count(*) AS count FROM effect_migration_archive
+              WHERE classification <> 'V2_COMPATIBLE'""").fetchone()["count"]
+            unclassified_activations=c.execute("""SELECT count(*) AS count FROM activation_migration_archive
               WHERE classification <> 'V2_COMPATIBLE'""").fetchone()["count"]
             nonterminal=c.execute("""SELECT count(*) AS count FROM durable_effects
               WHERE state NOT IN ('COMMITTED','FAILED','CANCELLED')""").fetchone()["count"]
@@ -370,9 +470,11 @@ class LifecycleStore:
               AND NOT EXISTS (SELECT 1 FROM objective_effect_guards g
                 WHERE g.objective_id=r.objective_id AND g.ready)""").fetchone()["count"]
         return {"migrations": True, "leases_fenced": True,
+                "activations_classified":unclassified_activations==0,
                 "effects_classified": unclassified == 0 and nonterminal == 0 and inconsistent == 0
                   and canonical_inconsistent == 0 and missing_guards == 0,
                 "expired_activations": len(expired),
+                "unclassified_activations":unclassified_activations,
                 "nonterminal_effects": nonterminal,"inconsistent_effects":inconsistent,
                 "canonical_inconsistent_effects":canonical_inconsistent,
                 "missing_effect_guards":missing_guards,
@@ -641,6 +743,152 @@ class LifecycleStore:
             c.execute("""INSERT INTO active_generation_binding
               (singleton,active_generation,previous_generation,candidate_id,version)
               VALUES(true,%s,NULL,'system:boot',1) ON CONFLICT(singleton) DO NOTHING""",(generation,))
+
+    def publish_capability_activation_set(self,command_id,set_id,generation_id,grant_ids,evidence_ref,
+                                          expected_active_set_id,expected_active_version):
+        if (not isinstance(set_id,str) or not set_id.startswith("capability-set:")
+                or not isinstance(generation_id,str) or not generation_id.startswith("generation:")
+                or not isinstance(grant_ids,list) or not grant_ids
+                or any(not isinstance(grant,str) or not grant.startswith("grant:") for grant in grant_ids)
+                or not isinstance(command_id,str) or not command_id.startswith("command:")
+                or not isinstance(expected_active_version,int) or expected_active_version<0
+                or (expected_active_set_id is not None and (not isinstance(expected_active_set_id,str)
+                    or not expected_active_set_id.startswith("capability-set:")))
+                or not isinstance(evidence_ref,str) or not evidence_ref):
+            raise ValueError("complete capability activation-set binding is required")
+        grants=sorted(set(grant_ids))
+        fingerprint=self._fingerprint("capability_activation_set",[set_id,generation_id,grants,evidence_ref,
+                                      expected_active_set_id,expected_active_version])
+        with self._connect() as c:
+            replay=self._replay(c,command_id,fingerprint)
+            if replay:return replay
+            generation=c.execute("SELECT active_generation FROM active_generation_binding WHERE singleton FOR SHARE").fetchone()
+            if not generation or generation["active_generation"]!=generation_id:
+                raise ValueError("capability set must bind the active generation")
+            existing=c.execute("SELECT * FROM capability_activation_sets WHERE set_id=%s FOR UPDATE",(set_id,)).fetchone()
+            if existing:
+                if existing["generation_id"]!=generation_id or existing["grant_ids"]!=grants:
+                    raise ValueError("CONFLICT: capability activation-set identity reused")
+            active=c.execute("SELECT * FROM capability_activation_sets WHERE active FOR UPDATE").fetchone()
+            actual_active_id=active["set_id"] if active else None
+            actual_active_version=active["version"] if active else 0
+            if actual_active_id!=expected_active_set_id or actual_active_version!=expected_active_version:
+                raise ValueError("CONFLICT: active capability set changed")
+            if active and active["set_id"]!=set_id:
+                old_version=active["version"]+1
+                c.execute("UPDATE capability_activation_sets SET active=false,version=%s WHERE set_id=%s",
+                          (old_version,active["set_id"]))
+                c.execute("""INSERT INTO capability_activation_set_history
+                  (set_id,version,generation_id,grant_ids,evidence_ref,command_id,active)
+                  VALUES(%s,%s,%s,%s,%s,%s,false)""",
+                  (active["set_id"],old_version,active["generation_id"],json.dumps(active["grant_ids"]),
+                   evidence_ref,command_id+":deactivate"))
+            version=(existing["version"]+1) if existing else 1
+            c.execute("""INSERT INTO capability_activation_sets
+              (set_id,generation_id,grant_ids,evidence_ref,active,version)
+              VALUES(%s,%s,%s,%s,true,%s) ON CONFLICT(set_id) DO UPDATE SET
+              active=true,evidence_ref=EXCLUDED.evidence_ref,version=EXCLUDED.version""",
+                      (set_id,generation_id,json.dumps(grants),evidence_ref,version))
+            c.execute("""INSERT INTO capability_activation_set_history
+              (set_id,version,generation_id,grant_ids,evidence_ref,command_id,active)
+              VALUES(%s,%s,%s,%s,%s,%s,true)""",
+                      (set_id,version,generation_id,json.dumps(grants),evidence_ref,command_id))
+            result={"set_id":set_id,"generation_id":generation_id,"grant_ids":grants,
+                    "evidence_ref":evidence_ref,"active":True,"version":version}
+            self._record(c,command_id,fingerprint,result)
+            return result
+
+    def claim_activation(self,*,command_id,activation_id,objective_id,wake_id,machine_id,agent_id,
+                         lease_owner,lease_seconds,context_bundle_id,isolation_profile_id,
+                         resource_lease_id,trace_id,correlation_id,credential_digest,
+                         credential_key_version,expected_lease_fence,evidence_ref):
+        identifiers=((activation_id,"activation:"),(objective_id,"objective:"),(wake_id,"wake:"),
+                     (machine_id,"machine:"),(agent_id,"agent:"),(lease_owner,"service:"),
+                     (context_bundle_id,"context:"),(isolation_profile_id,"isolation:"),
+                     (resource_lease_id,"resource-lease:"),(trace_id,"trace:"),
+                     (correlation_id,"correlation:"))
+        if (not isinstance(command_id,str) or not command_id.startswith("command:")
+                or any(not isinstance(value,str) or not value.startswith(prefix)
+                       for value,prefix in identifiers)
+                or not isinstance(lease_seconds,int) or not 1<=lease_seconds<=300
+                or not isinstance(credential_key_version,int) or credential_key_version<=0
+                or not isinstance(expected_lease_fence,int) or expected_lease_fence<=0
+                or not isinstance(credential_digest,str) or not credential_digest.startswith("sha256:")
+                or len(credential_digest)!=71
+                or any(character not in "0123456789abcdef" for character in credential_digest[7:])
+                or not isinstance(evidence_ref,str) or not evidence_ref):
+            raise ValueError("complete typed activation claim is required")
+        values=[activation_id,objective_id,wake_id,machine_id,agent_id,lease_owner,lease_seconds,
+                context_bundle_id,isolation_profile_id,resource_lease_id,trace_id,correlation_id,
+                credential_digest,credential_key_version,expected_lease_fence,evidence_ref]
+        fingerprint=self._fingerprint("activation_claim",values)
+        with self._connect() as c:
+            replay=self._replay(c,command_id,fingerprint)
+            if replay:return replay
+            now=c.execute("SELECT extract(epoch FROM clock_timestamp())::bigint AS now").fetchone()["now"]
+            wake=c.execute("SELECT * FROM wakes WHERE wake_id=%s AND objective_id=%s FOR UPDATE",
+                           (wake_id,objective_id)).fetchone()
+            objective=c.execute("SELECT state FROM objectives WHERE objective_id=%s FOR SHARE",
+                                (objective_id,)).fetchone()
+            prior=c.execute("SELECT * FROM activations WHERE objective_id=%s FOR UPDATE",
+                            (objective_id,)).fetchone()
+            generation=c.execute("SELECT active_generation FROM active_generation_binding WHERE singleton FOR SHARE").fetchone()
+            capability_set=c.execute("""SELECT set_id,generation_id,grant_ids FROM capability_activation_sets
+              WHERE active FOR SHARE""").fetchone()
+            if (not wake or wake["state"] not in ("PENDING","RELEASED") or wake["due_at"]>now
+                    or not objective or objective["state"]!="PROPOSED"):
+                raise ValueError("CONFLICT: activation wake is not claimable")
+            if not generation or not capability_set or capability_set["generation_id"]!=generation["active_generation"]:
+                raise ValueError("active generation capability set is unavailable")
+            if prior:
+                if (prior["activation_id"]!=activation_id or prior["state"]!="REQUESTED"
+                        or prior["wake_id"]!=wake_id):
+                    raise ValueError("CONFLICT: objective activation is not reclaimable")
+                required_fence=(prior["lease_fence"] or 0)+1
+            else:required_fence=1
+            if expected_lease_fence!=required_fence:
+                raise ValueError("CONFLICT: activation lease fence changed")
+            deadline=now+lease_seconds
+            result={"activation_id":activation_id,"objective_id":objective_id,"wake_id":wake_id,
+                    "machine_id":machine_id,"agent_id":agent_id,"lease_owner":lease_owner,
+                    "lease_fence":required_fence,"lease_expires_at":deadline,"state":"LEASED",
+                    "system_generation_id":generation["active_generation"],
+                    "capability_activation_set_id":capability_set["set_id"],
+                    "capability_grant_ids":capability_set["grant_ids"],
+                    "context_bundle_id":context_bundle_id,"isolation_profile_id":isolation_profile_id,
+                    "resource_lease_id":resource_lease_id,"deadline":deadline,"trace_id":trace_id,
+                    "correlation_id":correlation_id,"credential_digest":credential_digest,
+                    "credential_key_version":credential_key_version,
+                    "version":prior["version"]+1 if prior else 1}
+            if prior:
+                c.execute("""UPDATE activations SET state='LEASED',lease_owner=%s,lease_expires_at=%s,
+                  version=%s,wake_id=%s,machine_id=%s,agent_id=%s,lease_fence=%s,
+                  system_generation_id=%s,capability_activation_set_id=%s,context_bundle_id=%s,
+                  capability_grant_ids=%s,isolation_profile_id=%s,resource_lease_id=%s,deadline=%s,
+                  trace_id=%s,correlation_id=%s,credential_digest=%s,credential_key_version=%s
+                  WHERE activation_id=%s""",
+                  (lease_owner,deadline,result["version"],wake_id,machine_id,agent_id,required_fence,
+                   generation["active_generation"],capability_set["set_id"],context_bundle_id,
+                   json.dumps(capability_set["grant_ids"]),isolation_profile_id,resource_lease_id,
+                   deadline,trace_id,correlation_id,credential_digest,credential_key_version,activation_id))
+            else:c.execute("""INSERT INTO activations
+              (activation_id,objective_id,state,lease_owner,lease_expires_at,monotonic_started,version,
+               wake_id,machine_id,agent_id,lease_fence,system_generation_id,
+               capability_activation_set_id,context_bundle_id,capability_grant_ids,
+               isolation_profile_id,resource_lease_id,deadline,trace_id,correlation_id,
+               credential_digest,credential_key_version)
+              VALUES(%s,%s,'LEASED',%s,%s,NULL,1,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+              (activation_id,objective_id,lease_owner,deadline,wake_id,machine_id,agent_id,
+               required_fence,generation["active_generation"],capability_set["set_id"],context_bundle_id,
+               json.dumps(capability_set["grant_ids"]),isolation_profile_id,resource_lease_id,
+               deadline,trace_id,correlation_id,credential_digest,credential_key_version))
+            c.execute("UPDATE wakes SET state='LEASED',lease_owner=%s,lease_expires_at=%s,version=version+1 WHERE wake_id=%s",
+                      (lease_owner,deadline,wake_id))
+            c.execute("""INSERT INTO activation_binding_history
+              (activation_id,version,command_id,binding,evidence_ref) VALUES(%s,%s,%s,%s,%s)""",
+                      (activation_id,result["version"],command_id,json.dumps(result),evidence_ref))
+            self._record(c,command_id,fingerprint,result)
+            return result
 
     def propose_governed_change(self, candidate_id, command_id, source_digest, evaluator,
                                 evaluator_closure, target_generation, rollback_generation,

@@ -46,7 +46,9 @@ def main(argv=None):
     active_generation=os.environ.get("HABITAT_ACTIVE_GENERATION")
     if not active_generation: raise LedgerUnavailable("active system generation is unavailable")
     repository.ensure_active_generation(active_generation)
-    recovery=repository.recover(now=int(time.time())); evidence=EvidenceStore(arguments.object_store_credential,repository)
+    evidence=EvidenceStore(arguments.object_store_credential,repository)
+    repository.bind_evidence(evidence)
+    recovery=repository.recover(now=int(time.time()))
     if arguments.effect_uid is None or not arguments.effect_token_credential:
         parser.error("--effect-uid and --effect-token-credential are required")
     try: effect_token=Path(arguments.effect_token_credential).read_text(encoding="utf-8").strip()
