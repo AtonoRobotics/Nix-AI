@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from habitat_state import Conflict
+from habitat_state.errors import LedgerUnavailable
 from habitat_state.lifecycle import LifecycleStore, ClockUntrusted
 from habitat_state.command_ledger import CommandLedgerServer, CommandLedgerStore
 from habitat_state.repository import PostgresRepository
@@ -18,6 +19,13 @@ class LifecycleTests(unittest.TestCase):
     def setUp(self):
         self.store.reset_for_test()
         self.store.ensure_active_generation("generation:current")
+
+    def claim_activation(self, **request):
+        return self.store.claim_activation(**request,
+          publish_claim_evidence=lambda command_id,payload:
+            "s3://evidence/claimed/"+hashlib.sha256(
+              json.dumps(payload,sort_keys=True,separators=(",",":")).encode()).hexdigest(),
+          verify_claim_evidence=lambda _command_id,_result:None)
 
     def test_wake_is_committed_before_notification_and_redelivered_after_signal_loss(self):
         wake = f"wake:{uuid.uuid4()}"
@@ -75,7 +83,7 @@ class LifecycleTests(unittest.TestCase):
         self.store.publish_capability_activation_set(
             "command:set:current", "capability-set:current", "generation:current",
             ["grant:context", "grant:effect"], "evidence:set",None,0)
-        claim = self.store.claim_activation(
+        claim = self.claim_activation(
             command_id=f"command:claim:{objective}",
             activation_id=f"activation:{uuid.uuid4()}",
             objective_id=objective,
@@ -91,7 +99,6 @@ class LifecycleTests(unittest.TestCase):
             correlation_id="correlation:test",
             credential_digest=credential_digest,
             credential_key_version=1,
-            expected_lease_fence=1,
             evidence_ref="s3://evidence/activation-claim",
         )
         self.assertEqual(claim["lease_fence"], 1)
@@ -100,15 +107,21 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(claim["capability_grant_ids"], ["grant:context", "grant:effect"])
         self.assertEqual(claim["objective_id"], objective)
         self.assertEqual(claim["wake_id"], scheduled["wake_id"])
+        self.assertTrue(claim["binding_evidence_ref"].startswith("s3://evidence/claimed/"))
+        with self.store._connect() as connection:
+            history=connection.execute("""SELECT evidence_ref,binding FROM activation_binding_history
+              WHERE activation_id=%s AND version=1""",(claim["activation_id"],)).fetchone()
+        self.assertEqual(history["evidence_ref"],claim["binding_evidence_ref"])
+        self.assertEqual(history["binding"]["lease_fence"],1)
         self.assertGreater(claim["lease_expires_at"], int(time.time()))
-        replay = self.store.claim_activation(
+        replay = self.claim_activation(
             command_id=f"command:claim:{objective}", activation_id=claim["activation_id"],
             objective_id=objective, wake_id=scheduled["wake_id"], machine_id="machine:test",
             agent_id="agent:test", lease_owner="service:runtime", lease_seconds=30,
             context_bundle_id="context:compiled", isolation_profile_id="isolation:default",
             resource_lease_id="resource-lease:test", trace_id="trace:test",
             correlation_id="correlation:test", credential_digest=credential_digest,
-            credential_key_version=1,expected_lease_fence=1,
+            credential_key_version=1,
             evidence_ref="s3://evidence/activation-claim")
         self.assertEqual(replay, claim)
         binding={"activation_id":claim["activation_id"],"machine_id":"machine:test",
@@ -227,17 +240,23 @@ class LifecycleTests(unittest.TestCase):
             with self.subTest(field=field,bad_value=bad_value),self.assertRaises(ValueError):
                 self.store.resolve_activation(binding|{field:bad_value},activation_credential)
         with self.assertRaisesRegex(ValueError, "claimable|live objective"):
-            self.store.claim_activation(
+            self.claim_activation(
                 command_id=f"command:second:{objective}", activation_id=f"activation:{uuid.uuid4()}",
                 objective_id=objective, wake_id=scheduled["wake_id"], machine_id="machine:test",
                 agent_id="agent:test", lease_owner="service:runtime", lease_seconds=30,
                 context_bundle_id="context:compiled", isolation_profile_id="isolation:default",
                 resource_lease_id="resource-lease:test", trace_id="trace:second",
                 correlation_id="correlation:second", credential_digest="sha256:" + "b" * 64,
-                credential_key_version=1,expected_lease_fence=1,
+                credential_key_version=1,
                 evidence_ref="s3://evidence/second-claim")
         def reject_recovery_evidence(_command_id,_payload):
             raise RuntimeError("evidence store unavailable")
+        with self.store._connect() as connection:
+            recoverable=connection.execute("""SELECT count(*) AS n FROM activations
+              WHERE activation_id=%s AND lease_expires_at<=%s AND state NOT IN
+              ('COMPLETED','FAILED','CANCELLED')""",
+              (claim["activation_id"],claim["lease_expires_at"]+1)).fetchone()["n"]
+        self.assertEqual(recoverable,1)
         with self.assertRaisesRegex(RuntimeError,"evidence store unavailable"):
             self.store.recover_expired(now=claim["lease_expires_at"]+1,
               publish_recovery_evidence=reject_recovery_evidence)
@@ -278,7 +297,7 @@ class LifecycleTests(unittest.TestCase):
           "new_wake_state":"RELEASED","previous_wake_version":2,
           "new_wake_version":3})
         reclaimed_credential="activation-secret-02"
-        reclaimed=self.store.claim_activation(
+        reclaimed=self.claim_activation(
             command_id=f"command:reclaim:{objective}",activation_id=claim["activation_id"],
             objective_id=objective,wake_id=scheduled["wake_id"],machine_id="machine:test",
             agent_id="agent:test",lease_owner="service:runtime",lease_seconds=30,
@@ -286,7 +305,7 @@ class LifecycleTests(unittest.TestCase):
             resource_lease_id="resource-lease:test",trace_id="trace:reclaimed",
             correlation_id="correlation:reclaimed",credential_digest="sha256:"+
               hashlib.sha256(reclaimed_credential.encode()).hexdigest(),
-            credential_key_version=1,expected_lease_fence=2,
+            credential_key_version=1,
             evidence_ref="s3://evidence/activation-reclaim")
         self.assertEqual(reclaimed["lease_fence"],2)
         reclaimed_binding=binding|{"lease_fence":2,"deadline":reclaimed["deadline"],
@@ -315,13 +334,12 @@ class LifecycleTests(unittest.TestCase):
           "resource_lease_id":"resource-lease:test","trace_id":"trace:test",
           "correlation_id":"correlation:test","credential_digest":"sha256:"+"c"*64,
           "credential_key_version":1,"evidence_ref":"s3://evidence/future"}
-        common["expected_lease_fence"]=1
         with self.assertRaisesRegex(ValueError,"claimable"):
-            self.store.claim_activation(**common)
+            self.claim_activation(**common)
         with self.assertRaisesRegex(ValueError,"complete typed"):
-            self.store.claim_activation(**(common|{"lease_seconds":301}))
+            self.claim_activation(**(common|{"lease_seconds":301}))
         with self.assertRaisesRegex(ValueError,"complete typed"):
-            self.store.claim_activation(**(common|{"credential_digest":"sha256:"+"Z"*64}))
+            self.claim_activation(**(common|{"credential_digest":"sha256:"+"Z"*64}))
 
     def test_capability_set_publication_replay_and_reactivation_are_auditable(self):
         first=self.store.publish_capability_activation_set("command:set:first","capability-set:first",
@@ -358,14 +376,14 @@ class LifecycleTests(unittest.TestCase):
         def claim(index):
             try:
                 barrier.wait()
-                outcomes.append(self.store.claim_activation(
+                outcomes.append(self.claim_activation(
                   command_id=f"command:race:{index}",activation_id=f"activation:race:{index}",
                   objective_id=objective,wake_id=scheduled["wake_id"],machine_id="machine:test",
                   agent_id="agent:test",lease_owner="service:runtime",lease_seconds=30,
                   context_bundle_id="context:test",isolation_profile_id="isolation:test",
                   resource_lease_id="resource-lease:test",trace_id=f"trace:{index}",
                   correlation_id=f"correlation:{index}",credential_digest="sha256:"+str(index)*64,
-                  credential_key_version=1,expected_lease_fence=1,evidence_ref=f"evidence:race:{index}"))
+                  credential_key_version=1,evidence_ref=f"evidence:race:{index}"))
             except Exception as error:outcomes.append(error)
         workers=[threading.Thread(target=claim,args=(index,)) for index in (1,2)]
         for worker in workers:worker.start()
@@ -376,6 +394,29 @@ class LifecycleTests(unittest.TestCase):
             rows=connection.execute("SELECT lease_fence FROM activations WHERE objective_id=%s",
                                     (objective,)).fetchall()
         self.assertEqual(rows,[{"lease_fence":1}])
+
+    def test_activation_claim_evidence_failure_rolls_back_fence_and_wake(self):
+        objective=f"objective:{uuid.uuid4()}";scheduled=self.store.schedule_objective(objective,now=1)
+        self.store.publish_capability_activation_set("command:set:evidence-fault","capability-set:evidence-fault",
+          "generation:current",["grant:test"],"evidence:set",None,0)
+        with self.assertRaisesRegex(RuntimeError,"evidence unavailable"):
+            self.store.claim_activation(command_id=f"command:claim:{objective}",
+              activation_id=f"activation:{uuid.uuid4()}",objective_id=objective,
+              wake_id=scheduled["wake_id"],machine_id="machine:test",agent_id="agent:test",
+              lease_owner="service:runtime",lease_seconds=30,context_bundle_id="context:test",
+              isolation_profile_id="isolation:test",resource_lease_id="resource-lease:test",
+              trace_id="trace:test",correlation_id="correlation:test",
+              credential_digest="sha256:"+"a"*64,credential_key_version=1,
+              evidence_ref="s3://evidence/scheduler-claim",
+              publish_claim_evidence=lambda _command,_payload: (_ for _ in ()).throw(
+                RuntimeError("evidence unavailable")))
+        with self.store._connect() as connection:
+            activation_count=connection.execute("SELECT count(*) AS n FROM activations WHERE objective_id=%s",
+                                                (objective,)).fetchone()["n"]
+            wake=connection.execute("SELECT state,version FROM wakes WHERE wake_id=%s",
+                                    (scheduled["wake_id"],)).fetchone()
+        self.assertEqual(activation_count,0)
+        self.assertEqual(dict(wake),{"state":"PENDING","version":1})
 
     def test_capability_set_publication_requires_verified_packages_principal(self):
         request={"command_id":"command:set:verified","set_id":"capability-set:verified",
@@ -491,9 +532,8 @@ class LifecycleTests(unittest.TestCase):
 
     def test_effect_migration_archives_legacy_history_without_loss(self):
         with self.store._connect() as connection:
-            connection.execute(
-                "CREATE TABLE IF NOT EXISTS effect_history(legacy_id text, payload jsonb)")
-            connection.execute("TRUNCATE effect_history")
+            connection.execute("DROP TABLE IF EXISTS effect_history")
+            connection.execute("CREATE TABLE effect_history(legacy_id text, payload jsonb)")
             connection.execute("INSERT INTO effect_history VALUES(%s,%s)",
                                ("legacy:1", json.dumps({"state": "UNCERTAIN", "n": 7})))
         self.store.migrate()
@@ -511,6 +551,18 @@ class LifecycleTests(unittest.TestCase):
             with self.assertRaises(Exception):
                 connection.execute(
                     "UPDATE effect_history SET legacy_id='rewritten' WHERE legacy_id='legacy:1'")
+            with self.assertRaises(Exception):
+                connection.execute("TRUNCATE effect_history")
+        with self.store._connect() as connection:
+            connection.execute("INSERT INTO effect_history VALUES(%s,%s)",
+                               ("legacy:2", json.dumps({"state":"UNCERTAIN","n":8})))
+        self.store.migrate()
+        with self.store._connect() as connection:
+            archived=connection.execute("""SELECT raw_record,raw_digest FROM effect_migration_archive
+              WHERE source_table='effect_history' ORDER BY source_ordinal""").fetchall()
+            self.assertEqual([row["raw_record"]["legacy_id"] for row in archived],
+                             ["legacy:1","legacy:2"])
+            self.assertEqual(len({row["raw_digest"] for row in archived}),2)
 
     def test_effect_migration_failure_rolls_back_archive_and_preserves_source(self):
         effect_id = f"effect:legacy:{uuid.uuid4()}"
@@ -717,22 +769,35 @@ class LifecycleTests(unittest.TestCase):
           "isolation_profile_id":"isolation:protocol","resource_lease_id":"resource-lease:protocol",
           "trace_id":"trace:protocol","correlation_id":"correlation:protocol",
           "credential_digest":digest,"credential_key_version":1,
-          "expected_lease_fence":1,
           "evidence_ref":"s3://habitat-evidence/sha256/"+"9"*64}
         envelope={"schema_version":"1","producer":"service:scheduler","subject":activation,
           "operation":"activation.claim","source":digest,"disposition":"LEASED",
           "payload":{key:request[key] for key in ("command_id","objective_id","wake_id","machine_id","agent_id",
             "lease_owner","context_bundle_id","isolation_profile_id","resource_lease_id","trace_id",
-            "correlation_id","credential_key_version","lease_seconds","expected_lease_fence")}}
+            "correlation_id","credential_key_version","lease_seconds")}}
         class Evidence:
+            def __init__(self):self.claimed=None;self.state_unavailable=False
             def verify_record(self,reference,**bindings):
+                if reference.startswith("s3://habitat-evidence/sha256/a"):
+                    if self.state_unavailable:raise LedgerUnavailable("state binding evidence unavailable")
+                    claimed,_command_id=self.claimed
+                    if any(claimed.get(key)!=value for key,value in bindings.items()):
+                        raise ValueError("state binding evidence mismatch")
+                    return claimed
                 if reference!=request["evidence_ref"] or any(envelope.get(key)!=value for key,value in bindings.items()):
                     raise ValueError("evidence binding mismatch")
                 return envelope
+            def put_envelope(self,claimed,principal,command_id):
+                if principal!="service:state" or claimed.get("operation")!="activation.claimed":
+                    raise ValueError("state claim evidence mismatch")
+                self.claimed=(claimed,command_id)
+                return {"evidence_ref":"s3://habitat-evidence/sha256/"+"a"*64,
+                        "sha256":"a"*64}
         repository=PostgresRepository(os.environ["HABITAT_TEST_DATABASE_URL"])
         with tempfile.TemporaryDirectory() as directory:
             path=str(Path(directory)/"state.sock")
-            server=CommandLedgerServer(path,repository,evidence=Evidence(),
+            evidence=Evidence()
+            server=CommandLedgerServer(path,repository,evidence=evidence,
               principals={(os.getuid(),os.getgid(),"habitat-scheduler.service"):"service:scheduler"},
               effect_uid=os.getuid(),effect_token="effect-admission-token-for-runtime-test",
               identity_observer=lambda pid,uid,gid:(pid,uid,gid,"habitat-scheduler.service"))
@@ -752,6 +817,13 @@ class LifecycleTests(unittest.TestCase):
                 self.assertEqual(response["result"]["activation_id"],activation)
                 self.assertEqual(response["result"]["lease_fence"],1)
                 self.assertEqual(response["result"]["system_generation_id"],"generation:current")
+                evidence.state_unavailable=True
+                with socket.socket(socket.AF_UNIX) as client:
+                    client.connect(path);client.sendall(len(payload).to_bytes(4,"big")+payload)
+                    size=int.from_bytes(client.recv(4),"big");replay_body=b""
+                    while len(replay_body)<size:replay_body+=client.recv(size-len(replay_body))
+                replay=json.loads(replay_body)
+                self.assertNotEqual(replay["status"],"ok")
             finally:
                 server.shutdown();server.server_close();thread.join(timeout=2)
 

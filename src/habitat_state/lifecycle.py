@@ -122,16 +122,27 @@ class LifecycleStore:
               classification text NOT NULL CHECK(classification IN
                 ('V2_COMPATIBLE','UNKNOWN','REJECTED_DOMAIN_STATE')),
               PRIMARY KEY(source_table,source_ordinal));
+            CREATE UNIQUE INDEX IF NOT EXISTS effect_migration_archive_identity
+              ON effect_migration_archive(source_table,raw_digest);
             -- durable_effects is the current V2 projection, never legacy input.
             -- Remove rows produced by the earlier faulty migration rather than
             -- poisoning readiness on every subsequent boot.
             DELETE FROM effect_migration_archive WHERE source_table='durable_effects';
             DO $$ BEGIN IF to_regclass('effect_history') IS NOT NULL THEN
-              EXECUTE $archive$INSERT INTO effect_migration_archive
-                (source_table,source_ordinal,raw_record,raw_digest,classification)
-                SELECT 'effect_history',row_number() OVER (ORDER BY ctid),to_jsonb(h),
-                  'sha256:'||encode(digest(convert_to(to_jsonb(h)::text,'UTF8'),'sha256'),'hex'),
-                  'UNKNOWN' FROM effect_history h ON CONFLICT DO NOTHING$archive$;
+              EXECUTE $archive$WITH candidates AS (
+                  SELECT DISTINCT ON (raw_digest) raw_record,raw_digest FROM (
+                    SELECT to_jsonb(h) AS raw_record,
+                      'sha256:'||encode(digest(convert_to(to_jsonb(h)::text,'UTF8'),'sha256'),'hex') AS raw_digest
+                    FROM effect_history h) source ORDER BY raw_digest),
+                fresh AS (SELECT c.* FROM candidates c WHERE NOT EXISTS (
+                  SELECT 1 FROM effect_migration_archive a
+                  WHERE a.source_table='effect_history' AND a.raw_digest=c.raw_digest)),
+                base AS (SELECT COALESCE(max(source_ordinal),0) AS ordinal
+                  FROM effect_migration_archive WHERE source_table='effect_history')
+                INSERT INTO effect_migration_archive
+                  (source_table,source_ordinal,raw_record,raw_digest,classification)
+                SELECT 'effect_history',base.ordinal+row_number() OVER (ORDER BY fresh.raw_digest),
+                  fresh.raw_record,fresh.raw_digest,'UNKNOWN' FROM fresh CROSS JOIN base$archive$;
             END IF; END $$;
             CREATE TABLE IF NOT EXISTS objective_effect_guards(
               objective_id text PRIMARY KEY, effect_set_digest text NOT NULL,
@@ -194,6 +205,11 @@ class LifecycleStore:
               (SELECT 1 FROM pg_trigger WHERE tgname='legacy_effect_history_immutable') THEN
               CREATE TRIGGER legacy_effect_history_immutable BEFORE UPDATE OR DELETE
                 ON effect_history FOR EACH ROW EXECUTE FUNCTION lifecycle_immutable();
+            END IF; END $$;
+            DO $$ BEGIN IF to_regclass('effect_history') IS NOT NULL AND NOT EXISTS
+              (SELECT 1 FROM pg_trigger WHERE tgname='legacy_effect_history_no_truncate') THEN
+              CREATE TRIGGER legacy_effect_history_no_truncate BEFORE TRUNCATE
+                ON effect_history FOR EACH STATEMENT EXECUTE FUNCTION lifecycle_immutable();
             END IF; END $$;
             DROP TRIGGER IF EXISTS durable_effects_immutable ON durable_effects;
             CREATE TRIGGER durable_effects_immutable BEFORE DELETE ON durable_effects
@@ -802,7 +818,8 @@ class LifecycleStore:
     def claim_activation(self,*,command_id,activation_id,objective_id,wake_id,machine_id,agent_id,
                          lease_owner,lease_seconds,context_bundle_id,isolation_profile_id,
                          resource_lease_id,trace_id,correlation_id,credential_digest,
-                         credential_key_version,expected_lease_fence,evidence_ref):
+                         credential_key_version,evidence_ref,publish_claim_evidence=None,
+                         verify_claim_evidence=None):
         identifiers=((activation_id,"activation:"),(objective_id,"objective:"),(wake_id,"wake:"),
                      (machine_id,"machine:"),(agent_id,"agent:"),(lease_owner,"service:"),
                      (context_bundle_id,"context:"),(isolation_profile_id,"isolation:"),
@@ -813,7 +830,6 @@ class LifecycleStore:
                        for value,prefix in identifiers)
                 or not isinstance(lease_seconds,int) or not 1<=lease_seconds<=300
                 or not isinstance(credential_key_version,int) or credential_key_version<=0
-                or not isinstance(expected_lease_fence,int) or expected_lease_fence<=0
                 or not isinstance(credential_digest,str) or not credential_digest.startswith("sha256:")
                 or len(credential_digest)!=71
                 or any(character not in "0123456789abcdef" for character in credential_digest[7:])
@@ -821,11 +837,15 @@ class LifecycleStore:
             raise ValueError("complete typed activation claim is required")
         values=[activation_id,objective_id,wake_id,machine_id,agent_id,lease_owner,lease_seconds,
                 context_bundle_id,isolation_profile_id,resource_lease_id,trace_id,correlation_id,
-                credential_digest,credential_key_version,expected_lease_fence,evidence_ref]
+                credential_digest,credential_key_version,evidence_ref]
         fingerprint=self._fingerprint("activation_claim",values)
         with self._connect() as c:
             replay=self._replay(c,command_id,fingerprint)
-            if replay:return replay
+            if replay:
+                if verify_claim_evidence is None:
+                    raise ValueError("protected activation binding evidence verifier is unavailable")
+                verify_claim_evidence(command_id,replay)
+                return replay
             now=c.execute("SELECT extract(epoch FROM clock_timestamp())::bigint AS now").fetchone()["now"]
             wake=c.execute("SELECT * FROM wakes WHERE wake_id=%s AND objective_id=%s FOR UPDATE",
                            (wake_id,objective_id)).fetchone()
@@ -847,8 +867,6 @@ class LifecycleStore:
                     raise ValueError("CONFLICT: objective activation is not reclaimable")
                 required_fence=(prior["lease_fence"] or 0)+1
             else:required_fence=1
-            if expected_lease_fence!=required_fence:
-                raise ValueError("CONFLICT: activation lease fence changed")
             deadline=now+lease_seconds
             result={"activation_id":activation_id,"objective_id":objective_id,"wake_id":wake_id,
                     "machine_id":machine_id,"agent_id":agent_id,"lease_owner":lease_owner,
@@ -861,6 +879,16 @@ class LifecycleStore:
                     "correlation_id":correlation_id,"credential_digest":credential_digest,
                     "credential_key_version":credential_key_version,
                     "version":prior["version"]+1 if prior else 1}
+            if publish_claim_evidence is None:
+                raise ValueError("protected activation binding evidence publisher is unavailable")
+            evidence_payload={"command_id":command_id,
+              "prior_activation_version":prior["version"] if prior else None,
+              "prior_lease_fence":prior["lease_fence"] if prior else None,
+              "binding":dict(result)}
+            binding_evidence=publish_claim_evidence(command_id,evidence_payload)
+            if not isinstance(binding_evidence,str) or not binding_evidence.startswith("s3://"):
+                raise ValueError("protected activation binding evidence is invalid")
+            result["binding_evidence_ref"]=binding_evidence
             if prior:
                 c.execute("""UPDATE activations SET state='LEASED',lease_owner=%s,lease_expires_at=%s,
                   version=%s,wake_id=%s,machine_id=%s,agent_id=%s,lease_fence=%s,
@@ -887,7 +915,7 @@ class LifecycleStore:
                       (lease_owner,deadline,wake_id))
             c.execute("""INSERT INTO activation_binding_history
               (activation_id,version,command_id,binding,evidence_ref) VALUES(%s,%s,%s,%s,%s)""",
-                      (activation_id,result["version"],command_id,json.dumps(result),evidence_ref))
+                      (activation_id,result["version"],command_id,json.dumps(result),binding_evidence))
             self._record(c,command_id,fingerprint,result)
             return result
 

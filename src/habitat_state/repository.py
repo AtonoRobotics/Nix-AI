@@ -172,9 +172,31 @@ class PostgresRepository:
         payload=evidence.get("payload",{})
         bound_fields=("command_id","objective_id","wake_id","machine_id","agent_id","lease_owner",
           "context_bundle_id","isolation_profile_id","resource_lease_id","trace_id",
-          "correlation_id","credential_key_version","lease_seconds","expected_lease_fence")
+          "correlation_id","credential_key_version","lease_seconds")
         if any(payload.get(field)!=request.get(field) for field in bound_fields):
             raise LedgerCorrupt("activation claim evidence does not bind the complete request")
+        def publish(command_id,payload):
+            canonical=json.dumps(payload,sort_keys=True,separators=(",",":")).encode()
+            source="sha256:"+hashlib.sha256(canonical).hexdigest()
+            envelope={"schema_version":"1","producer":"service:state",
+              "subject":payload["binding"]["activation_id"],"operation":"activation.claimed",
+              "source":source,"payload":payload}
+            return self.put_evidence(envelope,"service:state",f"claimed:{command_id}")["evidence_ref"]
+        def verify(command_id,result):
+            reference=result.get("binding_evidence_ref")
+            if not isinstance(reference,str):
+                raise LedgerCorrupt("activation replay omitted binding evidence")
+            binding={key:value for key,value in result.items() if key!="binding_evidence_ref"}
+            payload={"command_id":command_id,
+              "prior_activation_version":None if binding["version"]==1 else binding["version"]-1,
+              "prior_lease_fence":None if binding["lease_fence"]==1 else binding["lease_fence"]-1,
+              "binding":binding}
+            canonical=json.dumps(payload,sort_keys=True,separators=(",",":")).encode()
+            source="sha256:"+hashlib.sha256(canonical).hexdigest()
+            evidence=self._verified(reference,subject=binding["activation_id"],producer="service:state",
+              source=source,operation="activation.claimed")
+            if evidence.get("payload")!=payload:
+                raise LedgerCorrupt("activation replay binding evidence is corrupt")
         return self._lifecycle.claim_activation(
           command_id=request["command_id"],activation_id=request["activation_id"],
           objective_id=request["objective_id"],wake_id=request["wake_id"],
@@ -183,8 +205,8 @@ class PostgresRepository:
           context_bundle_id=request["context_bundle_id"],isolation_profile_id=request["isolation_profile_id"],
           resource_lease_id=request["resource_lease_id"],trace_id=request["trace_id"],
           correlation_id=request["correlation_id"],credential_digest=request["credential_digest"],
-          credential_key_version=request["credential_key_version"],
-          expected_lease_fence=request["expected_lease_fence"],evidence_ref=request["evidence_ref"])
+          credential_key_version=request["credential_key_version"],evidence_ref=request["evidence_ref"],
+          publish_claim_evidence=publish,verify_claim_evidence=verify)
     def resolve_activation(self,request,principal):
         if principal!="service:abi":raise ValueError("activation resolution requires ABI principal")
         return self._lifecycle.resolve_activation(request["binding"],request["activation_credential"])
