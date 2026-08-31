@@ -3,16 +3,17 @@ use habitat_authority::{
 };
 pub mod coordinator;
 use coordinator::{
-    ContextId, Coordinator, Effect, EffectState, GenerationId, ObjectiveId, ObjectiveSnapshot,
-    ObjectiveState, PackageId,
+    Command, ContextId, Coordinator, Effect, EffectId, EffectState, GenerationId, ObjectiveId,
+    ObjectiveSnapshot, ObjectiveState, PackageId,
 };
 use habitat_effects::{
     RuntimeEffectAdmission, RuntimeEffectRequest, RUNTIME_EFFECT_SCHEMA_VERSION,
 };
+use habitat_execution::provider_request_digest;
 use habitat_uds::{
-    connect_with_timeouts, AuthenticatedListener, FrameConfig, JsonTransport, PeerAllowlist,
-    PeerPrincipal, ServiceCommandPolicy, ServiceListener, SocketPermissions, StreamTimeouts,
-    DEFAULT_MAX_PAYLOAD,
+    connect_with_timeouts, publish_readiness, AuthenticatedListener, FrameConfig, JsonTransport,
+    PeerAllowlist, PeerPrincipal, Readiness, ServiceCommandPolicy, ServiceListener,
+    SocketPermissions, StreamTimeouts, DEFAULT_MAX_PAYLOAD,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -448,11 +449,19 @@ fn resume_objective(run_dir: &Path, objective: &str, deployed_state_protocol: bo
         state_version: "state:current".into(),
         requested_at: now(),
     };
-    let parameters_digest = format!("sha256:{:x}", Sha256::digest(objective.as_bytes()));
+    let provider_payload = serde_json::json!({
+        "objective_id": objective,
+        "capability": "runtime.effect",
+        "target": objective,
+        "compensates_effect_id": null,
+    });
+    let Ok(parameters_digest) = provider_request_digest("commit", &provider_payload) else {
+        return "INVALID".into();
+    };
     let idempotency_key = format!("effect:{objective}");
     let Some(proof) = forwarding_proof(
         &authority_request,
-        "habitat-state",
+        "habitat-offline-provider",
         &parameters_digest,
         &idempotency_key,
     ) else {
@@ -464,7 +473,7 @@ fn resume_objective(run_dir: &Path, objective: &str, deployed_state_protocol: bo
         caller_service_id: "service:runtime".into(),
         command_id: command_id.clone(),
         objective_id: objective.into(),
-        provider_id: "habitat-state".into(),
+        provider_id: "habitat-offline-provider".into(),
         parameters_digest,
         idempotency_key,
         execution_constraint_id: format!("constraint:{command_id}"),
@@ -595,16 +604,26 @@ fn compensate_objective(run_dir: &Path, request: &str, deployed_state_protocol: 
         Ok(value) => value,
         Err(_) => return "UNAVAILABLE".into(),
     };
-    let original_is_member = serde_json::from_str::<serde_json::Value>(&inspection)
-        .ok()
-        .and_then(|value| value["effects"].as_array().cloned())
-        .is_some_and(|effects| {
-            effects.iter().any(|effect| {
-                effect["effect_id"].as_str() == Some(original)
-                    && effect["state"].as_str() == Some("COMMITTED")
-            })
-        });
-    if !original_is_member {
+    let snapshot = match snapshot_from_state_projection(&inspection) {
+        Ok(snapshot) => snapshot,
+        Err(_) => return "UNAVAILABLE".into(),
+    };
+    let original_effect = match EffectId::new(original) {
+        Ok(effect) => effect,
+        Err(_) => return "INVALID".into(),
+    };
+    let decision = match Coordinator::new().compensate(&snapshot, &original_effect) {
+        Ok(decision) => decision,
+        Err(_) => return "NOT_FOUND".into(),
+    };
+    if !matches!(
+        decision.commands.as_slice(),
+        [Command::CompensateEffect {
+            objective_id,
+            original_effect_id,
+            ..
+        }] if objective_id == &snapshot.id && original_effect_id == &original_effect
+    ) {
         return "NOT_FOUND".into();
     }
     let original = original.to_owned();
@@ -624,11 +643,19 @@ fn compensate_objective(run_dir: &Path, request: &str, deployed_state_protocol: 
         state_version: "state:current".into(),
         requested_at: now(),
     };
-    let parameters_digest = format!("sha256:{:x}", Sha256::digest(original.as_bytes()));
+    let provider_payload = serde_json::json!({
+        "objective_id": objective,
+        "capability": "runtime.effect",
+        "target": original,
+        "compensates_effect_id": original,
+    });
+    let Ok(parameters_digest) = provider_request_digest("compensate", &provider_payload) else {
+        return "INVALID".into();
+    };
     let idempotency_key = format!("compensation:{original}");
     let Some(proof) = forwarding_proof(
         &authority_request,
-        "habitat-state",
+        "habitat-offline-provider",
         &parameters_digest,
         &idempotency_key,
     ) else {
@@ -639,7 +666,7 @@ fn compensate_objective(run_dir: &Path, request: &str, deployed_state_protocol: 
         caller_service_id: "service:runtime".into(),
         command_id: command_id.clone(),
         objective_id: objective.into(),
-        provider_id: "habitat-state".into(),
+        provider_id: "habitat-offline-provider".into(),
         parameters_digest,
         idempotency_key,
         execution_constraint_id: format!("constraint:{command_id}"),
@@ -809,7 +836,21 @@ pub fn serve_deployed_component_service_listener(
                 .map_err(io::Error::other)?;
             continue;
         }
-        let response = deployed_response(component, &request, &report, run_dir);
+        let mut response = deployed_response(component, &request, &report, run_dir);
+        if component == "runtime" && request == "STATUS" {
+            let readiness = if response.starts_with("READY ") {
+                Readiness::Operational {
+                    pid: std::process::id(),
+                }
+            } else {
+                Readiness::Recovering {
+                    pid: std::process::id(),
+                }
+            };
+            if publish_readiness(component_dir.join("readiness"), readiness, frames()).is_err() {
+                response = "UNAVAILABLE".into();
+            }
+        }
         transport
             .send_response(&response)
             .map_err(io::Error::other)?;
@@ -819,11 +860,17 @@ pub fn serve_deployed_component_service_listener(
 fn deployed_response(
     component: &str,
     request: &str,
-    report: &RecoveryReport,
+    _report: &RecoveryReport,
     run_dir: &Path,
 ) -> String {
     if request == "STATUS" {
-        return report.wire();
+        return match dependencies_operational(run_dir, component) {
+            Ok(true) => query_state(&component_socket(run_dir, "state"), "STATUS")
+                .ok()
+                .and_then(|wire| RecoveryReport::from_wire(&wire).ok())
+                .map_or_else(|| "RECOVERING dependencies".into(), |live| live.wire()),
+            Ok(false) | Err(_) => "RECOVERING dependencies".into(),
+        };
     }
     if component == "scheduler" && (request.starts_with("SCHEDULE ") || request == "TICK") {
         return query_state(&component_socket(run_dir, "state"), request)
@@ -849,14 +896,7 @@ fn deployed_response(
         .and_then(|wire| snapshot_from_state_projection(&wire))
         {
             Ok(snapshot) if snapshot.state == ObjectiveState::Compensated => "COMPENSATED".into(),
-            Ok(snapshot) if snapshot.state == ObjectiveState::Satisfied => {
-                // Terminal replay is an exact guarded read, not a coordinator
-                // state transition.
-                resume_objective(run_dir, objective, true)
-            }
-            Ok(snapshot) if Coordinator::new().resume(&snapshot).is_ok() => {
-                resume_objective(run_dir, objective, true)
-            }
+            Ok(snapshot) => execute_resume_decision(run_dir, &snapshot),
             _ => "UNAVAILABLE".into(),
         }
     } else if let Some(compensation) = request.strip_prefix("COMPENSATE ") {
@@ -866,13 +906,42 @@ fn deployed_response(
             &component_socket(run_dir, "scheduler"),
             &format!("SCHEDULE {objective}"),
         ) {
-            Ok(response) if response == "ACCEPTED" => resume_objective(run_dir, objective, true),
+            Ok(response) if response == "ACCEPTED" => match query_state(
+                &component_socket(run_dir, "state"),
+                &format!("INSPECT {objective}"),
+            )
+            .and_then(|wire| snapshot_from_state_projection(&wire))
+            {
+                Ok(snapshot) => execute_resume_decision(run_dir, &snapshot),
+                Err(_) => "UNAVAILABLE".into(),
+            },
             Ok(response) => response,
             Err(_) => "UNAVAILABLE".into(),
         }
     } else {
         "INVALID".into()
     }
+}
+
+fn execute_resume_decision(run_dir: &Path, snapshot: &ObjectiveSnapshot) -> String {
+    let decision = match Coordinator::new().resume(snapshot) {
+        Ok(decision) => decision,
+        // PostgreSQL can represent terminal replay and crash-recovered
+        // PROPOSED+COMMITTED shapes that require no in-memory transition.
+        // The exact effect-set guard in resume_objective remains authoritative.
+        Err(_) => return resume_objective(run_dir, &snapshot.id.to_string(), true),
+    };
+    if decision.commands.iter().any(|command| match command {
+            Command::Resume { objective_id, .. }
+            | Command::DispatchEffect { objective_id, .. }
+            | Command::ObserveEffect { objective_id, .. }
+            | Command::RecordEvidence { objective_id, .. } => objective_id != &snapshot.id,
+            _ => true,
+        })
+    {
+        return "UNAVAILABLE".into();
+    }
+    resume_objective(run_dir, &snapshot.id.to_string(), true)
 }
 
 fn snapshot_from_state_projection(wire: &str) -> io::Result<ObjectiveSnapshot> {

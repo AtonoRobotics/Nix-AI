@@ -4,7 +4,7 @@ use std::os::unix::net::UnixStream;
 
 fn forwarding() -> RuntimeForwardingEvidence {
     RuntimeForwardingEvidence {
-        provider_id: "habitat-state".into(),
+        provider_id: "habitat-offline-provider".into(),
         parameters_digest: format!("sha256:{}", "a".repeat(64)),
         idempotency_key: "effect:test".into(),
         proof: format!("sha256:{}", "b".repeat(64)),
@@ -221,7 +221,7 @@ fn deployed_effect_envelope_requires_exact_current_authority_binding() {
         caller_service_id: "service:runtime".into(),
         command_id: "effect:objective:1".into(),
         objective_id: "objective:1".into(),
-        provider_id: "habitat-state".into(),
+        provider_id: "habitat-offline-provider".into(),
         parameters_digest: format!("sha256:{}", "a".repeat(64)),
         idempotency_key: "effect:objective:1".into(),
         execution_constraint_id: "constraint:effect:objective:1".into(),
@@ -277,7 +277,7 @@ fn reservation_rolls_back_when_durable_replace_cannot_start() {
     let path = directory.path().join("effects.json");
     let mut ledger = EffectLedger::open(&path).unwrap();
     ledger.register_provider(ProviderContract::reconcilable(
-        "habitat-state",
+        "habitat-offline-provider",
         ReconciliationMode::IdempotencyKey,
         ConsequenceClass::E2,
     ));
@@ -294,7 +294,7 @@ fn reservation_rolls_back_when_durable_replace_cannot_start() {
         ConsequenceClass::E2,
         200,
     );
-    proposal.provider_id = "habitat-state".into();
+    proposal.provider_id = "habitat-offline-provider".into();
     let grant = RuntimeGrant {
         grant_id: "grant:runtime".into(),
         issuer: "service:operator".into(),
@@ -349,7 +349,7 @@ fn reservation_rolls_back_when_durable_replace_cannot_start() {
 fn terminal_runtime_retry_is_bound_and_available_for_guard_repair() {
     let mut ledger = EffectLedger::new();
     ledger.register_provider(ProviderContract::reconcilable(
-        "habitat-state",
+        "habitat-offline-provider",
         ReconciliationMode::IdempotencyKey,
         ConsequenceClass::E2,
     ));
@@ -365,7 +365,7 @@ fn terminal_runtime_retry_is_bound_and_available_for_guard_repair() {
         ConsequenceClass::E2,
         130,
     );
-    proposal.provider_id = "habitat-state".into();
+    proposal.provider_id = "habitat-offline-provider".into();
     let decision = RuntimeAuthorityDecision {
         schema_version: "2.0".into(),
         decision_id: "decision:retry".into(),
@@ -398,13 +398,21 @@ fn terminal_runtime_retry_is_bound_and_available_for_guard_repair() {
     let effect = ledger
         .reserve_runtime(proposal.clone(), &decision, forwarding(), 100)
         .unwrap();
+    assert_eq!(
+        effect
+            .runtime_authority_request
+            .as_ref()
+            .map(|request| request.caller_service_id.as_str()),
+        Some("service:runtime"),
+        "durable recovery must preserve the HMAC-bound runtime principal"
+    );
     ledger
         .dispatch_runtime(
             &effect.effect_id,
             Attempt::new(
                 &proposal.parameters_digest,
                 101,
-                "habitat-state",
+                "habitat-offline-provider",
                 "dispatch:retry",
             ),
             &decision,

@@ -223,26 +223,33 @@ impl Coordinator {
         if let Some(pair) = ids.windows(2).find(|pair| pair[0] == pair[1]) {
             return Err(CoordinationError::DuplicateEffect(pair[0].clone()));
         }
-        let commands = objective
-            .effects
-            .iter()
-            .map(|effect| match effect.state {
-                EffectState::Authorized => Command::DispatchEffect {
-                    objective_id: objective.id.clone(),
-                    effect_id: effect.id.clone(),
-                    idempotency_key: effect.idempotency_key.clone(),
-                },
-                EffectState::Dispatched | EffectState::Committed => Command::ObserveEffect {
-                    objective_id: objective.id.clone(),
-                    effect_id: effect.id.clone(),
-                },
-                EffectState::Failed | EffectState::Compensated => Command::RecordEvidence {
-                    objective_id: objective.id.clone(),
-                    evidence_id: EvidenceId::new(format!("evidence:{}", effect.id))
-                        .expect("typed effect"),
-                },
-            })
-            .collect();
+        let commands = if objective.effects.is_empty() {
+            vec![Command::Resume {
+                objective_id: objective.id.clone(),
+                generation: objective.generation.clone(),
+            }]
+        } else {
+            objective
+                .effects
+                .iter()
+                .map(|effect| match effect.state {
+                    EffectState::Authorized => Command::DispatchEffect {
+                        objective_id: objective.id.clone(),
+                        effect_id: effect.id.clone(),
+                        idempotency_key: effect.idempotency_key.clone(),
+                    },
+                    EffectState::Dispatched | EffectState::Committed => Command::ObserveEffect {
+                        objective_id: objective.id.clone(),
+                        effect_id: effect.id.clone(),
+                    },
+                    EffectState::Failed | EffectState::Compensated => Command::RecordEvidence {
+                        objective_id: objective.id.clone(),
+                        evidence_id: EvidenceId::new(format!("evidence:{}", effect.id))
+                            .expect("typed effect"),
+                    },
+                })
+                .collect()
+        };
         Ok(Decision {
             readiness: RuntimeReadiness::Operational,
             commands,

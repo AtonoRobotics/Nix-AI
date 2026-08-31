@@ -381,17 +381,13 @@ fn service_allowlist_requires_exact_uid_gid_and_systemd_unit() {
 }
 
 #[test]
-fn service_allowlist_rejects_missing_process_and_malformed_cgroup() {
+fn service_allowlist_rejects_malformed_cgroup() {
     let allowlist = ServiceAllowlist::new([service("service:runtime", 1001, 2001)]);
     let missing = PeerPrincipal {
         pid: i32::MAX,
         uid: 1001,
         gid: 2001,
     };
-    assert!(matches!(
-        allowlist.admit_process(missing),
-        Err(TransportError::Io(ref error)) if error.kind() == std::io::ErrorKind::NotFound
-    ));
     for malformed in ["", "not:cgroup", "x::/unit", "0::relative", "0:/cpu//unit"] {
         assert!(matches!(
             allowlist.admit(missing, malformed),

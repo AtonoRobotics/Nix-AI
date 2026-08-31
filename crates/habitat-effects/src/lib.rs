@@ -92,7 +92,7 @@ pub fn runtime_effect_request_valid(request: &RuntimeEffectRequest) -> bool {
         && request.caller_service_id == request.authority_request.caller_service_id
         && !request.command_id.is_empty()
         && request.objective_id.starts_with("objective:")
-        && request.provider_id == "habitat-state"
+        && request.provider_id == "habitat-offline-provider"
         && digest_valid
         && request.authority_request.schema_version == "2.0"
         && request.authority_request.request_id == request.command_id
@@ -595,7 +595,11 @@ impl EffectLedger {
             runtime_authority_request: Some(habitat_authority::RuntimeAuthorityRequest {
                 schema_version: "2.0".into(),
                 request_id: decision.request_id.clone(),
-                caller_service_id: decision.broker_service_id.clone(),
+                // The broker identity is separately bound by the authenticated
+                // effects socket and decision.  The HMAC-covered request was
+                // issued by runtime; changing this field to the broker makes
+                // durable STATUS/COMMIT recovery unverifiable.
+                caller_service_id: "service:runtime".into(),
                 machine_id: decision.machine_id.clone(),
                 service_id: decision.service_id.clone(),
                 activation_id: decision.activation_id.clone(),

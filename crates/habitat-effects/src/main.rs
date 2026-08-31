@@ -153,8 +153,8 @@ fn query_state(socket: &Path, request: &str) -> io::Result<String> {
         connect_with_timeouts(
             socket,
             frames(),
-            Duration::from_secs(10),
-            Duration::from_secs(10),
+            Duration::from_secs(2),
+            Duration::from_secs(2),
         )
         .map_err(io::Error::other)?;
     transport.send_request(&wire).map_err(io::Error::other)?;
@@ -399,7 +399,10 @@ fn execute_observe_and_persist(
         let evidence_ref = existing["result"]["projection"]["evidence_ref"]
             .as_str()
             .ok_or_else(|| io::Error::other("terminal effect evidence missing"))?;
-        return Ok((observe_provider(provider_socket, record)?, evidence_ref.into()));
+        return Ok((
+            observe_provider(provider_socket, record)?,
+            evidence_ref.into(),
+        ));
     }
     let external_ref = provider_transport_id(record);
     persist_dispatch_chain(state_socket, token, record, &external_ref)?;
@@ -578,10 +581,13 @@ fn reconcile_pending(
             continue;
         };
         if record.state == EffectState::Reserved {
+            eprintln!("recovering durable RESERVED effect {effect_id}");
             let Some(authority_request) = record.runtime_authority_request.clone() else {
+                eprintln!("reserved recovery blocked: missing authority request for {effect_id}");
                 continue;
             };
             let Some(forwarding) = record.runtime_forwarding.as_ref() else {
+                eprintln!("reserved recovery blocked: missing forwarding proof for {effect_id}");
                 continue;
             };
             let mut status = authority_decision(
@@ -590,6 +596,13 @@ fn reconcile_pending(
                 forwarding,
                 "STATUS",
                 Some(&effect_id),
+            );
+            eprintln!(
+                "reserved recovery STATUS for {effect_id}: {}",
+                status
+                    .as_ref()
+                    .map(|decision| decision.code.as_str())
+                    .unwrap_or("UNAVAILABLE")
             );
             if status
                 .as_ref()
@@ -608,6 +621,13 @@ fn reconcile_pending(
                     forwarding,
                     "COMMIT",
                     Some(&effect_id),
+                );
+                eprintln!(
+                    "reserved recovery COMMIT for {effect_id}: {}",
+                    status
+                        .as_ref()
+                        .map(|decision| decision.code.as_str())
+                        .unwrap_or("UNAVAILABLE")
                 );
             }
             if status
@@ -732,10 +752,55 @@ fn reconcile_pending(
         )?;
         checkpoint_effect(ledger, store, &effect_id)
             .map_err(|_| habitat_effects::EffectError::Storage)?;
-        match observe_provider(_provider_socket, &record) {
+        if let Some(terminal) = state_request(
+            state_socket,
+            &serde_json::json!({
+                "operation":"effect_observe", "admission_token":token,
+                "objective_id":record.proposal.objective_id,
+                "effect_id":record.effect_id,
+            }),
+        )
+        .filter(|response| {
+            response["status"] == "ok"
+                && matches!(
+                    response["result"]["projection"]["state"].as_str(),
+                    Some("COMMITTED" | "FAILED")
+                )
+        }) {
+            let evidence_ref = terminal["result"]["projection"]["evidence_ref"]
+                .as_str()
+                .ok_or(habitat_effects::EffectError::Storage)?;
+            let provider_observation = observe_provider(_provider_socket, &record)
+                .map_err(|_| habitat_effects::EffectError::Storage)?;
+            let succeeded = terminal["result"]["projection"]["state"] == "COMMITTED"
+                && provider_observation.outcome == "SUCCEEDED";
+            ledger.resolve(
+                &effect_id,
+                Observation::independent(
+                    "terminal-state+provider-observe",
+                    evidence_ref,
+                    succeeded,
+                ),
+            )?;
+            checkpoint_effect(ledger, store, &effect_id)
+                .map_err(|_| habitat_effects::EffectError::Storage)?;
+            if succeeded {
+                guard_objective(ledger, state_socket, token, &record.proposal.objective_id)?;
+            }
+            continue;
+        }
+        let provider_result = observe_provider(_provider_socket, &record).or_else(|_| {
+            // A crash may occur after the idempotent world mutation but before
+            // the provider record rename. Reissuing the exact digest-bound
+            // command lets the provider finalize its write-ahead intent;
+            // it cannot create a second semantic effect.
+            execute_provider(_provider_socket, &record)?;
+            observe_provider(_provider_socket, &record)
+        });
+        match provider_result {
             Ok(provider_observation) => {
                 let external_ref = provider_observation.transport_id.clone();
-                let _ = persist_provider_transition(
+                if persist_provider_transition(
                     state_socket,
                     token,
                     &record,
@@ -743,7 +808,22 @@ fn reconcile_pending(
                     "UNCERTAIN",
                     &external_ref,
                     None,
-                );
+                )
+                .is_err()
+                {
+                    // PostgreSQL still owns the attempt while the state
+                    // observation boundary is unavailable. Persist a bounded,
+                    // nonterminal classification and retry later; do not turn
+                    // provider evidence into a terminal claim locally.
+                    ledger.reconciliation_inconclusive(
+                        &effect_id,
+                        "state-observation-unavailable",
+                        "UNAVAILABLE:state observation persistence",
+                    )?;
+                    checkpoint_effect(ledger, store, &effect_id)
+                        .map_err(|_| habitat_effects::EffectError::Storage)?;
+                    continue;
+                }
                 let succeeded = provider_observation.outcome == "SUCCEEDED";
                 let evidence_ref = persist_provider_transition(
                     state_socket,
@@ -879,7 +959,7 @@ fn main() -> io::Result<()> {
         .map_err(|_| io::Error::other("PostgreSQL effect recovery is corrupt"))?;
     ledger
         .register_provider_durable(ProviderContract::reconcilable(
-            "habitat-state",
+            "habitat-offline-provider",
             ReconciliationMode::IdempotencyKey,
             ConsequenceClass::E2,
         ))
@@ -993,7 +1073,10 @@ fn main() -> io::Result<()> {
             continue;
         }
         if !runtime_effect_request_valid(&request) {
-            eprintln!("runtime effect rejected: invalid bound request {}", request.command_id);
+            eprintln!(
+                "runtime effect rejected: invalid bound request {}",
+                request.command_id
+            );
             reject(&mut transport)?;
             continue;
         }
@@ -1026,7 +1109,10 @@ fn main() -> io::Result<()> {
         match objective_precondition(&state_socket, &request.objective_id) {
             Ok(true) => {}
             Ok(false) => {
-                eprintln!("runtime effect rejected: objective precondition {}", request.objective_id);
+                eprintln!(
+                    "runtime effect rejected: objective precondition {}",
+                    request.objective_id
+                );
                 reject(&mut transport)?;
                 continue;
             }

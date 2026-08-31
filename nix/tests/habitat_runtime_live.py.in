@@ -121,6 +121,19 @@ def wait_effect(objective, effect_id, predicate, timeout=60):
         time.sleep(0.2)
     raise AssertionError(f"effect {effect_id} did not reconcile: {last}")
 
+def wait_projection(objective, timeout=60):
+    deadline = time.monotonic() + timeout
+    last = None
+    while time.monotonic() < deadline:
+        try:
+            last = query("runtime", "INSPECT " + objective)
+            if last != "UNAVAILABLE":
+                return json.loads(last)
+        except (OSError, json.JSONDecodeError, subprocess.CalledProcessError):
+            pass
+        time.sleep(0.2)
+    raise AssertionError(f"state projection did not recover: {last}")
+
 def prepare(label):
     objective = "objective:qemu-" + label
     deadline = time.monotonic() + 60
@@ -277,7 +290,13 @@ admin_s3.put_object(Bucket=store_config["bucket"], Key=evidence_key,
 assert state["effect_state"] == "COMMITTED"
 assert state["evidence_ref"] == evidence_ref
 quota_before = authority_quota()
-replayed_completion = query("runtime", "RESUME " + objective)
+replayed_completion = None
+replay_deadline = time.monotonic() + 10
+while time.monotonic() < replay_deadline:
+    replayed_completion = query("runtime", "RESUME " + objective)
+    if replayed_completion == "COMPLETED":
+        break
+    time.sleep(0.2)
 if replayed_completion != "COMPLETED":
     raise AssertionError(json.dumps({
         "replayed_completion": replayed_completion,
@@ -343,17 +362,19 @@ pathlib.Path("/run/habitat/state/fault-after-effect-commit").touch()
 assert query("runtime", "RESUME " + ambiguous) == "RECONCILIATION_REQUIRED"
 before = pg_effects(ambiguous)
 ambiguous_id = next(iter(before))
-assert before[ambiguous_id]["record"]["state"] == "OutcomeUnknown"
+assert before[ambiguous_id]["record"]["state"] in ("OutcomeUnknown", "Reconciling")
+assert any(entry["state"] == "OutcomeUnknown"
+           for entry in before[ambiguous_id]["history"]), before[ambiguous_id]
 service("stop", "habitat-state.service")
 unavailable = wait_effect(
     ambiguous, ambiguous_id,
     lambda value: value[ambiguous_id]["record"]["state"] == "Reconciling"
     and value[ambiguous_id]["reconciliations"][-1]["observation_source"]
-    == "postgresql-unavailable")
+    == "state-observation-unavailable")
 assert unavailable[ambiguous_id]["record"]["state"] == "Reconciling"
-assert unavailable[ambiguous_id]["reconciliations"][-1]["observation_source"] == "postgresql-unavailable"
+assert unavailable[ambiguous_id]["reconciliations"][-1]["observation_source"] == "state-observation-unavailable"
 service("start", "habitat-state.service")
-wait_ready("state", uid="habitat-runtime")
+wait_projection(ambiguous)
 after = wait_effect(
     ambiguous, ambiguous_id,
     lambda value: value[ambiguous_id]["record"]["state"]

@@ -10,6 +10,7 @@ use std::{
     os::{
         fd::{AsRawFd, FromRawFd, OwnedFd},
         unix::{
+            ffi::OsStrExt,
             fs::{FileTypeExt, MetadataExt, PermissionsExt},
             net::{UnixListener, UnixStream},
         },
@@ -388,14 +389,6 @@ impl ServiceAllowlist {
             .ok_or(TransportError::PeerDenied(observed))
     }
 
-    pub fn admit_process(
-        &self,
-        observed: PeerPrincipal,
-    ) -> Result<ServicePrincipal, TransportError> {
-        let cgroup = fs::read_to_string(format!("/proc/{}/cgroup", observed.pid))?;
-        self.admit(observed, &cgroup)
-    }
-
     pub fn admit_stream(&self, stream: &UnixStream) -> Result<ServicePrincipal, TransportError> {
         let observed = ObservedPeer::from_stream(stream)?;
         self.admit(observed.principal, &observed.cgroup)
@@ -712,17 +705,12 @@ fn remove_stale_socket(path: &Path) -> io::Result<()> {
             "socket path exists and is not a socket",
         ));
     }
-    match UnixStream::connect(path) {
-        Ok(_) => Err(io::Error::new(
+    match socket_is_live(path, Duration::from_millis(250)) {
+        Ok(true) => Err(io::Error::new(
             io::ErrorKind::AddrInUse,
             "socket already has a live listener",
         )),
-        Err(error)
-            if matches!(
-                error.kind(),
-                io::ErrorKind::ConnectionRefused | io::ErrorKind::NotFound
-            ) =>
-        {
+        Ok(false) => {
             let current = fs::symlink_metadata(path)?;
             if !current.file_type().is_socket()
                 || (current.dev(), current.ino()) != (initial.dev(), initial.ino())
@@ -735,6 +723,89 @@ fn remove_stale_socket(path: &Path) -> io::Result<()> {
             fs::remove_file(path)
         }
         Err(error) => Err(error),
+    }
+}
+
+fn socket_is_live(path: &Path, timeout: Duration) -> io::Result<bool> {
+    let bytes = path.as_os_str().as_bytes();
+    let mut address: libc::sockaddr_un = unsafe { std::mem::zeroed() };
+    if bytes.is_empty() || bytes.len() >= address.sun_path.len() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "Unix socket path is too long",
+        ));
+    }
+    address.sun_family = libc::AF_UNIX as libc::sa_family_t;
+    for (target, source) in address.sun_path.iter_mut().zip(bytes) {
+        *target = *source as libc::c_char;
+    }
+    let descriptor = unsafe {
+        libc::socket(
+            libc::AF_UNIX,
+            libc::SOCK_STREAM | libc::SOCK_CLOEXEC | libc::SOCK_NONBLOCK,
+            0,
+        )
+    };
+    if descriptor < 0 {
+        return Err(io::Error::last_os_error());
+    }
+    let descriptor = unsafe { OwnedFd::from_raw_fd(descriptor) };
+    let length =
+        (std::mem::offset_of!(libc::sockaddr_un, sun_path) + bytes.len() + 1) as libc::socklen_t;
+    let connected = unsafe {
+        libc::connect(
+            descriptor.as_raw_fd(),
+            (&raw const address).cast::<libc::sockaddr>(),
+            length,
+        )
+    };
+    if connected == 0 {
+        return Ok(true);
+    }
+    let error = io::Error::last_os_error();
+    if matches!(
+        error.raw_os_error(),
+        Some(libc::ECONNREFUSED) | Some(libc::ENOENT)
+    ) {
+        return Ok(false);
+    }
+    if error.raw_os_error() != Some(libc::EINPROGRESS) {
+        return Err(error);
+    }
+    let timeout_ms = timeout.as_millis().min(libc::c_int::MAX as u128) as libc::c_int;
+    let mut poll = libc::pollfd {
+        fd: descriptor.as_raw_fd(),
+        events: libc::POLLOUT,
+        revents: 0,
+    };
+    let result = unsafe { libc::poll(&mut poll, 1, timeout_ms) };
+    if result == 0 {
+        return Err(io::Error::new(
+            io::ErrorKind::TimedOut,
+            "socket liveness probe timed out",
+        ));
+    }
+    if result < 0 {
+        return Err(io::Error::last_os_error());
+    }
+    let mut socket_error: libc::c_int = 0;
+    let mut socket_error_len = std::mem::size_of::<libc::c_int>() as libc::socklen_t;
+    if unsafe {
+        libc::getsockopt(
+            descriptor.as_raw_fd(),
+            libc::SOL_SOCKET,
+            libc::SO_ERROR,
+            (&raw mut socket_error).cast(),
+            &raw mut socket_error_len,
+        )
+    } < 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    match socket_error {
+        0 => Ok(true),
+        libc::ECONNREFUSED | libc::ENOENT => Ok(false),
+        code => Err(io::Error::from_raw_os_error(code)),
     }
 }
 

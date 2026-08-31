@@ -453,6 +453,7 @@ version = "0.1.0"
 dependencies = [
  "habitat-authority",
  "habitat-effects",
+ "habitat-execution",
  "habitat-uds",
  "serde_json",
  "sha2",

@@ -271,6 +271,21 @@ pub enum ProviderError {
     NotFound,
     Storage(io::Error),
 }
+
+pub fn provider_request_digest(
+    operation: &str,
+    payload: &serde_json::Value,
+) -> Result<String, ProviderError> {
+    if !matches!(operation, "commit" | "compensate") || !payload.is_object() {
+        return Err(ProviderError::Invalid);
+    }
+    let canonical = serde_json::to_vec(&serde_json::json!({
+        "operation": operation,
+        "payload": payload,
+    }))
+    .map_err(|_| ProviderError::Invalid)?;
+    Ok(format!("sha256:{:x}", Sha256::digest(canonical)))
+}
 impl From<io::Error> for ProviderError {
     fn from(value: io::Error) -> Self {
         Self::Storage(value)
@@ -308,6 +323,9 @@ impl OfflineProvider {
         }
         Ok(self.root.join("world").join(format!("{digest}.applied")))
     }
+    fn intent_path(&self, effect_id: &str) -> Result<PathBuf, ProviderError> {
+        Ok(self.path(effect_id)?.with_extension("intent"))
+    }
     fn verify_postcondition(&self, value: &ProviderObservation) -> Result<(), ProviderError> {
         let path = if value.operation == "compensate" {
             let original = value.payload["compensates_effect_id"]
@@ -321,7 +339,10 @@ impl OfflineProvider {
             if path.exists() {
                 return Err(ProviderError::Invalid);
             }
-            format!("absent:{}", path.file_name().and_then(|v| v.to_str()).unwrap_or(""))
+            format!(
+                "absent:{}",
+                path.file_name().and_then(|v| v.to_str()).unwrap_or("")
+            )
         } else {
             let bytes = fs::read(path).map_err(|error| {
                 if error.kind() == io::ErrorKind::NotFound {
@@ -378,7 +399,7 @@ impl OfflineProvider {
         else {
             return Err(ProviderError::Invalid);
         };
-        if !request_digest.starts_with("sha256:")
+        if provider_request_digest(operation, payload)? != *request_digest
             || !payload.is_object()
             || operation.is_empty()
             || command_id.is_empty()
@@ -399,6 +420,21 @@ impl OfflineProvider {
             } else {
                 Err(ProviderError::Conflict)
             };
+        }
+        let intent_path = self.intent_path(effect_id)?;
+        let intent = serde_json::to_vec(command).map_err(|_| ProviderError::Invalid)?;
+        if intent_path.exists() {
+            if fs::read(&intent_path)? != intent {
+                return Err(ProviderError::Conflict);
+            }
+        } else {
+            let mut file = OpenOptions::new()
+                .create_new(true)
+                .write(true)
+                .open(&intent_path)?;
+            file.write_all(&intent)?;
+            file.sync_all()?;
+            File::open(self.root.join("records"))?.sync_all()?;
         }
         let transport_id = format!(
             "provider://offline/sha256/{:x}",
@@ -425,7 +461,13 @@ impl OfflineProvider {
             self.world_path(effect_id)?
         };
         let postcondition = if operation == "compensate" {
-            format!("absent:{}", world_path.file_name().and_then(|v| v.to_str()).unwrap_or(""))
+            format!(
+                "absent:{}",
+                world_path
+                    .file_name()
+                    .and_then(|v| v.to_str())
+                    .unwrap_or("")
+            )
         } else {
             let applied = serde_json::to_vec(&serde_json::json!({
                 "effect_id":effect_id,
@@ -448,12 +490,18 @@ impl OfflineProvider {
             std::process::id(),
             &observation.record_digest[7..23]
         ));
-        let mut file = OpenOptions::new()
-            .create_new(true)
-            .write(true)
-            .open(&temporary)?;
-        file.write_all(&bytes)?;
-        file.sync_all()?;
+        if temporary.exists() {
+            if fs::read(&temporary)? != bytes {
+                return Err(ProviderError::Conflict);
+            }
+        } else {
+            let mut file = OpenOptions::new()
+                .create_new(true)
+                .write(true)
+                .open(&temporary)?;
+            file.write_all(&bytes)?;
+            file.sync_all()?;
+        }
         if fault == Some("before-commit") {
             return Err(ProviderError::Storage(io::Error::other(
                 "injected before commit",
@@ -473,12 +521,22 @@ impl OfflineProvider {
                 "request_digest":request_digest,
             }))
             .map_err(|_| ProviderError::Invalid)?;
-            let mut world = OpenOptions::new().create_new(true).write(true).open(&world_path)?;
+            let mut world = OpenOptions::new()
+                .create_new(true)
+                .write(true)
+                .open(&world_path)?;
             world.write_all(&applied)?;
             world.sync_all()?;
         }
         File::open(self.root.join("world"))?.sync_all()?;
+        if fault == Some("after-world") {
+            return Err(ProviderError::Storage(io::Error::other(
+                "injected after world mutation",
+            )));
+        }
         fs::rename(&temporary, &path)?;
+        File::open(self.root.join("records"))?.sync_all()?;
+        fs::remove_file(&intent_path)?;
         File::open(self.root.join("records"))?.sync_all()?;
         if fault == Some("after-commit") {
             return Err(ProviderError::Storage(io::Error::other(
