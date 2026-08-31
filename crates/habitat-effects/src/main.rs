@@ -741,15 +741,15 @@ fn reconcile_pending(
         if attempt_number >= MAX_RECONCILIATION_ATTEMPTS {
             continue;
         }
-        if let Some(terminal) = state_request(
+        let state_observation = state_request(
             state_socket,
             &serde_json::json!({
                 "operation":"effect_observe", "admission_token":token,
                 "objective_id":record.proposal.objective_id,
                 "effect_id":record.effect_id,
             }),
-        )
-        .filter(|response| {
+        );
+        if let Some(terminal) = state_observation.as_ref().filter(|response| {
             response["status"] == "ok"
                 && matches!(
                     response["result"]["projection"]["state"].as_str(),
@@ -811,17 +811,24 @@ fn reconcile_pending(
         match provider_result {
             Ok(provider_observation) => {
                 let external_ref = provider_observation.transport_id.clone();
-                if persist_provider_transition(
-                    state_socket,
-                    token,
-                    &record,
-                    Some("DISPATCHED"),
-                    "UNCERTAIN",
-                    &external_ref,
-                    None,
-                )
-                .is_err()
-                {
+                let observed_state = state_observation
+                    .as_ref()
+                    .and_then(|response| response["result"]["projection"]["state"].as_str());
+                // A response-loss crash can occur after state durably accepts
+                // DISPATCHED -> UNCERTAIN.  Resume from that observed boundary
+                // instead of replaying a stale predecessor forever.
+                let uncertain_ready = observed_state == Some("UNCERTAIN")
+                    || persist_provider_transition(
+                        state_socket,
+                        token,
+                        &record,
+                        Some("DISPATCHED"),
+                        "UNCERTAIN",
+                        &external_ref,
+                        None,
+                    )
+                    .is_ok();
+                if !uncertain_ready {
                     // PostgreSQL still owns the attempt while the state
                     // observation boundary is unavailable. Persist a bounded,
                     // nonterminal classification and retry later; do not turn
