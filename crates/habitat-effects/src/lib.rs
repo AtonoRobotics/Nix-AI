@@ -9,6 +9,69 @@ use std::{
     path::{Path, PathBuf},
 };
 
+pub const RUNTIME_EFFECT_SCHEMA_VERSION: &str = "2.0";
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RuntimeEffectRequest {
+    pub schema_version: String,
+    pub command_id: String,
+    pub objective_id: String,
+    pub provider_id: String,
+    pub parameters_digest: String,
+    pub idempotency_key: String,
+    pub authority_request: habitat_authority::RuntimeAuthorityRequest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RuntimeEffectAdmission {
+    pub schema_version: String,
+    pub command_id: String,
+    pub objective_id: String,
+    pub state: String,
+    pub code: String,
+}
+
+pub fn admit_runtime_effect(
+    request: &RuntimeEffectRequest,
+    authority: &habitat_authority::RuntimeAuthorityDecision,
+) -> RuntimeEffectAdmission {
+    let digest_valid = request
+        .parameters_digest
+        .strip_prefix("sha256:")
+        .is_some_and(|value| {
+            value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+        });
+    let authority_matches = authority.schema_version == "2.0"
+        && authority.allowed
+        && authority.code == "AUTHORIZED"
+        && authority.objective_id == request.objective_id
+        && authority.operation == "commit"
+        && authority.capability == "runtime.effect"
+        && authority.target == request.objective_id
+        && authority.request_id == request.command_id
+        && request.authority_request.request_id == authority.request_id
+        && request.authority_request.objective_id == authority.objective_id;
+    let valid = request.schema_version == RUNTIME_EFFECT_SCHEMA_VERSION
+        && !request.command_id.is_empty()
+        && request.objective_id.starts_with("objective:")
+        && request.provider_id == "habitat-state"
+        && request.idempotency_key == format!("effect:{}", request.objective_id)
+        && digest_valid
+        && authority_matches;
+    RuntimeEffectAdmission {
+        schema_version: RUNTIME_EFFECT_SCHEMA_VERSION.into(),
+        command_id: request.command_id.clone(),
+        objective_id: request.objective_id.clone(),
+        state: if valid { "RESERVED" } else { "REJECTED" }.into(),
+        code: if valid {
+            "AUTHORIZED"
+        } else {
+            "ADMISSION_DENIED"
+        }
+        .into(),
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub enum ConsequenceClass {
     E0,

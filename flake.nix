@@ -86,6 +86,7 @@
         import time
 
         import boto3
+        import psycopg
 
         RUNTIME_SOCKET = "/run/habitat/runtime/runtime.sock"
         SYSTEMCTL = "${pkgs.systemd}/bin/systemctl"
@@ -133,6 +134,9 @@
         readiness = pathlib.Path("/run/habitat/runtime/readiness")
         wait_for(lambda: readiness.read_text().strip() == "OPERATIONAL",
                  "authoritative runtime readiness")
+        unauthorized = "objective:ungranted"
+        if query("RESUME " + unauthorized) != "UNAUTHORIZED":
+            raise RuntimeError("authority did not default-deny an objective without a grant")
         objective = "objective:qemu-" + pathlib.Path(
             "/proc/sys/kernel/random/uuid").read_text().strip()
         if query("PREPARE " + objective) != "ACCEPTED":
@@ -141,9 +145,10 @@
         wait_for(lambda: query("INSPECT " + objective) == "NOT_FOUND",
                  "durable prepared wake")
         interruptions = [interrupt_runtime("after_wake_commit")]
-        if wait_for(lambda: query("RESUME " + objective) == "COMPLETED",
-                    "objective completion") is not True:
-            raise RuntimeError("coordinator did not complete the objective")
+        completion = query("RESUME " + objective)
+        if completion != "COMPLETED":
+            raise RuntimeError(
+                "coordinator did not complete the objective: " + completion)
 
         state = json.loads(query("INSPECT " + objective))
         if state["objective_state"] != "SATISFIED" or state["effect_state"] != "COMMITTED":
@@ -178,6 +183,20 @@
         if query("RESUME " + objective) != "COMPLETED":
             raise RuntimeError("duplicate resume did not replay the committed disposition")
 
+        database_url = (pathlib.Path(os.environ["CREDENTIALS_DIRECTORY"]) /
+                        "database-url").read_text().strip()
+        with psycopg.connect(database_url) as connection:
+            durable = connection.execute(
+                "SELECT o.state AS objective_state,e.state AS effect_state,e.evidence_ref "
+                "FROM objectives o JOIN durable_effects e "
+                "ON e.effect_id='effect:' || o.objective_id WHERE o.objective_id=%s",
+                (objective,)).fetchone()
+        if durable != ("SATISFIED", "COMMITTED", state["evidence_ref"]):
+            raise RuntimeError("PostgreSQL is not authoritative for objective/effect truth")
+        runtime_state = pathlib.Path("/var/lib/habitat/runtime")
+        if runtime_state.exists() and any(runtime_state.iterdir()):
+            raise RuntimeError("coordinator persisted effect state outside the effect service")
+
         print(json.dumps({
             "schema_version": "2.0",
             "event": "habitat.runtime",
@@ -188,8 +207,25 @@
             "evidence_ref": state["evidence_ref"],
             "interruptions": interruptions,
             "duplicate_resume": "original_disposition",
+            "automatic_allow": False,
+            "transactional_store": "postgresql",
+            "evidence_store": "garage-s3",
+            "runtime_effect_files": 0,
         }, sort_keys=True, separators=(",", ":")), flush=True)
       '';
+      runtimeAuthorityGrants = pkgs.writeText "habitat-runtime-grants.json" (builtins.toJSON [{
+        grant_id = "grant:runtime-conformance";
+        machine_id = "machine:local";
+        service_id = "service:runtime";
+        activation_id = "activation:runtime";
+        capability = "runtime.effect";
+        operation = "commit";
+        target_prefix = "objective:qemu-";
+        generation = "generation:current";
+        state_version = "state:current";
+        not_before = 1;
+        expires_at = 4102444800;
+      }]);
       runtimeConfiguration = {
         services.postgresql = {
           enable = true;
@@ -247,7 +283,10 @@
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${python}/bin/python ${runtimeConformance}";
-            LoadCredential = "object-store:/run/habitat-credentials/object-store-url";
+            LoadCredential = [
+              "object-store:/run/habitat-credentials/object-store-url"
+              "database-url:/run/habitat-credentials/database-url"
+            ];
             NoNewPrivileges = true;
             PrivateTmp = true;
             ProtectHome = true;
@@ -261,6 +300,9 @@
           package = habitatRuntime;
           abiPackage = habitatAbi;
           statePackage = habitatState;
+          authorityPackage = habitatAuthority;
+          effectsPackage = habitatEffects;
+          authorityGrants = runtimeAuthorityGrants;
           databaseCredential = "/run/habitat-credentials/database-url";
           objectStoreCredential = "/run/habitat-credentials/object-store-url";
           activationCredential = "/run/habitat-credentials/abi-activation";
@@ -712,6 +754,11 @@
           type = "app";
           program = "${testBoot}/bin/test-boot";
           meta.description = "Run the live persistent-disk V-BOOT qualification";
+        };
+        test-runtime-live = {
+          type = "app";
+          program = "${testBoot}/bin/test-boot";
+          meta.description = "Prove the live PostgreSQL/Garage runtime trust and persistence boundary";
         };
         test-rollback = {
           type = "app";

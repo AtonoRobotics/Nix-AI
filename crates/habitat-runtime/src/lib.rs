@@ -1,3 +1,10 @@
+use habitat_authority::{
+    RuntimeAuthorityDecision, RuntimeAuthorityRequest, RUNTIME_AUTHORITY_SCHEMA_VERSION,
+};
+use habitat_effects::{
+    RuntimeEffectAdmission, RuntimeEffectRequest, RUNTIME_EFFECT_SCHEMA_VERSION,
+};
+use sha2::{Digest, Sha256};
 use std::{
     fs::{self, File, OpenOptions},
     io::{self, BufRead, BufReader, Write},
@@ -233,39 +240,75 @@ fn resume_objective(run_dir: &Path, objective: &str) -> String {
     if validate_id(objective).is_err() {
         return "INVALID".into();
     }
-    match query(
-        &component_socket(run_dir, "authority"),
-        &format!("AUTHORIZE {objective}"),
-    ) {
-        Ok(decision) if decision == "ALLOW" => match query(
-            &component_socket(run_dir, "effects"),
-            &format!("APPLY {objective}"),
-        ) {
-            Ok(applied) if applied == "COMMITTED" => {
-                let scheduler = component_socket(run_dir, "scheduler");
-                match query(&scheduler, "TICK") {
-                    Ok(completed) if completed == "COMPLETED" => completed,
-                    Ok(idle) if idle == "IDLE" => {
-                        match query(
-                            &component_socket(run_dir, "state"),
-                            &format!("INSPECT {objective}"),
-                        ) {
-                            Ok(state) if state.contains("\"objective_state\":\"SATISFIED\"") => {
-                                "COMPLETED".into()
+    let command_id = format!("effect:{objective}");
+    let authority_request = RuntimeAuthorityRequest {
+        schema_version: RUNTIME_AUTHORITY_SCHEMA_VERSION.into(),
+        request_id: command_id.clone(),
+        machine_id: "machine:local".into(),
+        service_id: "service:runtime".into(),
+        activation_id: "activation:runtime".into(),
+        objective_id: objective.into(),
+        capability: "runtime.effect".into(),
+        operation: "commit".into(),
+        target: objective.into(),
+        generation: "generation:current".into(),
+        state_version: "state:current".into(),
+        requested_at: now(),
+    };
+    let authority_wire = match serde_json::to_string(&authority_request) {
+        Ok(value) => value,
+        Err(_) => return "INVALID".into(),
+    };
+    match query(&component_socket(run_dir, "authority"), &authority_wire)
+        .ok()
+        .and_then(|value| serde_json::from_str::<RuntimeAuthorityDecision>(&value).ok())
+    {
+        Some(decision) if decision.allowed => {
+            let effect_request = RuntimeEffectRequest {
+                schema_version: RUNTIME_EFFECT_SCHEMA_VERSION.into(),
+                command_id,
+                objective_id: objective.into(),
+                provider_id: "habitat-state".into(),
+                parameters_digest: format!("sha256:{:x}", Sha256::digest(objective.as_bytes())),
+                idempotency_key: format!("effect:{objective}"),
+                authority_request,
+            };
+            let effect_wire = match serde_json::to_string(&effect_request) {
+                Ok(value) => value,
+                Err(_) => return "INVALID".into(),
+            };
+            match query(&component_socket(run_dir, "effects"), &effect_wire)
+                .ok()
+                .and_then(|value| serde_json::from_str::<RuntimeEffectAdmission>(&value).ok())
+            {
+                Some(applied) if applied.state == "COMMITTED" => {
+                    let scheduler = component_socket(run_dir, "scheduler");
+                    match query(&scheduler, "TICK") {
+                        Ok(completed) if completed == "COMPLETED" => completed,
+                        Ok(idle) if idle == "IDLE" => {
+                            match query(
+                                &component_socket(run_dir, "state"),
+                                &format!("INSPECT {objective}"),
+                            ) {
+                                Ok(state)
+                                    if state.contains("\"objective_state\":\"SATISFIED\"") =>
+                                {
+                                    "COMPLETED".into()
+                                }
+                                Ok(_) => idle,
+                                Err(_) => "UNAVAILABLE".into(),
                             }
-                            Ok(_) => idle,
-                            Err(_) => "UNAVAILABLE".into(),
                         }
+                        Ok(other) => other,
+                        Err(_) => "UNAVAILABLE".into(),
                     }
-                    Ok(other) => other,
-                    Err(_) => "UNAVAILABLE".into(),
                 }
+                Some(applied) => applied.code,
+                None => "UNAVAILABLE".into(),
             }
-            Ok(other) => other,
-            Err(_) => "UNAVAILABLE".into(),
-        },
-        Ok(other) => other,
-        Err(_) => "UNAVAILABLE".into(),
+        }
+        Some(decision) => decision.code,
+        None => "UNAVAILABLE".into(),
     }
 }
 
@@ -344,12 +387,6 @@ pub fn serve_component_listener(
         {
             query(&component_socket(run_dir, "state"), request)
                 .unwrap_or_else(|_| "UNAVAILABLE".into())
-        } else if component == "authority" && request.starts_with("AUTHORIZE ") {
-            if validate_id(&request[10..]).is_ok() {
-                "ALLOW".into()
-            } else {
-                "INVALID".into()
-            }
         } else if component == "state" && request.starts_with("RECORD_EFFECT ") {
             state
                 .lock()
@@ -357,12 +394,6 @@ pub fn serve_component_listener(
                 .record_effect(&request[14..])
                 .map(|_| "COMMITTED".into())
                 .unwrap_or_else(|_| "INVALID".into())
-        } else if component == "effects" && request.starts_with("APPLY ") {
-            query(
-                &component_socket(run_dir, "state"),
-                &format!("RECORD_EFFECT {}", &request[6..]),
-            )
-            .unwrap_or_else(|_| "UNAVAILABLE".into())
         } else if component == "runtime" && request.starts_with("INSPECT ") {
             query(&component_socket(run_dir, "state"), request)
                 .unwrap_or_else(|_| "UNAVAILABLE".into())
@@ -554,7 +585,7 @@ mod tests {
     }
 
     #[test]
-    fn scheduler_and_coordinator_use_authoritative_state_rpc() {
+    fn scheduler_uses_authoritative_state_and_unconfigured_authority_fails_closed() {
         let root = temporary();
         for component in ["state", "scheduler", "authority", "effects", "runtime"] {
             fs::create_dir_all(root.join(component)).unwrap();
@@ -578,7 +609,7 @@ mod tests {
         }
         assert_eq!(
             query(&component_socket(&root, "runtime"), "RUN objective:rpc").unwrap(),
-            "COMPLETED"
+            "UNAVAILABLE"
         );
         assert_eq!(
             query(
@@ -594,14 +625,14 @@ mod tests {
                 "RESUME objective:interrupted"
             )
             .unwrap(),
-            "COMPLETED"
+            "UNAVAILABLE"
         );
         assert!(fs::read_to_string(root.join("data-state/objectives"))
             .unwrap()
-            .contains("objective:rpc"));
+            .contains("objective:interrupted"));
         assert!(fs::read_to_string(root.join("data-state/effects"))
             .unwrap()
-            .contains("effect:objective:rpc COMMITTED"));
+            .is_empty());
         assert!(!root.join("data-scheduler/objectives").exists());
         for component in ["state", "scheduler", "authority", "effects", "runtime"] {
             fs::remove_file(component_socket(&root, component)).unwrap();

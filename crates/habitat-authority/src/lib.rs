@@ -9,6 +9,124 @@ use std::{
     path::{Path, PathBuf},
 };
 
+pub const RUNTIME_AUTHORITY_SCHEMA_VERSION: &str = "2.0";
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RuntimeGrant {
+    pub grant_id: String,
+    pub machine_id: String,
+    pub service_id: String,
+    pub activation_id: String,
+    pub capability: String,
+    pub operation: String,
+    pub target_prefix: String,
+    pub generation: String,
+    pub state_version: String,
+    pub not_before: u64,
+    pub expires_at: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RuntimeAuthorityRequest {
+    pub schema_version: String,
+    pub request_id: String,
+    pub machine_id: String,
+    pub service_id: String,
+    pub activation_id: String,
+    pub objective_id: String,
+    pub capability: String,
+    pub operation: String,
+    pub target: String,
+    pub generation: String,
+    pub state_version: String,
+    pub requested_at: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RuntimeAuthorityDecision {
+    pub schema_version: String,
+    pub decision_id: String,
+    pub request_id: String,
+    pub allowed: bool,
+    pub code: String,
+    pub grant_id: Option<String>,
+    pub machine_id: String,
+    pub service_id: String,
+    pub activation_id: String,
+    pub objective_id: String,
+    pub capability: String,
+    pub operation: String,
+    pub target: String,
+    pub generation: String,
+    pub state_version: String,
+    pub evaluated_at: u64,
+}
+
+pub fn evaluate_runtime_request(
+    grants: &[RuntimeGrant],
+    request: &RuntimeAuthorityRequest,
+    now: u64,
+) -> RuntimeAuthorityDecision {
+    let structurally_valid = request.schema_version == RUNTIME_AUTHORITY_SCHEMA_VERSION
+        && !request.request_id.is_empty()
+        && request.machine_id.starts_with("machine:")
+        && request.service_id.starts_with("service:")
+        && request.activation_id.starts_with("activation:")
+        && request.objective_id.starts_with("objective:")
+        && !request.capability.is_empty()
+        && !request.operation.is_empty()
+        && !request.target.is_empty()
+        && request.generation.starts_with("generation:")
+        && request.state_version.starts_with("state:")
+        && request.requested_at <= now;
+    let grant = structurally_valid
+        .then(|| {
+            grants.iter().find(|grant| {
+                grant.machine_id == request.machine_id
+                    && grant.service_id == request.service_id
+                    && grant.activation_id == request.activation_id
+                    && grant.capability == request.capability
+                    && grant.operation == request.operation
+                    && request.target.starts_with(&grant.target_prefix)
+                    && grant.generation == request.generation
+                    && grant.state_version == request.state_version
+                    && now >= grant.not_before
+                    && now < grant.expires_at
+            })
+        })
+        .flatten();
+    let (allowed, code) = if !structurally_valid {
+        (false, "INVALID")
+    } else if grant.is_some() {
+        (true, "AUTHORIZED")
+    } else {
+        (false, "UNAUTHORIZED")
+    };
+    let mut decision = RuntimeAuthorityDecision {
+        schema_version: RUNTIME_AUTHORITY_SCHEMA_VERSION.into(),
+        decision_id: String::new(),
+        request_id: request.request_id.clone(),
+        allowed,
+        code: code.into(),
+        grant_id: grant.map(|value| value.grant_id.clone()),
+        machine_id: request.machine_id.clone(),
+        service_id: request.service_id.clone(),
+        activation_id: request.activation_id.clone(),
+        objective_id: request.objective_id.clone(),
+        capability: request.capability.clone(),
+        operation: request.operation.clone(),
+        target: request.target.clone(),
+        generation: request.generation.clone(),
+        state_version: request.state_version.clone(),
+        evaluated_at: now,
+    };
+    decision.decision_id = format!(
+        "decision:sha256:{:x}",
+        Sha256::digest(serde_json::to_vec(&decision).expect("decision serializes"))
+    );
+    decision
+}
+
 macro_rules! identity {
     ($name:ident, $prefix:literal) => {
         #[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]

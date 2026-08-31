@@ -398,6 +398,7 @@ name = "habitat-effects"
 version = "0.1.0"
 dependencies = [
  "habitat-authority",
+ "libc",
  "serde",
  "serde_json",
  "sha2",
@@ -442,6 +443,12 @@ dependencies = [
 [[package]]
 name = "habitat-runtime"
 version = "0.1.0"
+dependencies = [
+ "habitat-authority",
+ "habitat-effects",
+ "serde_json",
+ "sha2",
+]
 
 [[package]]
 name = "hashbrown"

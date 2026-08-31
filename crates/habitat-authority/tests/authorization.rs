@@ -171,3 +171,57 @@ fn caller_timestamp_cannot_replay_an_expired_grant() {
         Some("STALE")
     );
 }
+
+#[test]
+fn deployed_runtime_authority_is_versioned_identity_bound_and_default_deny() {
+    let request = RuntimeAuthorityRequest {
+        schema_version: RUNTIME_AUTHORITY_SCHEMA_VERSION.into(),
+        request_id: "effect:objective:1".into(),
+        machine_id: "machine:local".into(),
+        service_id: "service:runtime".into(),
+        activation_id: "activation:runtime".into(),
+        objective_id: "objective:1".into(),
+        capability: "runtime.effect".into(),
+        operation: "commit".into(),
+        target: "objective:1".into(),
+        generation: "generation:current".into(),
+        state_version: "state:current".into(),
+        requested_at: 100,
+    };
+    assert!(!evaluate_runtime_request(&[], &request, 100).allowed);
+    let grant = RuntimeGrant {
+        grant_id: "grant:runtime".into(),
+        machine_id: request.machine_id.clone(),
+        service_id: request.service_id.clone(),
+        activation_id: request.activation_id.clone(),
+        capability: request.capability.clone(),
+        operation: request.operation.clone(),
+        target_prefix: "objective:".into(),
+        generation: request.generation.clone(),
+        state_version: request.state_version.clone(),
+        not_before: 90,
+        expires_at: 110,
+    };
+    assert!(evaluate_runtime_request(std::slice::from_ref(&grant), &request, 100).allowed);
+    for denied in [
+        RuntimeAuthorityRequest {
+            schema_version: "1.0".into(),
+            ..request.clone()
+        },
+        RuntimeAuthorityRequest {
+            service_id: "service:peer".into(),
+            ..request.clone()
+        },
+        RuntimeAuthorityRequest {
+            generation: "generation:stale".into(),
+            ..request.clone()
+        },
+        RuntimeAuthorityRequest {
+            target: "other:1".into(),
+            ..request.clone()
+        },
+    ] {
+        assert!(!evaluate_runtime_request(std::slice::from_ref(&grant), &denied, 100).allowed);
+    }
+    assert!(!evaluate_runtime_request(&[grant], &request, 110).allowed);
+}

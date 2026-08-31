@@ -5,7 +5,7 @@ let
   dependencies = {
     state = [ "postgresql.service" "habitat-garage-initialize.service" ]; scheduler = [ "habitat-state.service" ];
     authority = [ "habitat-state.service" "habitat-scheduler.service" ];
-    effects = [ "habitat-state.service" "habitat-scheduler.service" ];
+    effects = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" ];
     abi = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" ];
     runtime = [ "habitat-state.service" "habitat-scheduler.service" "habitat-authority.service" "habitat-effects.service" "habitat-abi.service" ];
   };
@@ -45,6 +45,23 @@ let
       --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-effects)" \
       --allow-uid "$(${pkgs.coreutils}/bin/id -u habitat-runtime)"
   '';
+  authorityStart = pkgs.writeShellScript "habitat-authority-start" ''
+    set -eu
+    exec ${cfg.authorityPackage}/bin/habitat-authority \
+      /run/habitat/authority/authority.sock \
+      "$CREDENTIALS_DIRECTORY/grants" \
+      /var/lib/habitat/authority/decisions.jsonl \
+      "$(${pkgs.coreutils}/bin/id -u habitat-runtime)" \
+      "$(${pkgs.coreutils}/bin/id -u habitat-effects)"
+  '';
+  effectsStart = pkgs.writeShellScript "habitat-effects-start" ''
+    set -eu
+    exec ${cfg.effectsPackage}/bin/habitat-effects \
+      /run/habitat/effects/effects.sock \
+      /run/habitat/state/state.sock \
+      /run/habitat/authority/authority.sock \
+      "$(${pkgs.coreutils}/bin/id -u habitat-runtime)"
+  '';
   abiUnit = lib.recursiveUpdate (common "abi") {
     restartTriggers = [ cfg.abiPackage ];
     serviceConfig.ExecStart = abiStart;
@@ -64,6 +81,9 @@ in {
     package = lib.mkOption { type = lib.types.package; description = "Package containing habitat-runtime."; };
     abiPackage = lib.mkOption { type = lib.types.package; description = "Package containing habitat-abi-server."; };
     statePackage = lib.mkOption { type = lib.types.package; description = "Package containing the PostgreSQL-backed habitat-state service."; };
+    authorityPackage = lib.mkOption { type = lib.types.package; description = "Package containing the fail-closed habitat-authority service."; };
+    effectsPackage = lib.mkOption { type = lib.types.package; description = "Package containing the durable habitat-effects service."; };
+    authorityGrants = lib.mkOption { type = lib.types.path; description = "Explicitly provisioned runtime grants."; };
     databaseCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
     objectStoreCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
     activationCredential = lib.mkOption { type = lib.types.strMatching "^/.*"; };
@@ -73,7 +93,16 @@ in {
     users.users = lib.genAttrs (map (name: "habitat-${name}") components) (userName: let
       component = lib.removePrefix "habitat-" userName;
     in { isSystemUser = true; group = "habitat-${component}-clients"; extraGroups = clientGroups.${component}; });
-    systemd.services = (lib.listToAttrs (map (component: lib.nameValuePair "habitat-${component}" (runtimeUnit component)) [ "scheduler" "authority" "effects" "runtime" ])) // {
+    systemd.services = (lib.listToAttrs (map (component: lib.nameValuePair "habitat-${component}" (runtimeUnit component)) [ "scheduler" "runtime" ])) // {
+      habitat-authority = lib.recursiveUpdate (common "authority") {
+        restartTriggers = [ cfg.authorityPackage cfg.authorityGrants ];
+        serviceConfig.ExecStart = authorityStart;
+        serviceConfig.LoadCredential = "grants:${cfg.authorityGrants}";
+      };
+      habitat-effects = lib.recursiveUpdate (common "effects") {
+        restartTriggers = [ cfg.effectsPackage ];
+        serviceConfig.ExecStart = effectsStart;
+      };
       habitat-abi = abiUnit;
       habitat-state = lib.recursiveUpdate (common "state") {
         requires = dependencies.state;

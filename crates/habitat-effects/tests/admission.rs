@@ -160,3 +160,77 @@ fn revocation_between_reservation_and_dispatch_fails_closed() {
     );
     assert!(ledger.attempts(&effect.effect_id).is_empty());
 }
+
+#[test]
+fn deployed_effect_envelope_requires_exact_current_authority_binding() {
+    let authority_request = RuntimeAuthorityRequest {
+        schema_version: "2.0".into(),
+        request_id: "effect:objective:1".into(),
+        machine_id: "machine:local".into(),
+        service_id: "service:runtime".into(),
+        activation_id: "activation:runtime".into(),
+        objective_id: "objective:1".into(),
+        capability: "runtime.effect".into(),
+        operation: "commit".into(),
+        target: "objective:1".into(),
+        generation: "generation:current".into(),
+        state_version: "state:current".into(),
+        requested_at: 100,
+    };
+    let authority = RuntimeAuthorityDecision {
+        schema_version: "2.0".into(),
+        decision_id: "decision:1".into(),
+        request_id: "effect:objective:1".into(),
+        allowed: true,
+        code: "AUTHORIZED".into(),
+        grant_id: Some("grant:1".into()),
+        machine_id: "machine:local".into(),
+        service_id: "service:runtime".into(),
+        activation_id: "activation:runtime".into(),
+        objective_id: "objective:1".into(),
+        capability: "runtime.effect".into(),
+        operation: "commit".into(),
+        target: "objective:1".into(),
+        generation: "generation:current".into(),
+        state_version: "state:current".into(),
+        evaluated_at: 100,
+    };
+    let request = RuntimeEffectRequest {
+        schema_version: RUNTIME_EFFECT_SCHEMA_VERSION.into(),
+        command_id: "effect:objective:1".into(),
+        objective_id: "objective:1".into(),
+        provider_id: "habitat-state".into(),
+        parameters_digest: format!("sha256:{}", "a".repeat(64)),
+        idempotency_key: "effect:objective:1".into(),
+        authority_request,
+    };
+    assert_eq!(admit_runtime_effect(&request, &authority).state, "RESERVED");
+    for denied in [
+        RuntimeEffectRequest {
+            schema_version: "1.0".into(),
+            ..request.clone()
+        },
+        RuntimeEffectRequest {
+            objective_id: "objective:peer".into(),
+            ..request.clone()
+        },
+        RuntimeEffectRequest {
+            provider_id: "peer".into(),
+            ..request.clone()
+        },
+        RuntimeEffectRequest {
+            authority_request: RuntimeAuthorityRequest {
+                objective_id: "objective:peer".into(),
+                ..request.authority_request.clone()
+            },
+            ..request.clone()
+        },
+    ] {
+        assert_eq!(admit_runtime_effect(&denied, &authority).state, "REJECTED");
+    }
+    let denied = RuntimeAuthorityDecision {
+        allowed: false,
+        ..authority
+    };
+    assert_eq!(admit_runtime_effect(&request, &denied).state, "REJECTED");
+}
