@@ -61,3 +61,31 @@ Depth: tree 4   Mode: orchestrated
 - 2026-08-30 remediation plan written; interfaces, ownership, packet gates, independent review, commit, and push policy fixed
 - 2026-08-30 Garage approved in ADR 0001 as the canonical embedded S3 backend because no admissible MinIO version is available; the prior combined Garage/state/QEMU experiment remains quarantined in the recovery stash and will not be restored wholesale
 - 2026-08-30 requalification reopened: migrate Garage, persistence wiring, and strict QEMU behavior as isolated reviewed commits; no prior MinIO abandonment is treated as current acceptance evidence
+
+## Architecture deepening contract
+
+Source: `architecture-review-20260830-221702.html` (six mandatory candidates).
+Depth: tree 4   Mode: orchestrated
+
+- Test seams: the deployed effect request/response protocol; the authoritative state UDS protocol; the runtime coordinator request/response protocol; authenticated UDS transport; qualification command/evidence verification; and the Nix deployment graph plus runtime readiness projection. Tests cross these public seams and do not inspect private implementation state.
+- Module ownership: authenticated transport owns `crates/habitat-uds`; authoritative state owns `src/habitat_state`; durable effects owns `crates/habitat-effects` plus effect transactions exposed by authoritative state; runtime coordination owns `crates/habitat-runtime`; qualification owns `tools/qualification.py`, `tools/qualify_v2_release.py`, `tools/qualify_w_common.py`, gate modules, and qualification tests; deployment graph owns `nix/lib/habitat-deployment-graph.nix`, `nix/modules/habitat-runtime.nix`, QEMU conformance modules, and `flake.nix`. Shared Cargo manifests and generated artifacts are driver-owned.
+- Required depth: each named module must pass the deletion test. Deleting it must redistribute real invariants across callers, not merely remove forwarding code.
+- Data ownership: PostgreSQL alone owns lifecycle and replay truth; Garage owns digest-addressed bytes behind the S3 adapter seam; the durable effect execution module owns admission through reconciliation; the runtime coordination module owns objective preparation through completion; qualification gate modules own observation meaning; the evidence module owns canonical attestation and verification; the deployment graph module owns names, identities, and dependency/readiness edges.
+- Error convention: every unavailable, malformed, mismatched, stale, unauthenticated, uncertain, or corrupt input fails closed with a typed or structured error. No string-prefix trust decisions, direct terminal effect insert, process-only pass, handwritten pass, synthetic metric, alternate file truth, stub, placeholder, or fake is admissible on a production path.
+- TDD rule: each behavior is introduced as a vertical red → green slice at the seam above. Expected values come from the V2.0.1 contract, ADR 0001, or fixed worked examples—not from the implementation under test.
+- Review rule: after implementation, a fresh agent adversarially reviews each of the six modules for gaps, drift, bugs, stubs, placeholders, fakes, shallow forwarding, and seam leakage. The driver fixes every finding and reruns the module gates before commit.
+- Commit/push rule: commits are reviewable and ordered by module dependency. Final evidence is generated only after non-evidence source freeze; `main` is pushed and the remote SHA is verified.
+
+## Architecture deepening tree
+
+- 3 Resolve every architecture-review candidate ........ gates/architecture-root.md
+  - 3.1 Authenticated UDS transport ..................... gates/architecture-transport.md
+  - 3.2 Authoritative state ............................. gates/architecture-state.md
+  - 3.3 Durable effect execution ........................ gates/architecture-effects.md
+  - 3.4 Runtime coordination ............................ gates/architecture-runtime.md
+  - 3.5 Release qualification evidence .................. gates/architecture-qualification.md
+  - 3.6 Canonical deployment graph ...................... gates/architecture-deployment.md
+
+## Architecture deepening status log
+
+- 2026-08-31 architecture-review scope adopted in full; six test seams, ownership, sequencing, review policy, and no-fakes acceptance fixed before integration
