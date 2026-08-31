@@ -1,6 +1,6 @@
 use habitat_authority::RuntimePeer;
 use habitat_runtime::{
-    component_socket, dependencies_operational, query_state,
+    component_socket, dependencies_operational, query_state, recover_nonterminal_objectives,
     serve_deployed_component_service_listener, RecoveryReport, COMPONENTS,
 };
 use habitat_uds::{
@@ -108,6 +108,9 @@ fn main() -> io::Result<()> {
         &component_socket(&run_dir, "state"),
         "STATUS",
     )?)?;
+    if component == "runtime" {
+        recover_nonterminal_objectives(&run_dir)?;
+    }
     if component == "runtime" {
         publish_readiness(
             &readiness,

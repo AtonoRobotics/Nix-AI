@@ -741,17 +741,6 @@ fn reconcile_pending(
         if attempt_number >= MAX_RECONCILIATION_ATTEMPTS {
             continue;
         }
-        ledger.begin_reconciliation(
-            &effect_id,
-            ReconciliationAttempt::new(
-                &record.proposal.parameters_digest,
-                now(),
-                &record.proposal.provider_id,
-                &provider_transport_id(&record),
-            ),
-        )?;
-        checkpoint_effect(ledger, store, &effect_id)
-            .map_err(|_| habitat_effects::EffectError::Storage)?;
         if let Some(terminal) = state_request(
             state_socket,
             &serde_json::json!({
@@ -774,6 +763,15 @@ fn reconcile_pending(
                 .map_err(|_| habitat_effects::EffectError::Storage)?;
             let succeeded = terminal["result"]["projection"]["state"] == "COMMITTED"
                 && provider_observation.outcome == "SUCCEEDED";
+            ledger.begin_reconciliation(
+                &effect_id,
+                ReconciliationAttempt::new(
+                    &record.proposal.parameters_digest,
+                    now(),
+                    &record.proposal.provider_id,
+                    &provider_transport_id(&record),
+                ),
+            )?;
             ledger.resolve(
                 &effect_id,
                 Observation::independent(
@@ -797,6 +795,19 @@ fn reconcile_pending(
             execute_provider(_provider_socket, &record)?;
             observe_provider(_provider_socket, &record)
         });
+        // Provider observation is read-only.  Do not durably publish a new
+        // reconciliation attempt until it can be classified in the same
+        // PostgreSQL checkpoint; a state-service stop must never strand an
+        // attempt with nullable source/response/classification provenance.
+        ledger.begin_reconciliation(
+            &effect_id,
+            ReconciliationAttempt::new(
+                &record.proposal.parameters_digest,
+                now(),
+                &record.proposal.provider_id,
+                &provider_transport_id(&record),
+            ),
+        )?;
         match provider_result {
             Ok(provider_observation) => {
                 let external_ref = provider_observation.transport_id.clone();

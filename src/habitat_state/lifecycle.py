@@ -75,12 +75,10 @@ class LifecycleStore:
               classification text NOT NULL CHECK(classification IN
                 ('V2_COMPATIBLE','UNKNOWN','REJECTED_DOMAIN_STATE')),
               PRIMARY KEY(source_table,source_ordinal));
-            INSERT INTO effect_migration_archive
-              (source_table,source_ordinal,raw_record,raw_digest,classification)
-              SELECT 'durable_effects',row_number() OVER (ORDER BY effect_id),to_jsonb(d),
-                'sha256:'||encode(digest(convert_to(to_jsonb(d)::text,'UTF8'),'sha256'),'hex'),
-                CASE WHEN state='COMMITTED' THEN 'V2_COMPATIBLE' ELSE 'UNKNOWN' END
-              FROM durable_effects d ON CONFLICT DO NOTHING;
+            -- durable_effects is the current V2 projection, never legacy input.
+            -- Remove rows produced by the earlier faulty migration rather than
+            -- poisoning readiness on every subsequent boot.
+            DELETE FROM effect_migration_archive WHERE source_table='durable_effects';
             DO $$ BEGIN IF to_regclass('effect_history') IS NOT NULL THEN
               EXECUTE $archive$INSERT INTO effect_migration_archive
                 (source_table,source_ordinal,raw_record,raw_digest,classification)
@@ -586,6 +584,15 @@ class LifecycleStore:
             response["evidence_ref"] = None
         return response
 
+    def pending_objectives(self, limit=100):
+        if not isinstance(limit, int) or not 1 <= limit <= 1000:
+            raise ValueError("invalid pending objective limit")
+        with self._connect() as connection:
+            rows = connection.execute("""SELECT objective_id FROM objectives
+              WHERE state NOT IN ('SATISFIED','COMPENSATED','FAILED','CANCELLED')
+              ORDER BY objective_id LIMIT %s""", (limit,)).fetchall()
+        return [row["objective_id"] for row in rows]
+
     def inspect_effect_projection(self, objective_id, effect_id):
         with self._connect() as c:
             return c.execute("""SELECT effect_id,activation_id AS objective_id,
@@ -726,6 +733,12 @@ class LifecycleStore:
         canonical=json.dumps(snapshot,sort_keys=True,separators=(",", ":")).encode()
         actual="sha256:"+hashlib.sha256(canonical).hexdigest()
         if actual != snapshot_digest: raise ValueError("authority snapshot digest mismatch")
+        if snapshot.get("generation") != generation:
+            raise ValueError("authority snapshot generation mismatch")
+        grants_digest=snapshot.get("configuration_digest")
+        if (not isinstance(grants_digest,str) or not grants_digest.startswith("sha256:")
+                or len(grants_digest)!=71):
+            raise ValueError("authority snapshot grants digest is invalid")
         fp=self._fingerprint("commit_authority_snapshot",[binding_id,expected_version,generation,snapshot_digest,evidence_ref])
         with self._connect() as c:
             replay=self._replay(c,command_id,fp)
@@ -734,7 +747,6 @@ class LifecycleStore:
             version=row["version"] if row else 0
             if version != expected_version: raise ValueError("authority snapshot version conflict")
             next_version=version+1
-            grants_digest=snapshot.get("configuration_digest",snapshot_digest)
             c.execute("""INSERT INTO authority_bindings(binding_id,generation,grants_digest,evidence_ref,version,snapshot,snapshot_digest)
               VALUES(%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(binding_id) DO UPDATE SET
               generation=EXCLUDED.generation,grants_digest=EXCLUDED.grants_digest,

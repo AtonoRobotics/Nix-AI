@@ -85,7 +85,7 @@ let
     set -eu
     database_url="$(cat "$CREDENTIALS_DIRECTORY/database-url")"
     schema_ready=
-    for attempt in $(${pkgs.coreutils}/bin/seq 1 100); do
+    for attempt in $(${pkgs.coreutils}/bin/seq 1 300); do
       if ${config.services.postgresql.package}/bin/psql -XqAt \
         "$database_url" -c "SELECT 1 FROM effect_records LIMIT 0" >/dev/null 2>&1; then
         schema_ready=1
@@ -168,6 +168,10 @@ in {
       };
       habitat-effects = lib.recursiveUpdate (common "effects") {
         restartTriggers = [ cfg.effectsPackage ];
+        unitConfig = {
+          BindsTo = [ "habitat-state.service" ];
+          PartOf = [ "habitat-state.service" ];
+        };
         serviceConfig.ExecStart = effectsStart;
         serviceConfig.LoadCredential = loadCredentials "effects";
         serviceConfig.RestrictAddressFamilies = [ "AF_UNIX" ];
@@ -179,6 +183,10 @@ in {
       habitat-abi = abiUnit;
       habitat-state = lib.recursiveUpdate (common "state") {
         requires = dependencies.state;
+        # A fresh state listener must also bring back effects after BindsTo
+        # detached it from the old socket. Upholds is declarative and bounded;
+        # it does not add a process-local restart loop.
+        unitConfig.Upholds = [ "habitat-effects.service" ];
         restartTriggers = [ cfg.statePackage ];
         serviceConfig.ExecStart = stateStart;
         serviceConfig.RestartMode = "direct";

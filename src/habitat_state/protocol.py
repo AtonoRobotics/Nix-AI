@@ -78,6 +78,7 @@ class StateProtocol:
         if operation == "package_admit":
             return self.repository.admit_verified_package(request)
         if operation == "runtime_status":
+            self.recovery=self.repository.recover(now=int(time.time()))
             return {"readiness":"READY" if self.recovery["effects_classified"] else "RECOVERING",
                     "migrations":True,"leases_fenced":True,
                     "effects_classified":self.recovery["effects_classified"],
@@ -90,6 +91,8 @@ class StateProtocol:
             return {"completion":self.repository.complete_ready_objective(now=int(time.time()))}
         if operation == "runtime_inspect":
             return self.repository.inspect_objective(request["objective_id"])
+        if operation == "runtime_pending":
+            return {"objectives":self.repository.pending_objectives(request.get("limit",100))}
         if operation == "authority_get":
             limit=request.get("limit",50);cursor=request.get("cursor",0)
             if not isinstance(limit,int) or not 1<=limit<=100 or not isinstance(cursor,int) or cursor<0:
@@ -150,7 +153,7 @@ class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
         self.operations={
           "service:abi":frozenset({"evidence_put","commit_command","get_command"}),
           "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect"}),
-          "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","change_propose","change_transition","change_get","package_admit","effect_guard","effect_guard_invalidate"}),
+          "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","package_admit","effect_guard","effect_guard_invalidate"}),
           "service:authority":frozenset({"evidence_put","authority_get","authority_commit"}),
           "service:effects":frozenset({"evidence_put","effect_transition","effect_observe","effect_guard","effect_guard_invalidate","runtime_inspect"}),
           "service:controller":frozenset({"evidence_put","change_propose","change_transition","change_get","package_admit"}),

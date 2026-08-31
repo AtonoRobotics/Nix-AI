@@ -4,16 +4,16 @@ use habitat_authority::{
 pub mod coordinator;
 use coordinator::{
     Command, ContextId, Coordinator, Effect, EffectId, EffectState, GenerationId, ObjectiveId,
-    ObjectiveSnapshot, ObjectiveState, PackageId,
+    ObjectiveSnapshot, ObjectiveState, PackageId, RuntimeReadiness, StateReadiness,
 };
 use habitat_effects::{
     RuntimeEffectAdmission, RuntimeEffectRequest, RUNTIME_EFFECT_SCHEMA_VERSION,
 };
 use habitat_execution::provider_request_digest;
 use habitat_uds::{
-    connect_with_timeouts, publish_readiness, AuthenticatedListener, FrameConfig, JsonTransport,
-    PeerAllowlist, PeerPrincipal, Readiness, ServiceCommandPolicy, ServiceListener,
-    SocketPermissions, StreamTimeouts, DEFAULT_MAX_PAYLOAD,
+    connect_stream_with_timeout, connect_with_timeouts, publish_readiness, AuthenticatedListener,
+    FrameConfig, JsonTransport, PeerAllowlist, PeerPrincipal, Readiness, ServiceCommandPolicy,
+    ServiceListener, SocketPermissions, StreamTimeouts, DEFAULT_MAX_PAYLOAD,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -65,7 +65,7 @@ use habitat_uds::ServicePrincipal;
 use sha2::{Digest, Sha256};
 use std::{
     fs, io,
-    os::unix::{fs::FileTypeExt, net::UnixStream},
+    os::unix::net::UnixStream,
     path::{Path, PathBuf},
     sync::OnceLock,
     time::{SystemTime, UNIX_EPOCH},
@@ -924,24 +924,83 @@ fn deployed_response(
 }
 
 fn execute_resume_decision(run_dir: &Path, snapshot: &ObjectiveSnapshot) -> String {
+    match snapshot.state {
+        // Coordinator correctly rejects terminal objectives as new work.  A
+        // deployed RESUME is also the idempotent read path, so terminal
+        // success/compensation must be revalidated against the exact durable
+        // projection rather than translated into UNAVAILABLE.
+        ObjectiveState::Satisfied | ObjectiveState::Compensated => {
+            return resume_objective(run_dir, &snapshot.id.to_string(), true);
+        }
+        ObjectiveState::Failed => return "FAILED".into(),
+        _ => {}
+    }
     let decision = match Coordinator::new().resume(snapshot) {
         Ok(decision) => decision,
-        // PostgreSQL can represent terminal replay and crash-recovered
-        // PROPOSED+COMMITTED shapes that require no in-memory transition.
-        // The exact effect-set guard in resume_objective remains authoritative.
-        Err(_) => return resume_objective(run_dir, &snapshot.id.to_string(), true),
+        Err(_) => return "UNAVAILABLE".into(),
     };
-    if decision.commands.iter().any(|command| match command {
-            Command::Resume { objective_id, .. }
-            | Command::DispatchEffect { objective_id, .. }
-            | Command::ObserveEffect { objective_id, .. }
-            | Command::RecordEvidence { objective_id, .. } => objective_id != &snapshot.id,
-            _ => true,
-        })
-    {
-        return "UNAVAILABLE".into();
+    match decision.commands.as_slice() {
+        [Command::Resume { objective_id, .. }]
+        | [Command::DispatchEffect { objective_id, .. }]
+        | [Command::ObserveEffect { objective_id, .. }]
+            if objective_id == &snapshot.id =>
+        {
+            resume_objective(run_dir, &snapshot.id.to_string(), true)
+        }
+        [Command::RecordEvidence { objective_id, .. }] if objective_id == &snapshot.id => {
+            "FAILED".into()
+        }
+        _ => "UNAVAILABLE".into(),
     }
-    resume_objective(run_dir, &snapshot.id.to_string(), true)
+}
+
+pub fn recover_nonterminal_objectives(run_dir: &Path) -> io::Result<usize> {
+    let wire = query_state(
+        &component_socket(run_dir, "state"),
+        r#"{"operation":"runtime_pending","limit":1000}"#,
+    )?;
+    let value: serde_json::Value = serde_json::from_str(&wire).map_err(io::Error::other)?;
+    let objectives = value["result"]["objectives"]
+        .as_array()
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "pending objectives missing"))?;
+    let mut snapshots = Vec::with_capacity(objectives.len());
+    for objective in objectives {
+        let id = objective.as_str().ok_or_else(|| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                "pending objective identity invalid",
+            )
+        })?;
+        let projection = query_state(
+            &component_socket(run_dir, "state"),
+            &format!("INSPECT {id}"),
+        )?;
+        snapshots.push(snapshot_from_state_projection(&projection)?);
+    }
+    let decision = Coordinator::new()
+        .cold_boot(StateReadiness::Operational, &snapshots)
+        .map_err(|_| io::Error::other("cold boot coordination failed"))?;
+    if decision.readiness != RuntimeReadiness::Operational
+        || decision.commands.len() != snapshots.len()
+    {
+        return Err(io::Error::other("cold boot decision is incomplete"));
+    }
+    for command in decision.commands {
+        let Command::Resume { objective_id, .. } = command else {
+            return Err(io::Error::other("cold boot emitted non-resume command"));
+        };
+        let snapshot = snapshots
+            .iter()
+            .find(|item| item.id == objective_id)
+            .ok_or_else(|| io::Error::other("cold boot command objective mismatch"))?;
+        let response = execute_resume_decision(run_dir, snapshot);
+        if !matches!(response.as_str(), "COMPLETED" | "COMPENSATED" | "IDLE") {
+            return Err(io::Error::other(format!(
+                "cold boot resume failed: {response}"
+            )));
+        }
+    }
+    Ok(snapshots.len())
 }
 
 fn snapshot_from_state_projection(wire: &str) -> io::Result<ObjectiveSnapshot> {
@@ -1123,10 +1182,11 @@ pub fn dependencies_operational(run_dir: &Path, component: &str) -> io::Result<b
     let dependencies = readiness_dependencies(component)?;
     Ok(dependencies.iter().all(|name| {
         if *name == "abi" {
-            return component_socket(run_dir, name)
-                .metadata()
-                .map(|metadata| metadata.file_type().is_socket())
-                .unwrap_or(false);
+            return connect_stream_with_timeout(
+                &component_socket(run_dir, name),
+                std::time::Duration::from_secs(2),
+            )
+            .is_ok();
         }
         let status = if *name == "state" {
             query_state(&component_socket(run_dir, name), "STATUS")

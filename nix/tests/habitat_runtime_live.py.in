@@ -366,15 +366,18 @@ assert before[ambiguous_id]["record"]["state"] in ("OutcomeUnknown", "Reconcilin
 assert any(entry["state"] == "OutcomeUnknown"
            for entry in before[ambiguous_id]["history"]), before[ambiguous_id]
 service("stop", "habitat-state.service")
-unavailable = wait_effect(
-    ambiguous, ambiguous_id,
-    lambda value: value[ambiguous_id]["record"]["state"] == "Reconciling"
-    and value[ambiguous_id]["reconciliations"][-1]["observation_source"]
-    == "state-observation-unavailable")
-assert unavailable[ambiguous_id]["record"]["state"] == "Reconciling"
-assert unavailable[ambiguous_id]["reconciliations"][-1]["observation_source"] == "state-observation-unavailable"
+time.sleep(2)
+unavailable = pg_effects(ambiguous)
+assert unavailable[ambiguous_id]["record"]["state"] in ("OutcomeUnknown", "Reconciling")
+for reconciliation in unavailable[ambiguous_id]["reconciliations"]:
+    assert reconciliation["response"] is not None, reconciliation
+    assert reconciliation["observation_source"] is not None, reconciliation
+    assert reconciliation["terminal_classification"] is not None, reconciliation
+    if reconciliation["observation_source"].startswith("state-observation"):
+        assert reconciliation["observation_source"] == "state-observation-unavailable"
 service("start", "habitat-state.service")
 wait_projection(ambiguous)
+wait_ready("effects")
 after = wait_effect(
     ambiguous, ambiguous_id,
     lambda value: value[ambiguous_id]["record"]["state"]

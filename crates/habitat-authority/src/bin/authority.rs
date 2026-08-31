@@ -365,9 +365,16 @@ fn commit_authority(
     generation: &str,
     version: &mut u64,
 ) -> io::Result<()> {
-    let snapshot = authority
+    let mut snapshot = authority
         .snapshot()
         .map_err(|_| io::Error::other("authority snapshot unavailable"))?;
+    snapshot
+        .as_object_mut()
+        .ok_or_else(|| io::Error::other("authority snapshot is not an object"))?
+        .insert(
+            "generation".into(),
+            serde_json::Value::String(generation.into()),
+        );
     let canonical = serde_json::to_vec(&snapshot).map_err(io::Error::other)?;
     let digest = format!("sha256:{:x}", Sha256::digest(&canonical));
     let command_id = format!("authority-snapshot-{}-{}", *version, &digest[7..23]);

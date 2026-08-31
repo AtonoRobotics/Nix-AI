@@ -145,6 +145,48 @@ fn disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry() {
 }
 
 #[test]
+fn inconclusive_reconciliation_has_complete_nonterminal_provenance() {
+    let mut ledger = ledger();
+    let effect = proposed(&mut ledger, "intent:inconclusive:0001");
+    dispatch(
+        &mut ledger,
+        &effect,
+        Attempt::new("sha256:payload", 100, "mail", "transport:9"),
+    )
+    .unwrap();
+    ledger
+        .transport_lost(&effect.effect_id, "disconnect")
+        .unwrap();
+    ledger
+        .begin_reconciliation(
+            &effect.effect_id,
+            ReconciliationAttempt::new("sha256:payload", 101, "mail", "lookup:9"),
+        )
+        .unwrap();
+    ledger
+        .reconciliation_inconclusive(
+            &effect.effect_id,
+            "state-observation-unavailable",
+            "UNAVAILABLE:state observation persistence",
+        )
+        .unwrap();
+
+    let attempt = &ledger.reconciliations(&effect.effect_id)[0];
+    assert_eq!(
+        attempt.observation_source.as_deref(),
+        Some("state-observation-unavailable")
+    );
+    assert_eq!(
+        attempt.response.as_deref(),
+        Some("UNAVAILABLE:state observation persistence")
+    );
+    assert_eq!(
+        attempt.terminal_classification,
+        Some(EffectState::Reconciling)
+    );
+}
+
+#[test]
 fn acknowledgement_is_not_success_without_the_declared_observation() {
     let mut ledger = ledger();
     let effect = proposed(&mut ledger, "intent:evidence:0001");

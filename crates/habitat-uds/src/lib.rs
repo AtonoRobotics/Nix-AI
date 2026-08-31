@@ -207,7 +207,7 @@ pub fn connect_with_timeouts<Request, Response>(
     read_timeout: Duration,
     write_timeout: Duration,
 ) -> Result<JsonTransport<UnixStream, Request, Response>, TransportError> {
-    let stream = UnixStream::connect(path)?;
+    let stream = connect_stream_with_timeout(path.as_ref(), read_timeout)?;
     stream.set_read_timeout(Some(read_timeout))?;
     stream.set_write_timeout(Some(write_timeout))?;
     Ok(JsonTransport::new(stream, frames))
@@ -705,12 +705,17 @@ fn remove_stale_socket(path: &Path) -> io::Result<()> {
             "socket path exists and is not a socket",
         ));
     }
-    match socket_is_live(path, Duration::from_millis(250)) {
-        Ok(true) => Err(io::Error::new(
+    match connect_stream_with_timeout(path, Duration::from_millis(250)) {
+        Ok(_) => Err(io::Error::new(
             io::ErrorKind::AddrInUse,
             "socket already has a live listener",
         )),
-        Ok(false) => {
+        Err(error)
+            if matches!(
+                error.kind(),
+                io::ErrorKind::ConnectionRefused | io::ErrorKind::NotFound
+            ) =>
+        {
             let current = fs::symlink_metadata(path)?;
             if !current.file_type().is_socket()
                 || (current.dev(), current.ino()) != (initial.dev(), initial.ino())
@@ -726,7 +731,7 @@ fn remove_stale_socket(path: &Path) -> io::Result<()> {
     }
 }
 
-fn socket_is_live(path: &Path, timeout: Duration) -> io::Result<bool> {
+pub fn connect_stream_with_timeout(path: &Path, timeout: Duration) -> io::Result<UnixStream> {
     let bytes = path.as_os_str().as_bytes();
     let mut address: libc::sockaddr_un = unsafe { std::mem::zeroed() };
     if bytes.is_empty() || bytes.len() >= address.sun_path.len() {
@@ -760,14 +765,16 @@ fn socket_is_live(path: &Path, timeout: Duration) -> io::Result<bool> {
         )
     };
     if connected == 0 {
-        return Ok(true);
+        let stream = UnixStream::from(descriptor);
+        stream.set_nonblocking(false)?;
+        return Ok(stream);
     }
     let error = io::Error::last_os_error();
     if matches!(
         error.raw_os_error(),
         Some(libc::ECONNREFUSED) | Some(libc::ENOENT)
     ) {
-        return Ok(false);
+        return Err(error);
     }
     if error.raw_os_error() != Some(libc::EINPROGRESS) {
         return Err(error);
@@ -803,8 +810,11 @@ fn socket_is_live(path: &Path, timeout: Duration) -> io::Result<bool> {
         return Err(io::Error::last_os_error());
     }
     match socket_error {
-        0 => Ok(true),
-        libc::ECONNREFUSED | libc::ENOENT => Ok(false),
+        0 => {
+            let stream = UnixStream::from(descriptor);
+            stream.set_nonblocking(false)?;
+            Ok(stream)
+        }
         code => Err(io::Error::from_raw_os_error(code)),
     }
 }

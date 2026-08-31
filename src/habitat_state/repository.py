@@ -70,8 +70,14 @@ class CommandLedgerStore:
             return ReplayOutcome(result, inserted is None, False)
     def get(self, activation_id, command_id):
         with self._connect() as connection:
-            row = connection.execute("SELECT committed_result FROM abi_command_ledger WHERE activation_id=%s AND command_id=%s", (activation_id, command_id)).fetchone()
+            row = connection.execute("SELECT request_digest,committed_result,evidence_ref FROM abi_command_ledger WHERE activation_id=%s AND command_id=%s", (activation_id, command_id)).fetchone()
         return None if row is None else self._validate_result(row["committed_result"], command_id)
+    def get_bound(self, activation_id, command_id):
+        with self._connect() as connection:
+            row = connection.execute("SELECT request_digest,committed_result,evidence_ref FROM abi_command_ledger WHERE activation_id=%s AND command_id=%s", (activation_id, command_id)).fetchone()
+        if row is None:return None
+        return {"request_digest":row["request_digest"],"evidence_ref":row["evidence_ref"],
+                "result":self._validate_result(row["committed_result"],command_id)}
 
 
 class PostgresRepository:
@@ -148,7 +154,13 @@ class PostgresRepository:
             if not row:raise ValueError("CONFLICT: evidence admission changed")
             return row["evidence_ref"]
     def recover(self, now): return self._lifecycle.recover(now=now)
-    def get_command(self,*args): return self._commands.get(*args)
+    def get_command(self,activation_id,command_id):
+        bound=self._commands.get_bound(activation_id,command_id)
+        if bound is None:return None
+        self._verified(bound["evidence_ref"],subject=command_id,producer="service:abi",
+          source=bound["request_digest"],operation="command.commit",
+          disposition=bound["result"]["state"])
+        return bound["result"]
     def guard_objective_effects(self,*args): return self._lifecycle.guard_objective_effects(*args)
     def invalidate_objective_effect_guard(self,*args): return self._lifecycle.invalidate_objective_effect_guard(*args)
     def governed_change(self,*args): return self._lifecycle.governed_change(*args)
@@ -156,4 +168,5 @@ class PostgresRepository:
     def schedule_objective(self,*args,**kwargs): return self._lifecycle.schedule_objective(*args,**kwargs)
     def complete_ready_objective(self,*args,**kwargs): return self._lifecycle.complete_ready_objective(*args,**kwargs)
     def inspect_objective(self,*args): return self._lifecycle.inspect_objective(*args)
+    def pending_objectives(self,*args): return self._lifecycle.pending_objectives(*args)
     def authority_binding(self,*args): return self._lifecycle.authority_binding(*args)

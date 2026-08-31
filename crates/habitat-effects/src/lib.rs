@@ -1,5 +1,6 @@
 //! Durable effect admission, evidence, observation, and reconciliation.
 use habitat_authority::{Authority, Invocation};
+use habitat_execution::provider_request_digest;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{
@@ -566,7 +567,14 @@ impl EffectLedger {
                 .effects
                 .get(original_id)
                 .ok_or(EffectError::AdmissionDenied)?;
-            let expected_digest = format!("sha256:{:x}", Sha256::digest(original_id.as_bytes()));
+            let payload = serde_json::json!({
+                "objective_id": proposal.objective_id,
+                "capability": proposal.capability,
+                "target": original_id,
+                "compensates_effect_id": original_id,
+            });
+            let expected_digest = provider_request_digest("compensate", &payload)
+                .map_err(|_| EffectError::AdmissionDenied)?;
             if original.proposal.objective_id != proposal.objective_id
                 || original.proposal.activation_id != proposal.activation_id
                 || original.proposal.compensates_effect_id.is_some()
@@ -1053,7 +1061,7 @@ impl EffectLedger {
             .ok_or(EffectError::InvalidAttempt)?;
         last.response = Some(evidence.into());
         last.observation_source = Some(source.into());
-        last.terminal_classification = None;
+        last.terminal_classification = Some(EffectState::Reconciling);
         self.transition(id, EffectState::Reconciling, evidence);
         self.commit_or_restore(previous)
     }
