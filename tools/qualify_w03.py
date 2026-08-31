@@ -12,7 +12,9 @@ def main():
     probe="""import os,socket,subprocess,sys,tempfile,time
 server=sys.argv[1]
 with tempfile.TemporaryDirectory() as d:
- p=subprocess.Popen([server,d+'/abi.sock',d+'/ledger.json'])
+ env=os.environ|{'HABITAT_ABI_ACTIVATION_CREDENTIAL':'qualification-credential',
+                 'HABITAT_ABI_PEER_UID':str(os.getuid())}
+ p=subprocess.Popen([server,d+'/abi.sock',d+'/state.sock'],env=env)
  try:
   for _ in range(100):
    if os.path.exists(d+'/abi.sock'):
