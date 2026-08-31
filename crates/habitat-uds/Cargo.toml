@@ -1,18 +1,13 @@
 [package]
-name = "habitat-execution"
+name = "habitat-uds"
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
 
 [dependencies]
+libc = "0.2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-sha2 = "0.10"
-habitat-uds = { path = "../habitat-uds" }
-
-[[bin]]
-name = "habitat-execution"
-path = "src/main.rs"
 
 [dev-dependencies]
 tempfile = "3"

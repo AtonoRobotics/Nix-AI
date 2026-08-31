@@ -8,6 +8,7 @@ license = "Apache-2.0"
 path = "src/lib.rs"
 
 [dependencies]
+habitat-uds = { path = "../habitat-uds" }
 habitat-authority = { path = "../habitat-authority" }
 habitat-effects = { path = "../habitat-effects" }
 serde_json = "1"
