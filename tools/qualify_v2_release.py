@@ -268,8 +268,9 @@ def write_report(root: Path, destination: Path, gate: str, attestations: list[di
                  *, observations=None, supporting=None) -> dict:
     if not valid_attestations(root, gate, attestations):
         raise SystemExit(f"{gate} did not produce complete source/closure/command/artifact attestation")
-    candidate = observations if isinstance(observations, dict) and "outcome" in observations else (
-        observations.get("qualification_result") if isinstance(observations, dict) else None)
+    candidate = observations.get("qualification_result") if isinstance(observations, dict) else None
+    if candidate is None and isinstance(observations, dict) and "outcome" in observations:
+        candidate = observations
     live_errors = validate_structured_result(candidate, require_services=gate in SERVICE_GATES)
     if live_errors:
         raise SystemExit(f"{gate} did not emit qualifying structured live evidence: {'; '.join(live_errors)}")

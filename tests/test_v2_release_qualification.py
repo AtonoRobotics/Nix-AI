@@ -80,6 +80,18 @@ class ReleaseVerifierTests(unittest.TestCase):
         ]
         self.assertEqual(_runner_identity(argv), "tools/verify_v2_removal.py")
 
+    def test_packet_normalization_prefers_canonical_qualification_result(self):
+        from tools.qualification import validate_structured_result
+
+        packet = {
+            "outcome": "passed",
+            "qualification_result": self.live_result(services=True),
+        }
+        self.assertEqual(
+            validate_structured_result(packet["qualification_result"], require_services=True),
+            [],
+        )
+
     def live_result(self, *, services=False):
         value = {"outcome": "passed", "evidence_origin": "executed", "skip_count": 0,
                  "assertions": [{"name": "behavior observed", "passed": True}]}
