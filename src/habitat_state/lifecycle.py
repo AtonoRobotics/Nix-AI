@@ -604,7 +604,11 @@ class LifecycleStore:
     def inspect_effect_projection(self, objective_id, effect_id):
         with self._connect() as c:
             return c.execute("""SELECT effect_id,activation_id AS objective_id,
-              request_digest,state,external_ref,evidence_ref FROM durable_effects
+              request_digest,state,external_ref,evidence_ref,
+              (SELECT new_state FROM provider_effect_transitions t
+               WHERE t.effect_id=durable_effects.effect_id
+               ORDER BY sequence DESC LIMIT 1) AS provider_state
+              FROM durable_effects
               WHERE activation_id=%s AND effect_id=%s""",
                              (objective_id, effect_id)).fetchone()
 

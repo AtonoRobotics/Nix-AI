@@ -813,7 +813,9 @@ fn reconcile_pending(
                 let external_ref = provider_observation.transport_id.clone();
                 let observed_state = state_observation
                     .as_ref()
-                    .and_then(|response| response["result"]["projection"]["state"].as_str());
+                    .and_then(|response| {
+                        response["result"]["projection"]["provider_state"].as_str()
+                    });
                 // A response-loss crash can occur after state durably accepts
                 // DISPATCHED -> UNCERTAIN.  Resume from that observed boundary
                 // instead of replaying a stale predecessor forever.
@@ -829,6 +831,52 @@ fn reconcile_pending(
                     )
                     .is_ok();
                 if !uncertain_ready {
+                    // The original terminal transition may have committed
+                    // while its response was lost.  If our stale
+                    // DISPATCHED -> UNCERTAIN write is rejected, re-read the
+                    // independently verified state before classifying an
+                    // outage; this closes the observation/write race.
+                    let terminal = state_request(
+                        state_socket,
+                        &serde_json::json!({
+                            "operation":"effect_observe", "admission_token":token,
+                            "objective_id":record.proposal.objective_id,
+                            "effect_id":record.effect_id,
+                        }),
+                    )
+                    .filter(|response| {
+                        response["status"] == "ok"
+                            && matches!(
+                                response["result"]["projection"]["state"].as_str(),
+                                Some("COMMITTED" | "FAILED")
+                            )
+                    });
+                    if let Some(terminal) = terminal {
+                        let evidence_ref = terminal["result"]["projection"]["evidence_ref"]
+                            .as_str()
+                            .ok_or(habitat_effects::EffectError::Storage)?;
+                        let succeeded = terminal["result"]["projection"]["state"] == "COMMITTED"
+                            && provider_observation.outcome == "SUCCEEDED";
+                        ledger.resolve(
+                            &effect_id,
+                            Observation::independent(
+                                "terminal-state+provider-observe",
+                                evidence_ref,
+                                succeeded,
+                            ),
+                        )?;
+                        checkpoint_effect(ledger, store, &effect_id)
+                            .map_err(|_| habitat_effects::EffectError::Storage)?;
+                        if succeeded {
+                            guard_objective(
+                                ledger,
+                                state_socket,
+                                token,
+                                &record.proposal.objective_id,
+                            )?;
+                        }
+                        continue;
+                    }
                     // PostgreSQL still owns the attempt while the state
                     // observation boundary is unavailable. Persist a bounded,
                     // nonterminal classification and retry later; do not turn
