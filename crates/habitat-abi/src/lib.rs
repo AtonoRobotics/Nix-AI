@@ -1,12 +1,11 @@
 //! Versioned Habitat Agent ABI transport and durable command ledger.
 
+use habitat_uds::{connect_with_timeouts, FrameConfig, TransportError};
 use sha2::{Digest, Sha256};
 use std::{
-    io::{BufRead, BufReader, Write},
-    os::unix::net::UnixStream,
     path::Path,
     sync::Arc,
-    time::{SystemTime, UNIX_EPOCH},
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 use tonic::transport::server::UdsConnectInfo;
 use tonic::{Request, Response, Status};
@@ -87,18 +86,21 @@ impl StateServiceLedger {
     }
 
     fn request(&self, request: serde_json::Value) -> Result<serde_json::Value, LedgerError> {
-        let mut stream = UnixStream::connect(self.socket.as_path())
-            .map_err(|error| LedgerError::Unavailable(error.to_string()))?;
-        stream
-            .write_all(format!("{}\n", request).as_bytes())
-            .and_then(|_| stream.flush())
-            .map_err(|error| LedgerError::Unavailable(error.to_string()))?;
-        let mut response = String::new();
-        BufReader::new(stream)
-            .read_line(&mut response)
-            .map_err(|error| LedgerError::Unavailable(error.to_string()))?;
-        let response: serde_json::Value = serde_json::from_str(&response)
+        let frames = FrameConfig::new(2 * MAX_COMMAND_BYTES)
             .map_err(|error| LedgerError::Corrupt(error.to_string()))?;
+        let mut transport = connect_with_timeouts::<serde_json::Value, serde_json::Value>(
+            self.socket.as_path(),
+            frames,
+            Duration::from_secs(10),
+            Duration::from_secs(10),
+        )
+        .map_err(ledger_transport_error)?;
+        transport
+            .send_request(&request)
+            .map_err(ledger_transport_error)?;
+        let response = transport
+            .receive_response()
+            .map_err(ledger_transport_error)?;
         match response.get("status").and_then(|value| value.as_str()) {
             Some("ok") => Ok(response),
             Some("digest_mismatch") => {
@@ -130,6 +132,14 @@ impl StateServiceLedger {
     }
 }
 
+fn ledger_transport_error(error: TransportError) -> LedgerError {
+    if matches!(error, TransportError::Io(_)) {
+        LedgerError::Unavailable(error.to_string())
+    } else {
+        LedgerError::Corrupt(error.to_string())
+    }
+}
+
 impl CommandLedger for StateServiceLedger {
     fn commit(
         &self,
@@ -138,9 +148,40 @@ impl CommandLedger for StateServiceLedger {
         request_digest: &str,
         proposed: &proto::CommandResult,
     ) -> Result<proto::CommandResult, LedgerError> {
+        let evidence = self.request(serde_json::json!({
+            "operation":"evidence_put",
+            "command_id":format!("evidence:{activation_id}:{command_id}"),
+            "envelope":{
+                "schema_version":"1",
+                "producer":"service:abi",
+                "subject":command_id,
+                "operation":"command.commit",
+                "source":request_digest,
+                "payload":{
+                    "disposition":proposed.state,
+                    "activation_id":activation_id,
+                    "command_id":command_id,
+                    "request_digest":request_digest,
+                }
+            }
+        }))?;
+        let evidence_ref = evidence
+            .get("result")
+            .and_then(|result| result.get("evidence_ref"))
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| LedgerError::Corrupt("evidence response omitted reference".into()))?;
+        let mut committed = proposed.clone();
+        committed.durable_record_id = evidence_ref.into();
+        if !committed
+            .evidence_refs
+            .iter()
+            .any(|reference| reference == evidence_ref)
+        {
+            committed.evidence_refs.push(evidence_ref.into());
+        }
         let response = self.request(serde_json::json!({"operation":"commit_command",
             "activation_id":activation_id,"command_id":command_id,
-            "request_digest":request_digest,"result":proposed}))?;
+            "request_digest":request_digest,"result":committed}))?;
         serde_json::from_value(
             response
                 .get("result")
@@ -454,7 +495,10 @@ fn fingerprint<T: prost::Message>(message: &T) -> Result<String, Status> {
             "reduce the disposition payload",
         ));
     }
-    Ok(format!("{:x}", Sha256::digest(message.encode_to_vec())))
+    Ok(format!(
+        "sha256:{:x}",
+        Sha256::digest(message.encode_to_vec())
+    ))
 }
 
 fn structured_status(

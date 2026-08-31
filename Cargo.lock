@@ -358,6 +358,7 @@ dependencies = [
 name = "habitat-abi"
 version = "0.1.0"
 dependencies = [
+ "habitat-uds",
  "hyper-util",
  "prost",
  "prost-types",
