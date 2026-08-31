@@ -59,6 +59,11 @@ class QualificationPrimitiveTests(unittest.TestCase):
 
 
 class ReleaseVerifierTests(unittest.TestCase):
+    def test_live_release_wrapper_uses_git_workspace_root(self):
+        flake = (ROOT / "flake.nix").read_text()
+
+        self.assertIn('qualify_v2_release.py} --root "$PWD" --run', flake)
+
     def live_result(self, *, services=False):
         value = {"outcome": "passed", "evidence_origin": "executed", "skip_count": 0,
                  "assertions": [{"name": "behavior observed", "passed": True}]}

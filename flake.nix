@@ -550,7 +550,7 @@
         runtimeInputs = contractTools ++ [ pkgs.docker-client ];
         text = ''
           export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
-          exec ${python}/bin/python ${./tools/qualify_v2_release.py} --root ${self} --run "$@"
+          exec ${python}/bin/python ${./tools/qualify_v2_release.py} --root "$PWD" --run "$@"
         '';
       };
       verifyV2Release = pkgs.writeShellApplication {
