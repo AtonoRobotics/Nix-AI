@@ -1,4 +1,4 @@
-import hashlib, json, os, sys, unittest, uuid
+import json, os, sys, unittest, uuid
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
@@ -8,8 +8,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from habitat_state import (CommandId, Conflict, Correlation, EntityId, EntityKind,
     EvidenceMetadata, InjectedCrash, IntegrityError, PrincipalId, State, StateStore, Version,
     CommandLedgerStore)
-from habitat_state.evidence import EvidenceStore,GarageEvidenceAdapter
-from habitat_state.errors import LedgerCorrupt
 
 def correlation():
     return Correlation(uuid.uuid4(), uuid.uuid4(), uuid.uuid4(), uuid.uuid4().hex)
@@ -136,43 +134,6 @@ class TransactionalStateTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.store.put_evidence(b"x" * (16 * 1024 * 1024 + 1), metadata(correlation()))
 
-    def test_authenticated_evidence_envelope_is_canonical_idempotent_and_fail_closed(self):
-        evidence=EvidenceStore.__new__(EvidenceStore);evidence.bucket=os.environ["HABITAT_TEST_S3_BUCKET"]
-        evidence.adapter=GarageEvidenceAdapter.from_urls(os.environ["HABITAT_TEST_S3_ENDPOINT"],
-          os.environ["HABITAT_TEST_S3_ACCESS_KEY"],os.environ["HABITAT_TEST_S3_SECRET_KEY"],evidence.bucket)
-        envelope={"schema_version":"1","producer":"service:authority","subject":"authority:runtime",
-          "operation":"authority.snapshot","source":"sha256:"+"a"*64,"payload":{"version":1}}
-        first=evidence.put_envelope(envelope,"service:authority")
-        self.assertEqual(evidence.put_envelope(envelope,"service:authority"),first)
-        self.assertEqual(evidence.verify_record(first["evidence_ref"],subject="authority:runtime",
-          producer="service:authority",source="sha256:"+"a"*64),envelope)
-        with self.assertRaises(LedgerCorrupt):evidence.put_envelope(envelope,"service:effects")
-        forged=envelope|{"source":"sha256:not-a-digest"}
-        with self.assertRaises(LedgerCorrupt):evidence.put_envelope(forged,"service:authority")
-        capability={"schema_version":"1","producer":"service:packages",
-          "subject":"capability-set:test","operation":"capability-set.publish",
-          "source":"generation:test","payload":{"command_id":"command:set:test",
-            "grant_ids":["grant:test"]}}
-        published=evidence.put_envelope(capability,"service:packages")
-        self.assertEqual(evidence.verify_record(published["evidence_ref"],
-          subject="capability-set:test",producer="service:packages",source="generation:test",
-          operation="capability-set.publish"),capability)
-        recovery_payload={"command_id":"recovery:activation:test:2",
-          "activation_id":"activation:test","wake_id":"wake:test","lease_fence":1,
-          "previous_activation_state":"LEASED","new_activation_state":"REQUESTED",
-          "previous_activation_version":1,"new_activation_version":2,
-          "previous_wake_state":"LEASED","new_wake_state":"RELEASED",
-          "previous_wake_version":1,"new_wake_version":2}
-        recovery_source="sha256:"+hashlib.sha256(json.dumps(recovery_payload,
-          sort_keys=True,separators=(",",":" )).encode()).hexdigest()
-        recovery={"schema_version":"1","producer":"service:state",
-          "subject":"activation:test","operation":"activation.recover",
-          "source":recovery_source,"payload":recovery_payload}
-        recovered=evidence.put_envelope(recovery,"service:state",recovery_payload["command_id"])
-        self.assertEqual(evidence.verify_record(recovered["evidence_ref"],
-          subject="activation:test",producer="service:state",source=recovery_source,
-          operation="activation.recover"),recovery)
-
     def test_command_ledger_exact_replay_and_digest_mismatch(self):
         ledger = CommandLedgerStore(os.environ["HABITAT_TEST_DATABASE_URL"])
         ledger.migrate()
@@ -180,20 +141,17 @@ class TransactionalStateTests(unittest.TestCase):
         result = {"command_id": command, "committed": True,
                   "durable_record_id": "command:sha256:" + "a" * 64,
                   "state": "DISPOSITION_COMMITTED", "error": None, "evidence_refs": []}
-        digest = "sha256:" + "a" * 64
-        first = ledger.commit(activation, command, digest, result)
-        duplicate = ledger.commit(activation, command, digest, result)
-        mismatch = ledger.commit(activation, command, "sha256:" + "b" * 64, result)
+        first = ledger.commit(activation, command, "a" * 64, result)
+        duplicate = ledger.commit(activation, command, "a" * 64, result)
+        mismatch = ledger.commit(activation, command, "b" * 64, result)
         self.assertFalse(first.duplicate)
         self.assertTrue(duplicate.duplicate)
         self.assertTrue(mismatch.digest_mismatch)
         self.assertEqual(mismatch.result, first.result)
-        with self.assertRaisesRegex(ValueError, "sha256"):
-            ledger.commit(f"activation:{uuid.uuid4()}", f"command:{uuid.uuid4()}", "c" * 64, result)
         with psycopg.connect(os.environ["HABITAT_TEST_DATABASE_URL"]) as connection:
             with self.assertRaises(psycopg.errors.InsufficientPrivilege):
                 connection.execute("UPDATE abi_command_ledger SET request_digest=%s WHERE activation_id=%s",
-                                   ("sha256:" + "c" * 64, activation))
+                                   ("c" * 64, activation))
 
 if __name__ == "__main__":
     unittest.main()

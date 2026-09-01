@@ -7,12 +7,13 @@ import hashlib
 import json
 import uuid
 
+import boto3
+from botocore.config import Config
 import psycopg
 from psycopg.rows import dict_row
 
 from .domain import (CommandId, Correlation, EntityId, EntityKind, EvidenceId,
                      EvidenceMetadata, PrincipalId, State, Version, assert_legal)
-from .evidence import GarageEvidenceAdapter
 
 
 MAX_EVIDENCE_BYTES = 16 * 1024 * 1024
@@ -123,19 +124,23 @@ END $$;
 
 
 class StateStore:
-    def __init__(self, database_url: str, evidence, bucket=None, *, allow_test_reset=False,
+    def __init__(self, database_url: str, s3, bucket: str, *, allow_test_reset=False,
                  recovery_mode=False):
         self.database_url = database_url
-        self._evidence = (evidence if isinstance(evidence,GarageEvidenceAdapter)
-                          else GarageEvidenceAdapter(evidence,bucket))
+        self._s3 = s3
+        self.bucket = bucket
         self._allow_test_reset = allow_test_reset
         self._recovery_mode = recovery_mode
 
     @classmethod
     def from_urls(cls, database_url, endpoint, access_key, secret_key, bucket, *,
                   allow_test_reset=False, recovery_mode=False):
-        evidence=GarageEvidenceAdapter.from_urls(endpoint,access_key,secret_key,bucket)
-        return cls(database_url, evidence, allow_test_reset=allow_test_reset,
+        s3 = boto3.client(
+            "s3", endpoint_url=endpoint, aws_access_key_id=access_key,
+            aws_secret_access_key=secret_key, region_name="us-east-1",
+            config=Config(signature_version="s3v4", s3={"addressing_style": "path"}),
+        )
+        return cls(database_url, s3, bucket, allow_test_reset=allow_test_reset,
                    recovery_mode=recovery_mode)
 
     def _connect(self):
@@ -147,7 +152,10 @@ class StateStore:
             conn.execute(MIGRATION)
             if crash_at == "during_migration":
                 raise InjectedCrash("during_migration")
-        self._evidence.ensure_bucket()
+        try:
+            self._s3.head_bucket(Bucket=self.bucket)
+        except Exception:
+            self._s3.create_bucket(Bucket=self.bucket)
 
     def reset_for_test(self):
         """Erase disposable test state only when construction granted reset authority."""
@@ -160,7 +168,9 @@ class StateStore:
             conn.execute("TRUNCATE state_transitions, evidence_refs")
             conn.execute("ALTER TABLE state_transitions ENABLE TRIGGER state_transitions_append_only")
             conn.execute("ALTER TABLE evidence_refs ENABLE TRIGGER evidence_refs_append_only")
-        self._evidence.clear()
+        listed = self._s3.list_objects_v2(Bucket=self.bucket).get("Contents", [])
+        if listed:
+            self._s3.delete_objects(Bucket=self.bucket, Delete={"Objects": [{"Key": x["Key"]} for x in listed]})
 
     def put_evidence(self, content: bytes, metadata: EvidenceMetadata, *, crash_at=None) -> EvidenceId:
         """Persist bounded content, verify it, then append its complete provenance reference."""
@@ -169,10 +179,11 @@ class StateStore:
         digest = hashlib.sha256(content).hexdigest()
         evidence_id = EvidenceId(f"sha256:{digest}")
         key = f"sha256/{digest}"
-        stored=self._evidence.put_content(key,content,
-                           {"sha256": digest, "trace-id": str(metadata.correlation.trace_id)})
+        self._s3.put_object(Bucket=self.bucket, Key=key, Body=content,
+                           Metadata={"sha256": digest, "trace-id": str(metadata.correlation.trace_id)})
         if crash_at == "during_upload":
             raise InjectedCrash("during_upload")
+        stored = self._s3.get_object(Bucket=self.bucket, Key=key)["Body"].read()
         if stored != content:
             raise IntegrityError("evidence verification failed after upload")
         with self._connect() as conn:
@@ -196,9 +207,10 @@ class StateStore:
         if not reference:
             raise IntegrityError("unknown evidence reference")
         try:
-            size,content=self._evidence.get_content(reference["object_key"])
-            if size > MAX_EVIDENCE_BYTES or size != reference["size_bytes"]:
+            head = self._s3.head_object(Bucket=self.bucket, Key=reference["object_key"])
+            if head["ContentLength"] > MAX_EVIDENCE_BYTES or head["ContentLength"] != reference["size_bytes"]:
                 raise IntegrityError("referenced evidence exceeds its declared bound")
+            content = self._s3.get_object(Bucket=self.bucket, Key=reference["object_key"])["Body"].read()
         except Exception as error:
             raise IntegrityError("referenced evidence is unavailable") from error
         actual = "sha256:" + hashlib.sha256(content).hexdigest()
@@ -397,7 +409,8 @@ class StateStore:
                 raise IntegrityError("entity and history versions disagree")
 
         for item, content in evidence_by_id.values():
-            self._evidence.put_content(item["object_key"],content,{"consistency-marker":marker})
+            self._s3.put_object(Bucket=self.bucket, Key=item["object_key"], Body=content,
+                               Metadata={"consistency-marker": marker})
         with self._connect() as conn:
             conn.execute("TRUNCATE state_transitions, authoritative_entities, evidence_refs")
             for item, _ in evidence_by_id.values():

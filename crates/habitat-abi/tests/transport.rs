@@ -5,10 +5,10 @@ use habitat_abi::{
     },
     AgentAbi, CommandLedger, LedgerError, SecurityPolicy, StateServiceLedger, CONTRACT_VERSION,
 };
-use habitat_uds::{read_frame, write_frame, FrameConfig};
 use hyper_util::rt::TokioIo;
 use std::{
     collections::HashMap,
+    io::{BufRead, BufReader, Write},
     os::unix::fs::MetadataExt,
     os::unix::net::UnixListener as StdUnixListener,
     path::{Path, PathBuf},
@@ -34,20 +34,20 @@ fn state_service_repository_uses_authoritative_response_and_rejects_malformed_da
     let listener = StdUnixListener::bind(&socket).unwrap();
     let responder = std::thread::spawn(move || {
         for response in [
-            serde_json::json!({"status":"ok","result":{
-                "evidence_ref":format!("s3://habitat-evidence/sha256/{}", "e".repeat(64)),
-                "sha256":"e".repeat(64)}}).to_string(),
             serde_json::json!({"status":"ok","result":{"command_id":"command:01",
-                "committed":true,"durable_record_id":format!("s3://habitat-evidence/sha256/{}", "e".repeat(64)),
-                "state":"PROPOSED","error":null,
-                "evidence_refs":[format!("s3://habitat-evidence/sha256/{}", "e".repeat(64))]}}).to_string(),
-            "not-json".into(),
+                "committed":true,"durable_record_id":"record:01","state":"COMMITTED",
+                "error":null,"evidence_refs":[]}})
+            .to_string()
+                + "\n",
+            "not-json\n".into(),
         ] {
             let (mut stream, _) = listener.accept().unwrap();
-            let frames = FrameConfig::new(2 * 1024 * 1024).unwrap();
-            let request = read_frame(&mut stream, frames).unwrap();
-            assert!(request.windows("operation".len()).any(|part| part == b"operation"));
-            write_frame(&mut stream, response.as_bytes(), frames).unwrap();
+            let mut request = String::new();
+            BufReader::new(stream.try_clone().unwrap())
+                .read_line(&mut request)
+                .unwrap();
+            assert!(request.contains("commit_command"));
+            stream.write_all(response.as_bytes()).unwrap();
         }
     });
     let ledger = StateServiceLedger::new(&socket);
@@ -60,23 +60,11 @@ fn state_service_repository_uses_authoritative_response_and_rejects_malformed_da
         evidence_refs: vec![],
     };
     let committed = ledger
-        .commit(
-            "activation:01",
-            "command:01",
-            &("sha256:".to_owned() + &"a".repeat(64)),
-            &proposed,
-        )
+        .commit("activation:01", "command:01", &"a".repeat(64), &proposed)
         .unwrap();
-    assert!(committed
-        .durable_record_id
-        .starts_with("s3://habitat-evidence/sha256/"));
+    assert_eq!(committed.durable_record_id, "record:01");
     assert!(matches!(
-        ledger.commit(
-            "activation:01",
-            "command:02",
-            &("sha256:".to_owned() + &"b".repeat(64)),
-            &proposed,
-        ),
+        ledger.commit("activation:01", "command:02", &"b".repeat(64), &proposed),
         Err(LedgerError::Corrupt(_))
     ));
     responder.join().unwrap();

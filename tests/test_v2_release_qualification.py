@@ -1,5 +1,4 @@
 import os
-import hashlib
 import sys
 import tempfile
 import unittest
@@ -14,9 +13,6 @@ import qualify_v2_release as release  # noqa: E402
 
 
 class QualificationPrimitiveTests(unittest.TestCase):
-    def test_release_uses_the_canonical_source_identity_implementation(self):
-        self.assertIs(release.source_digest, qualification.source_digest)
-
     def test_canonical_json_is_sorted_and_stable(self):
         self.assertEqual(qualification.canonical_json({"z": 1, "a": 2}), b'{\n  "a": 2,\n  "z": 1\n}\n')
 
@@ -29,22 +25,15 @@ class QualificationPrimitiveTests(unittest.TestCase):
             artifact.write_text('{"outcome":"passed"}\n')
             source = "sha256:" + "1" * 64
             record = qualification.execute(
-                root, source, [sys.executable, "-c", "print('live')"],
-                action="behavioral-test", artifacts=[artifact]
+                root, source, [sys.executable, "-c", "print('live')"], artifacts=[artifact]
             )
             self.assertEqual(qualification.validate_attestation(
                 record, source_tree=source, closure=qualification.closure_digest(root)), [])
             self.assertEqual(record["exit_status"], 0)
             self.assertEqual(record["stdout_sha256"], qualification.digest_bytes(b"live\n"))
             self.assertEqual(record["artifact_digests"][0]["sha256"], qualification.digest_file(artifact))
-            self.assertTrue(record["realized_closure"])
-            self.assertEqual(record["declared_input_closure_sha256"],
-                             qualification.closure_digest(root))
-            self.assertNotEqual(record["built_closure_sha256"],
-                                record["declared_input_closure_sha256"])
             for field in (
                 "source_tree_sha256", "built_closure_sha256", "argv", "exit_status",
-                "action",
                 "started_at", "finished_at", "stdout_sha256", "stderr_sha256",
                 "artifact_digests", "runner_identity",
             ):
@@ -56,40 +45,17 @@ class QualificationPrimitiveTests(unittest.TestCase):
             (root / "Cargo.lock").write_text("cargo")
             (root / "flake.lock").write_text("flake")
             source = "sha256:" + "2" * 64
-            original = qualification.execute(
-                root, source, [sys.executable, "-c", "pass"], action="behavioral-test"
-            )
+            original = qualification.execute(root, source, [sys.executable, "-c", "pass"])
             for field, value in (
                 ("source_tree_sha256", "sha256:" + "0" * 64),
                 ("built_closure_sha256", "sha256:" + "0" * 64),
                 ("exit_status", "0"), ("runner_identity", {}),
                 ("artifact_digests", [{"path": "x"}]),
-                ("action", ""),
             ):
                 with self.subTest(field=field):
                     changed = dict(original); changed[field] = value
                     self.assertTrue(qualification.validate_attestation(
                         changed, source_tree=source, closure=qualification.closure_digest(root)))
-
-    def test_evidence_store_is_immutable_and_recomputes_address(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            store = qualification.EvidenceByteStore(Path(temporary))
-            record = store.put(b"canonical evidence")
-            self.assertEqual(store.read(record["sha256"]), b"canonical evidence")
-            Path(record["path"]).chmod(0o644)
-            Path(record["path"]).write_bytes(b"tampered")
-            with self.assertRaises(ValueError):
-                store.read(record["sha256"])
-
-    def test_supporting_evidence_must_stay_beneath_evidence_root(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            evidence = Path(temporary)
-            outside = evidence.parent / "outside-evidence.json"
-            outside.write_text("{}")
-            with self.assertRaises(ValueError):
-                qualification.validate_supporting_evidence(
-                    evidence, [{"path": "../outside-evidence.json",
-                                "sha256": qualification.digest_file(outside)}])
 
 
 class ReleaseVerifierTests(unittest.TestCase):
@@ -98,14 +64,21 @@ class ReleaseVerifierTests(unittest.TestCase):
 
         self.assertIn('qualify_v2_release.py} --root "$PWD" --run', flake)
 
-    def test_gate_identity_comes_from_attested_action_not_argv(self):
-        temporary, root = self.fixture()
-        with temporary:
-            report = self.report(root, "V-AUTH")
-            report["attestations"][0]["argv"] = ["completely", "different", "launcher"]
-            self.assertEqual(release.validate_gate_report(root, "V-AUTH", report), [])
-            report["attestations"][0]["action"] = "V-BOOT"
-            self.assertTrue(release.validate_gate_report(root, "V-AUTH", report))
+    def test_pinned_python_launcher_is_a_recognized_runner(self):
+        from tools.qualify_v2_release import _runner_identity
+
+        root = str(ROOT)
+        argv = [
+            "/nix/store/example/bin/python",
+            "tools/verify_v2_removal.py",
+            "--root",
+            root,
+            "--ledger",
+            str(ROOT / "evidence/v2-rebuild/disposition-ledger.json"),
+            "--output",
+            "/tmp/scope.json",
+        ]
+        self.assertEqual(_runner_identity(argv), "tools/verify_v2_removal.py")
 
     def test_packet_normalization_prefers_canonical_qualification_result(self):
         from tools.qualification import validate_structured_result
@@ -119,67 +92,11 @@ class ReleaseVerifierTests(unittest.TestCase):
             [],
         )
 
-    def test_named_packet_gate_result_is_normalized_without_gate_switch(self):
-        emitted = {"gate_results": {"V-AUTH": {
-            "qualification_result": self.live_result(),
-            "metrics": dict(release.METRIC_PREDICATES["V-AUTH"]),
-            "deployed_dependencies": ["authority-library"],
-        }}}
-        self.assertEqual(release.emitted_gate_result(emitted, "V-AUTH")["metrics"],
-                         release.METRIC_PREDICATES["V-AUTH"])
-
     def live_result(self, *, services=False):
         value = {"outcome": "passed", "evidence_origin": "executed", "skip_count": 0,
-                 "assertions": [{"name": "behavior observed", "passed": True,
-                                 "observation_id":"observation:" + "1" * 64}]}
-        if services:
-            service = {"schema_version":"1.0", "kind":"service_readiness",
-                "name": "runtime", "state": "ready", "result": "ready",
-                "endpoint": "/run/runtime.sock", "observed_at": "2026-01-01T00:00:00Z",
-                "action_observation_id": "observation:" + "2" * 64,
-                "unit": "runtime.service", "process_id": 123, "health": "ready",
-                "identity": {"uid": 1, "gid": 1}}
-            payload={key:service[key] for key in ("schema_version","kind","name","unit",
-                "endpoint","process_id","health","action_observation_id")}
-            service["probe_observation_id"]="observation:"+hashlib.sha256(
-                qualification.canonical_json(payload)).hexdigest()
-            value["services"] = [service]
+                 "assertions": [{"name": "behavior observed", "passed": True}]}
+        if services: value["services"] = [{"name": "runtime", "state": "ready"}]
         return value
-
-    def test_captured_stdout_and_artifact_bytes_are_recomputed(self):
-        temporary, root = self.fixture()
-        with temporary:
-            artifact = root / "artifact.json"; artifact.write_text('{"observed":true}\n')
-            record = qualification.execute(root, qualification.source_digest(root),
-                [sys.executable, "-c", "print('captured')"], action="capture",
-                artifacts=[artifact])
-            record["captured_outputs"]["stdout"]["content"] = "Zm9yZ2Vk"
-            self.assertTrue(any("captured stdout" in error for error in
-                qualification.validate_attestation(record, source_tree=qualification.source_digest(root),
-                                                   closure=qualification.closure_digest(root))))
-
-    def test_action_observation_is_canonically_bound_to_captured_outputs(self):
-        temporary, root = self.fixture()
-        with temporary:
-            artifact = root / "artifact.json"; artifact.write_text('{"observed":true}\n')
-            record = qualification.execute(root, qualification.source_digest(root),
-                [sys.executable, "-c", "print('captured')"], action="capture",
-                artifacts=[artifact])
-            record["action_observation"]["output_ids"] = ["sha256:" + "0" * 64]
-            errors = qualification.validate_attestation(
-                record, source_tree=qualification.source_digest(root),
-                closure=qualification.closure_digest(root))
-            self.assertTrue(any("action observation" in error for error in errors))
-
-    def test_source_digest_includes_admissible_untracked_files(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            __import__("subprocess").run(["git", "init", "-q"], cwd=root, check=True)
-            tracked = root / "tracked"; tracked.write_text("a")
-            __import__("subprocess").run(["git", "add", "tracked"], cwd=root, check=True)
-            before = qualification.source_digest(root)
-            (root / "untracked").write_text("b")
-            self.assertNotEqual(before, qualification.source_digest(root))
 
     def fixture(self):
         temporary = tempfile.TemporaryDirectory(); root = Path(temporary.name)
@@ -193,22 +110,9 @@ class ReleaseVerifierTests(unittest.TestCase):
                  "V-BOOT": ["nix", "run", ".#test-boot", "--", "--evidence", "/tmp/live.json"]})[gate]
         artifact = root / f"{gate}.json"
         artifact.write_text('{"outcome":"passed","evidence_origin":"executed"}\n')
-        observations = {}; derivations = {}
-        for name, expected in release.METRIC_PREDICATES[gate].items():
-            payload = {"schema_version":"1.0", "kind":"metric_observation",
-                       "metric":name, "value":expected, "subject":gate,
-                       "provenance":{"fixture":"executed"}}
-            observation_id = "observation:" + hashlib.sha256(
-                qualification.canonical_json(payload)).hexdigest()
-            observations[observation_id] = {**payload, "observation_id":observation_id}
-            derivations[name] = {"metric":name, "operation":"value",
-                                 "observation_ids":[observation_id]}
         return {"gate": gate, "runner": release.RUNNERS[gate], "result": "pass",
-                "deployed_dependencies": ["runtime"],
-                "metrics": dict(release.METRIC_PREDICATES[gate]),
-                "metric_evidence": derivations, "metric_observations": observations,
                 "attestations": [qualification.execute(
-                    root, release.source_digest(root), argv, action=gate, artifacts=[artifact],
+                    root, release.source_digest(root), argv, artifacts=[artifact],
                     environment={**os.environ, "PATH": f"{root}:{os.environ.get('PATH', '')}"})],
                 "live_result": self.live_result(services=gate in release.SERVICE_GATES)}
 
@@ -222,22 +126,13 @@ class ReleaseVerifierTests(unittest.TestCase):
         temporary, root = self.fixture()
         with temporary:
             skipped = self.report(root, "V-AUTH"); skipped["live_result"]["skip_count"] = 1
-            absent = self.live_result(services=True); absent["services"] = []
+            absent = self.report(root, "V-BOOT"); absent["live_result"]["services"] = []
             handwritten = self.report(root, "V-AUTH"); handwritten["live_result"]["evidence_origin"] = "handwritten"
             stale = self.report(root, "V-AUTH"); stale["attestations"][0]["source_tree_sha256"] = "sha256:" + "0" * 64
             failed = self.report(root, "V-AUTH"); failed["attestations"][0]["exit_status"] = 1
-            self.assertTrue(qualification.validate_structured_result(absent, require_services=True))
-            for index, report in enumerate((skipped, handwritten, stale, failed)):
+            for index, report in enumerate((skipped, absent, handwritten, stale, failed)):
                 with self.subTest(index=index):
                     self.assertTrue(release.validate_gate_report(root, report["gate"], report))
-
-    def test_missing_deployed_dependency_observation_fails_closed(self):
-        temporary, root = self.fixture()
-        with temporary:
-            report = self.report(root, "V-AUTH")
-            report["deployed_dependencies"] = []
-            self.assertTrue(any("deployment" in error for error in
-                                release.validate_gate_report(root, "V-AUTH", report)))
 
     def test_compile_or_process_health_alone_is_rejected(self):
         temporary, root = self.fixture()
@@ -247,19 +142,6 @@ class ReleaseVerifierTests(unittest.TestCase):
                                      "assertions": [], "skip_count": 0}
             self.assertTrue(any("behavioral assertions" in error
                                 for error in release.validate_gate_report(root, "V-AUTH", report)))
-
-    def test_metrics_must_be_emitted_by_the_gate_observation(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            with self.assertRaises(ValueError):
-                release.derived_metrics("V-AUTH", {"observations": {}}, Path(temporary))
-
-    def test_metric_derivation_tampering_is_rejected(self):
-        temporary, root = self.fixture()
-        with temporary:
-            report = self.report(root, "V-AUTH")
-            report["metrics"]["unauthorized_action_count"] = 1
-            self.assertTrue(any("metric derivation" in error for error in
-                                release.validate_gate_report(root, "V-AUTH", report)))
 
     def test_all_thirteen_gates_are_required_for_all_fourteen_packets(self):
         contract = __import__("json").loads(
@@ -272,15 +154,6 @@ class ReleaseVerifierTests(unittest.TestCase):
             with self.subTest(gate=gate):
                 incomplete = release.packet_results(contract, set(release.RUNNERS) - {gate})
                 self.assertTrue(any(item["result"] == "fail" for item in incomplete))
-
-    def test_v_change_has_fixed_restart_and_independent_database_inspection(self):
-        source = (ROOT / "tools/qualify_v2_change.py").read_text()
-        self.assertNotIn("restart-command", source)
-        self.assertNotIn("shlex.split", source)
-        self.assertIn('"habitat-state.service"', source)
-        self.assertIn("change_history", source)
-        self.assertIn("MainPID", source)
-        self.assertIn("InvocationID", source)
 
 
 if __name__ == "__main__":

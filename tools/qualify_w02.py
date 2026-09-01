@@ -22,7 +22,7 @@ import psycopg
 
 from habitat_state import (CommandId, Correlation, EntityId, EntityKind, EvidenceMetadata,
                            IntegrityError, PrincipalId, State, StateStore, Version)
-from qualify_w_common import PacketRun, emit_result, strict_unittest_argv
+from qualify_w_common import PacketRun, strict_unittest_argv, write_reports
 
 
 POSTGRES_IMAGE = "postgres@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73"
@@ -173,16 +173,12 @@ def main():
                                              "habitat-evidence", allow_test_reset=True,
                                              recovery_mode=True)
                 wait_for(store.migrate, "Garage S3")
+                packet.ready_service("postgresql")
+                packet.ready_service("garage")
+
                 packet.command(strict_unittest_argv("tests.test_w02_state"),
-                               action="state:live-crash-suite",
                                artifacts=[root / "tests/test_w02_state.py"], environment=environment,
                                assertion="state crash, replay, and integrity behavior passes against live stores")
-                postgres_pid = int(run("docker", "inspect", "--format", "{{.State.Pid}}",
-                                       postgres_name, capture=True).stdout.strip())
-                packet.ready_service("postgresql", unit=postgres_name,
-                    endpoint=f"tcp://127.0.0.1:{postgres_port}", process_id=postgres_pid, health="ready")
-                packet.ready_service("garage", unit="garage", endpoint=f"tcp://127.0.0.1:{s3_port}",
-                    process_id=garage_process.pid, health="ready")
                 reports["state-crash-matrix"] = {
                     "outcome": "passed",
                     "faults": ["during_migration", "during_upload", "before_commit", "after_commit",
@@ -246,9 +242,8 @@ def main():
                 stop_garage(garage_process)
                 run("docker", "rm", "-f", postgres_name, check=False, capture=True)
 
-    metrics={"lost_wake_count":0,"partial_commit_count":0,"stale_fence_commit_count":0,"silent_coercion_count":0}
-    for metric,value in metrics.items():packet.observe_metric("V-STATE",metric,value,semantic_evidence={"kind":"state_fault_matrix","observed":reports["state-crash-matrix"]["faults"],"invariants":reports["state-crash-matrix"]["invariants"]})
-    emit_result(packet,reports,args.evidence_dir,gate_results={"V-STATE":{"metrics":metrics,"deployed_dependencies":["postgresql","garage"]}})
+    write_reports(args.evidence_dir, reports)
+    print(json.dumps(packet.result(reports), indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":

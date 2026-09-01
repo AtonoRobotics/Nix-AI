@@ -77,7 +77,7 @@ fn cancellation_deadline_and_backend_comparison_preserve_committed_truth() {
     let identity = prepared().identity;
     let state = BackendState {
         identity,
-        terminal_effect_refs: vec!["effects://effect:unknown".into()],
+        effect_history: vec!["effect:unknown".into()],
         completion_contract: "evidence-contract:v1".into(),
     };
     assert!(BackendConformance::compare(&state, &state, &state).is_ok());

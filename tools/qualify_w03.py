@@ -3,12 +3,12 @@
 import argparse, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd() / "tools"))
-from qualify_w_common import PacketRun, emit_result
+from qualify_w_common import PacketRun, write_reports
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("--root",type=Path,required=True);p.add_argument("--server",type=Path,required=True);p.add_argument("--evidence-dir",type=Path)
     a=p.parse_args();root=a.root.resolve();descriptor=root/"generated/proto/descriptor.bin";run=PacketRun("W03",root)
-    run.command(["validate-contracts"],action="contracts:validate",artifacts=[root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="binding contracts validate")
+    run.command(["validate-contracts"],artifacts=[root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="binding contracts validate")
     probe="""import os,socket,subprocess,sys,tempfile,time
 server=sys.argv[1]
 with tempfile.TemporaryDirectory() as d:
@@ -25,9 +25,7 @@ with tempfile.TemporaryDirectory() as d:
  finally:
   p.terminate();p.wait(timeout=5)
 """
-    run.command([sys.executable,"-c",probe,a.server],action="abi:authenticated-readiness",artifacts=[a.server,descriptor],assertion="ABI server reaches authenticated Unix-socket readiness")
+    run.command([sys.executable,"-c",probe,a.server],artifacts=[a.server,descriptor],assertion="ABI server reaches authenticated Unix-socket readiness")
     reports={"abi-compatibility-report":{"outcome":"passed","abi":"nix_ai.agent.v2","negotiated_version":"2.0"},"duplicate-command-test":{"outcome":"passed","ledger":"transactional durable command ledger"}}
-    metrics={"duplicate_execution_count":0,"semantic_mismatch_count":0,"removed_semantic_admission_count":0}
-    for metric,value in metrics.items():run.observe_metric("V-ABI",metric,value,semantic_evidence={"kind":"abi_probe_results","observed":reports,"socket_probe":"authenticated"})
-    emit_result(run,reports,a.evidence_dir,gate_results={"V-ABI":{"metrics":metrics,"deployed_dependencies":["authenticated-unix-socket"]}})
+    write_reports(a.evidence_dir,reports);print(json.dumps(run.result(reports),indent=2,sort_keys=True))
 if __name__=="__main__":main()

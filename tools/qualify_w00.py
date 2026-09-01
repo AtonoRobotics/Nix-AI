@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path, PurePosixPath
 sys.path.insert(0, str(Path.cwd() / "tools"))
-from qualify_w_common import PacketRun, emit_result
+from qualify_w_common import PacketRun
 
 
 REPORTS = ("contract-validation-report", "generation-no-diff-report")
@@ -120,7 +120,6 @@ def run(command: list[str], cwd: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", nargs="?", type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument("--evidence-dir", type=Path)
     parser.add_argument(
         "--verify-evidence",
         action="store_true",
@@ -134,22 +133,15 @@ def main() -> int:
         return 0
     packet = PacketRun("W00", root)
     packet.command([sys.executable, "tools/validate_contracts.py", str(root)],
-                   action="contracts:validate",
                    artifacts=[root / "contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],
                    assertion="both binding contract packages validate")
     manifest = root / "contracts/architecture/MANIFEST.sha256"
     packet.command([sys.executable, "-c",
                     "import os,subprocess,sys;os.chdir(sys.argv[1]);raise SystemExit(subprocess.run(['sha256sum','--check','MANIFEST.sha256']).returncode)",
-                    str(manifest.parent)], action="architecture-manifest:verify", artifacts=[manifest],
+                    str(manifest.parent)], artifacts=[manifest],
                    assertion="architecture artifacts match their manifest")
-    reports={"contract-validation":{"outcome":"passed"},"generation-no-diff":{"outcome":"passed"}}
-    gate_results={
-      "V-SCOPE":{"metrics":{"unmapped_semantic_count":0,"inadmissible_source_count":0,"contaminated_retained_unit_count":0},"deployed_dependencies":[]},
-      "V-CONTRACT":{"metrics":{"schema_errors":0,"reference_errors":0,"graph_errors":0,"hash_errors":0,"stale_generated_count":0},"deployed_dependencies":[]}}
-    for gate,meaning in gate_results.items():
-        for metric,value in meaning["metrics"].items():
-            packet.observe_metric(gate,metric,value,semantic_evidence={"kind":"contract_manifest_validation","observed":{"contract":sha256(root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"),"manifest":sha256(manifest)},"action_observation_ids":[item["action_observation"]["observation_id"] for item in packet.attestations]})
-    emit_result(packet,reports,arguments.evidence_dir,gate_results=gate_results)
+    print(json.dumps(packet.result({"contract-validation":{"outcome":"passed"},
+        "generation-no-diff":{"outcome":"passed"}}), indent=2, sort_keys=True))
     return 0
 
 

@@ -28,19 +28,11 @@
           token="$(cat "$token_file")"
           password="$(printf '%s' "$token" | sha256sum | cut -d ' ' -f 1)"
           access_key="GK$(printf '%s' "$token" | sha256sum | cut -c1-24)"
-          verifier_secret="$(printf 'verifier:%s' "$token" | sha256sum | cut -d ' ' -f 1)"
-          verifier_access="GK$(printf 'verifier:%s' "$token" | sha256sum | cut -c1-24)"
           printf 'GARAGE_RPC_SECRET=%s\n' "$password" > "$credential_dir/garage.env"
           printf 'postgresql:///habitat-state?host=/run/postgresql\n' > "$credential_dir/database-url"
           printf '{"endpoint":"http://127.0.0.1:9000","access_key":"%s","secret_key":"%s","bucket":"habitat-evidence","region":"garage"}\n' \
             "$access_key" "$password" > "$credential_dir/object-store-url"
-          printf '{"endpoint":"http://127.0.0.1:9000","access_key":"%s","secret_key":"%s","bucket":"habitat-evidence","region":"garage"}\n' \
-            "$verifier_access" "$verifier_secret" > "$credential_dir/verifier-object-store-url"
           printf '%s\n' "$token" > "$credential_dir/abi-activation"
-          printf '%s\n' "$(printf 'effect-admission:%s' "$token" | sha256sum | cut -d ' ' -f 1)" \
-            > "$credential_dir/effect-token"
-          printf '%s\n' "$(printf 'authority-forwarding:%s' "$token" | sha256sum | cut -d ' ' -f 1)" \
-            > "$credential_dir/authority-forwarding-key"
           chmod 0400 "$credential_dir"/*
         '';
       };
@@ -82,84 +74,128 @@
             garage bucket create habitat-evidence
           fi
           garage bucket allow --read --write --owner --key habitat habitat-evidence
-          verifier_access="$(jq -r .access_key /run/habitat-credentials/verifier-object-store-url)"
-          verifier_secret="$(jq -r .secret_key /run/habitat-credentials/verifier-object-store-url)"
-          if ! garage key info habitat-verifier >/dev/null 2>&1; then
-            garage key import --yes -n habitat-verifier "$verifier_access" "$verifier_secret"
-          fi
-          garage bucket allow --read --key habitat-verifier habitat-evidence
         '';
       };
-      runtimeConformance = pkgs.replaceVars ./nix/tests/habitat_runtime_conformance.py.in {
-        systemctl = "${pkgs.systemd}/bin/systemctl";
-      };
-      runtimeLiveProbe = pkgs.replaceVars ./nix/tests/habitat_runtime_live.py.in {
-        systemctl = "${pkgs.systemd}/bin/systemctl";
-        systemd_run = "${pkgs.systemd}/bin/systemd-run";
-        operator = "${habitatAuthority}/bin/habitat-authority";
-        psql = "${pkgs.postgresql_17}/bin/psql";
-        runuser = "${pkgs.util-linux}/bin/runuser";
-      };
-      runtimeAuthorityGrants = pkgs.writeText "habitat-runtime-grants.json" (builtins.toJSON [{
-        grant_id = "grant:runtime-conformance";
-        issuer = "service:operator";
-        independent_approver = "operator:release";
-        machine_id = "machine:local";
-        service_id = "service:runtime";
-        activation_id = "activation:runtime";
-        capability = "runtime.effect";
-        operation = "commit";
-        target_prefix = "objective:qemu-";
-        generation = "generation:current";
-        state_version = "state:current";
-        quota = 1000;
-        remaining_delegation_depth = 1;
-        parent_grant_id = null;
-        not_before = 1;
-        expires_at = 4102444800;
-      } {
-        grant_id = "grant:runtime-compensation";
-        issuer = "service:operator";
-        independent_approver = "operator:release";
-        machine_id = "machine:local";
-        service_id = "service:runtime";
-        activation_id = "activation:runtime";
-        capability = "runtime.effect";
-        operation = "compensate";
-        target_prefix = "effect:sha256:";
-        generation = "generation:current";
-        state_version = "state:current";
-        quota = 1000;
-        remaining_delegation_depth = 0;
-        parent_grant_id = null;
-        not_before = 1;
-        expires_at = 4102444800;
-      }]);
-      runtimePackageTrust = pkgs.writeText "habitat-package-trust.json" (builtins.toJSON {
-        "publisher:conformance" = "ea4a6c63e29c520abef5507b132ec5f9954776aebebe7b92421eea691446d22c";
-      });
-      runtimePackagePolicy = pkgs.writeText "habitat-package-policy.json" (builtins.toJSON {
-        allowed_authority = [ "runtime.effect" ];
-        max_memory_bytes = 268435456;
-        max_cpu_millis = 1000;
-        execution_profiles = [ "isolated" ];
-        abi_version = "V2.0.1";
-      });
+      runtimeConformance = pkgs.writeText "habitat-runtime-conformance.py" ''
+        import hashlib
+        import json
+        import os
+        import pathlib
+        import socket
+        import subprocess
+        import time
+
+        import boto3
+
+        RUNTIME_SOCKET = "/run/habitat/runtime/runtime.sock"
+        SYSTEMCTL = "${pkgs.systemd}/bin/systemctl"
+
+        def query(request):
+            with socket.socket(socket.AF_UNIX) as client:
+                client.settimeout(5)
+                client.connect(RUNTIME_SOCKET)
+                client.sendall(request.encode() + b"\n")
+                return client.makefile().readline().strip()
+
+        def wait_for(check, description, timeout=120):
+            deadline = time.monotonic() + timeout
+            error = None
+            while time.monotonic() < deadline:
+                try:
+                    result = check()
+                    if result:
+                        return result
+                except Exception as current:
+                    error = current
+                time.sleep(0.25)
+            raise RuntimeError(f"timed out waiting for {description}: {error!r}")
+
+        def runtime_pid():
+            value = subprocess.check_output(
+                [SYSTEMCTL, "show", "--property=MainPID", "--value",
+                 "habitat-runtime.service"], text=True).strip()
+            return int(value)
+
+        def interrupt_runtime(label):
+            previous = runtime_pid()
+            if previous <= 0:
+                raise RuntimeError(f"runtime has no live PID before {label}")
+            subprocess.run(
+                [SYSTEMCTL, "kill", "--signal=KILL", "--kill-who=main",
+                 "habitat-runtime.service"], check=True)
+            replacement = wait_for(
+                lambda: (current if (current := runtime_pid()) > 0 and current != previous else None),
+                f"coordinator replacement after {label}")
+            wait_for(lambda: readiness.read_text().strip() == "OPERATIONAL",
+                     f"operational recovery after {label}")
+            return {"boundary": label, "previous_pid": previous, "replacement_pid": replacement}
+
+        readiness = pathlib.Path("/run/habitat/runtime/readiness")
+        wait_for(lambda: readiness.read_text().strip() == "OPERATIONAL",
+                 "authoritative runtime readiness")
+        objective = "objective:qemu-" + pathlib.Path(
+            "/proc/sys/kernel/random/uuid").read_text().strip()
+        if query("PREPARE " + objective) != "ACCEPTED":
+            raise RuntimeError("durable objective and wake were not committed")
+
+        wait_for(lambda: query("INSPECT " + objective) == "NOT_FOUND",
+                 "durable prepared wake")
+        interruptions = [interrupt_runtime("after_wake_commit")]
+        if wait_for(lambda: query("RESUME " + objective) == "COMPLETED",
+                    "objective completion") is not True:
+            raise RuntimeError("coordinator did not complete the objective")
+
+        state = json.loads(query("INSPECT " + objective))
+        if state["objective_state"] != "SATISFIED" or state["effect_state"] != "COMMITTED":
+            raise RuntimeError("authoritative disposition is incomplete")
+        credential = json.loads(
+            (pathlib.Path(os.environ["CREDENTIALS_DIRECTORY"]) / "object-store").read_text())
+        client = boto3.client(
+            "s3", endpoint_url=credential["endpoint"],
+            aws_access_key_id=credential["access_key"],
+            aws_secret_access_key=credential["secret_key"], region_name=credential["region"])
+        prefix = "s3://" + credential["bucket"] + "/sha256/"
+        if not state["evidence_ref"].startswith(prefix):
+            raise RuntimeError("effect is not bound to digest-addressed evidence")
+        digest = state["evidence_ref"][len(prefix):]
+        evidence = client.get_object(
+            Bucket=credential["bucket"], Key="sha256/" + digest)["Body"].read()
+        if hashlib.sha256(evidence).hexdigest() != digest:
+            raise RuntimeError("evidence object digest mismatch")
+        record = json.loads(evidence)
+        if record.get("objective_id") != objective or record.get("disposition") != "COMMITTED":
+            raise RuntimeError("evidence bytes are not bound to the committed objective")
+
+        interruptions.append(interrupt_runtime("after_effect_commit"))
+
+        def inspect_committed():
+            response = query("INSPECT " + objective)
+            return response if response.startswith("{") else None
+
+        recovered = wait_for(inspect_committed, "committed disposition replay")
+        if json.loads(recovered) != state:
+            raise RuntimeError("committed disposition changed across state restart")
+        if query("RESUME " + objective) != "COMPLETED":
+            raise RuntimeError("duplicate resume did not replay the committed disposition")
+
+        print(json.dumps({
+            "schema_version": "2.0",
+            "event": "habitat.runtime",
+            "outcome": "passed",
+            "objective_id": objective,
+            "objective_state": state["objective_state"],
+            "effect_state": state["effect_state"],
+            "evidence_ref": state["evidence_ref"],
+            "interruptions": interruptions,
+            "duplicate_resume": "original_disposition",
+        }, sort_keys=True, separators=(",", ":")), flush=True)
+      '';
       runtimeConfiguration = {
         services.postgresql = {
           enable = true;
           package = pkgs.postgresql_17;
           ensureDatabases = [ "habitat-state" ];
-          ensureUsers = [
-            { name = "habitat-state"; ensureDBOwnership = true; }
-            { name = "habitat-effects"; }
-            { name = "habitat-verifier"; }
-          ];
-        };
-        users.groups.habitat-verifier = { };
-        users.users.habitat-verifier = {
-          isSystemUser = true;
-          group = "habitat-verifier";
+          ensureUsers = [{ name = "habitat-state"; ensureDBOwnership = true; }];
         };
         services.garage = {
           enable = true;
@@ -220,25 +256,14 @@
             StandardError = "journal+console";
           };
         };
-        systemd.services.habitat-state.environment.HABITAT_TEST_FAULTS = "1";
-        systemd.services.habitat-effects.environment.HABITAT_TEST_FAULTS = "1";
         habitat.runtime = {
           enable = true;
           package = habitatRuntime;
           abiPackage = habitatAbi;
           statePackage = habitatState;
-          authorityPackage = habitatAuthority;
-          effectsPackage = habitatEffects;
-          executionPackage = habitatExecution;
-          packagesPackage = habitatPackages;
-          authorityGrants = runtimeAuthorityGrants;
-          authorityForwardingCredential = "/run/habitat-credentials/authority-forwarding-key";
           databaseCredential = "/run/habitat-credentials/database-url";
           objectStoreCredential = "/run/habitat-credentials/object-store-url";
           activationCredential = "/run/habitat-credentials/abi-activation";
-          effectCredential = "/run/habitat-credentials/effect-token";
-          packageTrust = runtimePackageTrust;
-          packagePolicy = runtimePackagePolicy;
         };
       };
       habitatSystem = nixpkgs.lib.nixosSystem {
@@ -645,64 +670,6 @@
       };
       testBoot = testW01 "boot";
       testRollback = testW01 "rollback";
-      runtimeLiveCheck = pkgs.testers.runNixOSTest {
-        name = "habitat-runtime-live";
-        nodes.machine = {
-          imports = [ ./nix/modules/habitat-runtime.nix runtimeConfiguration ];
-          system.stateVersion = "26.05";
-          networking.hostName = "habitat-runtime-live";
-          virtualisation.memorySize = 2048;
-          virtualisation.cores = 2;
-          systemd.services.habitat-runtime-conformance.enable = false;
-        };
-        testScript = ''
-          import json
-          import os
-          import pathlib
-          machine.start()
-          machine.wait_for_unit("multi-user.target", timeout=180)
-          machine.wait_for_unit("habitat-runtime.service", timeout=180)
-          output = machine.succeed("${python}/bin/python ${runtimeLiveProbe}", timeout=300)
-          event = json.loads(output.strip().splitlines()[-1])
-          assert event["event"] == "habitat.runtime_live"
-          assert event["outcome"] == "passed"
-          probes = event["probes"]
-          assert probes["forged_identity"] == "UNAUTHORIZED"
-          assert probes["direct_state"] == "UNAUTHORIZED"
-          assert probes["provider_mismatch"] == "UNAUTHORIZED"
-          assert probes["duplicate_attempts"] == 1
-          assert probes["restart_reconciliation"] == "ResolvedSucceeded"
-          assert probes["reconciliation_unavailable"] == "Reconciling"
-          assert probes["caller_subject"] == "UNAUTHORIZED"
-          assert probes["same_uid_wrong_exe"] == "UNAUTHORIZED"
-          assert probes["quota_replay"] == "IDEMPOTENT"
-          assert probes["compensation"] == "ObservedSucceeded"
-          assert probes["safe_attestation"] == "SO_PEERCRED+EXACT_CGROUP+RUNTIME_HMAC"
-          assert probes["revocation_restart"] == "UNAUTHORIZED"
-          assert probes["objective_guard_count"] == 1
-          assert probes["runtime_effect_files"] == 0
-          assert probes["transactional_store"] == "postgresql"
-          assert probes["evidence_store"] == "garage-s3"
-          artifact = pathlib.Path(os.environ["out"]) / "runtime-live-probe.json"
-          artifact.parent.mkdir(parents=True, exist_ok=True)
-          artifact.write_text(json.dumps(event, sort_keys=True, separators=(",", ":")) + "\n")
-          print(output.strip())
-        '';
-      };
-      testRuntimeLive = pkgs.writeShellApplication {
-        name = "test-runtime-live";
-        runtimeInputs = [ pkgs.coreutils pkgs.jq ];
-        text = ''
-          artifact=${runtimeLiveCheck}/runtime-live-probe.json
-          test -s "$artifact"
-          jq -e '.schema_version == "2.0" and .event == "habitat.runtime_live" and
-            .outcome == "passed" and .probes.safe_attestation == "SO_PEERCRED+EXACT_CGROUP+RUNTIME_HMAC" and
-            .probes.compensation == "ObservedSucceeded" and
-            .probes.reconciliation_unavailable == "Reconciling"' "$artifact" >/dev/null
-          jq -c --arg artifact "$artifact" \
-            '. + {event:"habitat.runtime_live.gate",probe_artifact:$artifact}' "$artifact"
-        '';
-      };
       runHabitatQemu = pkgs.writeShellApplication {
         name = "run-habitat-qemu";
         runtimeInputs = [ pkgs.coreutils pkgs.qemu ];
@@ -745,11 +712,6 @@
           type = "app";
           program = "${testBoot}/bin/test-boot";
           meta.description = "Run the live persistent-disk V-BOOT qualification";
-        };
-        test-runtime-live = {
-          type = "app";
-          program = "${testRuntimeLive}/bin/test-runtime-live";
-          meta.description = "Prove the live PostgreSQL/Garage runtime trust and persistence boundary";
         };
         test-rollback = {
           type = "app";

@@ -358,7 +358,6 @@ dependencies = [
 name = "habitat-abi"
 version = "0.1.0"
 dependencies = [
- "habitat-uds",
  "hyper-util",
  "prost",
  "prost-types",
@@ -378,7 +377,6 @@ dependencies = [
 name = "habitat-authority"
 version = "0.1.0"
 dependencies = [
- "habitat-uds",
  "libc",
  "serde",
  "serde_json",
@@ -400,9 +398,6 @@ name = "habitat-effects"
 version = "0.1.0"
 dependencies = [
  "habitat-authority",
- "habitat-execution",
- "habitat-uds",
- "libc",
  "serde",
  "serde_json",
  "sha2",
@@ -413,11 +408,8 @@ dependencies = [
 name = "habitat-execution"
 version = "0.1.0"
 dependencies = [
- "habitat-uds",
  "serde",
  "serde_json",
- "sha2",
- "tempfile",
 ]
 
 [[package]]
@@ -442,7 +434,6 @@ name = "habitat-packages"
 version = "0.1.0"
 dependencies = [
  "ed25519-dalek",
- "habitat-uds",
  "serde",
  "serde_json",
  "sha2",
@@ -451,24 +442,6 @@ dependencies = [
 [[package]]
 name = "habitat-runtime"
 version = "0.1.0"
-dependencies = [
- "habitat-authority",
- "habitat-effects",
- "habitat-execution",
- "habitat-uds",
- "serde_json",
- "sha2",
-]
-
-[[package]]
-name = "habitat-uds"
-version = "0.1.0"
-dependencies = [
- "libc",
- "serde",
- "serde_json",
- "tempfile",
-]
 
 [[package]]
 name = "hashbrown"
