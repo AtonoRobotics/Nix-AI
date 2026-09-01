@@ -11,7 +11,11 @@ from pathlib import Path
 
 
 ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1]
-PACKAGES = (ROOT / "contracts" / "v2", ROOT / "contracts" / "v2.0.1")
+PACKAGES = (
+    ROOT / "contracts" / "v2",
+    ROOT / "contracts" / "v2.0.1",
+    ROOT / "contracts" / "v2.1.0",
+)
 
 
 def run(command: list[str], cwd: Path) -> None:

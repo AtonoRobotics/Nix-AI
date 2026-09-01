@@ -1,7 +1,21 @@
 use std::process::Command;
 
 #[test]
-fn governed_change_cli_fails_closed_without_deployed_state_repository() {
+fn explicit_description_is_read_only_and_versioned() {
+    let output = Command::new(env!("CARGO_BIN_EXE_habitat-packages"))
+        .arg("--describe")
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    let declaration: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(declaration["schema_version"], "2.1");
+    assert_eq!(declaration["component"], "packages");
+    assert_eq!(declaration["abi"], "2.1");
+    assert_eq!(declaration["mode"], "peer-authenticated-service");
+}
+
+#[test]
+fn obsolete_in_process_governed_change_cli_is_rejected() {
     let output = Command::new(env!("CARGO_BIN_EXE_habitat-packages"))
         .args([
             "qualify-change",
@@ -20,10 +34,9 @@ fn governed_change_cli_fails_closed_without_deployed_state_repository() {
 }
 
 #[test]
-fn governed_change_cli_has_no_process_local_success_mode() {
-    let source = include_str!("../src/main.rs");
-    assert!(!source.contains("ChangeJournal::new"));
-    assert!(source.contains("change_propose"));
-    assert!(source.contains("change_transition"));
-    assert!(source.contains("change_get"));
+fn package_service_cannot_bypass_governed_change_roles() {
+    let package_source = include_str!("../src/main.rs");
+    assert!(!package_source.contains("fn qualify_change"));
+    assert!(!package_source.contains("change_propose"));
+    assert!(!package_source.contains("change_transition"));
 }

@@ -1,39 +1,40 @@
 {
   "abi": "2.0",
-  "artifact_sha256": "4e82890efe31639b6c0d29457e3926eef299d888c5031cc3399103164f3bf057",
+  "artifact_sha256": "dcb1172e9d9f161fce5f1fd3f21bb65da5c502336d715a9e5bb60c00ac38783b",
   "behavioral_test_proof": {
     "binaries": [
-      "attenuation_revocation-c08f0b60013db553",
-      "authorization-305562dc9b48b07b"
+      "attenuation_revocation-5727f35a731395bf",
+      "authorization-21d1004543e6d9e3"
     ],
+    "binary_count": 2,
     "outcome": "passed",
     "runner": "rust-test-binaries",
-    "test_count": 7,
+    "test_count": 13,
     "test_names": [
       "a_revoked_matching_grant_cannot_mask_an_independent_current_grant",
       "caller_timestamp_cannot_replay_an_expired_grant",
       "delegation_can_only_reduce_every_parent_bound",
+      "deployed_runtime_authority_is_versioned_identity_bound_and_default_deny",
+      "deployed_store_persists_revocation_rotation_ancestry_and_quota",
+      "effect_prepare_commit_abort_is_durable_and_consumes_quota_only_on_commit",
       "every_request_is_authenticated_and_mediated_against_all_grant_bounds",
+      "grant_reload_preserves_security_history_and_admin_requires_separate_artifact",
+      "quota_reservation_rolls_back_when_durable_replace_fails",
       "reopening_uses_live_configuration_not_serialized_currentness",
       "revocation_outage_self_authority_and_enforcement_bypass_fail_closed",
-      "revoking_a_parent_invalidates_an_already_issued_child_chain"
+      "revoking_a_parent_invalidates_an_already_issued_child_chain",
+      "runtime_forwarding_mac_binds_subject_and_complete_effect_proposal"
     ]
   },
   "cases": [
-    "unknown principal",
-    "missing or stale grant",
-    "operation and target scope",
-    "validity and generation bounds",
-    "stale authority state",
-    "authority outage",
-    "enforcement bypass",
-    "self approval",
-    "attenuation across every parent bound",
-    "durable revocation epoch and restart"
+    "authentication and mediation",
+    "scope and generation bounds",
+    "revocation and outage fail closed",
+    "delegation attenuation"
   ],
   "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
   "gate": "V-AUTH",
-  "implementation_sha256": "d29b267cf3f3d4240551622fcac9b3005d53932f7ce87a1f1124dee5c524b540",
+  "implementation_sha256": "14cc369203cf29840e60d4bd8394f9c75748de7fd6d4b4de51d558d6ff35ae4d",
   "metrics": {
     "post_bound_revoked_invocation_count": 0,
     "unauthorized_action_count": 0,

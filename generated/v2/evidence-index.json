@@ -6,7 +6,7 @@
     },
     {
       "path": "evidence/v2-rebuild/core-retention-audit.json",
-      "sha256": "ed07ec6e0754c49ce31f1de81c46aa379c157e8597d557db56860d4fef675084"
+      "sha256": "85b093961c77a222e48e1c884dde669611f3698ee1e61bc7234fa5e3be113e94"
     },
     {
       "path": "evidence/v2-rebuild/disposition-ledger.json",
@@ -18,7 +18,7 @@
     },
     {
       "path": "evidence/v2-rebuild/removal-report.json",
-      "sha256": "892f1e725a9a81e431ecf48d5364ac5c2213b860aa27b178245f9ef106c0da4b"
+      "sha256": "9beec7acec1df8f2494eef691ac85775596783f691cc3a12483086556aa1f486"
     },
     {
       "path": "evidence/work-packets/W00/contract-validation-report.json",
@@ -98,7 +98,11 @@
     },
     {
       "path": "evidence/work-packets/W04/authority-report.json",
-      "sha256": "179464f45f587b509dd499161c9fc3b2f10eaf37b05e1fdb193bb71aff452381"
+      "sha256": "e8ac339f8aba1db2bb796678fef16f8d7e6afe617b9b071679d1824f9014ff60"
+    },
+    {
+      "path": "evidence/work-packets/W04/qualification-result.json",
+      "sha256": "fb4b7728a0395992740f96eb8f625e4deac86fde48f84a633514d105691d7655"
     },
     {
       "path": "evidence/work-packets/W04/result.json",
@@ -194,7 +198,11 @@
     },
     {
       "path": "evidence/work-packets/W08/effect-report.json",
-      "sha256": "d6cb1c47586eb297f15632f13303dfe145ba29720e195187f1788dcbeba41cda"
+      "sha256": "b882eb30b592f34361a77134ea76e8062648fce8d6140ba9bcab1532bd7d2f3b"
+    },
+    {
+      "path": "evidence/work-packets/W08/qualification-result.json",
+      "sha256": "4a1e89453d61c20d025e7eca10e279c4c8e0f8cf741719d838e0b0aba2df81f6"
     },
     {
       "path": "evidence/work-packets/W08/result.json",

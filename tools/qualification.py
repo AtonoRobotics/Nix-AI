@@ -15,6 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
+MAX_INLINE_ARTIFACT_BYTES = 1024 * 1024
+
 
 def canonical_json(value: object) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, separators=(",", ": ")) + "\n").encode()
@@ -31,10 +33,21 @@ def digest_file(path: Path) -> str:
 def source_digest(root: Path) -> str:
     """Digest tracked source while excluding generated evidence and build outputs."""
     root = root.resolve()
-    excluded = {".git", "target", "result", "__pycache__"}
-    if (root / ".git").exists() and shutil.which("git"):
+    excluded = {
+        ".git", ".pytest_cache", ".venv", "graphify-out", "target", "result",
+        "__pycache__",
+    }
+    git = shutil.which("git")
+    usable_git_tree = False
+    if git and (root / ".git").exists():
+        probe = subprocess.run(
+            [git, "-C", str(root), "rev-parse", "--is-inside-work-tree"],
+            capture_output=True, text=True,
+        )
+        usable_git_tree = probe.returncode == 0 and probe.stdout.strip() == "true"
+    if usable_git_tree:
         listed = subprocess.run(
-            ["git", "-C", str(root), "ls-files", "--cached", "--others", "--exclude-standard"], check=True,
+            [git, "-C", str(root), "ls-files", "--cached", "--others", "--exclude-standard"], check=True,
             capture_output=True, text=True,
         ).stdout.splitlines()
         paths = [root / relative for relative in listed]
@@ -151,6 +164,29 @@ def verify_captured_bytes(record: object) -> bool:
             and record.get("content_address") == "sha256/" + digest.removeprefix("sha256:"))
 
 
+def captured_artifact(path: Path, digest: str) -> dict[str, object]:
+    size = path.stat().st_size
+    if size <= MAX_INLINE_ARTIFACT_BYTES:
+        return captured_bytes(path.read_bytes())
+    return {"sha256": digest,
+            "content_address": "sha256/" + digest.removeprefix("sha256:"),
+            "bytes": size, "encoding": "digest-only"}
+
+
+def verify_captured_artifact(record: object) -> bool:
+    if not isinstance(record, dict):
+        return False
+    if record.get("encoding") == "base64":
+        return verify_captured_bytes(record)
+    digest = record.get("sha256")
+    return (record.get("encoding") == "digest-only"
+            and re.fullmatch(r"sha256:[0-9a-f]{64}", str(digest)) is not None
+            and record.get("content_address") ==
+            "sha256/" + str(digest).removeprefix("sha256:")
+            and type(record.get("bytes")) is int
+            and record["bytes"] > MAX_INLINE_ARTIFACT_BYTES)
+
+
 class EvidenceByteStore:
     """Atomic, write-once, digest-addressed storage for qualification bytes."""
 
@@ -224,7 +260,10 @@ def execute(
     started = utc_now()
     result = subprocess.run(list(argv), cwd=root, env=environment, capture_output=True)
     finished = utc_now()
-    artifact_records = artifact_digests(artifacts, root)
+    artifact_paths = list(artifacts)
+    artifact_records = artifact_digests(
+        artifact_paths if result.returncode == 0
+        else [path for path in artifact_paths if path.is_file()], root)
     realized = realized_closure(argv, environment)
     declared_closure = closure_digest(root)
     built_closure = digest_bytes(canonical_json({
@@ -235,7 +274,7 @@ def execute(
     for item in artifact_records:
         path = Path(item["path"])
         resolved = path if path.is_absolute() else root / path
-        capture = captured_bytes(resolved.read_bytes())
+        capture = captured_artifact(resolved, item["sha256"])
         capture["path"] = item["path"]
         artifact_bytes.append(capture)
     output_ids = [digest_bytes(result.stdout), digest_bytes(result.stderr)]
@@ -264,7 +303,7 @@ def execute(
         "stdout_bytes": len(result.stdout),
         "stderr_sha256": digest_bytes(result.stderr),
         "stderr_bytes": len(result.stderr),
-        "artifact_digests": artifact_digests(artifacts, root),
+        "artifact_digests": artifact_records,
         "captured_outputs": {
             "stdout": captured_bytes(result.stdout),
             "stderr": captured_bytes(result.stderr),
@@ -346,7 +385,8 @@ def validate_attestation(record: object, *, source_tree: str, closure: str) -> l
                 errors.append(f"captured {stream} metadata mismatch")
         captured_artifacts = captures.get("artifacts")
         if not isinstance(captured_artifacts, list) or any(
-            not verify_captured_bytes(item) or not item.get("path") for item in captured_artifacts
+            not verify_captured_artifact(item) or not item.get("path")
+            for item in captured_artifacts
         ):
             errors.append("invalid captured artifact bytes")
         elif [{"path": item["path"], "sha256": item["sha256"]}

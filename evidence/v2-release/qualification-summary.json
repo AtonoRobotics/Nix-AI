@@ -26,111 +26,118 @@
       "path": "abi-report.json",
       "result": "pass",
       "runner": "abi_conformance",
-      "sha256": "sha256:d153993b252e17edd9129e04fb24a4bb3973baead1eca40ba59bdddccc29cdcd"
+      "sha256": "sha256:23324f470f0a29e8f668a957f44496ae8d639fce52acd306357b6ede9a7883ef"
     },
     {
       "gate": "V-AUTH",
       "path": "authority-report.json",
       "result": "pass",
       "runner": "authority_adversarial_qualification",
-      "sha256": "sha256:dfb2f3d00f59a04c38e350ca5c3db1913572c0824e8bfcf2b81224b3c1667cd5"
+      "sha256": "sha256:a650caf4aba797351b36e14151bdffe9733afb3aa1ef0aff2af36aa3506df53a"
     },
     {
       "gate": "V-BOOT",
       "path": "boot-report.json",
       "result": "pass",
       "runner": "qemu_boot_qualification",
-      "sha256": "sha256:6489395f7e98a1817714ff1f558009d433ece3a8856ce7041925e6be25aa8014"
+      "sha256": "sha256:33aec7dfa3e5480d2a88c7821684052fb384a633d5d6c75469c631b1aa8bf6e3"
     },
     {
       "gate": "V-CHANGE",
       "path": "self-change-report.json",
       "result": "pass",
       "runner": "self_change_adversarial_qualification",
-      "sha256": "sha256:ace0300599aa7e1ca40bbd8f64417eaa1b3f712b83005516a97c4518f574fc35"
+      "sha256": "sha256:1145a7347e90531b0b2c3598d869f808c4bb827aa38d1b1ca2897ad12a6d7bbe"
     },
     {
       "gate": "V-CONTEXT",
       "path": "context-report.json",
       "result": "pass",
       "runner": "context_fault_qualification",
-      "sha256": "sha256:73b0c91b0dcd02854f6d0ebe1e85b32b28518f308e58167e2304f2f9402bf27c"
+      "sha256": "sha256:2d2918653e28ca52663c3cea4b8da2d73dd8aa1f38e5729db272b2b4c82fab4e"
     },
     {
       "gate": "V-CONTRACT",
       "path": "contract-report.json",
       "result": "pass",
       "runner": "contract_qualification",
-      "sha256": "sha256:9cad4fe7436801c29ace771edba571f469b64ec93d44f3b9d139c34ddcdf65bd"
+      "sha256": "sha256:1ba5549377f171c45d93dd824440659003727aad080826f2a1994b9dd8cd4c12"
     },
     {
       "gate": "V-EFFECT",
       "path": "effect-report.json",
       "result": "pass",
       "runner": "effect_fault_recovery_qualification",
-      "sha256": "sha256:9081ba965d54c173c4ec2ef0f778fa3b499c4c78b1bafcf65ede4f15cbdd63d4"
+      "sha256": "sha256:8e75e7881511df5e85e32b87d679031e903f068c1eb176d0982cc6ef903e950e"
     },
     {
       "gate": "V-END-TO-END",
       "path": "end-to-end-report.json",
       "result": "pass",
       "runner": "headless_interruption_recovery_qualification",
-      "sha256": "sha256:70671bd99a24ff9f43a3d18d9b02d7269a7a86a7c8be0bcdae0bd8980fa414a7"
+      "sha256": "sha256:33ff1db51a45f0945e176bced5ec9ccdd9fb2ea08d62d1f54a55cb16e5ddb74a"
     },
     {
       "gate": "V-ISOLATION",
       "path": "isolation-report.json",
       "result": "pass",
       "runner": "execution_adversarial_qualification",
-      "sha256": "sha256:afb9d3d691dae2e321f5c83fc8cd790282e7790e5534f3e62492bae9c66dbad4"
+      "sha256": "sha256:079472bfa362fec8ac96c6c5b198cbbb438761f230713b4e8a03e19e0d3c9897"
     },
     {
       "gate": "V-PACKAGE",
       "path": "package-report.json",
       "result": "pass",
       "runner": "package_lifecycle_qualification",
-      "sha256": "sha256:836183cf5e2a3f1d51b95d8137faf13e6823e22356d695ddaace6e308e6d6435"
+      "sha256": "sha256:f0db1015e1ff4175807cc2f57febb47b55d543dd32aabe97036ca5c8d220ae71"
     },
     {
       "gate": "V-ROLLBACK",
       "path": "defective-rollback-report.json",
       "result": "pass",
       "runner": "candidate_rollback_qualification",
-      "sha256": "sha256:616935fdcb7eb0063c5311222262682c4a782354615c5b831a2cc7fe398cb6a5"
+      "sha256": "sha256:eaca7ede7d20032a298e4431bc623d7fec17f54f8039d7ebe8da860b8ab7072b"
     },
     {
       "gate": "V-SCOPE",
       "path": "scope-report.json",
       "result": "pass",
       "runner": "scope_qualification",
-      "sha256": "sha256:1562a4cf1586f3bc9b34f4c7ea417c4b5414aab1062b8203fabf3625d2058b76"
+      "sha256": "sha256:daa08eef4dab4550baa639e5cd8e0d749728f0d4eb229203ca3cc3f10271b466"
     },
     {
       "gate": "V-STATE",
       "path": "state-report.json",
       "result": "pass",
       "runner": "state_crash_migration_restore_qualification",
-      "sha256": "sha256:951d157b7520ca4be97ad6ddf8b18ec05d5b7162b6c4121186499ad3e70a2a3a"
+      "sha256": "sha256:e446713507c8002203ea925e75746895f3adf2574761ffa9aa2364a53fc8fbc1"
     }
   ],
   "handwritten_pass_evidence_count": 0,
+  "independent_measurements": {
+    "canonical_source_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
+    "closure_inputs_sha256": "sha256:e76b0cfe59b65377b2395b8a1f2f6ecce60c8240655b44911509003d294fe68e",
+    "evaluator_sha256": "sha256:5772a09be2398aa560366fcf830c209d9993e34a88a8a56390c432e34133b888",
+    "generation_observation_sha256": "sha256:1145a7347e90531b0b2c3598d869f808c4bb827aa38d1b1ca2897ad12a6d7bbe",
+    "tests_sha256": "sha256:0fa2e0cc575c10018e7cd11b7221822c877af19d8c83eaf130e9c31574eb197a"
+  },
   "missing_gate_count": 0,
   "protected_evidence": [
     {
       "path": "../v2-rebuild/removal-report.json",
-      "sha256": "sha256:892f1e725a9a81e431ecf48d5364ac5c2213b860aa27b178245f9ef106c0da4b"
+      "sha256": "sha256:9beec7acec1df8f2494eef691ac85775596783f691cc3a12483086556aa1f486"
     },
     {
       "path": "../v2-rebuild/core-retention-audit.json",
-      "sha256": "sha256:ed07ec6e0754c49ce31f1de81c46aa379c157e8597d557db56860d4fef675084"
+      "sha256": "sha256:85b093961c77a222e48e1c884dde669611f3698ee1e61bc7234fa5e3be113e94"
     },
     {
       "path": "../v2-rebuild/artifact-closure-report.json",
-      "sha256": "sha256:4fa24c49219747fe3982e9ee7514c213a099fe1692279d0ddf6c818ed67d1644"
+      "sha256": "sha256:b14498eb9008c8789d8a85fc109622978992528273c6a10d9824b274fb2a2be3"
     },
     {
       "path": "../v2-rebuild/build-closure-report.json",
-      "sha256": "sha256:18fbcc7ab4ce35410d09f356ca4c577120b8c6f06bdc10173529e060413a5adf"
+      "sha256": "sha256:9d6e3f9384aab700fcb7f53d212bfc850a2dcc1a37f46edd47c3e2a2824980a8"
     },
     {
       "path": "../v2-rebuild/disposition-ledger.json",
@@ -139,7 +146,7 @@
   ],
   "runner": "complete_release_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+  "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
   "work_packets": [
     {
       "gates": [

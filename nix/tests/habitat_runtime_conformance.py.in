@@ -8,8 +8,6 @@ import struct
 import subprocess
 import time
 
-import boto3
-
 RUNTIME_SOCKET = "/run/habitat/runtime/runtime.sock"
 SYSTEMCTL = "@systemctl@"
 
@@ -80,7 +78,10 @@ readiness = pathlib.Path("/run/habitat/runtime/readiness")
 wait_for(lambda: readiness_state(readiness) ==
          {"state":"OPERATIONAL", "pid":runtime_pid()},
          "authoritative runtime readiness")
-unauthorized = "objective:ungranted"
+unauthorized = "objective:ungranted-" + pathlib.Path(
+    "/proc/sys/kernel/random/uuid").read_text().strip()
+if query("PREPARE " + unauthorized) != "ACCEPTED":
+    raise RuntimeError("ungranted objective was not durably prepared for authority denial")
 if query("RESUME " + unauthorized) != "UNAUTHORIZED":
     raise RuntimeError("authority did not default-deny an objective without a grant")
 objective = "objective:qemu-" + pathlib.Path(
@@ -88,8 +89,14 @@ objective = "objective:qemu-" + pathlib.Path(
 if query("PREPARE " + objective) != "ACCEPTED":
     raise RuntimeError("durable objective and wake were not committed")
 
-wait_for(lambda: query("INSPECT " + objective) == "NOT_FOUND",
-         "durable prepared wake")
+def prepared_projection():
+    projection = json.loads(query("INSPECT " + objective))
+    if (projection.get("objective_id") == objective
+            and projection.get("objective_state") == "PROPOSED"):
+        return projection
+    return None
+
+wait_for(prepared_projection, "durable prepared objective and wake")
 interruptions = [interrupt_runtime("after_wake_commit")]
 completion = query("RESUME " + objective)
 if completion != "COMPLETED":
@@ -117,7 +124,16 @@ evidence = client.get_object(
 if hashlib.sha256(evidence).hexdigest() != digest:
     raise RuntimeError("evidence object digest mismatch")
 record = json.loads(evidence)
-if record.get("objective_id") != objective or record.get("disposition") != "COMMITTED":
+payload = record.get("payload", {})
+if (record.get("schema_version") != "1"
+        or record.get("producer") != "service:effects"
+        or record.get("subject") != effect["effect_id"]
+        or record.get("operation") != "effect.transition"
+        or payload.get("effect_id") != effect["effect_id"]
+        or payload.get("objective_id") != objective
+        or payload.get("new_state") != "OBSERVED_SUCCEEDED"
+        or payload.get("disposition") != "OBSERVED_SUCCEEDED"
+        or record.get("source") != payload.get("external_ref")):
     raise RuntimeError("evidence bytes are not bound to the committed objective")
 
 interruptions.append(interrupt_runtime("after_effect_commit"))

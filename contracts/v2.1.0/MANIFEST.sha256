@@ -1,0 +1,4 @@
+2b627ac24f649b9833e28739bba3fe13f5d020562d880f6178ab380a55450bd4  IMPLEMENTATION-PLAN.md
+6247f9b4487f9105304a1d5dd010ff5ef5962eef3abfe81f4f0724e7c643f6c4  contract.schema.json
+d8b892f247f95fa34d75517d863a368c7fc6602dc04026ccc4053a1bf9884a7d  nix-ai-architecture-v2.1.0.contract.json
+c52f7c2560c510f368d0890d2229dfd7631783a88fb6673d405dbf5e53ffed1e  validate_contract.py

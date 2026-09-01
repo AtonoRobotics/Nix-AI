@@ -122,7 +122,9 @@ def evidence_index(root: Path):
 
 def provenance(root: Path):
     sources = [
-        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json", "Cargo.toml", "Cargo.lock",
+        "contracts/v2.0.1/nix-ai-v2.0.1.contract.json",
+        "contracts/v2.1.0/nix-ai-architecture-v2.1.0.contract.json",
+        "Cargo.toml", "Cargo.lock",
         "flake.nix", "flake.lock", "tools/derive_v2_contract.py", "tools/proto_contracts.py",
         "tools/qualify_v2_artifacts.py", "tools/verify_v2_build_closure.py", "buf.yaml", "buf.gen.yaml",
         "tools/qualify_v2_change.py", "tools/qualify_v2_release.py",
@@ -155,7 +157,8 @@ def manifest_members(root: Path, generated: dict[str, bytes]):
     paths.update(generated)
     paths.update(path.relative_to(root).as_posix() for path in (root / "contracts/schemas").glob("*.schema.json"))
     paths.update(path.relative_to(root).as_posix() for path in (root / "generated/proto").rglob("*.*") if path.is_file())
-    paths.update(("Cargo.lock", "flake.lock", "contracts/v2/MANIFEST.sha256", "contracts/v2.0.1/MANIFEST.sha256"))
+    paths.update(("Cargo.lock", "flake.lock", "contracts/v2/MANIFEST.sha256",
+                  "contracts/v2.0.1/MANIFEST.sha256", "contracts/v2.1.0/MANIFEST.sha256"))
     return sorted(paths)
 
 

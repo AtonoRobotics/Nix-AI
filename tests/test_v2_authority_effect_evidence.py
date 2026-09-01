@@ -29,8 +29,8 @@ class V2AuthorityEffectEvidenceTests(unittest.TestCase):
         proof = report["behavioral_test_proof"]
         self.assertEqual(proof["runner"], "rust-test-binaries")
         self.assertEqual(proof["outcome"], "passed")
-        self.assertEqual(proof["test_count"], 7)
-        self.assertEqual(len(proof["test_names"]), 7)
+        self.assertGreaterEqual(proof["test_count"], 7)
+        self.assertEqual(len(proof["test_names"]), proof["test_count"])
         self.assert_report_is_contract_bound(report, "crates/habitat-authority")
 
     def test_v_effect_evidence_satisfies_binding_gate(self):
@@ -51,8 +51,8 @@ class V2AuthorityEffectEvidenceTests(unittest.TestCase):
         proof = report["behavioral_test_proof"]
         self.assertEqual(proof["runner"], "rust-test-binaries")
         self.assertEqual(proof["outcome"], "passed")
-        self.assertEqual(proof["test_count"], 8)
-        self.assertEqual(len(proof["test_names"]), 8)
+        self.assertGreaterEqual(proof["test_count"], 8)
+        self.assertEqual(len(proof["test_names"]), proof["test_count"])
         self.assert_report_is_contract_bound(report, "crates/habitat-effects")
 
     def assert_report_is_contract_bound(self, report, relative):

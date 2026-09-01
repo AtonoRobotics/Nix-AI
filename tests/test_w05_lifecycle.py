@@ -4,7 +4,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from habitat_state import Conflict
-from habitat_state.errors import LedgerUnavailable
+from habitat_state.errors import LedgerCorrupt, LedgerUnavailable
 from habitat_state.lifecycle import LifecycleStore, ClockUntrusted
 from habitat_state.command_ledger import CommandLedgerServer, CommandLedgerStore
 from habitat_state.repository import PostgresRepository
@@ -113,6 +113,7 @@ class LifecycleTests(unittest.TestCase):
               WHERE activation_id=%s AND version=1""",(claim["activation_id"],)).fetchone()
         self.assertEqual(history["evidence_ref"],claim["binding_evidence_ref"])
         self.assertEqual(history["binding"]["lease_fence"],1)
+
         self.assertGreater(claim["lease_expires_at"], int(time.time()))
         replay = self.claim_activation(
             command_id=f"command:claim:{objective}", activation_id=claim["activation_id"],
@@ -340,6 +341,21 @@ class LifecycleTests(unittest.TestCase):
             self.claim_activation(**(common|{"lease_seconds":301}))
         with self.assertRaisesRegex(ValueError,"complete typed"):
             self.claim_activation(**(common|{"credential_digest":"sha256:"+"Z"*64}))
+
+    def test_authority_denial_terminalizes_objective_and_consumes_wake(self):
+        objective = f"objective:{uuid.uuid4()}"
+        scheduled = self.store.schedule_objective(objective, now=100)
+        denied = self.store.cancel_denied_objective(objective, "UNAUTHORIZED")
+        replay = self.store.cancel_denied_objective(objective, "UNAUTHORIZED")
+        self.assertEqual(denied, replay)
+        self.assertEqual(denied["state"], "CANCELLED")
+        self.assertNotIn(objective, self.store.pending_objectives())
+        with self.store._connect() as connection:
+            wake = connection.execute("SELECT state FROM wakes WHERE wake_id=%s",
+                                      (scheduled["wake_id"],)).fetchone()
+        self.assertEqual(wake["state"], "ACKNOWLEDGED")
+        restarted = LifecycleStore(os.environ["HABITAT_TEST_DATABASE_URL"])
+        self.assertNotIn(objective, restarted.pending_objectives())
 
     def test_capability_set_publication_replay_and_reactivation_are_auditable(self):
         first=self.store.publish_capability_activation_set("command:set:first","capability-set:first",
@@ -658,6 +674,52 @@ class LifecycleTests(unittest.TestCase):
             self.assertFalse(corrupt["effects_classified"], (pg_path, corrupt))
             self.assertEqual(corrupt["canonical_inconsistent_effects"], 1,
                              (pg_path, corrupt))
+
+    def test_repository_commits_only_evidence_bound_authority_snapshot(self):
+        binding = f"authority:{uuid.uuid4()}"
+        snapshot = {"generation": "generation:current",
+                    "configuration_digest": "sha256:" + "b" * 64,
+                    "quota_usage": {"grant:test": 1}}
+        snapshot_digest = "sha256:" + hashlib.sha256(
+            json.dumps(snapshot, sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+
+        class Evidence:
+            expected_version = 0
+
+            def verify_record(self, reference, **bindings):
+                self.bindings = {"reference": reference, **bindings}
+                return {"payload": {"expected_version": self.expected_version}}
+
+        evidence = Evidence()
+        repository = PostgresRepository(
+            os.environ["HABITAT_TEST_DATABASE_URL"]
+        ).bind_evidence(evidence)
+        request = {
+            "binding_id": binding,
+            "command_id": f"command:{uuid.uuid4()}",
+            "expected_version": 0,
+            "generation": "generation:current",
+            "snapshot": snapshot,
+            "snapshot_digest": snapshot_digest,
+            "evidence_ref": "s3://habitat-evidence/sha256/" + "a" * 64,
+        }
+        committed = repository.commit_verified_authority(request)
+        self.assertEqual(committed["version"], 1)
+        self.assertEqual(evidence.bindings, {
+            "reference": request["evidence_ref"],
+            "subject": binding,
+            "producer": "service:authority",
+            "source": snapshot_digest,
+            "operation": "authority.snapshot",
+        })
+        evidence.expected_version = 99
+        with self.assertRaises(LedgerCorrupt):
+            repository.commit_verified_authority({
+                **request,
+                "command_id": f"command:{uuid.uuid4()}",
+                "expected_version": 1,
+            })
 
     def test_runtime_protocol_uses_postgresql_authority_and_evidence(self):
         class Evidence:

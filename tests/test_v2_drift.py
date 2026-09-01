@@ -8,12 +8,12 @@ from tools.verify_v2_drift import find_drift
 class DriftVerifierTests(unittest.TestCase):
     def fixture(self, release="", qualification="", w00="def source_tree_digest():\n git ls-tree show", packet=""):
         temporary = tempfile.TemporaryDirectory(); root = Path(temporary.name)
-        (root / "tools").mkdir(); (root / "crates/habitat-packages/src").mkdir(parents=True)
+        (root / "tools").mkdir(); (root / "src/habitat_state").mkdir(parents=True)
         (root / "tools/qualify_v2_release.py").write_text(release)
         (root / "tools/qualification.py").write_text(qualification)
         (root / "tools/qualify_w00.py").write_text(w00)
         (root / "tools/qualify_w02.py").write_text(packet)
-        (root / "crates/habitat-packages/src/main.rs").write_text("qualify-change")
+        (root / "src/habitat_state/change_role.py").write_text("ROLE_STATES")
         return temporary, root
 
     def test_clean_declarative_shape_is_accepted(self):

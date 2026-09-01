@@ -1,4 +1,5 @@
 {
+  "contaminated_retained_unit_count": 0,
   "contaminated_units": [],
   "delete_counts_by_inventory_class": {
     "build_closure_members": 14,
@@ -7,21 +8,27 @@
     "public_semantics": 193,
     "tracked_paths": 51
   },
+  "inadmissible_source_count": 0,
   "policy_exclusions": [
     "AGENTS.md",
     "docs/agents/domain.md",
     "docs/agents/issue-tracker.md",
     "docs/agents/triage-labels.md",
+    "tests/test_v2_artifact_closure.py",
+    "tests/test_v2_contract_derivation.py",
     "tests/test_v2_rebuild_frontier.py",
     "tests/test_v2_scope_classification.py",
     "tests/test_v2_scope_removal.py",
     "tools/classify_v2_scope.py",
     "tools/inventory_v2.py",
+    "tools/qualify_v2_artifacts.py",
+    "tools/verify_v2_build_closure.py",
     "tools/verify_v2_removal.py"
   ],
   "policy_prefix_exclusions": [
     "contracts/v2/",
     "contracts/v2.0.1/",
+    "contracts/v2.1.0/",
     "evidence/v2-rebuild/"
   ],
   "remaining_delete_units": [],
@@ -29,8 +36,9 @@
     "name": "verify-v2-removal",
     "version": 2
   },
-  "scanned_tracked_path_count": 209,
+  "scanned_tracked_path_count": 332,
   "schema_version": 1,
+  "unmapped_semantic_count": 0,
   "valid": true,
-  "verified_commit": "89b0b5b73a92c30b648d00249c6464b2b5edaaf8"
+  "verified_commit": "938a2203189bd285867436a57ff18c5e5c638c07"
 }

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://atonorobotics.example/contracts/nix-ai-architecture-v2.1.0.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "contract", "scope", "modules", "requirements", "work_packets", "verification_gates", "completion"],
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9-]+$"},
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "module": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "interface", "implementation_owns", "seam", "adapters", "invariants", "test_surface"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "name": {"type": "string"}, "interface": {"type": "string"}, "implementation_owns": {"$ref": "#/$defs/strings"}, "seam": {"type": "string"}, "adapters": {"$ref": "#/$defs/strings"}, "invariants": {"$ref": "#/$defs/strings"}, "test_surface": {"type": "string"}}
+    },
+    "requirement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "shall", "owner_module", "owner_packet", "evidence", "acceptance"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "shall": {"type": "string"}, "owner_module": {"$ref": "#/$defs/id"}, "owner_packet": {"$ref": "#/$defs/id"}, "evidence": {"$ref": "#/$defs/strings"}, "acceptance": {"type": "string"}}
+    },
+    "packet": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "deliverable", "requirements", "cannot_begin", "cannot_integrate", "cannot_pass", "gates"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "deliverable": {"type": "string"}, "requirements": {"$ref": "#/$defs/strings"}, "cannot_begin": {"$ref": "#/$defs/strings"}, "cannot_integrate": {"$ref": "#/$defs/strings"}, "cannot_pass": {"$ref": "#/$defs/strings"}, "gates": {"$ref": "#/$defs/strings"}}
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "claim", "evidence", "pass_condition"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "claim": {"type": "string"}, "evidence": {"$ref": "#/$defs/strings"}, "pass_condition": {"type": "string"}}
+    }
+  },
+  "properties": {
+    "$schema": {"const": "./contract.schema.json"},
+    "contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "status", "immutability", "predecessor", "target"],
+      "properties": {
+        "id": {"const": "nix-ai-core-architecture"}, "version": {"const": "2.1.0"}, "status": {"const": "BINDING"},
+        "immutability": {"const": {"content_addressed": true, "mutation": "PROHIBITED", "successor": "NEW_SEMVER_AND_NEW_DIGEST"}},
+        "predecessor": {"type": "object", "additionalProperties": false, "required": ["id", "version", "sha256", "relationship"], "properties": {"id": {"const": "nix-ai-core"}, "version": {"const": "2.0.1"}, "sha256": {"pattern": "^[0-9a-f]{64}$"}, "relationship": {"const": "PRESERVES_AND_DEEPENS_IMPLEMENTATION"}}},
+        "target": {"type": "object", "additionalProperties": false, "required": ["repository", "baseline_commit"], "properties": {"repository": {"const": "AtonoRobotics/Nix-AI"}, "baseline_commit": {"pattern": "^[0-9a-f]{40}$"}}}
+      }
+    },
+    "scope": {"type": "object", "additionalProperties": false, "required": ["includes", "preserves", "excludes"], "properties": {"includes": {"$ref": "#/$defs/strings"}, "preserves": {"$ref": "#/$defs/strings"}, "excludes": {"$ref": "#/$defs/strings"}}},
+    "modules": {"type": "array", "items": {"$ref": "#/$defs/module"}, "minItems": 4},
+    "requirements": {"type": "array", "items": {"$ref": "#/$defs/requirement"}, "minItems": 12},
+    "work_packets": {"type": "array", "items": {"$ref": "#/$defs/packet"}, "minItems": 7},
+    "verification_gates": {"type": "array", "items": {"$ref": "#/$defs/gate"}, "minItems": 7},
+    "completion": {"const": {"operator": "ALL", "required_gates": ["G-CONTRACT", "G-STATE", "G-AUTH-EFFECT", "G-RUNTIME", "G-QUALIFICATION", "G-DEPLOYMENT", "G-RELEASE"], "evidence_policy": "FRESH_EXACT_TREE_NON_SYNTHETIC", "on_false": "NOT_COMPLETE"}}
+  }
+}

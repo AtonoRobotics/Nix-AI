@@ -3,7 +3,7 @@
 import argparse,hashlib,json,subprocess,sys
 from pathlib import Path
 sys.path.insert(0, str(Path.cwd() / "tools"))
-from qualify_w_common import PacketRun,emit_result,run_test_directory
+from qualify_w_common import PacketRun,emit_result,rust_test_proof
 
 def source_digest(root,relative):
     digest=hashlib.sha256()
@@ -17,11 +17,11 @@ def main():
     p.add_argument("--artifact",type=Path,required=True);p.add_argument("--evidence-dir",type=Path)
     p.add_argument("--test-dir",type=Path,required=True)
     args=p.parse_args();run=PacketRun("W08",args.root);run.command(["validate-contracts"],action="contracts:validate",artifacts=[args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json"],assertion="effects contract validates")
-    declaration=json.loads(subprocess.check_output([args.artifact],text=True))
+    declaration=json.loads(subprocess.check_output([args.artifact,"--describe"],text=True))
     digest=hashlib.sha256(args.artifact.read_bytes()).hexdigest()
     contract_digest=hashlib.sha256((args.root/"contracts/v2.0.1/nix-ai-v2.0.1.contract.json").read_bytes()).hexdigest()
-    count=run_test_directory(run,args.test_dir,args.artifact,"effects")
-    proof={"runner":"executed-rust-test-binaries","outcome":"passed","binary_count":count}
+    proof=rust_test_proof(run,args.test_dir,args.artifact,"effects")
+    count=proof["binary_count"]
     metrics={"unledgered_external_dispatch_count":0,"duplicate_effect_execution_count":0,
       "blind_retry_count":0,"premature_completion_count":0}
     if declaration.get("abi")!="2.0": raise SystemExit("effect artifact is not the v2 ABI")

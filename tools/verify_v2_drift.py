@@ -30,9 +30,9 @@ def find_drift(root: Path) -> list[str]:
     w00_text = w00.read_text() if w00.is_file() else ""
     if not all(token in w00_text for token in ("def source_tree_digest", "ls-tree", "show")):
         errors.append("tools/qualify_w00.py: stale exact-tree evidence is not verified")
-    package_cli = root / "crates/habitat-packages/src/main.rs"
-    if package_cli.is_file() and "qualify-change" not in package_cli.read_text():
-        errors.append("crates/habitat-packages/src/main.rs: governed-change execution is absent")
+    change_role = root / "src/habitat_state/change_role.py"
+    if not change_role.is_file() or "ROLE_STATES" not in change_role.read_text():
+        errors.append("src/habitat_state/change_role.py: governed-change authorities are absent")
     return errors
 
 

@@ -366,6 +366,56 @@ fn persist_dispatch_chain(
     Ok(())
 }
 
+fn resume_dispatch_chain(
+    state_socket: &Path,
+    token: &str,
+    record: &habitat_effects::EffectRecord,
+    external_ref: &str,
+    provider_state: Option<&str>,
+) -> io::Result<()> {
+    match provider_state {
+        None => persist_dispatch_chain(state_socket, token, record, external_ref),
+        Some("PROPOSED") => {
+            persist_provider_transition(
+                state_socket,
+                token,
+                record,
+                Some("PROPOSED"),
+                "AUTHORIZED",
+                external_ref,
+                None,
+            )?;
+            persist_provider_transition(
+                state_socket,
+                token,
+                record,
+                Some("AUTHORIZED"),
+                "DISPATCHED",
+                external_ref,
+                None,
+            )?;
+            Ok(())
+        }
+        Some("AUTHORIZED") => persist_provider_transition(
+            state_socket,
+            token,
+            record,
+            Some("AUTHORIZED"),
+            "DISPATCHED",
+            external_ref,
+            None,
+        )
+        .map(|_| ()),
+        Some(
+            "DISPATCHED" | "UNCERTAIN" | "OBSERVED_SUCCEEDED" | "OBSERVED_FAILED"
+            | "RESOLVED_SUCCEEDED" | "RESOLVED_FAILED",
+        ) => Ok(()),
+        Some(other) => Err(io::Error::other(format!(
+            "unsupported durable provider state during recovery: {other}"
+        ))),
+    }
+}
+
 fn provider_transport_id(record: &habitat_effects::EffectRecord) -> String {
     format!(
         "provider://offline/sha256/{:x}",
@@ -901,20 +951,33 @@ fn reconcile_pending(
                 let observed_state = state_observation.as_ref().and_then(|response| {
                     response["result"]["projection"]["provider_state"].as_str()
                 });
+                // The state service can lose its response after committing
+                // any member of the pre-dispatch transition chain. Resume
+                // from the independently observed durable predecessor before
+                // publishing UNCERTAIN; every transition is replay-bound.
+                let dispatch_ready = resume_dispatch_chain(
+                    state_socket,
+                    token,
+                    &record,
+                    &external_ref,
+                    observed_state,
+                )
+                .is_ok();
                 // A response-loss crash can occur after state durably accepts
                 // DISPATCHED -> UNCERTAIN.  Resume from that observed boundary
                 // instead of replaying a stale predecessor forever.
                 let uncertain_ready = observed_state == Some("UNCERTAIN")
-                    || persist_provider_transition(
-                        state_socket,
-                        token,
-                        &record,
-                        Some("DISPATCHED"),
-                        "UNCERTAIN",
-                        &external_ref,
-                        None,
-                    )
-                    .is_ok();
+                    || (dispatch_ready
+                        && persist_provider_transition(
+                            state_socket,
+                            token,
+                            &record,
+                            Some("DISPATCHED"),
+                            "UNCERTAIN",
+                            &external_ref,
+                            None,
+                        )
+                        .is_ok());
                 if !uncertain_ready {
                     // The original terminal transition may have committed
                     // while its response was lost.  If our stale
@@ -1048,12 +1111,17 @@ fn injected_crash(stage: &str) {
 
 fn main() -> io::Result<()> {
     let mut args = env::args().skip(1);
-    let socket = PathBuf::from(args.next().ok_or_else(|| {
+    let first = args.next().ok_or_else(|| {
         io::Error::new(
             io::ErrorKind::InvalidInput,
-            "usage: habitat-effects SOCKET STATE AUTHORITY LEGACY_LEDGER TOKEN DATABASE_URL PSQL PEERS",
+            "usage: habitat-effects [--describe | SOCKET STATE AUTHORITY PROVIDER LEGACY_LEDGER TOKEN DATABASE_URL PSQL PEERS]",
         )
-    })?);
+    })?;
+    if first == "--describe" {
+        println!("{}", serde_json::json!({"abi":"2.0","service":"effects"}));
+        return Ok(());
+    }
+    let socket = PathBuf::from(first);
     let state_socket = PathBuf::from(
         args.next()
             .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "missing state socket"))?,

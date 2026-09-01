@@ -30,6 +30,9 @@ class V2ScopeRemovalTests(unittest.TestCase):
         )
         self.assertEqual(report["remaining_delete_units"], [])
         self.assertEqual(report["contaminated_units"], [])
+        self.assertEqual(report["unmapped_semantic_count"], 0)
+        self.assertEqual(report["inadmissible_source_count"], 0)
+        self.assertEqual(report["contaminated_retained_unit_count"], 0)
         self.assertEqual(
             report["verified_commit"],
             subprocess.run(
@@ -74,6 +77,9 @@ class V2ScopeRemovalTests(unittest.TestCase):
         self.assertEqual(report["delete_counts_by_inventory_class"]["tracked_paths"], 51)
         self.assertEqual(report["remaining_delete_units"], [])
         self.assertEqual(report["contaminated_units"], [])
+        self.assertEqual(report["unmapped_semantic_count"], 0)
+        self.assertEqual(report["inadmissible_source_count"], 0)
+        self.assertEqual(report["contaminated_retained_unit_count"], 0)
 
     def test_semantic_scope_scan_rejects_opaque_and_vendor_contamination(self):
         cases = (
@@ -116,6 +122,19 @@ class V2ScopeRemovalTests(unittest.TestCase):
                 )
                 self.assertNotEqual(result.returncode, 0, value)
                 self.assertIn(relative, result.stdout)
+
+    def test_binding_contract_package_is_policy_not_runtime_contamination(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "report.json"
+            result = subprocess.run(
+                ["python3", str(ROOT / "tools" / "verify_v2_removal.py"),
+                 "--root", str(ROOT), "--ledger", str(LEDGER),
+                 "--output", str(output)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            report = json.loads(output.read_text())
+        self.assertIn("contracts/v2.1.0/", report["policy_prefix_exclusions"])
+        self.assertFalse(any(item["path"].startswith("contracts/v2.1.0/")
+                             for item in report["contaminated_units"]))
 
     def test_rejected_domain_components_are_untracked(self):
         tracked = subprocess.run(

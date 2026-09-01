@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import base64
+import re
 import subprocess
 import os
 import socket
@@ -121,6 +122,32 @@ class PacketRun:
         self.observations[observation["observation_id"]] = observation
         return observation
 
+    def observe_assertion(self, name: str, passed: bool, *,
+                          semantic_evidence: dict[str, object]) -> dict[str, object]:
+        """Record a behavioral assertion derived from an executed live probe."""
+        if not self.attestations:
+            raise ValueError("behavioral assertion requires an executed measuring action")
+        if not name or type(passed) is not bool:
+            raise ValueError("behavioral assertion requires a name and boolean result")
+        if not semantic_evidence or not isinstance(semantic_evidence.get("kind"), str) \
+                or "observed" not in semantic_evidence:
+            raise ValueError("behavioral assertion requires typed semantic evidence")
+        action = self.attestations[-1]["action_observation"]
+        payload = {
+            "schema_version": "1.0", "kind": "behavioral_assertion", "name": name,
+            "passed": passed, "action_observation_id": action["observation_id"],
+            "artifact_ids": action["artifact_ids"], "semantic_evidence": semantic_evidence,
+        }
+        observation_id = "assertion:" + __import__("hashlib").sha256(
+            canonical_json(payload)).hexdigest()
+        observation = {**payload, "observation_id": observation_id}
+        self.observations[observation_id] = observation
+        self.assertions.append({"name": name, "passed": passed,
+                                "observation_id": observation_id})
+        if not passed:
+            raise SystemExit(f"{self.packet} behavioral assertion failed: {name}")
+        return observation
+
     def result(self, reports: dict[str, object], *,
                gate_results: dict[str, dict[str, object]] | None = None) -> dict[str, object]:
         if not self.attestations or not self.assertions:
@@ -223,6 +250,43 @@ def run_test_directory(run: PacketRun, directory: Path, artifact: Path, subsyste
             assertion=f"{subsystem} behavioral binary {binary.name} passes",
         )
     return len(binaries)
+
+
+def rust_test_proof(
+    run: PacketRun, directory: Path, artifact: Path, subsystem: str
+) -> dict[str, object]:
+    binaries = sorted(
+        path for path in directory.iterdir()
+        if path.is_file() and path.stat().st_mode & 0o111
+    )
+    if not binaries:
+        raise SystemExit(f"{subsystem} behavioral test binaries are absent")
+    test_names: set[str] = set()
+    for binary in binaries:
+        record = run.command(
+            [binary], artifacts=[binary, artifact],
+            action=f"{subsystem}:{binary.name}",
+            assertion=f"{subsystem} behavioral binary {binary.name} passes",
+        )
+        captured = record["captured_outputs"]
+        output = "\n".join(
+            base64.b64decode(captured[stream]["content"]).decode(
+                "utf-8", errors="replace"
+            )
+            for stream in ("stdout", "stderr")
+        )
+        test_names.update(
+            match.group(1) for match in re.finditer(
+                r"(?m)^test ([A-Za-z0-9_:]+) \.\.\. ok$", output
+            )
+        )
+    if not test_names:
+        raise SystemExit(f"{subsystem} binaries passed without named test evidence")
+    return {
+        "runner": "rust-test-binaries", "outcome": "passed",
+        "binary_count": len(binaries), "binaries": [path.name for path in binaries],
+        "test_count": len(test_names), "test_names": sorted(test_names),
+    }
 
 
 def strict_unittest_argv(*modules: str) -> list[str]:

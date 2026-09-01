@@ -14,7 +14,7 @@
   ],
   "contaminated_generated": [],
   "deleted_closure_members": [],
-  "dependency_owner_count": 374,
+  "dependency_owner_count": 413,
   "records": [
     {
       "class": "requirements_registry",
@@ -179,7 +179,7 @@
     {
       "class": "lockfiles",
       "path": "Cargo.lock",
-      "sha256": "3e83ba86d8f11054a5d77bce8216239c1f9afc79c5ba5a5acf9165cbf2c67553"
+      "sha256": "6292cc08a71bbb088d11201879f0d86134c7bc971d58c4a57e167135ec1da174"
     },
     {
       "class": "lockfiles",
@@ -189,17 +189,17 @@
     {
       "class": "sbom",
       "path": "generated/v2/sbom.json",
-      "sha256": "94511b76bd0067cb9ada25f3b170f4b22b25d1cdcf0c142be202a43a0a763842"
+      "sha256": "c00b82b85cbe891a0844b0daeff217acecf30f0836b064b91bc88d6d402d5033"
     },
     {
       "class": "provenance",
       "path": "generated/v2/provenance.json",
-      "sha256": "4eaaea41b8a49572086cc8365ebbba11a6895a9919329d76a8c6dd4a6edc2266"
+      "sha256": "a41fd414aefce07c99d7baf9a58403c66c7cfd55c8f1f590d448363e22c929e2"
     },
     {
       "class": "evidence_indexes",
       "path": "generated/v2/evidence-index.json",
-      "sha256": "55386933d551e82d7ca094fb34b89ceee7299bc771ccd69343efea824d6b57c3"
+      "sha256": "4b695214bd9fd68687e146e381c341d189426b2f74ff53d27a62a446e22b3343"
     },
     {
       "class": "sha256_manifests",
@@ -213,13 +213,18 @@
     },
     {
       "class": "sha256_manifests",
+      "path": "contracts/v2.1.0/MANIFEST.sha256",
+      "sha256": "bf2539cd6d24884bebd9fc9d1c03c1386e665e6949fe54e212fd9bf560bc6cd1"
+    },
+    {
+      "class": "sha256_manifests",
       "path": "contracts/v2/MANIFEST.sha256",
       "sha256": "63621cccd011aca6704bba1e2d5ef78bdd5967e6576da012f28430657d422ce5"
     },
     {
       "class": "sha256_manifests",
       "path": "generated/v2/MANIFEST.sha256",
-      "sha256": "50bbb0bb597fc81bcab9452333de47c9e01025c39dff9cae06bec63c44d99de8"
+      "sha256": "b6bf64137e651959a573a4fcb9c756590e390826b6babc0c595fcfe76a1f8790"
     }
   ],
   "schema_version": "1.0",

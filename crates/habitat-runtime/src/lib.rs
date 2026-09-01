@@ -514,6 +514,23 @@ fn resume_objective(run_dir: &Path, objective: &str, deployed_state_protocol: bo
                 Err(_) => "UNAVAILABLE".into(),
             }
         }
+        Some(applied) if applied.code == "UNAUTHORIZED" => {
+            let cancellation = serde_json::json!({
+                "operation":"runtime_cancel_denied",
+                "objective_id":objective,
+                "reason":"UNAUTHORIZED"
+            });
+            if query_state(
+                &component_socket(run_dir, "state"),
+                &cancellation.to_string(),
+            )
+            .is_ok()
+            {
+                "UNAUTHORIZED".into()
+            } else {
+                "UNAVAILABLE".into()
+            }
+        }
         Some(applied) => applied.code,
         None => "UNAVAILABLE".into(),
     }

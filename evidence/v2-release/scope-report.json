@@ -1,6 +1,25 @@
 {
   "attestations": [
     {
+      "action": "V-SCOPE",
+      "action_observation": {
+        "action": "V-SCOPE",
+        "artifact_ids": [
+          "sha256:9beec7acec1df8f2494eef691ac85775596783f691cc3a12483086556aa1f486"
+        ],
+        "exit_status": 0,
+        "finished_at": "2026-09-01T10:54:44.762373Z",
+        "kind": "command_action",
+        "observation_id": "observation:038aa034c7f62baa18db36b0d8027ee5d6c036a59aa6628c40123eed53047bb3",
+        "output_ids": [
+          "sha256:d4beb6416719ca055ecdaf7bcf654541acfe1303650849003b83e073010883a0",
+          "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "result": "succeeded",
+        "schema_version": "1.0",
+        "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
+        "started_at": "2026-09-01T10:54:44.200198Z"
+      },
       "argv": [
         "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python",
         "tools/verify_v2_removal.py",
@@ -9,18 +28,55 @@
         "--ledger",
         "/home/samuel/nixai/evidence/v2-rebuild/disposition-ledger.json",
         "--output",
-        "/tmp/nix-ai-v2-release-lp3lkdw9/scope.json"
+        "/tmp/nix-ai-v2-release-54t4qyu1/scope.json"
       ],
       "artifact_digests": [
         {
-          "path": "/tmp/nix-ai-v2-release-lp3lkdw9/scope.json",
-          "sha256": "sha256:83d893300e52a6a59c4d74c15dd2fa001664ed434e64924eb3f11863330e3d35"
+          "path": "/tmp/nix-ai-v2-release-54t4qyu1/scope.json",
+          "sha256": "sha256:9beec7acec1df8f2494eef691ac85775596783f691cc3a12483086556aa1f486"
         }
       ],
-      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "built_closure_sha256": "sha256:0245a5d2795246bc9b835d54f3a9ce1c32994ff66647ba92277768e43fb5d599",
+      "captured_outputs": {
+        "artifacts": [
+          {
+            "bytes": 1231,
+            "content": "ewogICJjb250YW1pbmF0ZWRfcmV0YWluZWRfdW5pdF9jb3VudCI6IDAsCiAgImNvbnRhbWluYXRlZF91bml0cyI6IFtdLAogICJkZWxldGVfY291bnRzX2J5X2ludmVudG9yeV9jbGFzcyI6IHsKICAgICJidWlsZF9jbG9zdXJlX21lbWJlcnMiOiAxNCwKICAgICJkZXBlbmRlbmNpZXMiOiAzNiwKICAgICJnZW5lcmF0ZWRfYXJ0aWZhY3RzIjogMiwKICAgICJwdWJsaWNfc2VtYW50aWNzIjogMTkzLAogICAgInRyYWNrZWRfcGF0aHMiOiA1MQogIH0sCiAgImluYWRtaXNzaWJsZV9zb3VyY2VfY291bnQiOiAwLAogICJwb2xpY3lfZXhjbHVzaW9ucyI6IFsKICAgICJBR0VOVFMubWQiLAogICAgImRvY3MvYWdlbnRzL2RvbWFpbi5tZCIsCiAgICAiZG9jcy9hZ2VudHMvaXNzdWUtdHJhY2tlci5tZCIsCiAgICAiZG9jcy9hZ2VudHMvdHJpYWdlLWxhYmVscy5tZCIsCiAgICAidGVzdHMvdGVzdF92Ml9hcnRpZmFjdF9jbG9zdXJlLnB5IiwKICAgICJ0ZXN0cy90ZXN0X3YyX2NvbnRyYWN0X2Rlcml2YXRpb24ucHkiLAogICAgInRlc3RzL3Rlc3RfdjJfcmVidWlsZF9mcm9udGllci5weSIsCiAgICAidGVzdHMvdGVzdF92Ml9zY29wZV9jbGFzc2lmaWNhdGlvbi5weSIsCiAgICAidGVzdHMvdGVzdF92Ml9zY29wZV9yZW1vdmFsLnB5IiwKICAgICJ0b29scy9jbGFzc2lmeV92Ml9zY29wZS5weSIsCiAgICAidG9vbHMvaW52ZW50b3J5X3YyLnB5IiwKICAgICJ0b29scy9xdWFsaWZ5X3YyX2FydGlmYWN0cy5weSIsCiAgICAidG9vbHMvdmVyaWZ5X3YyX2J1aWxkX2Nsb3N1cmUucHkiLAogICAgInRvb2xzL3ZlcmlmeV92Ml9yZW1vdmFsLnB5IgogIF0sCiAgInBvbGljeV9wcmVmaXhfZXhjbHVzaW9ucyI6IFsKICAgICJjb250cmFjdHMvdjIvIiwKICAgICJjb250cmFjdHMvdjIuMC4xLyIsCiAgICAiY29udHJhY3RzL3YyLjEuMC8iLAogICAgImV2aWRlbmNlL3YyLXJlYnVpbGQvIgogIF0sCiAgInJlbWFpbmluZ19kZWxldGVfdW5pdHMiOiBbXSwKICAicnVubmVyIjogewogICAgIm5hbWUiOiAidmVyaWZ5LXYyLXJlbW92YWwiLAogICAgInZlcnNpb24iOiAyCiAgfSwKICAic2Nhbm5lZF90cmFja2VkX3BhdGhfY291bnQiOiAzMzIsCiAgInNjaGVtYV92ZXJzaW9uIjogMSwKICAidW5tYXBwZWRfc2VtYW50aWNfY291bnQiOiAwLAogICJ2YWxpZCI6IHRydWUsCiAgInZlcmlmaWVkX2NvbW1pdCI6ICI5MzhhMjIwMzE4OWJkMjg1ODY3NDM2YTU3ZmYxOGM1ZTVjNjM4YzA3Igp9Cg==",
+            "content_address": "sha256/9beec7acec1df8f2494eef691ac85775596783f691cc3a12483086556aa1f486",
+            "encoding": "base64",
+            "path": "/tmp/nix-ai-v2-release-54t4qyu1/scope.json",
+            "sha256": "sha256:9beec7acec1df8f2494eef691ac85775596783f691cc3a12483086556aa1f486"
+          }
+        ],
+        "stderr": {
+          "bytes": 0,
+          "content": "",
+          "content_address": "sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "encoding": "base64",
+          "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 1087,
+          "content": "eyJjb250YW1pbmF0ZWRfcmV0YWluZWRfdW5pdF9jb3VudCI6IDAsICJjb250YW1pbmF0ZWRfdW5pdHMiOiBbXSwgImRlbGV0ZV9jb3VudHNfYnlfaW52ZW50b3J5X2NsYXNzIjogeyJidWlsZF9jbG9zdXJlX21lbWJlcnMiOiAxNCwgImRlcGVuZGVuY2llcyI6IDM2LCAiZ2VuZXJhdGVkX2FydGlmYWN0cyI6IDIsICJwdWJsaWNfc2VtYW50aWNzIjogMTkzLCAidHJhY2tlZF9wYXRocyI6IDUxfSwgImluYWRtaXNzaWJsZV9zb3VyY2VfY291bnQiOiAwLCAicG9saWN5X2V4Y2x1c2lvbnMiOiBbIkFHRU5UUy5tZCIsICJkb2NzL2FnZW50cy9kb21haW4ubWQiLCAiZG9jcy9hZ2VudHMvaXNzdWUtdHJhY2tlci5tZCIsICJkb2NzL2FnZW50cy90cmlhZ2UtbGFiZWxzLm1kIiwgInRlc3RzL3Rlc3RfdjJfYXJ0aWZhY3RfY2xvc3VyZS5weSIsICJ0ZXN0cy90ZXN0X3YyX2NvbnRyYWN0X2Rlcml2YXRpb24ucHkiLCAidGVzdHMvdGVzdF92Ml9yZWJ1aWxkX2Zyb250aWVyLnB5IiwgInRlc3RzL3Rlc3RfdjJfc2NvcGVfY2xhc3NpZmljYXRpb24ucHkiLCAidGVzdHMvdGVzdF92Ml9zY29wZV9yZW1vdmFsLnB5IiwgInRvb2xzL2NsYXNzaWZ5X3YyX3Njb3BlLnB5IiwgInRvb2xzL2ludmVudG9yeV92Mi5weSIsICJ0b29scy9xdWFsaWZ5X3YyX2FydGlmYWN0cy5weSIsICJ0b29scy92ZXJpZnlfdjJfYnVpbGRfY2xvc3VyZS5weSIsICJ0b29scy92ZXJpZnlfdjJfcmVtb3ZhbC5weSJdLCAicG9saWN5X3ByZWZpeF9leGNsdXNpb25zIjogWyJjb250cmFjdHMvdjIvIiwgImNvbnRyYWN0cy92Mi4wLjEvIiwgImNvbnRyYWN0cy92Mi4xLjAvIiwgImV2aWRlbmNlL3YyLXJlYnVpbGQvIl0sICJyZW1haW5pbmdfZGVsZXRlX3VuaXRzIjogW10sICJydW5uZXIiOiB7Im5hbWUiOiAidmVyaWZ5LXYyLXJlbW92YWwiLCAidmVyc2lvbiI6IDJ9LCAic2Nhbm5lZF90cmFja2VkX3BhdGhfY291bnQiOiAzMzIsICJzY2hlbWFfdmVyc2lvbiI6IDEsICJ1bm1hcHBlZF9zZW1hbnRpY19jb3VudCI6IDAsICJ2YWxpZCI6IHRydWUsICJ2ZXJpZmllZF9jb21taXQiOiAiOTM4YTIyMDMxODliZDI4NTg2NzQzNmE1N2ZmMThjNWU1YzYzOGMwNyJ9Cg==",
+          "content_address": "sha256/d4beb6416719ca055ecdaf7bcf654541acfe1303650849003b83e073010883a0",
+          "encoding": "base64",
+          "sha256": "sha256:d4beb6416719ca055ecdaf7bcf654541acfe1303650849003b83e073010883a0"
+        }
+      },
+      "declared_input_closure_sha256": "sha256:e76b0cfe59b65377b2395b8a1f2f6ecce60c8240655b44911509003d294fe68e",
       "exit_status": 0,
-      "finished_at": "2026-08-31T03:57:30.293521Z",
+      "finished_at": "2026-09-01T10:54:44.762373Z",
       "kind": "executed_command",
+      "realized_closure": [
+        {
+          "identity": "sha256:b9b13ad6c69831ff68903af48d9de379913d7c91e0acc3082430fa5c43ed4199",
+          "path": "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env/bin/python3.13"
+        },
+        {
+          "identity": "v5lqqns6bxfngknrcvgj9c7zjdaniqwv",
+          "path": "/nix/store/v5lqqns6bxfngknrcvgj9c7zjdaniqwv-python3-3.13.15-env"
+        }
+      ],
       "runner_identity": {
         "gid": 1000,
         "hostname": "strix-alpha",
@@ -28,19 +84,26 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
-      "started_at": "2026-08-31T03:57:30.130208Z",
+      "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
+      "started_at": "2026-09-01T10:54:44.200198Z",
       "stderr_bytes": 0,
       "stderr_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stdout_bytes": 965,
-      "stdout_sha256": "sha256:5cf54b64603341d5d42c72682599deb00cdc99d37e8638d3e61687ed721f399a"
+      "stdout_bytes": 1087,
+      "stdout_sha256": "sha256:d4beb6416719ca055ecdaf7bcf654541acfe1303650849003b83e073010883a0"
     }
   ],
+  "deployed_dependencies": [],
   "gate": "V-SCOPE",
   "live_result": {
     "assertions": [
       {
-        "name": "historical disposition and current semantic scope validated",
+        "name": "semantic removal scan is valid",
+        "observation_id": "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f",
+        "passed": true
+      },
+      {
+        "name": "no removed or contaminated units remain",
+        "observation_id": "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
         "passed": true
       }
     ],
@@ -49,15 +112,88 @@
     "skip_count": 0
   },
   "metric_evidence": {
-    "contaminated_retained_unit_count": [
-      0
-    ],
-    "inadmissible_source_count": [
-      0
-    ],
-    "unmapped_semantic_count": [
-      0
-    ]
+    "contaminated_retained_unit_count": {
+      "metric": "contaminated_retained_unit_count",
+      "observation_ids": [
+        "observation:58816e289567f1b691c38a8246a218be25c0d53295581bb94a536f7029a8e949"
+      ],
+      "operation": "value"
+    },
+    "inadmissible_source_count": {
+      "metric": "inadmissible_source_count",
+      "observation_ids": [
+        "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552"
+      ],
+      "operation": "value"
+    },
+    "unmapped_semantic_count": {
+      "metric": "unmapped_semantic_count",
+      "observation_ids": [
+        "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298"
+      ],
+      "operation": "value"
+    }
+  },
+  "metric_observations": {
+    "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298": {
+      "kind": "metric_observation",
+      "metric": "unmapped_semantic_count",
+      "observation_id": "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298",
+      "provenance": {
+        "check_observation_ids": [
+          "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+          "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f"
+        ]
+      },
+      "schema_version": "1.0",
+      "subject": "V-SCOPE",
+      "value": 0
+    },
+    "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f": {
+      "kind": "gate_check",
+      "name": "no removed or contaminated units remain",
+      "observation_id": "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+      "passed": true,
+      "schema_version": "1.0"
+    },
+    "observation:58816e289567f1b691c38a8246a218be25c0d53295581bb94a536f7029a8e949": {
+      "kind": "metric_observation",
+      "metric": "contaminated_retained_unit_count",
+      "observation_id": "observation:58816e289567f1b691c38a8246a218be25c0d53295581bb94a536f7029a8e949",
+      "provenance": {
+        "check_observation_ids": [
+          "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298",
+          "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+          "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552",
+          "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f"
+        ]
+      },
+      "schema_version": "1.0",
+      "subject": "V-SCOPE",
+      "value": 0
+    },
+    "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552": {
+      "kind": "metric_observation",
+      "metric": "inadmissible_source_count",
+      "observation_id": "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552",
+      "provenance": {
+        "check_observation_ids": [
+          "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298",
+          "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+          "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f"
+        ]
+      },
+      "schema_version": "1.0",
+      "subject": "V-SCOPE",
+      "value": 0
+    },
+    "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f": {
+      "kind": "gate_check",
+      "name": "semantic removal scan is valid",
+      "observation_id": "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f",
+      "passed": true,
+      "schema_version": "1.0"
+    }
   },
   "metrics": {
     "contaminated_retained_unit_count": 0,
@@ -65,60 +201,122 @@
     "unmapped_semantic_count": 0
   },
   "observations": {
-    "contaminated_units": [],
-    "delete_counts_by_inventory_class": {
-      "build_closure_members": 14,
-      "dependencies": 36,
-      "generated_artifacts": 2,
-      "public_semantics": 193,
-      "tracked_paths": 51
-    },
-    "policy_exclusions": [
-      "AGENTS.md",
-      "docs/agents/domain.md",
-      "docs/agents/issue-tracker.md",
-      "docs/agents/triage-labels.md",
-      "tests/test_v2_artifact_closure.py",
-      "tests/test_v2_contract_derivation.py",
-      "tests/test_v2_rebuild_frontier.py",
-      "tests/test_v2_scope_classification.py",
-      "tests/test_v2_scope_removal.py",
-      "tools/classify_v2_scope.py",
-      "tools/inventory_v2.py",
-      "tools/qualify_v2_artifacts.py",
-      "tools/verify_v2_build_closure.py",
-      "tools/verify_v2_removal.py"
-    ],
-    "policy_prefix_exclusions": [
-      "contracts/v2/",
-      "contracts/v2.0.1/",
-      "evidence/v2-rebuild/"
-    ],
-    "qualification_result": {
-      "assertions": [
-        {
-          "name": "historical disposition and current semantic scope validated",
-          "passed": true
+    "gate_results": {
+      "V-SCOPE": {
+        "deployed_dependencies": [],
+        "metric_derivations": {
+          "contaminated_retained_unit_count": {
+            "metric": "contaminated_retained_unit_count",
+            "observation_ids": [
+              "observation:58816e289567f1b691c38a8246a218be25c0d53295581bb94a536f7029a8e949"
+            ],
+            "operation": "value"
+          },
+          "inadmissible_source_count": {
+            "metric": "inadmissible_source_count",
+            "observation_ids": [
+              "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552"
+            ],
+            "operation": "value"
+          },
+          "unmapped_semantic_count": {
+            "metric": "unmapped_semantic_count",
+            "observation_ids": [
+              "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298"
+            ],
+            "operation": "value"
+          }
+        },
+        "metrics": {
+          "contaminated_retained_unit_count": 0,
+          "inadmissible_source_count": 0,
+          "unmapped_semantic_count": 0
+        },
+        "observations": {
+          "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298": {
+            "kind": "metric_observation",
+            "metric": "unmapped_semantic_count",
+            "observation_id": "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298",
+            "provenance": {
+              "check_observation_ids": [
+                "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+                "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f"
+              ]
+            },
+            "schema_version": "1.0",
+            "subject": "V-SCOPE",
+            "value": 0
+          },
+          "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f": {
+            "kind": "gate_check",
+            "name": "no removed or contaminated units remain",
+            "observation_id": "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+            "passed": true,
+            "schema_version": "1.0"
+          },
+          "observation:58816e289567f1b691c38a8246a218be25c0d53295581bb94a536f7029a8e949": {
+            "kind": "metric_observation",
+            "metric": "contaminated_retained_unit_count",
+            "observation_id": "observation:58816e289567f1b691c38a8246a218be25c0d53295581bb94a536f7029a8e949",
+            "provenance": {
+              "check_observation_ids": [
+                "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298",
+                "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+                "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552",
+                "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f"
+              ]
+            },
+            "schema_version": "1.0",
+            "subject": "V-SCOPE",
+            "value": 0
+          },
+          "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552": {
+            "kind": "metric_observation",
+            "metric": "inadmissible_source_count",
+            "observation_id": "observation:c6537e5d9181a078835ab4feb5d6aa23d5b8cead85f28bd1104127e344119552",
+            "provenance": {
+              "check_observation_ids": [
+                "observation:0d1609b0ec0ca500619f27d5b3b728ddca59ea8d5961fb32ef887c938864d298",
+                "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+                "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f"
+              ]
+            },
+            "schema_version": "1.0",
+            "subject": "V-SCOPE",
+            "value": 0
+          },
+          "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f": {
+            "kind": "gate_check",
+            "name": "semantic removal scan is valid",
+            "observation_id": "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f",
+            "passed": true,
+            "schema_version": "1.0"
+          }
+        },
+        "qualification_result": {
+          "assertions": [
+            {
+              "name": "semantic removal scan is valid",
+              "observation_id": "observation:f1e3bf7e6c87970ce5c56f5526f43a565785c38749ff95b17e4f516ad3617f8f",
+              "passed": true
+            },
+            {
+              "name": "no removed or contaminated units remain",
+              "observation_id": "observation:536a8bfb5465e1bdee0a4b146a98deffaa4c20ebd922e072fcbd0930bf26702f",
+              "passed": true
+            }
+          ],
+          "evidence_origin": "executed",
+          "outcome": "passed",
+          "skip_count": 0
         }
-      ],
-      "evidence_origin": "executed",
-      "outcome": "passed",
-      "skip_count": 0
-    },
-    "remaining_delete_units": [],
-    "runner": {
-      "name": "verify-v2-removal",
-      "version": 2
-    },
-    "scanned_tracked_path_count": 285,
-    "schema_version": 1,
-    "valid": true,
-    "verified_commit": "be43ebb6398c86a0842fe2097b59731a59536cbf"
+      }
+    }
   },
   "result": "pass",
   "runner": "scope_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+  "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
   "supporting_evidence": [
     {
       "path": "retention-ledger.json",

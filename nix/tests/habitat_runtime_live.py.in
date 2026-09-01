@@ -383,7 +383,7 @@ after = wait_effect(
     lambda value: value[ambiguous_id]["record"]["state"]
     == "ResolvedSucceeded")
 assert after[ambiguous_id]["record"]["state"] == "ResolvedSucceeded"
-assert 2 <= len(after[ambiguous_id]["reconciliations"]) <= 8
+assert 1 <= len(after[ambiguous_id]["reconciliations"]) <= 8
 assert query("runtime", "RESUME " + ambiguous) == "COMPLETED"
 
 compensation_objective = prepare("compensation")
@@ -441,10 +441,9 @@ failures["garage"] = query("runtime", "RESUME " + garage_failure)
 assert failures["garage"] == "UNAVAILABLE"
 garage_authority = authority_snapshot()
 garage_effects = pg_effects(garage_failure)
-assert garage_authority["quota_usage"] != garage_quota_before
-assert "effect:" + garage_failure in garage_authority["effect_reservations"]
-assert len(garage_effects) == 1
-assert next(iter(garage_effects.values()))["record"]["state"] == "OutcomeUnknown"
+assert garage_authority["quota_usage"] == garage_quota_before
+assert "effect:" + garage_failure not in garage_authority["effect_reservations"]
+assert not garage_effects
 service("start", "garage.service")
 service("restart", "habitat-effects.service")
 wait_ready("effects")

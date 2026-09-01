@@ -40,5 +40,5 @@ Scope: all six modules are deep, integrated, adversarially approved, exactly qua
   EXPECT: all commands exit 0
   EVIDENCE: pending
 
-- [ ] G9: Reviewable commits are pushed to `AtonoRobotics/Nix-AI` `main`, remote SHA equals local HEAD, and exact-tree release evidence binds that pushed non-evidence source.
+- [ ] G9: Reviewable commits are pushed to the configured upstream `main`, remote SHA equals local HEAD, and exact-tree release evidence binds that pushed non-evidence source.
   EVIDENCE: pending

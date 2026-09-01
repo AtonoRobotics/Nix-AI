@@ -7,6 +7,22 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      rustSource = pkgs.lib.cleanSourceWith {
+        src = ./.;
+        filter = path: _type:
+          let relative = pkgs.lib.removePrefix (toString ./. + "/") (toString path);
+          in relative == "Cargo.toml" || relative == "Cargo.lock"
+            || relative == "crates" || pkgs.lib.hasPrefix "crates/" relative
+            || relative == "contracts" || relative == "contracts/proto"
+            || pkgs.lib.hasPrefix "contracts/proto/" relative;
+      };
+      pythonStateSource = pkgs.lib.cleanSourceWith {
+        src = ./.;
+        filter = path: _type:
+          let relative = pkgs.lib.removePrefix (toString ./. + "/") (toString path);
+          in relative == "pyproject.toml"
+            || relative == "src" || pkgs.lib.hasPrefix "src/" relative;
+      };
       runtimeCredentials = pkgs.writeShellApplication {
         name = "habitat-runtime-credentials";
         runtimeInputs = [ pkgs.coreutils ];
@@ -99,6 +115,10 @@
         operator = "${habitatAuthority}/bin/habitat-authority";
         psql = "${pkgs.postgresql_17}/bin/psql";
         runuser = "${pkgs.util-linux}/bin/runuser";
+      };
+      changeLiveProbe = pkgs.replaceVars ./nix/tests/habitat_change_live.py.in {
+        systemctl = "${pkgs.systemd}/bin/systemctl";
+        initial_generation = "generation:${habitatRuntime}";
       };
       runtimeAuthorityGrants = pkgs.writeText "habitat-runtime-grants.json" (builtins.toJSON [{
         grant_id = "grant:runtime-conformance";
@@ -310,7 +330,7 @@
         runtimeInputs = contractTools;
         text = ''
           export PYTHONPATH=${self}/tools''${PYTHONPATH:+:$PYTHONPATH}
-          exec ${python}/bin/python ${./tools/qualify_w00.py} ${self}
+          exec ${python}/bin/python ${./tools/qualify_w00.py} ${self} "$@"
         '';
       };
       qualifyW02 = pkgs.writeShellApplication {
@@ -335,7 +355,7 @@
         pname = "habitat-state";
         version = "0.1.0";
         pyproject = true;
-        src = ./.;
+        src = pythonStateSource;
         build-system = [ pkgs.python3Packages.setuptools ];
         dependencies = with pkgs.python3Packages; [ boto3 psycopg ];
         doCheck = false;
@@ -343,7 +363,7 @@
       habitatAbi = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-abi";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         nativeBuildInputs = [ pkgs.protobuf ];
         cargoBuildFlags = [ "-p" "habitat-abi" ];
@@ -353,7 +373,7 @@
       habitatAuthority = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-authority";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-authority" ];
         cargoTestFlags = [ "-p" "habitat-authority" ];
@@ -365,7 +385,7 @@
       habitatExecution = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-execution";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-execution" ];
         cargoTestFlags = [ "-p" "habitat-execution" ];
@@ -373,7 +393,7 @@
       habitatContext = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-context";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-context" ];
         cargoTestFlags = [ "-p" "habitat-context" ];
@@ -385,7 +405,7 @@
       habitatEffects = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-effects";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-effects" ];
         cargoTestFlags = [ "-p" "habitat-effects" ];
@@ -397,7 +417,7 @@
       habitatModels = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-models";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-models" ];
         cargoTestFlags = [ "-p" "habitat-models" ];
@@ -409,7 +429,7 @@
       habitatPackages = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-packages";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-packages" ];
         cargoTestFlags = [ "-p" "habitat-packages" ];
@@ -421,7 +441,7 @@
       habitatHarnesses = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-harnesses";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-harnesses" ];
         cargoTestFlags = [ "-p" "habitat-harnesses" ];
@@ -433,7 +453,7 @@
       habitatRuntime = pkgs.rustPlatform.buildRustPackage {
         pname = "habitat-runtime";
         version = "0.1.0";
-        src = ./.;
+        src = rustSource;
         cargoLock.lockFile = ./Cargo.lock;
         cargoBuildFlags = [ "-p" "habitat-runtime" ];
         cargoTestFlags = [ "-p" "habitat-runtime" ];
@@ -674,7 +694,7 @@
           assert probes["restart_reconciliation"] == "ResolvedSucceeded"
           assert probes["reconciliation_unavailable"] == "Reconciling"
           assert probes["caller_subject"] == "UNAUTHORIZED"
-          assert probes["same_uid_wrong_exe"] == "UNAUTHORIZED"
+          assert probes["same_uid_wrong_unit"] == "UNAUTHORIZED"
           assert probes["quota_replay"] == "IDEMPOTENT"
           assert probes["compensation"] == "ObservedSucceeded"
           assert probes["safe_attestation"] == "SO_PEERCRED+EXACT_CGROUP+RUNTIME_HMAC"
@@ -689,6 +709,47 @@
           print(output.strip())
         '';
       };
+      changeLiveCheck = pkgs.testers.runNixOSTest {
+        name = "habitat-change-live";
+        nodes.machine = {
+          imports = [ ./nix/modules/habitat-runtime.nix runtimeConfiguration ];
+          system.stateVersion = "26.05";
+          networking.hostName = "habitat-change-live";
+          virtualisation.memorySize = 2048;
+          virtualisation.cores = 2;
+          systemd.services.habitat-runtime-conformance.enable = false;
+          systemd.services.habitat-change-conformance = {
+            after = [ "habitat-controller.service" "habitat-evaluator.service"
+              "habitat-signer.service" "habitat-health.service" ];
+            requires = [ "habitat-controller.service" "habitat-evaluator.service"
+              "habitat-signer.service" "habitat-health.service" ];
+            serviceConfig = {
+              Type = "oneshot";
+              User = "root";
+              ExecStart = "${python}/bin/python ${changeLiveProbe}";
+              StandardOutput = "journal+console";
+              StandardError = "journal+console";
+            };
+          };
+        };
+        testScript = ''
+          import json
+          import os
+          import pathlib
+          machine.start()
+          machine.wait_for_unit("multi-user.target", timeout=180)
+          machine.succeed("systemctl start habitat-change-conformance.service", timeout=180)
+          status = machine.succeed("systemctl show habitat-change-conformance.service --property=Result --value").strip()
+          assert status == "success", machine.succeed("journalctl -u habitat-change-conformance.service --no-pager")
+          output = machine.succeed("journalctl -u habitat-change-conformance.service -o cat --no-pager")
+          event = json.loads([line for line in output.splitlines() if line.startswith("{")][-1])
+          assert event["gate"] == "V-CHANGE" and event["result"] == "pass"
+          assert all(value == 0 for value in event["metrics"].values())
+          artifact = pathlib.Path(os.environ["out"]) / "change-live-probe.json"
+          artifact.parent.mkdir(parents=True, exist_ok=True)
+          artifact.write_text(json.dumps(event, sort_keys=True, separators=(",", ":")) + "\n")
+        '';
+      };
       testRuntimeLive = pkgs.writeShellApplication {
         name = "test-runtime-live";
         runtimeInputs = [ pkgs.coreutils pkgs.jq ];
@@ -701,6 +762,18 @@
             .probes.reconciliation_unavailable == "Reconciling"' "$artifact" >/dev/null
           jq -c --arg artifact "$artifact" \
             '. + {event:"habitat.runtime_live.gate",probe_artifact:$artifact}' "$artifact"
+        '';
+      };
+      testChangeLive = pkgs.writeShellApplication {
+        name = "test-change-live";
+        runtimeInputs = [ pkgs.jq ];
+        text = ''
+          artifact=${changeLiveCheck}/change-live-probe.json
+          jq -e '.gate == "V-CHANGE" and .result == "pass" and
+            .metrics.self_confirmed_candidate_count == 0 and
+            .metrics.evaluator_capture_count == 0 and
+            .metrics.in_place_contract_mutation_count == 0' "$artifact" >/dev/null
+          jq -c --arg artifact "$artifact" '. + {probe_artifact:$artifact}' "$artifact"
         '';
       };
       runHabitatQemu = pkgs.writeShellApplication {
@@ -750,6 +823,11 @@
           type = "app";
           program = "${testRuntimeLive}/bin/test-runtime-live";
           meta.description = "Prove the live PostgreSQL/Garage runtime trust and persistence boundary";
+        };
+        test-change-live = {
+          type = "app";
+          program = "${testChangeLive}/bin/test-change-live";
+          meta.description = "Prove peer-authenticated governed change and rollback in a live VM";
         };
         test-rollback = {
           type = "app";

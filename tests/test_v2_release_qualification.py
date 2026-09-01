@@ -20,6 +20,17 @@ class QualificationPrimitiveTests(unittest.TestCase):
     def test_canonical_json_is_sorted_and_stable(self):
         self.assertEqual(qualification.canonical_json({"z": 1, "a": 2}), b'{\n  "a": 2,\n  "z": 1\n}\n')
 
+    def test_source_identity_ignores_local_tool_environments_without_git_metadata(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "source.py").write_text("value = 1\n")
+            expected = qualification.source_digest(root)
+            for directory in (".venv", ".pytest_cache", "graphify-out"):
+                path = root / directory / "local-state"
+                path.parent.mkdir(parents=True)
+                path.write_text("host-local\n")
+            self.assertEqual(qualification.source_digest(root), expected)
+
     def test_execution_attestation_binds_every_required_dimension(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -49,6 +60,18 @@ class QualificationPrimitiveTests(unittest.TestCase):
                 "artifact_digests", "runner_identity",
             ):
                 self.assertIn(field, record)
+
+    def test_failed_command_attests_failure_without_requiring_uncreated_output(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "Cargo.lock").write_text("cargo")
+            (root / "flake.lock").write_text("flake")
+            record = qualification.execute(
+                root, "sha256:" + "1" * 64,
+                [sys.executable, "-c", "raise SystemExit(7)"],
+                action="expected-failure", artifacts=[root / "never-created.json"])
+            self.assertEqual(record["exit_status"], 7)
+            self.assertEqual(record["artifact_digests"], [])
 
     def test_tampered_or_incomplete_attestations_are_rejected(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -158,6 +181,23 @@ class ReleaseVerifierTests(unittest.TestCase):
                 qualification.validate_attestation(record, source_tree=qualification.source_digest(root),
                                                    closure=qualification.closure_digest(root))))
 
+    def test_large_artifacts_are_digest_attested_without_unbounded_inline_bytes(self):
+        temporary, root = self.fixture()
+        with temporary:
+            artifact = root / "disk.img"
+            artifact.write_bytes(b"x" * (qualification.MAX_INLINE_ARTIFACT_BYTES + 1))
+            record = qualification.execute(
+                root, qualification.source_digest(root),
+                [sys.executable, "-c", "pass"], action="large-artifact",
+                artifacts=[artifact])
+            capture = record["captured_outputs"]["artifacts"][0]
+            self.assertEqual(capture["encoding"], "digest-only")
+            self.assertNotIn("content", capture)
+            self.assertEqual(capture["sha256"], qualification.digest_file(artifact))
+            self.assertEqual(qualification.validate_attestation(
+                record, source_tree=qualification.source_digest(root),
+                closure=qualification.closure_digest(root)), [])
+
     def test_action_observation_is_canonically_bound_to_captured_outputs(self):
         temporary, root = self.fixture()
         with temporary:
@@ -253,6 +293,30 @@ class ReleaseVerifierTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 release.derived_metrics("V-AUTH", {"observations": {}}, Path(temporary))
 
+    def test_combined_packet_derivations_remain_metric_specific(self):
+        observations = {}
+        derivations = {}
+        for name in release.METRIC_PREDICATES["V-CONTRACT"]:
+            observation = qualification.make_metric_observation(
+                name, 0, subject="V-CONTRACT",
+                action_observation_id="observation:" + "1" * 64,
+                artifact_ids=["sha256:" + "2" * 64])
+            observations[observation["observation_id"]] = observation
+            derivations[name] = {"metric": name, "operation": "sum_values",
+                                 "observation_ids": [observation["observation_id"]]}
+        packet = {"gate_results": {"V-CONTRACT": {
+            "qualification_result": {"outcome": "passed", "evidence_origin": "executed",
+              "skip_count": 0, "assertions": [{"name": "contract", "passed": True,
+              "observation_id": "assertion:" + "2" * 64}]},
+            "metrics": {name: 0 for name in release.METRIC_PREDICATES["V-CONTRACT"]},
+            "metric_derivations": derivations,
+            "observations": observations,
+            "deployed_dependencies": []}}}
+        combined = release.emitted_gate_result(
+            release.combine_packet_results([packet], "V-CONTRACT"), "V-CONTRACT")
+        self.assertTrue(all(derivation["metric"] == name for name, derivation in
+                            combined["metric_derivations"].items()))
+
     def test_metric_derivation_tampering_is_rejected(self):
         temporary, root = self.fixture()
         with temporary:
@@ -273,14 +337,14 @@ class ReleaseVerifierTests(unittest.TestCase):
                 incomplete = release.packet_results(contract, set(release.RUNNERS) - {gate})
                 self.assertTrue(any(item["result"] == "fail" for item in incomplete))
 
-    def test_v_change_has_fixed_restart_and_independent_database_inspection(self):
+    def test_v_change_runs_deployed_roles_and_contract_mutation_attack(self):
         source = (ROOT / "tools/qualify_v2_change.py").read_text()
-        self.assertNotIn("restart-command", source)
-        self.assertNotIn("shlex.split", source)
-        self.assertIn('"habitat-state.service"', source)
-        self.assertIn("change_history", source)
-        self.assertIn("MainPID", source)
-        self.assertIn("InvocationID", source)
+        self.assertIn("path:.#test-change-live", source)
+        self.assertIn("contracts/v2.0.1/validate_contract.py", source)
+        self.assertNotIn("HABITAT_STATE_SOCKET", source)
+        role = (ROOT / "src/habitat_state/change_role.py").read_text()
+        for authority in ("controller", "evaluator", "signer", "health"):
+            self.assertIn(f'"{authority}"', role)
 
 
 if __name__ == "__main__":

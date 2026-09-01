@@ -11,6 +11,7 @@ dependencies = ["boto3>=1.40", "psycopg>=3.2"]
 
 [project.scripts]
 habitat-state = "habitat_state.command_ledger:main"
+habitat-change-role = "habitat_state.change_role:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

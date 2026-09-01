@@ -31,10 +31,11 @@ def rejects(mutation):
 class DeploymentGraphTests(unittest.TestCase):
     def test_canonical_graph_evaluates_and_projects_all_services(self):
         graph = canonical()
-        self.assertEqual(graph["names"], ["abi", "authority", "effects", "provider",
-                                          "runtime", "scheduler", "state"])
+        self.assertEqual(graph["names"], ["abi", "authority", "controller", "effects",
+                                          "evaluator", "health", "packages", "provider",
+                                          "runtime", "scheduler", "signer", "state"])
         self.assertEqual(graph["readiness"]["runtime"],
-                         ["state", "scheduler", "authority", "effects", "abi"])
+                         ["state", "scheduler", "authority", "effects", "packages", "abi"])
 
     def test_checked_rust_projection_matches_canonical_readiness(self):
         self.assertEqual(json.loads(RUST_PROJECTION.read_text()),

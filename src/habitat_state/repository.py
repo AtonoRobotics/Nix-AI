@@ -137,8 +137,9 @@ class PostgresRepository:
           request["dependency_closure_digest"],request["contract_version"],request["tests_digest"],
           request["requested_authority"],request["signing_key_digest"],request["live_verification_contract"])
     def transition_verified_change(self,request,principal):
-        observation=self._verified(request["evidence_ref"],subject=request["candidate_id"],producer=principal,
+        evidence=self._verified(request["evidence_ref"],subject=request["candidate_id"],producer=principal,
           source=request["evidence_source"],operation="change."+request["new_state"].lower(),disposition=request["new_state"])
+        observation=evidence.get("payload",{})
         return self._lifecycle.transition_governed_change(request["candidate_id"],request["command_id"],
           request["new_state"],request["actor"],request["evidence_ref"],observation=observation)
     def admit_verified_package(self,request):
@@ -160,9 +161,10 @@ class PostgresRepository:
         return self._lifecycle.admit_package(request["package_id"],request["content_digest"],request["manifest"],request["evidence_ref"])
     def commit_verified_authority(self,request):
         digest=request["snapshot_digest"]
-        expected="authority://snapshots/sha256/"+digest.removeprefix("sha256:")
-        if request["evidence_ref"] != expected:
-            raise ValueError("authority snapshot content identity mismatch")
+        evidence=self._verified(request["evidence_ref"],subject=request["binding_id"],
+          producer="service:authority",source=digest,operation="authority.snapshot")
+        if evidence.get("payload",{}).get("expected_version")!=request["expected_version"]:
+            raise LedgerCorrupt("authority evidence does not bind the expected version")
         return self._lifecycle.commit_authority_snapshot(request["binding_id"],request["command_id"],
           request["expected_version"],request["generation"],request["snapshot"],request["snapshot_digest"],request["evidence_ref"])
     def claim_verified_activation(self,request,principal):
@@ -320,6 +322,7 @@ class PostgresRepository:
     def governed_change(self,*args): return self._lifecycle.governed_change(*args)
     def governed_change_history(self,*args): return self._lifecycle.governed_change_history(*args)
     def schedule_objective(self,*args,**kwargs): return self._lifecycle.schedule_objective(*args,**kwargs)
+    def cancel_denied_objective(self,*args): return self._lifecycle.cancel_denied_objective(*args)
     def complete_ready_objective(self,*args,**kwargs): return self._lifecycle.complete_ready_objective(*args,**kwargs)
     def inspect_objective(self,*args): return self._lifecycle.inspect_objective(*args)
     def pending_objectives(self,*args): return self._lifecycle.pending_objectives(*args)

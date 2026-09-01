@@ -24,10 +24,12 @@ COMPONENTS = {
     "crates/habitat-packages/": ("PKG-001", "PKG-002", "PKG-003"),
     "crates/habitat-harnesses/": ("ABI-003", "EXEC-003"),
     "crates/habitat-runtime/": ("CORE-001", "CORE-002", "STATE-002", "EFFECT-005"),
+    "crates/habitat-uds/": ("ABI-001", "ABI-004", "AUTH-004"),
     "src/habitat_state/": ("STATE-001", "STATE-002", "STATE-003", "STATE-004"),
     "contracts/proto/": ("ABI-001", "ABI-004", "AUTH-004", "EFFECT-001"),
     "nix/images/": ("SYS-001", "SYS-002", "SYS-003", "SYS-004"),
     "nix/modules/": ("SYS-001", "SYS-002", "SYS-003", "SYS-004"),
+    "nix/lib/": ("SYS-001", "SYS-002", "SYS-003", "SYS-004"),
     "nix/profiles/": ("SYS-004",),
 }
 EXTRA_FILES = {
@@ -39,17 +41,18 @@ EXTRA_FILES = {
     "contracts/schemas/hardware-profile.schema.json": ("SYS-004",),
 }
 ALLOWED_CARGO = {
-    "crates/habitat-abi/": {"hyper-util", "prost", "prost-types", "serde", "serde_json", "sha2", "tokio", "tokio-stream", "tonic", "tonic-prost", "tower", "tempfile", "tonic-prost-build"},
-    "crates/habitat-authority/": {"serde", "serde_json", "sha2", "libc", "tempfile"},
+    "crates/habitat-abi/": {"habitat-uds", "hyper-util", "prost", "prost-types", "serde", "serde_json", "sha2", "tokio", "tokio-stream", "tonic", "tonic-prost", "tower", "tempfile", "tonic-prost-build"},
+    "crates/habitat-authority/": {"habitat-uds", "serde", "serde_json", "sha2", "libc", "tempfile"},
     "crates/habitat-context/": {"serde", "serde_json", "sha2"},
-    "crates/habitat-execution/": {"serde", "serde_json"},
-    "crates/habitat-effects/": {"habitat-authority", "serde", "serde_json", "sha2", "tempfile"},
+    "crates/habitat-execution/": {"habitat-uds", "serde", "serde_json", "sha2", "tempfile"},
+    "crates/habitat-effects/": {"habitat-authority", "habitat-execution", "habitat-uds", "libc", "serde", "serde_json", "sha2", "tempfile"},
     "crates/habitat-models/": {"serde", "serde_json"},
-    "crates/habitat-packages/": {"ed25519-dalek", "serde", "serde_json", "sha2"},
+    "crates/habitat-packages/": {"ed25519-dalek", "habitat-uds", "serde", "serde_json", "sha2"},
     "crates/habitat-harnesses/": {"habitat-models", "serde", "serde_json"},
     "crates/habitat-runtime/": {"habitat-abi", "habitat-authority", "habitat-context",
         "habitat-effects", "habitat-execution", "habitat-harnesses", "habitat-models",
-        "habitat-packages", "serde", "serde_json", "tokio"},
+        "habitat-packages", "habitat-uds", "serde", "serde_json", "sha2", "tokio"},
+    "crates/habitat-uds/": {"libc", "serde", "serde_json", "sha2", "tempfile"},
 }
 DEPENDENCY_PURPOSES = {
     "serde": "canonical record encoding", "serde_json": "typed JSON boundary encoding",
@@ -68,11 +71,13 @@ DEPENDENCY_PURPOSES = {
     "habitat-execution": "isolated execution boundary",
     "habitat-harnesses": "provider-neutral cognition dispatch",
     "habitat-packages": "content-bound package admission",
+    "habitat-uds": "authenticated bounded Unix transport",
     "tokio": "asynchronous runtime coordination",
 }
 PYTHON_ALLOWED = {"__future__", "boto3", "botocore", "concurrent", "dataclasses", "datetime",
-    "argparse", "base64", "command_ledger", "domain", "enum", "habitat_state", "hashlib", "json",
-    "lifecycle", "os", "pathlib", "re", "psycopg", "secrets", "socket", "socketserver", "stat",
+    "argparse", "base64", "command_ledger", "domain", "enum", "errors", "evidence",
+    "habitat_state", "hashlib", "hmac", "json", "lifecycle", "os", "pathlib", "protocol",
+    "psycopg", "re", "repository", "secrets", "service", "socket", "socketserver", "stat",
     "store", "struct", "time", "typing", "unittest", "uuid"}
 ADAPTER_ROOTS = ("crates/habitat-models/", "crates/habitat-harnesses/")
 FORBIDDEN_ADAPTER_DEPENDENCIES = {"habitat-authority", "habitat-effects",

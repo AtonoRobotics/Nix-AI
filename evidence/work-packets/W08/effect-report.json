@@ -1,27 +1,31 @@
 {
   "abi": {
     "abi": "2.0",
-    "component": "nix-ai-effects",
-    "durable_ledger": true
+    "service": "effects"
   },
-  "artifact_sha256": "1055c6f4063d06fb380074db336e538bc52fa0343e7cc5f252d21669a791693e",
+  "artifact_sha256": "7fca8dbf5950770ab0997550a85a66d913adbe64a8690d82b3a1e981ed69b4f3",
   "behavioral_test_proof": {
     "binaries": [
-      "admission-4f5a82781032b3f0",
-      "fault_matrix-c65a01db4cafdad2"
+      "admission-3c20bf33f906a774",
+      "fault_matrix-fbf54e0133cfddec"
     ],
+    "binary_count": 2,
     "outcome": "passed",
     "runner": "rust-test-binaries",
-    "test_count": 8,
+    "test_count": 12,
     "test_names": [
       "acknowledgement_is_not_success_without_the_declared_observation",
       "admission_atomically_reserves_semantic_intent_and_deduplicates",
       "cancellation_and_compensation_preserve_truthful_distinct_histories",
+      "deployed_effect_envelope_requires_exact_current_authority_binding",
       "disconnect_after_dispatch_becomes_unknown_and_reconciles_without_retry",
+      "inconclusive_reconciliation_has_complete_nonterminal_provenance",
       "recovery_bounded_validity_ordering_and_completion_fail_closed",
+      "reservation_rolls_back_when_durable_replace_cannot_start",
       "restart_recovers_nonterminal_effects_and_enforces_declared_order",
       "revocation_between_reservation_and_dispatch_fails_closed",
-      "stale_revoked_or_mismatched_authority_cannot_reserve_an_effect"
+      "stale_revoked_or_mismatched_authority_cannot_reserve_an_effect",
+      "terminal_runtime_retry_is_bound_and_available_for_guard_repair"
     ]
   },
   "cases": [
@@ -37,14 +41,10 @@
   ],
   "contract_sha256": "f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a",
   "gate": "V-EFFECT",
-  "implementation_sha256": "69f35dacd055f632293ef742db76918106c6cb20bd7b7d9ec1b6e1985e24a08d",
+  "implementation_sha256": "e7bd4ecfa74cb3fc633c0171164e56576ccf1cf360ca4338c566deafc932b9d0",
   "metrics": {
-    "ambiguous_failure_coercion_count": 0,
     "blind_retry_count": 0,
     "duplicate_effect_execution_count": 0,
-    "history_erasure_count": 0,
-    "incomplete_attempt_record_count": 0,
-    "overclaimed_provider_class_count": 0,
     "premature_completion_count": 0,
     "unledgered_external_dispatch_count": 0
   },

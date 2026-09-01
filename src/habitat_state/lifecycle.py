@@ -521,6 +521,45 @@ class LifecycleStore:
             self._record(c, command_id, fingerprint, result)
             return result
 
+    def cancel_denied_objective(self, objective_id, reason):
+        """Atomically terminalize a scheduled objective after an authority denial."""
+        if reason != "UNAUTHORIZED":
+            raise ValueError("unsupported runtime denial disposition")
+        command_id = f"deny:{objective_id}"
+        fingerprint = self._fingerprint("cancel_denied_objective", [objective_id, reason])
+        with self._connect() as c:
+            replay = self._replay(c, command_id, fingerprint)
+            if replay:
+                return replay
+            objective = c.execute(
+                "SELECT * FROM objectives WHERE objective_id=%s FOR UPDATE",
+                (objective_id,)).fetchone()
+            wake_id = f"wake:{objective_id}"
+            wake = c.execute("SELECT * FROM wakes WHERE wake_id=%s FOR UPDATE",
+                             (wake_id,)).fetchone()
+            if not objective or objective["state"] != "PROPOSED":
+                raise ValueError("CONFLICT: denied objective is not pending")
+            if not wake or wake["state"] not in ("PENDING", "RELEASED", "LEASED"):
+                raise ValueError("CONFLICT: denied objective wake is not pending")
+            c.execute("""UPDATE wakes SET state='ACKNOWLEDGED',lease_owner=NULL,
+              lease_expires_at=NULL,version=version+1 WHERE wake_id=%s""", (wake_id,))
+            c.execute("UPDATE objectives SET state='CANCELLED',version=version+1 WHERE objective_id=%s",
+                      (objective_id,))
+            evidence_ref = f"authority-denial:{fingerprint}"
+            c.execute("""INSERT INTO lifecycle_history
+              (entity_id,previous_state,new_state,command_id,actor,evidence_ref)
+              VALUES(%s,'PROPOSED','CANCELLED',%s,'service:runtime',%s)""",
+                      (objective_id, command_id, evidence_ref))
+            c.execute("""INSERT INTO lifecycle_history
+              (entity_id,previous_state,new_state,command_id,actor,evidence_ref)
+              VALUES(%s,%s,'ACKNOWLEDGED',%s,'service:runtime',%s)""",
+                      (wake_id, wake["state"], command_id + ":wake", evidence_ref))
+            result = {"objective_id": objective_id, "wake_id": wake_id,
+                      "state": "CANCELLED", "reason": reason,
+                      "version": objective["version"] + 1}
+            self._record(c, command_id, fingerprint, result)
+            return result
+
     def complete_ready_objective(self, *, now):
         """Atomically lease/ack one wake and satisfy its committed-effect objective."""
         with self._connect() as c:

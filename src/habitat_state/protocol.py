@@ -101,6 +101,9 @@ class StateProtocol:
             return self.repository.inspect_objective(request["objective_id"])
         if operation == "runtime_pending":
             return {"objectives":self.repository.pending_objectives(request.get("limit",100))}
+        if operation == "runtime_cancel_denied":
+            return self.repository.cancel_denied_objective(
+                request["objective_id"], request["reason"])
         if operation == "authority_get":
             limit=request.get("limit",50);cursor=request.get("cursor",0)
             if not isinstance(limit,int) or not 1<=limit<=100 or not isinstance(cursor,int) or cursor<0:
@@ -164,7 +167,7 @@ class CommandLedgerServer(socketserver.ThreadingUnixStreamServer):
           "service:abi":frozenset({"evidence_put","activation_resolve",
             "activation_commit_command","activation_get_command"}),
           "service:scheduler":frozenset({"runtime_status","runtime_schedule","runtime_tick","runtime_inspect","activation_claim"}),
-          "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","change_propose","change_transition","change_get","effect_guard","effect_guard_invalidate"}),
+          "service:runtime":frozenset({"evidence_put","runtime_status","runtime_schedule","runtime_tick","runtime_inspect","runtime_pending","runtime_cancel_denied","change_propose","change_transition","change_get","effect_guard","effect_guard_invalidate"}),
           "service:packages":frozenset({"evidence_put","package_admit","capability_set_publish"}),
           "service:authority":frozenset({"evidence_put","authority_get","authority_commit"}),
           "service:effects":frozenset({"evidence_put","effect_transition","effect_observe","effect_guard","effect_guard_invalidate","runtime_inspect","runtime_status"}),

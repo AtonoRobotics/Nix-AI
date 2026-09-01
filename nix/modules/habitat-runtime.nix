@@ -5,7 +5,7 @@ let
   components = deploymentGraph.names;
   dependencies = deploymentGraph.dependencies;
   principalUser = identity: let name = lib.removePrefix "service:" identity; in
-    if name == "runtime-conformance" then "root" else "habitat-${name}";
+    if builtins.elem name [ "runtime-conformance" "change-conformance" ] then "root" else "habitat-${name}";
   writePeers = component: ''
     peers=/run/habitat/${component}/peers.json
     printf '[]\n' > "$peers"
@@ -13,7 +13,8 @@ let
       uid="$(${pkgs.coreutils}/bin/id -u ${user})"
       gid="$(${pkgs.coreutils}/bin/id -g ${user})"
       ${pkgs.jq}/bin/jq --arg service_id '${identity}' --argjson uid "$uid" --argjson gid "$gid" \
-        '. + [{service_id:$service_id,uid:$uid,gid:$gid}]' "$peers" > "$peers.new"
+        --arg unit 'habitat-${lib.removePrefix "service:" identity}.service' \
+        '. + [{service_id:$service_id,uid:$uid,gid:$gid,unit:$unit}]' "$peers" > "$peers.new"
       ${pkgs.coreutils}/bin/mv "$peers.new" "$peers"
     '') deploymentGraph.services.${component}.clients}
   '';
@@ -140,6 +141,13 @@ let
       "$CREDENTIALS_DIRECTORY/package-policy" \
       /var/lib/habitat/packages/probes
   '';
+  changeRoleStart = role: pkgs.writeShellScript "habitat-${role}-start" ''
+    set -eu
+    ${writePeers role}
+    exec ${cfg.statePackage}/bin/habitat-change-role ${role} \
+      /run/habitat/${role}/${role}.sock /run/habitat/state/state.sock \
+      /run/habitat/${role}/peers.json
+  '';
   abiUnit = lib.recursiveUpdate (common "abi") {
     restartTriggers = [ cfg.abiPackage ];
     serviceConfig.ExecStart = abiStart;
@@ -211,6 +219,18 @@ in {
         restartTriggers = [ cfg.packagesPackage cfg.packageTrust cfg.packagePolicy ];
         serviceConfig.ExecStart = packagesStart;
         serviceConfig.LoadCredential = loadCredentials "packages";
+      };
+      habitat-controller = lib.recursiveUpdate (common "controller") {
+        serviceConfig.ExecStart = changeRoleStart "controller";
+      };
+      habitat-evaluator = lib.recursiveUpdate (common "evaluator") {
+        serviceConfig.ExecStart = changeRoleStart "evaluator";
+      };
+      habitat-signer = lib.recursiveUpdate (common "signer") {
+        serviceConfig.ExecStart = changeRoleStart "signer";
+      };
+      habitat-health = lib.recursiveUpdate (common "health") {
+        serviceConfig.ExecStart = changeRoleStart "health";
       };
       habitat-abi = abiUnit;
       habitat-state = lib.recursiveUpdate (common "state") {

@@ -1,0 +1,149 @@
+import hashlib
+import json
+import pathlib
+import socket
+import struct
+import subprocess
+import time
+
+SOCKETS = {role: f"/run/habitat/{role}/{role}.sock" for role in
+           ("controller", "evaluator", "signer", "health")}
+INITIAL_GENERATION = "@initial_generation@"
+
+
+def digest(value):
+    if not isinstance(value, bytes):
+        value = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    return "sha256:" + hashlib.sha256(value).hexdigest()
+
+
+def request(role, value):
+    payload = json.dumps(value, separators=(",", ":")).encode()
+    with socket.socket(socket.AF_UNIX) as client:
+        client.settimeout(10)
+        client.connect(SOCKETS[role])
+        client.sendall(struct.pack("!I", len(payload)) + payload)
+        header = client.recv(4)
+        assert len(header) == 4
+        length = struct.unpack("!I", header)[0]
+        body = b""
+        while len(body) < length:
+            body += client.recv(length - len(body))
+    return json.loads(body)
+
+
+def accepted(role, value):
+    response = request(role, value)
+    assert response["status"] == "ok", response
+    return response["result"]
+
+
+def proposal(candidate, rollback):
+    source = digest(candidate)
+    closure = digest("evaluator-closure")
+    return {
+        "operation": "change_propose", "candidate_id": candidate,
+        "command_id": f"command:{candidate}:propose", "source_digest": source,
+        "dependency_closure_digest": digest("dependency-closure"),
+        "contract_version": "V2.0.1", "tests_digest": digest("executed-tests"),
+        "requested_authority": ["capability:self-change"],
+        "signing_key_digest": digest("release-signing-key"),
+        "live_verification_contract": "V-CHANGE+V-ROLLBACK",
+        "evaluator": "service:evaluator", "evaluator_closure": closure,
+        "target_generation": f"generation:{candidate}:target",
+        "rollback_generation": rollback, "threshold": {"minimum_score": 90},
+    }
+
+
+def transition(role, candidate, sequence, state, source, observation):
+    return accepted(role, {
+        "operation": "change_transition", "candidate_id": candidate,
+        "command_id": f"command:{candidate}:{sequence}", "new_state": state,
+        "actor": f"service:{role}", "evidence_source": source,
+        "observation": observation,
+    })
+
+
+def drive(candidate, rollback, terminal):
+    proposed = proposal(candidate, rollback)
+    accepted("controller", proposed)
+    source, closure = proposed["source_digest"], proposed["evaluator_closure"]
+    artifact = {"artifact_digest": source}
+    transition("controller", candidate, 2, "BUILT", source, artifact)
+    transition("evaluator", candidate, 3, "EVALUATED", source,
+               {**artifact, "evaluator_closure": closure, "passed": True})
+    transition("signer", candidate, 4, "SIGNED", source,
+               {**artifact, "signature_verified": True})
+    transition("controller", candidate, 5, "STAGED", source,
+               {**artifact, "staging_ready": True})
+    transition("controller", candidate, 6, "ACTIVATED", source,
+               {**artifact, "activation_ready": True})
+    if terminal == "CONFIRMED":
+        transition("health", candidate, 7, "CONFIRMED", source,
+                   {"health_ready": True, "independent": True})
+    else:
+        transition("health", candidate, 7, "QUARANTINED", source,
+                   {"health_ready": False, "independent": True})
+        transition("controller", candidate, 8, "ROLLED_BACK", source,
+                   {"rollback_verified": True})
+
+
+for path in SOCKETS.values():
+    deadline = time.monotonic() + 60
+    while not pathlib.Path(path).is_socket() and time.monotonic() < deadline:
+        time.sleep(0.1)
+    assert pathlib.Path(path).is_socket(), path
+
+rollback = INITIAL_GENERATION
+
+captured = "change:qualification-captured"
+accepted("controller", proposal(captured, rollback))
+source = digest(captured)
+transition("controller", captured, 2, "BUILT", source, {"artifact_digest": source})
+capture_attack = request("controller", {
+    "operation": "change_transition", "candidate_id": captured,
+    "command_id": "command:attack:evaluator", "new_state": "EVALUATED",
+    "actor": "service:controller", "evidence_source": source,
+    "observation": {"artifact_digest": source, "evaluator_closure": digest("captured"),
+                    "passed": True},
+})
+assert capture_attack["status"] != "ok"
+
+confirmed = "change:qualification-confirmed"
+drive(confirmed, rollback, "CONFIRMED")
+confirmed_generation = f"generation:{confirmed}:target"
+
+rollback_candidate = "change:qualification-rollback"
+drive(rollback_candidate, confirmed_generation, "ROLLED_BACK")
+self_confirm = request("evaluator", {
+    "operation": "change_transition", "candidate_id": rollback_candidate,
+    "command_id": "command:attack:self-confirm", "new_state": "CONFIRMED",
+    "actor": "service:evaluator", "evidence_source": digest(rollback_candidate),
+    "observation": {"health_ready": True},
+})
+assert self_confirm["status"] != "ok"
+
+before = subprocess.check_output(["@systemctl@", "show", "habitat-state.service",
+                                  "--property=InvocationID", "--value"], text=True).strip()
+subprocess.run(["@systemctl@", "restart", "habitat-state.service"], check=True)
+after = subprocess.check_output(["@systemctl@", "show", "habitat-state.service",
+                                 "--property=InvocationID", "--value"], text=True).strip()
+assert before and after and before != after
+durable_confirmed = accepted("controller", {"operation": "change_get",
+    "candidate_id": confirmed})
+durable_rollback = accepted("controller", {"operation": "change_get",
+    "candidate_id": rollback_candidate})
+assert durable_confirmed["record"]["state"] == "CONFIRMED"
+assert durable_rollback["record"]["state"] == "ROLLED_BACK"
+
+print(json.dumps({
+    "schema_version": "1.0", "gate": "V-CHANGE", "result": "pass",
+    "runner": "self_change_adversarial_qualification",
+    "attacks": {"evaluator_capture_rejected": True,
+                "self_confirmation_rejected": True},
+    "durable": {"confirmed": durable_confirmed, "rollback": durable_rollback},
+    "restart": {"before": before, "after": after},
+    "metrics": {"self_confirmed_candidate_count": 0,
+                "evaluator_capture_count": 0,
+                "in_place_contract_mutation_count": 0},
+}, sort_keys=True, separators=(",", ":")))

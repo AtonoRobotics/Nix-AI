@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import subprocess
 import unittest
 
 from jsonschema import Draft202012Validator
@@ -26,20 +27,31 @@ class W01ProfileTests(unittest.TestCase):
         self.assertIn('StateDirectoryMode = "0700"', runtime_module)
 
     def test_state_service_admits_every_runtime_state_client(self):
-        runtime_module = (ROOT / "nix/modules/habitat-runtime.nix").read_text()
+        graph = json.loads(
+            subprocess.run(
+                ["nix", "eval", "--impure", "--json", "--expr",
+                 f"import {ROOT / 'nix/lib/habitat-deployment-graph.nix'} {{}}"],
+                check=True, capture_output=True, text=True,
+            ).stdout
+        )
 
-        for principal in ("abi", "scheduler", "authority", "effects", "runtime"):
-            self.assertIn(
-                f'id -u habitat-{principal})"',
-                runtime_module,
-                f"state allowlist omits habitat-{principal}",
-            )
+        self.assertEqual(
+            graph["clients"]["state"],
+            ["service:abi", "service:scheduler", "service:authority",
+             "service:effects", "service:packages", "service:runtime",
+             "service:controller", "service:evaluator", "service:signer",
+             "service:health"],
+        )
 
     def test_qemu_conformance_uses_systemd_credential_directory(self):
-        flake = (ROOT / "flake.nix").read_text()
+        conformance_script = (
+            ROOT / "nix/tests/habitat_runtime_conformance.py.in"
+        ).read_text()
 
-        self.assertIn('os.environ["CREDENTIALS_DIRECTORY"]', flake)
-        self.assertNotIn("/run/credentials/habitat-runtime-conformance/", flake)
+        self.assertIn('os.environ["CREDENTIALS_DIRECTORY"]', conformance_script)
+        self.assertNotIn(
+            "/run/credentials/habitat-runtime-conformance/", conformance_script
+        )
 
     def test_runtime_credentials_are_machine_persistent_across_generations(self):
         flake = (ROOT / "flake.nix").read_text()
@@ -50,10 +62,13 @@ class W01ProfileTests(unittest.TestCase):
 
     def test_qemu_conformance_kills_and_replaces_the_runtime_process(self):
         flake = (ROOT / "flake.nix").read_text()
+        conformance_script = (
+            ROOT / "nix/tests/habitat_runtime_conformance.py.in"
+        ).read_text()
 
-        self.assertIn('"--signal=KILL", "--kill-who=main"', flake)
-        self.assertIn('interrupt_runtime("after_wake_commit")', flake)
-        self.assertIn('interrupt_runtime("after_effect_commit")', flake)
+        self.assertIn('"--signal=KILL", "--kill-who=main"', conformance_script)
+        self.assertIn('interrupt_runtime("after_wake_commit")', conformance_script)
+        self.assertIn('interrupt_runtime("after_effect_commit")', conformance_script)
         conformance = flake.split(
             "systemd.services.habitat-runtime-conformance", maxsplit=1
         )[1]

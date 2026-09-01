@@ -392,6 +392,16 @@
     },
     {
       "dependency_identity": "habitat-authority@0.1.0#workspace",
+      "owner_identity": "habitat-runtime",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-authority@0.1.0#workspace",
+      "owner_identity": "habitat-runtime@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-authority@0.1.0#workspace",
       "owner_identity": "workspace",
       "section": "members"
     },
@@ -402,8 +412,38 @@
     },
     {
       "dependency_identity": "habitat-effects@0.1.0#workspace",
+      "owner_identity": "habitat-runtime",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-effects@0.1.0#workspace",
+      "owner_identity": "habitat-runtime@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-effects@0.1.0#workspace",
       "owner_identity": "workspace",
       "section": "members"
+    },
+    {
+      "dependency_identity": "habitat-execution@0.1.0#workspace",
+      "owner_identity": "habitat-effects",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-execution@0.1.0#workspace",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-execution@0.1.0#workspace",
+      "owner_identity": "habitat-runtime",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-execution@0.1.0#workspace",
+      "owner_identity": "habitat-runtime@0.1.0#workspace",
+      "section": "Cargo.lock"
     },
     {
       "dependency_identity": "habitat-execution@0.1.0#workspace",
@@ -437,6 +477,71 @@
     },
     {
       "dependency_identity": "habitat-runtime@0.1.0#workspace",
+      "owner_identity": "workspace",
+      "section": "members"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-abi",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-abi@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-authority",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-authority@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-effects",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-execution",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-execution@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-packages",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-packages@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-runtime",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
+      "owner_identity": "habitat-runtime@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "habitat-uds@0.1.0#workspace",
       "owner_identity": "workspace",
       "section": "members"
     },
@@ -663,6 +768,26 @@
     {
       "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "habitat-authority@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-effects@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "libc@0.2.189#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
@@ -1202,6 +1327,16 @@
     },
     {
       "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "serde@1.0.229#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
     },
@@ -1311,6 +1446,26 @@
       "section": "Cargo.lock"
     },
     {
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-runtime",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-runtime@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "serde_json@1.0.151#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
       "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "ed25519-dalek@2.2.0#registry+https://github.com/rust-lang/crates.io-index",
       "section": "Cargo.lock"
@@ -1357,12 +1512,32 @@
     },
     {
       "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "habitat-packages",
       "section": "dependencies"
     },
     {
       "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "habitat-packages@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-runtime",
+      "section": "dependencies"
+    },
+    {
+      "dependency_identity": "sha2@0.10.9#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-runtime@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
@@ -1528,6 +1703,26 @@
     {
       "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
       "owner_identity": "habitat-effects@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution",
+      "section": "dev-dependencies"
+    },
+    {
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-execution@0.1.0#workspace",
+      "section": "Cargo.lock"
+    },
+    {
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds",
+      "section": "dev-dependencies"
+    },
+    {
+      "dependency_identity": "tempfile@3.27.0#registry+https://github.com/rust-lang/crates.io-index",
+      "owner_identity": "habitat-uds@0.1.0#workspace",
       "section": "Cargo.lock"
     },
     {
@@ -2138,6 +2333,10 @@
       "version": "0.1.0"
     },
     {
+      "name": "habitat-uds",
+      "version": "0.1.0"
+    },
+    {
       "checksum": "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1",
       "name": "hashbrown",
       "source": "registry+https://github.com/rust-lang/crates.io-index",
@@ -2669,6 +2868,7 @@
     "crates/habitat-harnesses",
     "crates/habitat-models",
     "crates/habitat-packages",
-    "crates/habitat-runtime"
+    "crates/habitat-runtime",
+    "crates/habitat-uds"
   ]
 }

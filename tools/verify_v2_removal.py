@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -40,7 +41,31 @@ POLICY_PATHS = {
     "tests/test_v2_contract_derivation.py",
     "tests/test_v2_artifact_closure.py",
 }
-POLICY_PREFIXES = ("contracts/v2/", "contracts/v2.0.1/", "evidence/v2-rebuild/")
+POLICY_PREFIXES = (
+    "contracts/v2/",
+    "contracts/v2.0.1/",
+    "contracts/v2.1.0/",
+    "evidence/v2-rebuild/",
+)
+
+
+def manifest_package_matches(root: Path, tracked: set[str], prefix: str) -> bool:
+    manifest_relative = prefix + "MANIFEST.sha256"
+    manifest = root / manifest_relative
+    if not manifest.is_file():
+        return False
+    expected = {manifest_relative}
+    try:
+        for line in manifest.read_text().splitlines():
+            digest, relative = line.split("  ", 1)
+            path = root / prefix / relative
+            if (not re.fullmatch(r"[0-9a-f]{64}", digest) or not path.is_file()
+                    or hashlib.sha256(path.read_bytes()).hexdigest() != digest):
+                return False
+            expected.add(prefix + relative)
+    except (OSError, ValueError):
+        return False
+    return {path for path in tracked if path.startswith(prefix)} == expected
 
 
 def git(root: Path, *arguments: str) -> str:
@@ -76,6 +101,10 @@ def verify(root: Path, ledger_path: Path) -> dict:
     inventory = json.loads((ledger_path.parent / "inventory.json").read_text())
     tracked = sorted(filter(None, git(root, "ls-files").splitlines()))
     tracked_set = set(tracked)
+    manifest_policy_prefixes = {
+        prefix for prefix in POLICY_PREFIXES
+        if manifest_package_matches(root, tracked_set, prefix)
+    }
     inventoried_policy_paths = {
         path
         for path in inventory["tracked_paths"]
@@ -122,7 +151,9 @@ def verify(root: Path, ledger_path: Path) -> dict:
 
     contaminated = []
     for relative in tracked:
-        if relative in POLICY_PATHS or (
+        if relative in POLICY_PATHS or any(
+            relative.startswith(prefix) for prefix in manifest_policy_prefixes
+        ) or (
             relative in inventoried_policy_paths and matches_head(root, relative)
         ):
             continue
@@ -142,6 +173,9 @@ def verify(root: Path, ledger_path: Path) -> dict:
         "delete_counts_by_inventory_class": delete_counts,
         "remaining_delete_units": remaining_delete_units,
         "contaminated_units": contaminated,
+        "unmapped_semantic_count": len(remaining_delete_units),
+        "inadmissible_source_count": len(contaminated),
+        "contaminated_retained_unit_count": len(contaminated),
         "scanned_tracked_path_count": len(tracked),
         "policy_exclusions": sorted(POLICY_PATHS),
         "policy_prefix_exclusions": list(POLICY_PREFIXES),

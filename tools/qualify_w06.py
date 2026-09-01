@@ -69,9 +69,14 @@ def main():
       "secret-exposure-negative-test":{"outcome":"passed","ambient_secrets":False},
       "build-conformance-report":{"outcome":"passed","locked_nix_build":True},
       "packet-evidence-report":{"outcome":"passed","packet":"W06"}}
-    packet.assertions.extend([
-      {"name":"sandbox denies host secrets, sockets, evidence, peers, network, and ambient environment","passed":True},
-      {"name":"CPU, memory, storage, process, and deadline limits are behaviorally enforced","passed":True}])
+    packet.observe_assertion(
+      "sandbox denies host secrets, sockets, evidence, peers, network, and ambient environment",
+      all((environment,)), semantic_evidence={"kind":"isolation_denial_results",
+      "observed":{"environment":environment,"denied":reports["isolation-adversarial-suite"]["denied"]}})
+    packet.observe_assertion(
+      "CPU, memory, storage, process, and deadline limits are behaviorally enforced",
+      all((cpu,memory,storage,processes,timed_out)), semantic_evidence={"kind":"resource_enforcement_results",
+      "observed":{"cpu":cpu,"memory":memory,"storage":storage,"processes":processes,"timeout":timed_out}})
     metrics={"escape_count":int(not all((cpu,memory,storage,processes,timed_out))),"ambient_authority_path_count":int(not environment),"adapter_bypass_count":0}
     for metric,value in metrics.items():packet.observe_metric("V-ISOLATION",metric,value,semantic_evidence={"kind":"isolation_probe_results","observed":{"cpu":cpu,"memory":memory,"storage":storage,"processes":processes,"timeout":timed_out,"environment":environment},"denied":reports["isolation-adversarial-suite"]["denied"]})
     emit_result(packet,reports,args.evidence_dir,gate_results={"V-ISOLATION":{"metrics":metrics,"deployed_dependencies":["bubblewrap","execution-boundary"]}})

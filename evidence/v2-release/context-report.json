@@ -1,22 +1,78 @@
 {
   "attestations": [
     {
+      "action": "V-CONTEXT",
+      "action_observation": {
+        "action": "V-CONTEXT",
+        "artifact_ids": [
+          "sha256:48029f1a2ab1af318e351465a5a70aff41769619bad1dca8417a5b8329423ed5"
+        ],
+        "exit_status": 0,
+        "finished_at": "2026-09-01T11:01:43.145103Z",
+        "kind": "command_action",
+        "observation_id": "observation:fc4bb61b0ae16a01e9c5a53c9ab693c28a1f94e5b33ced48978bef64ce3f266f",
+        "output_ids": [
+          "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sha256:deda49198d19fde8b2201db55f27f154ee13961a89949a0c78ce62068c5a572a"
+        ],
+        "result": "succeeded",
+        "schema_version": "1.0",
+        "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
+        "started_at": "2026-09-01T11:01:39.851431Z"
+      },
       "argv": [
         "nix",
         "build",
-        "--no-link",
+        "--out-link",
+        "/tmp/nix-ai-v2-release-54t4qyu1/V-CONTEXT-w07-qualification",
         ".#checks.x86_64-linux.w07-qualification"
       ],
       "artifact_digests": [
         {
-          "path": "flake.lock",
-          "sha256": "sha256:00de82bed1eba1bbc57a515023be139cceb4bc314bc78622697ff31d1f5f87b5"
+          "path": "/nix/store/ksgl4kvshdk1wg1kq01iwkkc386s7jrs-habitat-w07-qualification/qualification-result.json",
+          "sha256": "sha256:48029f1a2ab1af318e351465a5a70aff41769619bad1dca8417a5b8329423ed5"
         }
       ],
-      "built_closure_sha256": "sha256:a252c0612f8a618a10d6ecac72710b32d8acd6da77f6242ed1600795ef667ff3",
+      "built_closure_sha256": "sha256:38faada07f1799be2fe3334b3587a7af2786543b942082b019fe2c10928e6cb3",
+      "captured_outputs": {
+        "artifacts": [
+          {
+            "bytes": 1552089,
+            "content_address": "sha256/48029f1a2ab1af318e351465a5a70aff41769619bad1dca8417a5b8329423ed5",
+            "encoding": "digest-only",
+            "path": "/nix/store/ksgl4kvshdk1wg1kq01iwkkc386s7jrs-habitat-w07-qualification/qualification-result.json",
+            "sha256": "sha256:48029f1a2ab1af318e351465a5a70aff41769619bad1dca8417a5b8329423ed5"
+          }
+        ],
+        "stderr": {
+          "bytes": 533,
+          "content": "d2FybmluZzogR2l0IHRyZWUgJy9ob21lL3NhbXVlbC9uaXhhaScgaXMgZGlydHkKdGhlc2UgMyBkZXJpdmF0aW9ucyB3aWxsIGJlIGJ1aWx0OgogIC9uaXgvc3RvcmUvZjZpaGRja2JscG02MHlkeHpsZzlhNW5ic2FseTVzYmctdmFsaWRhdGUtY29udHJhY3RzLmRydgogIC9uaXgvc3RvcmUvYXlqZ2FyMmRqOWJzM2xjbnAzYTB2bTh3ZGFkNjdmbGgtcXVhbGlmeS13MDcuZHJ2CiAgL25peC9zdG9yZS9wYW1jcnJobjBpa2Y0enoxbHBhYnc3cDY5ZHo3eGxhdi1oYWJpdGF0LXcwNy1xdWFsaWZpY2F0aW9uLmRydgpidWlsZGluZyAnL25peC9zdG9yZS9mNmloZGNrYmxwbTYweWR4emxnOWE1bmJzYWx5NXNiZy12YWxpZGF0ZS1jb250cmFjdHMuZHJ2Jy4uLgpidWlsZGluZyAnL25peC9zdG9yZS9heWpnYXIyZGo5YnMzbGNucDNhMHZtOHdkYWQ2N2ZsaC1xdWFsaWZ5LXcwNy5kcnYnLi4uCmJ1aWxkaW5nICcvbml4L3N0b3JlL3BhbWNycmhuMGlrZjR6ejFscGFidzdwNjlkejd4bGF2LWhhYml0YXQtdzA3LXF1YWxpZmljYXRpb24uZHJ2Jy4uLgo=",
+          "content_address": "sha256/deda49198d19fde8b2201db55f27f154ee13961a89949a0c78ce62068c5a572a",
+          "encoding": "base64",
+          "sha256": "sha256:deda49198d19fde8b2201db55f27f154ee13961a89949a0c78ce62068c5a572a"
+        },
+        "stdout": {
+          "bytes": 0,
+          "content": "",
+          "content_address": "sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "encoding": "base64",
+          "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "declared_input_closure_sha256": "sha256:e76b0cfe59b65377b2395b8a1f2f6ecce60c8240655b44911509003d294fe68e",
       "exit_status": 0,
-      "finished_at": "2026-08-31T04:04:05.150658Z",
+      "finished_at": "2026-09-01T11:01:43.145103Z",
       "kind": "executed_command",
+      "realized_closure": [
+        {
+          "identity": "sha256:a1fee5522ad985bc016990d72d3769cf6b40579dd84166124fff00814a77eb79",
+          "path": "/nix/store/irfrbndi76zhkvqsfhmsn4a99iafck29-nix-2.35.2/bin/nix"
+        },
+        {
+          "identity": "irfrbndi76zhkvqsfhmsn4a99iafck29",
+          "path": "/nix/store/irfrbndi76zhkvqsfhmsn4a99iafck29-nix-2.35.2"
+        }
+      ],
       "runner_identity": {
         "gid": 1000,
         "hostname": "strix-alpha",
@@ -24,19 +80,33 @@
         "uid": 1000
       },
       "schema_version": "2.0",
-      "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
-      "started_at": "2026-08-31T04:03:57.210194Z",
-      "stderr_bytes": 689,
-      "stderr_sha256": "sha256:5a038e9c859247e448c84613b56f7309f6098822029444318a5a0ad671f41b7d",
+      "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
+      "started_at": "2026-09-01T11:01:39.851431Z",
+      "stderr_bytes": 533,
+      "stderr_sha256": "sha256:deda49198d19fde8b2201db55f27f154ee13961a89949a0c78ce62068c5a572a",
       "stdout_bytes": 0,
       "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
+  ],
+  "deployed_dependencies": [
+    "context-artifact"
   ],
   "gate": "V-CONTEXT",
   "live_result": {
     "assertions": [
       {
-        "name": "V-CONTEXT packet behavioral checks executed",
+        "name": "context contract validates",
+        "observation_id": "assertion:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c",
+        "passed": true
+      },
+      {
+        "name": "context behavioral binary compiler-f739ff639e8f3bea passes",
+        "observation_id": "assertion:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a",
+        "passed": true
+      },
+      {
+        "name": "context behavioral binary faults-2590b298b7803a53 passes",
+        "observation_id": "assertion:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
         "passed": true
       }
     ],
@@ -45,18 +115,187 @@
     "skip_count": 0
   },
   "metric_evidence": {
-    "context_created_authority_count": [
-      0
-    ],
-    "context_item_without_provenance_count": [
-      0
-    ],
-    "silent_contradiction_resolution_count": [
-      0
-    ],
-    "unbounded_process_count": [
-      0
-    ]
+    "context_created_authority_count": {
+      "metric": "context_created_authority_count",
+      "observation_ids": [
+        "observation:a2f7043b027f111d8f36149858cf47f9040d7bcdfee1f4c880ce768b124f57f0"
+      ],
+      "operation": "sum_values"
+    },
+    "context_item_without_provenance_count": {
+      "metric": "context_item_without_provenance_count",
+      "observation_ids": [
+        "observation:b0c78de47662e5fb324e2661e57559e8038a78df232e6dbe7b5ab5131ea56d17"
+      ],
+      "operation": "sum_values"
+    },
+    "silent_contradiction_resolution_count": {
+      "metric": "silent_contradiction_resolution_count",
+      "observation_ids": [
+        "observation:ae9129f820297a0e8edc8174b6189d61f0357fb52c76180a7c19be9d8854a592"
+      ],
+      "operation": "sum_values"
+    },
+    "unbounded_process_count": {
+      "metric": "unbounded_process_count",
+      "observation_ids": [
+        "observation:f35ee36760b42f63c123d0f30826e7ea2cda99c290ed9e7b387d55d9a0645ba4"
+      ],
+      "operation": "sum_values"
+    }
+  },
+  "metric_observations": {
+    "assertion:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a": {
+      "action_observation_id": "observation:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a",
+      "artifact_ids": [
+        "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+        "sha256:9562a5b60ce81b48076f3674f47c8fdd94db5218846d8750bfcfc3f1ba928be7"
+      ],
+      "kind": "behavioral_assertion",
+      "name": "context behavioral binary compiler-f739ff639e8f3bea passes",
+      "observation_id": "assertion:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a",
+      "passed": true,
+      "schema_version": "1.0"
+    },
+    "assertion:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c": {
+      "action_observation_id": "observation:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c",
+      "artifact_ids": [
+        "sha256:f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a"
+      ],
+      "kind": "behavioral_assertion",
+      "name": "context contract validates",
+      "observation_id": "assertion:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c",
+      "passed": true,
+      "schema_version": "1.0"
+    },
+    "assertion:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b": {
+      "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+      "artifact_ids": [
+        "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+        "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+      ],
+      "kind": "behavioral_assertion",
+      "name": "context behavioral binary faults-2590b298b7803a53 passes",
+      "observation_id": "assertion:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+      "passed": true,
+      "schema_version": "1.0"
+    },
+    "observation:a2f7043b027f111d8f36149858cf47f9040d7bcdfee1f4c880ce768b124f57f0": {
+      "kind": "metric_observation",
+      "metric": "context_created_authority_count",
+      "observation_id": "observation:a2f7043b027f111d8f36149858cf47f9040d7bcdfee1f4c880ce768b124f57f0",
+      "provenance": {
+        "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+        "artifact_ids": [
+          "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+          "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+        ]
+      },
+      "schema_version": "1.0",
+      "semantic_evidence": {
+        "binary_count": 2,
+        "kind": "context_fault_results",
+        "observed": [
+          "semantic requests",
+          "materiality validation",
+          "resolution conditions",
+          "bounded recursion",
+          "stale-source rejection",
+          "source allowlists",
+          "predecessor-linked successors",
+          "contradiction as unresolved uncertainty"
+        ]
+      },
+      "subject": "V-CONTEXT",
+      "value": 0
+    },
+    "observation:ae9129f820297a0e8edc8174b6189d61f0357fb52c76180a7c19be9d8854a592": {
+      "kind": "metric_observation",
+      "metric": "silent_contradiction_resolution_count",
+      "observation_id": "observation:ae9129f820297a0e8edc8174b6189d61f0357fb52c76180a7c19be9d8854a592",
+      "provenance": {
+        "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+        "artifact_ids": [
+          "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+          "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+        ]
+      },
+      "schema_version": "1.0",
+      "semantic_evidence": {
+        "binary_count": 2,
+        "kind": "context_fault_results",
+        "observed": [
+          "semantic requests",
+          "materiality validation",
+          "resolution conditions",
+          "bounded recursion",
+          "stale-source rejection",
+          "source allowlists",
+          "predecessor-linked successors",
+          "contradiction as unresolved uncertainty"
+        ]
+      },
+      "subject": "V-CONTEXT",
+      "value": 0
+    },
+    "observation:b0c78de47662e5fb324e2661e57559e8038a78df232e6dbe7b5ab5131ea56d17": {
+      "kind": "metric_observation",
+      "metric": "context_item_without_provenance_count",
+      "observation_id": "observation:b0c78de47662e5fb324e2661e57559e8038a78df232e6dbe7b5ab5131ea56d17",
+      "provenance": {
+        "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+        "artifact_ids": [
+          "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+          "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+        ]
+      },
+      "schema_version": "1.0",
+      "semantic_evidence": {
+        "binary_count": 2,
+        "kind": "context_fault_results",
+        "observed": [
+          "semantic requests",
+          "materiality validation",
+          "resolution conditions",
+          "bounded recursion",
+          "stale-source rejection",
+          "source allowlists",
+          "predecessor-linked successors",
+          "contradiction as unresolved uncertainty"
+        ]
+      },
+      "subject": "V-CONTEXT",
+      "value": 0
+    },
+    "observation:f35ee36760b42f63c123d0f30826e7ea2cda99c290ed9e7b387d55d9a0645ba4": {
+      "kind": "metric_observation",
+      "metric": "unbounded_process_count",
+      "observation_id": "observation:f35ee36760b42f63c123d0f30826e7ea2cda99c290ed9e7b387d55d9a0645ba4",
+      "provenance": {
+        "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+        "artifact_ids": [
+          "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+          "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+        ]
+      },
+      "schema_version": "1.0",
+      "semantic_evidence": {
+        "binary_count": 2,
+        "kind": "context_fault_results",
+        "observed": [
+          "semantic requests",
+          "materiality validation",
+          "resolution conditions",
+          "bounded recursion",
+          "stale-source rejection",
+          "source allowlists",
+          "predecessor-linked successors",
+          "contradiction as unresolved uncertainty"
+        ]
+      },
+      "subject": "V-CONTEXT",
+      "value": 0
+    }
   },
   "metrics": {
     "context_created_authority_count": 0,
@@ -65,22 +304,229 @@
     "unbounded_process_count": 0
   },
   "observations": {
-    "qualification_result": {
-      "assertions": [
-        {
-          "name": "V-CONTEXT packet behavioral checks executed",
-          "passed": true
+    "gate_results": {
+      "V-CONTEXT": {
+        "deployed_dependencies": [
+          "context-artifact"
+        ],
+        "metric_derivations": {
+          "context_created_authority_count": {
+            "metric": "context_created_authority_count",
+            "observation_ids": [
+              "observation:a2f7043b027f111d8f36149858cf47f9040d7bcdfee1f4c880ce768b124f57f0"
+            ],
+            "operation": "sum_values"
+          },
+          "context_item_without_provenance_count": {
+            "metric": "context_item_without_provenance_count",
+            "observation_ids": [
+              "observation:b0c78de47662e5fb324e2661e57559e8038a78df232e6dbe7b5ab5131ea56d17"
+            ],
+            "operation": "sum_values"
+          },
+          "silent_contradiction_resolution_count": {
+            "metric": "silent_contradiction_resolution_count",
+            "observation_ids": [
+              "observation:ae9129f820297a0e8edc8174b6189d61f0357fb52c76180a7c19be9d8854a592"
+            ],
+            "operation": "sum_values"
+          },
+          "unbounded_process_count": {
+            "metric": "unbounded_process_count",
+            "observation_ids": [
+              "observation:f35ee36760b42f63c123d0f30826e7ea2cda99c290ed9e7b387d55d9a0645ba4"
+            ],
+            "operation": "sum_values"
+          }
+        },
+        "metrics": {
+          "context_created_authority_count": 0,
+          "context_item_without_provenance_count": 0,
+          "silent_contradiction_resolution_count": 0,
+          "unbounded_process_count": 0
+        },
+        "observations": {
+          "assertion:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a": {
+            "action_observation_id": "observation:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a",
+            "artifact_ids": [
+              "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+              "sha256:9562a5b60ce81b48076f3674f47c8fdd94db5218846d8750bfcfc3f1ba928be7"
+            ],
+            "kind": "behavioral_assertion",
+            "name": "context behavioral binary compiler-f739ff639e8f3bea passes",
+            "observation_id": "assertion:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a",
+            "passed": true,
+            "schema_version": "1.0"
+          },
+          "assertion:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c": {
+            "action_observation_id": "observation:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c",
+            "artifact_ids": [
+              "sha256:f3548fa489fbc9a09aacaaeb62381bbea65a175ca0fcf300b9d911b48c555f1a"
+            ],
+            "kind": "behavioral_assertion",
+            "name": "context contract validates",
+            "observation_id": "assertion:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c",
+            "passed": true,
+            "schema_version": "1.0"
+          },
+          "assertion:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b": {
+            "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+            "artifact_ids": [
+              "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+              "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+            ],
+            "kind": "behavioral_assertion",
+            "name": "context behavioral binary faults-2590b298b7803a53 passes",
+            "observation_id": "assertion:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+            "passed": true,
+            "schema_version": "1.0"
+          },
+          "observation:a2f7043b027f111d8f36149858cf47f9040d7bcdfee1f4c880ce768b124f57f0": {
+            "kind": "metric_observation",
+            "metric": "context_created_authority_count",
+            "observation_id": "observation:a2f7043b027f111d8f36149858cf47f9040d7bcdfee1f4c880ce768b124f57f0",
+            "provenance": {
+              "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+              "artifact_ids": [
+                "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+                "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+              ]
+            },
+            "schema_version": "1.0",
+            "semantic_evidence": {
+              "binary_count": 2,
+              "kind": "context_fault_results",
+              "observed": [
+                "semantic requests",
+                "materiality validation",
+                "resolution conditions",
+                "bounded recursion",
+                "stale-source rejection",
+                "source allowlists",
+                "predecessor-linked successors",
+                "contradiction as unresolved uncertainty"
+              ]
+            },
+            "subject": "V-CONTEXT",
+            "value": 0
+          },
+          "observation:ae9129f820297a0e8edc8174b6189d61f0357fb52c76180a7c19be9d8854a592": {
+            "kind": "metric_observation",
+            "metric": "silent_contradiction_resolution_count",
+            "observation_id": "observation:ae9129f820297a0e8edc8174b6189d61f0357fb52c76180a7c19be9d8854a592",
+            "provenance": {
+              "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+              "artifact_ids": [
+                "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+                "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+              ]
+            },
+            "schema_version": "1.0",
+            "semantic_evidence": {
+              "binary_count": 2,
+              "kind": "context_fault_results",
+              "observed": [
+                "semantic requests",
+                "materiality validation",
+                "resolution conditions",
+                "bounded recursion",
+                "stale-source rejection",
+                "source allowlists",
+                "predecessor-linked successors",
+                "contradiction as unresolved uncertainty"
+              ]
+            },
+            "subject": "V-CONTEXT",
+            "value": 0
+          },
+          "observation:b0c78de47662e5fb324e2661e57559e8038a78df232e6dbe7b5ab5131ea56d17": {
+            "kind": "metric_observation",
+            "metric": "context_item_without_provenance_count",
+            "observation_id": "observation:b0c78de47662e5fb324e2661e57559e8038a78df232e6dbe7b5ab5131ea56d17",
+            "provenance": {
+              "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+              "artifact_ids": [
+                "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+                "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+              ]
+            },
+            "schema_version": "1.0",
+            "semantic_evidence": {
+              "binary_count": 2,
+              "kind": "context_fault_results",
+              "observed": [
+                "semantic requests",
+                "materiality validation",
+                "resolution conditions",
+                "bounded recursion",
+                "stale-source rejection",
+                "source allowlists",
+                "predecessor-linked successors",
+                "contradiction as unresolved uncertainty"
+              ]
+            },
+            "subject": "V-CONTEXT",
+            "value": 0
+          },
+          "observation:f35ee36760b42f63c123d0f30826e7ea2cda99c290ed9e7b387d55d9a0645ba4": {
+            "kind": "metric_observation",
+            "metric": "unbounded_process_count",
+            "observation_id": "observation:f35ee36760b42f63c123d0f30826e7ea2cda99c290ed9e7b387d55d9a0645ba4",
+            "provenance": {
+              "action_observation_id": "observation:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+              "artifact_ids": [
+                "sha256:7d35c750c10b114306c28c51ec0f50225be5893efdb3763575d991251b7c0827",
+                "sha256:36a88d160d98dcfd9c0981f43e2c8affcd17b0a89a2ffa7e16d52bd2844eb7a5"
+              ]
+            },
+            "schema_version": "1.0",
+            "semantic_evidence": {
+              "binary_count": 2,
+              "kind": "context_fault_results",
+              "observed": [
+                "semantic requests",
+                "materiality validation",
+                "resolution conditions",
+                "bounded recursion",
+                "stale-source rejection",
+                "source allowlists",
+                "predecessor-linked successors",
+                "contradiction as unresolved uncertainty"
+              ]
+            },
+            "subject": "V-CONTEXT",
+            "value": 0
+          }
+        },
+        "qualification_result": {
+          "assertions": [
+            {
+              "name": "context contract validates",
+              "observation_id": "assertion:6cfc0b02c6b1cb85fadd5aa30ac6dd8ab6dd6d1842f549bc4612380581ccab8c",
+              "passed": true
+            },
+            {
+              "name": "context behavioral binary compiler-f739ff639e8f3bea passes",
+              "observation_id": "assertion:4646fc5059d442b40fb457191186274877de488f4c308f737480c28392108c9a",
+              "passed": true
+            },
+            {
+              "name": "context behavioral binary faults-2590b298b7803a53 passes",
+              "observation_id": "assertion:d62999bee18e63b390bc7fec778826d84dda1095203b2be831ac1194211d5c4b",
+              "passed": true
+            }
+          ],
+          "evidence_origin": "executed",
+          "outcome": "passed",
+          "skip_count": 0
         }
-      ],
-      "evidence_origin": "executed",
-      "outcome": "passed",
-      "skip_count": 0
+      }
     }
   },
   "result": "pass",
   "runner": "context_fault_qualification",
   "schema_version": "1.0",
-  "source_tree_sha256": "sha256:9f60ad1899ab2c71eecee2e593860acc659e2951c4acec5e4284dc3051a3e41b",
+  "source_tree_sha256": "sha256:cb379e8b064750f0a57a80fd79abe57b3c2c28d2310c261eb20def61e993b6ab",
   "supporting_evidence": [],
   "test_count": 1
 }

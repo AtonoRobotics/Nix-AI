@@ -31,7 +31,7 @@ def decode_event_line(line: str):
 
 
 def boot(qemu: str, code: str, disk: Path, variables: Path, log: Path, expected: str,
-         timeout: int = 120, required_text: str | None = None):
+         timeout: int = 300, required_text: str | None = None):
     log.write_text("")
     qmp = log.with_suffix(".qmp")
     with log.open("ab", buffering=0) as serial:
@@ -183,7 +183,9 @@ assert all(e['health_result']=='PRE_OPERATIONAL' and e['closure_digest'].startsw
 assert len(d['runtime_events'])==len(d['events'])
 assert all(e['outcome']=='passed' and e['objective_state']=='SATISFIED' for e in d['runtime_events'])
 """
-        packet.command([sys.executable,"-c",verifier,observed],artifacts=[observed,Path(args.disk)],assertion="fresh QEMU boots produced valid generation events")
+        packet.command([sys.executable,"-c",verifier,observed],action="qemu:verify-generation-events",
+                       artifacts=[observed,Path(args.disk)],
+                       assertion="fresh QEMU boots produced valid generation events")
         envelope=packet.result({"qemu-observation":report})
         envelope.update({"schema_version":"2.0","gate":report["gate"],"result":"pass","events":events})
         rendered=json.dumps(envelope,indent=2,sort_keys=True)+"\n"

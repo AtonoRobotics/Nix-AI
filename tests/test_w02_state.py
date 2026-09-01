@@ -179,7 +179,8 @@ class TransactionalStateTests(unittest.TestCase):
         activation, command = f"activation:{uuid.uuid4()}", f"command:{uuid.uuid4()}"
         result = {"command_id": command, "committed": True,
                   "durable_record_id": "command:sha256:" + "a" * 64,
-                  "state": "DISPOSITION_COMMITTED", "error": None, "evidence_refs": []}
+                  "state": "DISPOSITION_COMMITTED", "error": None,
+                  "evidence_refs": ["command:sha256:" + "a" * 64]}
         digest = "sha256:" + "a" * 64
         first = ledger.commit(activation, command, digest, result)
         duplicate = ledger.commit(activation, command, digest, result)
